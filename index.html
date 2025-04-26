@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MookBeatz</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -13,7 +14,8 @@
             <ul>
                 <li><a href="#about">About</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#upload">Upload</a></li>
+                <li><a href="#profile">Profile</a></li>
             </ul>
         </nav>
     </header>
@@ -30,9 +32,27 @@
                 <li>Licensing options</li>
             </ul>
         </section>
-        <footer>
-            <p>© 2025 MookBeatz - Designed by Mook B</p>
-        </footer>
+        <section id="upload">
+            <h2>Upload Your Beats</h2>
+            <p>Producers can upload beats here to showcase and sell.</p>
+            <form id="uploadForm">
+                <label for="beatTitle">Beat Title:</label>
+                <input type="text" id="beatTitle" name="beatTitle" required>
+                
+                <label for="beatFile">Upload File:</label>
+                <input type="file" id="beatFile" name="beatFile" accept="audio/*" required>
+                
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+        <section id="profile">
+            <h2>Your Profile</h2>
+            <p>Manage your beats, sales, and account details here.</p>
+        </section>
     </main>
+    <footer>
+        <p>© 2025 MookBeatz - Designed by Mook B</p>
+    </footer>
+    <script src="script.js" defer></script>
 </body>
 </html>
