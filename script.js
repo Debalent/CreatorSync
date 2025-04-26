@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const beatItem = document.createElement("div");
                 beatItem.classList.add("beatItem");
 
-                const titleElement = document.createElement("p");
-                titleElement.textContent = `Title: ${beat.title}`;
+                const titleElement = document.createElement("h3");
+                titleElement.textContent = `🎵 ${beat.title}`;
 
                 const genreElement = document.createElement("p");
                 genreElement.textContent = `Genre: ${beat.genre}`;
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 audioPlayer.appendChild(audioSource);
 
-                // Add Stripe payment button
                 const stripeButton = document.createElement("button");
                 stripeButton.classList.add("stripeButton");
                 stripeButton.textContent = "Pay with Stripe";
@@ -44,11 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     handleStripePayment(beat.id, beat.price);
                 });
 
-                // Add PayPal payment button container
                 const paypalButtonContainer = document.createElement("div");
                 paypalButtonContainer.id = `paypal-button-${beat.id}`;
 
-                // Render PayPal button for this beat
                 setTimeout(() => {
                     paypal.Buttons({
                         createOrder: function (data, actions) {
@@ -69,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }).render(`#paypal-button-${beat.id}`);
                 }, 0);
 
-                // Append all elements to the beat item
                 beatItem.appendChild(titleElement);
                 beatItem.appendChild(genreElement);
                 beatItem.appendChild(moodElement);
@@ -78,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 beatItem.appendChild(stripeButton);
                 beatItem.appendChild(paypalButtonContainer);
 
-                // Add the beat item to the gallery
                 beatGallery.appendChild(beatItem);
             });
         } catch (error) {
@@ -87,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Function to handle file upload
     uploadForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -115,8 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 const result = await response.json();
                 alert("Beat uploaded successfully!");
-                console.log(result); // Inspect server response
-                loadBeats(); // Reload the gallery
+                console.log(result);
+                loadBeats();
             } else {
                 alert("Failed to upload the beat. Please try again.");
             }
@@ -126,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Function to handle Stripe payment
     const handleStripePayment = async (beatId, price) => {
         try {
             const response = await fetch('http://localhost:3000/create-checkout-session', {
@@ -151,4 +144,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load beats on page load
     loadBeats();
 });
-     
