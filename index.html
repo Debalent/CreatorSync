@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MookBeatz</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=your-client-id-here&currency=USD"></script> <!-- PayPal SDK -->
 </head>
 <body>
+    <!-- Header Section -->
     <header>
+        <img src="assets/images/logo.png" alt="MookBeatz Logo" id="siteLogo">
         <h1>MookBeatz</h1>
         <nav>
             <ul>
@@ -22,61 +21,69 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <section id="about">
-            <h2>Welcome to MookBeatz</h2>
-            <p>Your go-to platform for sharing, discovering, and monetizing beats.</p>
-        </section>
-        <section id="features">
-            <h2>Features</h2>
-            <ul>
-                <li>Upload & preview beats</li>
-                <li>Secure payment integration</li>
-                <li>Licensing options</li>
-            </ul>
-        </section>
-        <section id="upload">
-            <h2>Upload Your Beats</h2>
-            <p>Producers can upload beats here to showcase and sell.</p>
-            <form id="uploadForm">
-                <label for="beatTitle">Beat Title:</label>
-                <input type="text" id="beatTitle" name="beatTitle" required>
 
-                <label for="beatGenre">Genre:</label>
-                <input type="text" id="beatGenre" name="beatGenre" required>
+    <!-- About Section -->
+    <section id="about">
+        <h2>About MookBeatz</h2>
+        <p>Welcome to MookBeatz, your ultimate platform for uploading, discovering, and selling high-quality beats!</p>
+    </section>
 
-                <label for="beatMood">Mood:</label>
-                <input type="text" id="beatMood" name="beatMood" required>
+    <!-- Features Section -->
+    <section id="features">
+        <h2>Features</h2>
+        <ul>
+            <li>Upload and showcase your beats to a global audience.</li>
+            <li>Discover unique sounds from talented producers.</li>
+            <li>Secure payment integration with Stripe and PayPal.</li>
+        </ul>
+    </section>
 
-                <label for="licenseType">License Type:</label>
-                <select id="licenseType" name="licenseType" required>
-                    <option value="basic">Basic Lease</option>
-                    <option value="premium">Premium Lease</option>
-                    <option value="exclusive">Exclusive Rights</option>
-                </select>
+    <!-- Upload Section -->
+    <section id="upload">
+        <h2>Upload Your Beats</h2>
+        <form id="uploadForm">
+            <label for="beatTitle">Title:</label>
+            <input type="text" id="beatTitle" name="beatTitle" required>
+            
+            <label for="beatGenre">Genre:</label>
+            <input type="text" id="beatGenre" name="beatGenre" required>
+            
+            <label for="beatMood">Mood:</label>
+            <input type="text" id="beatMood" name="beatMood" required>
+            
+            <label for="licenseType">License Type:</label>
+            <input type="text" id="licenseType" name="licenseType" required>
+            
+            <label for="price">Price ($):</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+            
+            <label for="beatFile">Upload Beat File:</label>
+            <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
+            
+            <button type="submit">Upload Beat</button>
+        </form>
+    </section>
 
-                <label for="price">Price (in USD):</label>
-                <input type="number" id="price" name="price" min="1" step="1" required>
+    <!-- Discover Section -->
+    <section id="discover">
+        <h2>Discover Beats</h2>
+        <div id="beatGallery">
+            <!-- Dynamic beat gallery content will be populated here -->
+        </div>
+    </section>
 
-                <label for="beatFile">Upload File:</label>
-                <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
+    <!-- Profile Section -->
+    <section id="profile">
+        <h2>Your Profile</h2>
+        <p>Manage your uploaded beats and track your sales.</p>
+    </section>
 
-                <button type="submit">Upload</button>
-            </form>
-        </section>
-        <section id="discover">
-            <h2>Discover Beats</h2>
-            <p>Browse and preview beats uploaded by talented producers.</p>
-            <div id="beatGallery"></div>
-        </section>
-        <section id="profile">
-            <h2>Your Profile</h2>
-            <p>Manage your beats, sales, and account details here.</p>
-        </section>
-    </main>
+    <!-- Footer Section -->
     <footer>
+        <img src="assets/images/logo.png" alt="MookBeatz Logo" id="footerLogo">
         <p>© 2025 MookBeatz - Designed by Mook B</p>
     </footer>
-    <script src="script.js" defer></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
