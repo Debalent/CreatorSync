@@ -1,71 +1,138 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
 body {
-    font-family: 'Bungee', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0066B2;
-    color: #000000;
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
 }
 
+/* Header Section */
 header {
-    background-color: #ED174C;
-    color: #FFFFFF;
-    text-align: center;
-    padding: 20px;
+  background: #35424a;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
 }
 
+header img {
+  max-width: 100px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 10px 0;
+}
+
+/* Navigation Bar */
 nav ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    background-color: #ED174C;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  background: #35424a;
+  padding: 10px 0;
 }
 
 nav ul li {
-    margin: 0 15px;
+  margin: 0 10px;
 }
 
 nav ul li a {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
 }
 
-main {
-    padding: 20px;
+nav ul li a:hover {
+  background: #50b3a2;
+  border-radius: 5px;
 }
 
+/* Section Styling */
+section {
+  padding: 20px;
+  margin: 20px 0;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+  color: #35424a;
+  margin-bottom: 10px;
+}
+
+section p, section ul {
+  margin-top: 10px;
+}
+
+/* Form Styling */
+form {
+  margin-top: 10px;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form input, form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  background: #35424a;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background: #50b3a2;
+}
+
+/* Discover Section */
 #beatGallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Footer Section */
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #35424a;
+  color: #fff;
+}
+
+footer img {
+  max-width: 50px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    flex-direction: column;
     padding: 10px;
-}
+  }
 
-.beatItem {
-    background-color: #ED174C;
-    color: #FFFFFF;
-    border: 2px solid #FFFFFF;
-    padding: 10px;
-    width: 250px;
-    text-align: center;
-}
-
-audio {
-    width: 100%;
-    margin-top: 10px;
-}
-
-button {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    color: #FFFFFF;
-    background-color: #0076B6;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #005999;
+  nav ul li {
+    margin: 5px 0;
+  }
 }
