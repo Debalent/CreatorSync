@@ -1,4 +1,4 @@
-🎶 Contribute to MookBeatz
+🎶 Contribute to CreatorSync
 MookBeatz isn’t just about beats—it’s built on collaboration. Whether you're a developer, designer, producer, or music enthusiast, we welcome contributions to improve the platform and expand its capabilities.
 🚀 How to Get Involved
 - 🎛️ Fork & Clone – Start by forking the repository and cloning it locally.
@@ -9,7 +9,9 @@ MookBeatz isn’t just about beats—it’s built on collaboration. Whether you'
 🔧 Get Started
 - Fork the Repo – Click the fork button to create your own copy.
 - Clone Locally – Run:
-git clone https://github.com/Debalent/MookBeatz.git
+git clone -  https://github.com/Debalent/CreatorSync.git
+- 
+
 - Create a Branch – Develop features on a separate branch:
 git checkout -b feature-name
 - Commit & Push – After making changes:
