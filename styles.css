@@ -56,6 +56,22 @@ section {
     border-radius: 12px;
 }
 
+/* ✅ Commission Fee - Visibility Enhancements */
+.commission-info {
+    color: #ffcc00;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* ✅ Upload Section - Ensuring Clear Fee Visibility */
+#upload p {
+    color: #ffcc00;
+    font-size: 1rem;
+    text-align: center;
+}
+
 /* ✅ Footer */
 footer {
     text-align: center;
@@ -88,5 +104,9 @@ footer {
     form button {
         width: 100%;
         font-size: 16px;
+    }
+
+    .commission-info {
+        font-size: 1rem;
     }
 }
