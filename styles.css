@@ -1,147 +1,92 @@
-/* General Styles - Setting up base appearance */
+/* 🚀 General Styles - Optimized for readability & performance */
 body {
-  background: linear-gradient(135deg, #002d62, #000000); /* Adds a smooth gradient from deep blue to black */
-  color: #ffffff; /* White text for contrast */
-  font-family: "Old English Text MT", serif; /* Keeps the Old English styling */
+  background: linear-gradient(135deg, #002d62, #000000); /* Smooth transition */
+  color: #ffffff;
+  font-family: "Old English Text MT", serif;
   margin: 0;
   padding: 0;
+  font-size: clamp(14px, 2vw, 18px); /* ✅ Adapts font size for all screens */
+  scroll-behavior: smooth; /* ✅ Enables smooth scrolling */
 }
 
-/* Header - Enhancing the title bar */
+/* ✅ Header Tweaks for Mobile & Desktop */
 header {
-  background: linear-gradient(90deg, #c8102e, #7a0019); /* Gradient effect for a modern look */
+  background: linear-gradient(90deg, #c8102e, #7a0019);
   text-align: center;
-  padding: 20px 0;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adds depth */
+  padding: 15px 0;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5); /* ✅ Reduced shadow for better rendering */
 }
 
 header h1 {
-  color: #ffffff;
-  font-size: 3em; /* Enlarging for emphasis */
-  letter-spacing: 2px; /* Adds spacing between characters */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Creates a glowing effect */
+  font-size: clamp(2.5em, 5vw, 3em); /* ✅ Auto-adjust font size */
+  letter-spacing: 1.5px;
 }
 
-/* Navigation - Making interactions engaging */
+/* ✅ Navigation - Optimized for Mobile */
 nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   justify-content: center;
-  gap: 20px; /* Creates space between navigation items */
+  gap: 15px;
+  flex-wrap: wrap; /* ✅ Ensures better layout on mobile */
 }
 
 nav ul li a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 5px; /* Softens edges */
-  transition: all 0.3s ease-in-out; /* Smooth animation */
+  padding: 12px 18px;
+  border-radius: 6px;
 }
 
 nav ul li a:hover {
-  background: rgba(255, 193, 7, 0.3); /* Adds a subtle highlight */
-  color: #ffc107;
-  transform: scale(1.1); /* Slight growth effect */
+  background: rgba(255, 193, 7, 0.4);
+  transform: translateY(-2px); /* ✅ Slight lift instead of scale */
 }
 
-/* Sections - Making content visually appealing */
+/* ✅ Sections - Performance & Mobile-Friendly Improvements */
 section {
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
-  color: #ffffff;
-  border: 2px solid rgba(200, 16, 46, 0.5); /* Softened border */
-  border-radius: 15px; /* Rounded corners */
-  margin: 20px;
-  backdrop-filter: blur(10px); /* Blurs background behind it */
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* Creates a lifted effect */
+  padding: 16px;
+  backdrop-filter: blur(8px); /* ✅ Reduced blur for better speed */
+  border-radius: 12px;
 }
 
-section h2 {
-  color: #ffc107;
-  text-transform: uppercase; /* Makes section headers stand out */
-}
-
-/* Form - Improving input and button styles */
-form label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
-}
-
+/* ✅ Form Fields Optimized for Mobile Input */
 form input {
-  margin-bottom: 15px;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid #ffffff;
-  background: rgba(0, 45, 98, 0.8); /* Slight transparency for a modern touch */
-  color: #ffffff;
+  padding: 12px;
+  font-size: 16px; /* ✅ Ensures mobile-friendly typing */
 }
 
 form button {
-  background: linear-gradient(90deg, #c8102e, #7a0019); /* Gradient styling */
-  color: #ffffff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  padding: 14px;
+  font-size: 18px; /* ✅ Improves touch accessibility */
 }
 
-form button:hover {
-  background: #002d62;
-  transform: scale(1.1);
-  box-shadow: 0px 0px 10px #ffffff; /* Adds glowing effect */
-}
-
-/* Footer - Adding finishing touches */
+/* ✅ Footer - Minor Refinements */
 footer {
-  background: linear-gradient(90deg, #c8102e, #7a0019);
-  text-align: center;
-  padding: 10px 0;
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5); /* Slight shadow for lift */
+  padding: 12px;
 }
 
-footer p {
-  color: #ffffff;
-}
-
-/* Back to Top Button - Making it interactive */
+/* 🔥 Back to Top Button - Improved Responsiveness */
 #backToTop {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #c8102e;
-  color: #ffffff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  bottom: 15px;
+  right: 15px;
 }
 
 #backToTop:hover {
-  background: #002d62;
-  transform: scale(1.1);
-  box-shadow: 0px 0px 10px #ffffff; /* Adds glowing effect */
+  transform: translateY(-3px); /* ✅ Smoother movement */
 }
 
-/* Responsive Design - Adjusting for smaller screens */
+/* 📱 Responsive Adjustments */
 @media (max-width: 768px) {
   nav ul {
     flex-direction: column;
-    align-items: center;
+    gap: 10px;
   }
 
   section {
-    margin: 10px;
-    padding: 15px;
+    padding: 12px;
+    margin: 5px;
   }
 
   form button {
-    width: 100%; /* Ensures button stretches on small screens */
+    width: 100%;
+    font-size: 16px;
   }
 }
