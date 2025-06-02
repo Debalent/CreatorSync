@@ -14,12 +14,16 @@ const loadBeats = async () => {
             const beatItem = document.createElement("div");
             beatItem.classList.add("beatItem");
 
-            // ✅ Use template literals for cleaner HTML insertion
+            // ✅ Calculate final price after 12.5% commission deduction
+            const finalPrice = (beat.price * 1.125).toFixed(2);
+
+            // ✅ Display commission details for transparency
             beatItem.innerHTML = `
                 <h3>🎵 ${beat.title}</h3>
                 <p>Genre: ${beat.genre}</p>
                 <p>Mood: ${beat.mood}</p>
-                <p>Price: $${beat.price.toFixed(2)}</p>
+                <p>Price Before Commission: $${beat.price.toFixed(2)}</p>
+                <p><strong>Final Price (Including 12.5% Fee): $${finalPrice}</strong></p>
             `;
 
             // 🎧 Optimized audio player creation
@@ -31,14 +35,14 @@ const loadBeats = async () => {
             const stripeButton = document.createElement("button");
             stripeButton.classList.add("stripeButton");
             stripeButton.textContent = "Pay with Stripe";
-            stripeButton.addEventListener("click", () => handleStripePayment(beat.id, beat.price));
+            stripeButton.addEventListener("click", () => handleStripePayment(beat.id, finalPrice));
 
             const paypalButtonContainer = document.createElement("div");
             paypalButtonContainer.id = `paypal-button-${beat.id}`;
             beatItem.appendChild(stripeButton);
             beatItem.appendChild(paypalButtonContainer);
 
-            renderPayPalButton(beat.id, beat.price, paypalButtonContainer.id); // ✅ Renders PayPal button dynamically
+            renderPayPalButton(beat.id, finalPrice, paypalButtonContainer.id); // ✅ Renders PayPal button dynamically
 
             fragment.appendChild(beatItem); // ✅ Append to fragment (improves performance)
         });
@@ -50,37 +54,20 @@ const loadBeats = async () => {
     }
 };
 
-// 🏦 Function to render PayPal button
-const renderPayPalButton = (beatId, price, containerId) => {
-    paypal.Buttons({
-        createOrder: (data, actions) => actions.order.create({
-            purchase_units: [{
-                amount: { value: price.toFixed(2) },
-                description: `Payment for Beat ID: ${beatId}`,
-            }],
-        }),
-        onApprove: (data, actions) => {
-            actions.order.capture().then((details) => {
-                alert(`Transaction completed by ${details.payer.name.given_name}`);
-            });
-        },
-    }).render(`#${containerId}`);
-};
-
-// 💰 Function to handle Stripe payment with better error handling
-const handleStripePayment = async (beatId, price) => {
+// 💰 Function to handle Stripe payment with better error handling (Now includes fee calculation)
+const handleStripePayment = async (beatId, finalPrice) => {
     try {
-        const response = await fetch('/create-checkout-session', { // ✅ Removed hardcoded localhost
+        const response = await fetch('/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ beatId, price }),
+            body: JSON.stringify({ beatId, price: finalPrice }),
         });
 
         if (!response.ok) throw new Error(`Stripe Error: ${response.status}`);
 
         const { sessionId } = await response.json();
         const stripe = Stripe('your-publishable-key');
-        await stripe.redirectToCheckout({ sessionId }); // ✅ Await ensures smooth redirection
+        await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
         console.error("Stripe payment error:", error);
         alert("Payment initiation failed. Please try again.");
@@ -93,7 +80,7 @@ uploadForm.addEventListener("submit", async (event) => {
     const formData = new FormData(uploadForm);
 
     try {
-        const response = await fetch('/upload', { // ✅ Relative URL for flexibility
+        const response = await fetch('/upload', {
             method: 'POST',
             body: formData,
         });
