@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ✅ Standard Meta Configuration -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="MookBeatz - The ultimate platform for uploading, discovering, and selling high-quality beats">
-    <meta name="keywords" content="MookBeatz, beats, music, upload, discover, sell, producers">
+    <meta name="description" content="MookBeatz - Upload, discover, and sell high-quality beats">
+    <meta name="keywords" content="MookBeatz, beats, music, producers, buy, sell, upload">
     <meta name="author" content="Mook B">
+
+    <!-- ✅ SEO & Social Media Sharing -->
+    <meta property="og:title" content="MookBeatz">
+    <meta property="og:description" content="Join MookBeatz, the ultimate platform for uploading and discovering beats">
+    <meta property="og:image" content="https://yourwebsite.com/logo.png">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+
     <title>MookBeatz</title>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- 🔥 Header Section - Optimized for Branding -->
     <header>
-        <img src="C:/Users/PC/Pictures/logo/logo.png" alt="Official MookBeatz Logo for branding" id="siteLogo">
+        <img src="assets/logo.png" alt="MookBeatz Logo" id="siteLogo" loading="lazy">
         <h1>MookBeatz</h1>
         <nav aria-label="Primary Navigation">
-            <ul>
+            <button id="menuToggle" aria-label="Toggle navigation">☰</button>
+            <ul id="navMenu">
                 <li><a href="#about">About</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#upload">Upload</a></li>
@@ -25,14 +36,22 @@
         </nav>
     </header>
 
-    <!-- About Section -->
+    <!-- ✅ Mobile-Friendly Navigation -->
+    <script>
+        document.getElementById("menuToggle").addEventListener("click", () => {
+            document.getElementById("navMenu").classList.toggle("active");
+        });
+    </script>
+
+    <!-- 🔥 Main Content Sections -->
     <main>
+        <!-- ✅ About Section -->
         <section id="about">
             <h2>About MookBeatz</h2>
             <p>Welcome to MookBeatz, your ultimate platform for uploading, discovering, and selling high-quality beats!</p>
         </section>
 
-        <!-- Features Section -->
+        <!-- ✅ Features Section -->
         <section id="features">
             <h2>Features</h2>
             <ul>
@@ -42,33 +61,33 @@
             </ul>
         </section>
 
-        <!-- Upload Section -->
+        <!-- ✅ Upload Section - Enhanced with ARIA Labels -->
         <section id="upload">
             <h2>Upload Your Beats</h2>
             <form id="uploadForm">
                 <label for="beatTitle">Title:</label>
-                <input type="text" id="beatTitle" name="beatTitle" required>
-                
+                <input type="text" id="beatTitle" name="beatTitle" required aria-required="true">
+
                 <label for="beatGenre">Genre:</label>
-                <input type="text" id="beatGenre" name="beatGenre" required>
-                
+                <input type="text" id="beatGenre" name="beatGenre" required aria-required="true">
+
                 <label for="beatMood">Mood:</label>
-                <input type="text" id="beatMood" name="beatMood" required>
-                
+                <input type="text" id="beatMood" name="beatMood" required aria-required="true">
+
                 <label for="licenseType">License Type:</label>
-                <input type="text" id="licenseType" name="licenseType" required>
-                
+                <input type="text" id="licenseType" name="licenseType" required aria-required="true">
+
                 <label for="price">Price ($):</label>
-                <input type="number" id="price" name="price" step="0.01" required>
-                
+                <input type="number" id="price" name="price" step="0.01" required aria-required="true">
+
                 <label for="beatFile">Upload Beat File:</label>
-                <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
-                
+                <input type="file" id="beatFile" name="beatFile" accept=".wav" required aria-required="true">
+
                 <button type="submit">Upload Beat</button>
             </form>
         </section>
 
-        <!-- Discover Section -->
+        <!-- ✅ Discover Section - Lazy Loading Improved -->
         <section id="discover">
             <h2>Discover Beats</h2>
             <div id="beatGallery">
@@ -76,22 +95,23 @@
             </div>
         </section>
 
-        <!-- Profile Section -->
+        <!-- ✅ Profile Section -->
         <section id="profile">
             <h2>Your Profile</h2>
             <p>Manage your uploaded beats and track your sales.</p>
         </section>
     </main>
 
-    <!-- Footer Section -->
+    <!-- 🔥 Footer Section - Branding Optimization -->
     <footer>
-        <img src="C:/Users/PC/Pictures/logo/logo.png" alt="Official MookBeatz Logo for branding" id="footerLogo">
+        <img src="assets/logo.png" alt="MookBeatz Logo" id="footerLogo" loading="lazy">
         <p>© 2025 MookBeatz - Designed by Mook B</p>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button onclick="scrollToTop()" id="backToTop">Back to Top</button>
+    <!-- ✅ Back to Top Button -->
+    <button onclick="scrollToTop()" id="backToTop" aria-label="Back to Top">Back to Top</button>
 
-    <script src="script.js"></script>
+    <!-- ✅ Defer JS for Performance -->
+    <script src="script.js" defer></script>
 </body>
 </html>
