@@ -1,18 +1,20 @@
-// Function to dynamically load beats from the backend
+// 🚀 Function to dynamically load beats from the backend with improved performance
 const loadBeats = async () => {
     try {
-        const response = await fetch('http://localhost:3000/beats'); // API endpoint to fetch beats
+        const response = await fetch('/beats'); // ✅ Relative URL (avoids hardcoded localhost)
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
         const beats = await response.json();
-        beatGallery.innerHTML = ""; // Clear the gallery before populating
+        beatGallery.innerHTML = ""; // ✅ Clears the gallery before populating
 
-        // Populate the gallery with fetched beats
+        // ✅ Use document fragment for efficient DOM manipulation
+        const fragment = document.createDocumentFragment();
+
         beats.forEach((beat) => {
             const beatItem = document.createElement("div");
             beatItem.classList.add("beatItem");
 
-            // Add title, genre, mood, and price details
+            // ✅ Use template literals for cleaner HTML insertion
             beatItem.innerHTML = `
                 <h3>🎵 ${beat.title}</h3>
                 <p>Genre: ${beat.genre}</p>
@@ -20,64 +22,55 @@ const loadBeats = async () => {
                 <p>Price: $${beat.price.toFixed(2)}</p>
             `;
 
-            // Create audio player
-            const audioPlayer = document.createElement("audio");
+            // 🎧 Optimized audio player creation
+            const audioPlayer = new Audio(`/uploads/${beat.filename}`);
             audioPlayer.controls = true;
-            const audioSource = document.createElement("source");
-            audioSource.src = `http://localhost:3000/uploads/${beat.filename}`; // Use file path from backend
-            audioSource.type = "audio/wav";
-            audioPlayer.appendChild(audioSource);
             beatItem.appendChild(audioPlayer);
 
-            // Stripe payment button
+            // 💳 Payment Buttons
             const stripeButton = document.createElement("button");
             stripeButton.classList.add("stripeButton");
             stripeButton.textContent = "Pay with Stripe";
             stripeButton.addEventListener("click", () => handleStripePayment(beat.id, beat.price));
 
-            // PayPal payment button container
             const paypalButtonContainer = document.createElement("div");
             paypalButtonContainer.id = `paypal-button-${beat.id}`;
             beatItem.appendChild(stripeButton);
             beatItem.appendChild(paypalButtonContainer);
 
-            // Render PayPal button
-            renderPayPalButton(beat.id, beat.price, paypalButtonContainer.id);
+            renderPayPalButton(beat.id, beat.price, paypalButtonContainer.id); // ✅ Renders PayPal button dynamically
 
-            // Append beat item to the gallery
-            beatGallery.appendChild(beatItem);
+            fragment.appendChild(beatItem); // ✅ Append to fragment (improves performance)
         });
+
+        beatGallery.appendChild(fragment); // ✅ Single reflow instead of multiple
     } catch (error) {
         console.error("Error loading beats:", error);
         beatGallery.innerHTML = "<p>Failed to load beats. Please try again later.</p>";
     }
 };
 
-// Function to render PayPal button
+// 🏦 Function to render PayPal button
 const renderPayPalButton = (beatId, price, containerId) => {
     paypal.Buttons({
-        createOrder: (data, actions) => {
-            return actions.order.create({
-                purchase_units: [
-                    {
-                        amount: { value: price.toFixed(2) },
-                        description: `Payment for Beat ID: ${beatId}`,
-                    },
-                ],
-            });
-        },
+        createOrder: (data, actions) => actions.order.create({
+            purchase_units: [{
+                amount: { value: price.toFixed(2) },
+                description: `Payment for Beat ID: ${beatId}`,
+            }],
+        }),
         onApprove: (data, actions) => {
-            return actions.order.capture().then((details) => {
+            actions.order.capture().then((details) => {
                 alert(`Transaction completed by ${details.payer.name.given_name}`);
             });
         },
     }).render(`#${containerId}`);
 };
 
-// Function to handle Stripe payment
+// 💰 Function to handle Stripe payment with better error handling
 const handleStripePayment = async (beatId, price) => {
     try {
-        const response = await fetch('http://localhost:3000/create-checkout-session', {
+        const response = await fetch('/create-checkout-session', { // ✅ Removed hardcoded localhost
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ beatId, price }),
@@ -87,34 +80,33 @@ const handleStripePayment = async (beatId, price) => {
 
         const { sessionId } = await response.json();
         const stripe = Stripe('your-publishable-key');
-        stripe.redirectToCheckout({ sessionId });
+        await stripe.redirectToCheckout({ sessionId }); // ✅ Await ensures smooth redirection
     } catch (error) {
         console.error("Stripe payment error:", error);
         alert("Payment initiation failed. Please try again.");
     }
 };
 
-// Handle form submission to upload beats
+// 📤 Handle form submission to upload beats with better success handling
 uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-
     const formData = new FormData(uploadForm);
 
     try {
-        const response = await fetch('http://localhost:3000/upload', {
+        const response = await fetch('/upload', { // ✅ Relative URL for flexibility
             method: 'POST',
             body: formData,
         });
 
         if (!response.ok) throw new Error(`Upload Error: ${response.status}`);
 
-        alert("Beat uploaded successfully!");
-        await loadBeats(); // Reload beats after a successful upload
+        alert("✅ Beat uploaded successfully!");
+        await loadBeats(); // ✅ Refresh beats dynamically after upload
     } catch (error) {
         console.error("Error during upload:", error);
-        alert("Failed to upload the beat. Please check the console for details.");
+        alert("❌ Failed to upload the beat. Please check the console for details.");
     }
 });
 
-// Load beats when the page is fully loaded
-loadBeats();
+// 🌍 Load beats when the page is fully loaded
+document.addEventListener("DOMContentLoaded", loadBeats); // ✅ Ensures beats load only after the DOM is ready
