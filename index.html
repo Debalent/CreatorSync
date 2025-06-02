@@ -4,26 +4,26 @@
     <!-- ✅ Standard Meta Configuration -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="MookBeatz - Upload, discover, and sell high-quality beats">
-    <meta name="keywords" content="MookBeatz, beats, music, producers, buy, sell, upload">
+    <meta name="description" content="CreatorSync - Upload, discover, and sell high-quality beats">
+    <meta name="keywords" content="CreatorSync, beats, music, producers, buy, sell, upload">
     <meta name="author" content="Mook B">
 
     <!-- ✅ SEO & Social Media Sharing -->
-    <meta property="og:title" content="MookBeatz">
-    <meta property="og:description" content="Join MookBeatz, the ultimate platform for uploading and discovering beats">
-    <meta property="og:image" content="https://yourwebsite.com/logo.png">
+    <meta property="og:title" content="CreatorSync">
+    <meta property="og:description" content="Join CreatorSync, the ultimate platform for uploading and discovering beats">
+    <meta property="og:image" content="https://yourwebsite.com/creator-sync-logo.png">
     <meta property="og:url" content="https://yourwebsite.com">
     <meta name="twitter:card" content="summary_large_image">
 
-    <title>MookBeatz</title>
+    <title>CreatorSync</title>
 
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- 🔥 Header Section - Optimized for Branding -->
+    <!-- 🔥 Header Section -->
     <header>
-        <img src="assets/logo.png" alt="MookBeatz Logo" id="siteLogo" loading="lazy">
-        <h1>MookBeatz</h1>
+        <img src="assets/creator-sync-logo.png" alt="CreatorSync Logo" id="siteLogo" loading="lazy">
+        <h1>CreatorSync</h1>
         <nav aria-label="Primary Navigation">
             <button id="menuToggle" aria-label="Toggle navigation">☰</button>
             <ul id="navMenu">
@@ -43,12 +43,12 @@
         });
     </script>
 
-    <!-- 🔥 Main Content Sections -->
+    <!-- 🔥 Main Content -->
     <main>
         <!-- ✅ About Section -->
         <section id="about">
-            <h2>About MookBeatz</h2>
-            <p>Welcome to MookBeatz, your ultimate platform for uploading, discovering, and selling high-quality beats!</p>
+            <h2>About CreatorSync</h2>
+            <p>Welcome to CreatorSync, your ultimate platform for uploading, discovering, and selling high-quality beats!</p>
         </section>
 
         <!-- ✅ Features Section -->
@@ -61,33 +61,27 @@
             </ul>
         </section>
 
-        <!-- ✅ Upload Section - Enhanced with ARIA Labels -->
+        <!-- ✅ Upload Section -->
         <section id="upload">
             <h2>Upload Your Beats</h2>
             <form id="uploadForm">
                 <label for="beatTitle">Title:</label>
-                <input type="text" id="beatTitle" name="beatTitle" required aria-required="true">
+                <input type="text" id="beatTitle" name="beatTitle" required>
 
                 <label for="beatGenre">Genre:</label>
-                <input type="text" id="beatGenre" name="beatGenre" required aria-required="true">
-
-                <label for="beatMood">Mood:</label>
-                <input type="text" id="beatMood" name="beatMood" required aria-required="true">
-
-                <label for="licenseType">License Type:</label>
-                <input type="text" id="licenseType" name="licenseType" required aria-required="true">
+                <input type="text" id="beatGenre" name="beatGenre" required>
 
                 <label for="price">Price ($):</label>
-                <input type="number" id="price" name="price" step="0.01" required aria-required="true">
+                <input type="number" id="price" name="price" step="0.01" required>
 
                 <label for="beatFile">Upload Beat File:</label>
-                <input type="file" id="beatFile" name="beatFile" accept=".wav" required aria-required="true">
+                <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
 
                 <button type="submit">Upload Beat</button>
             </form>
         </section>
 
-        <!-- ✅ Discover Section - Lazy Loading Improved -->
+        <!-- ✅ Discover Section -->
         <section id="discover">
             <h2>Discover Beats</h2>
             <div id="beatGallery">
@@ -102,16 +96,12 @@
         </section>
     </main>
 
-    <!-- 🔥 Footer Section - Branding Optimization -->
+    <!-- 🔥 Footer -->
     <footer>
-        <img src="assets/logo.png" alt="MookBeatz Logo" id="footerLogo" loading="lazy">
-        <p>© 2025 MookBeatz - Designed by Mook B</p>
+        <img src="assets/creator-sync-logo.png" alt="CreatorSync Logo" id="footerLogo" loading="lazy">
+        <p>© 2025 CreatorSync - Designed by Mook B</p>
     </footer>
 
-    <!-- ✅ Back to Top Button -->
-    <button onclick="scrollToTop()" id="backToTop" aria-label="Back to Top">Back to Top</button>
-
-    <!-- ✅ Defer JS for Performance -->
     <script src="script.js" defer></script>
 </body>
 </html>
