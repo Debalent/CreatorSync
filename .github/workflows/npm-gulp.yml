@@ -35,10 +35,8 @@ jobs:
         NODE_ENV: production  # ✅ Adds environment setting for production mode
 
     - name: ✅ Verify Build Success
-      run: echo "Build completed successfully!"  # ✅ Provides clear logging
-
-    - name: 🚀 Upload Build Artifacts (Optional)
-      uses: actions/upload-artifact@v3
+      run: echo "Build completed successfully!"  # ✅ Provides clear logging    - name: 🚀 Upload Build Artifacts (Optional)
+      uses: actions/upload-artifact@v4 
       with:
         name: build-output
         path: dist/  # ✅ Uploads built files for reference (modify if needed)
