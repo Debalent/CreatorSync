@@ -46,33 +46,22 @@
 
     <!-- 🔥 Main Content -->
     <main>
-        <!-- ✅ About Section - Updated with CreatorSync Branding -->
+        <!-- ✅ Updated About Section (Now Includes Commission Info) -->
         <section id="about">
             <h2>About CreatorSync</h2>
             <p>
                 Welcome to <strong>CreatorSync</strong>, the ultimate hub for producers, artists, and music enthusiasts to 
                 <strong>upload, discover, and sell high-quality beats</strong>.  
                 Our platform empowers creators by providing seamless tools for showcasing their work, 
-                licensing tracks, and connecting with buyers effortlessly.  
+                licensing tracks, and connecting with buyers effortlessly.
             </p>
             <p>
-                Whether you're an established producer or just starting, <strong>CreatorSync</strong> helps 
-                turn creativity into opportunity—with secure payments, instant licensing, and a vibrant 
-                community of like-minded musicians.
+                **Note:** A <strong>12.5% commission fee</strong> applies to all transactions. 
+                This ensures smooth operations while keeping CreatorSync affordable and accessible to all creators.
             </p>
         </section>
 
-        <!-- ✅ Features Section -->
-        <section id="features">
-            <h2>Features</h2>
-            <ul>
-                <li>Upload and showcase your beats to a global audience.</li>
-                <li>Discover unique sounds from talented producers.</li>
-                <li>Secure payment integration with Stripe and PayPal.</li>
-            </ul>
-        </section>
-
-        <!-- ✅ Upload Section -->
+        <!-- ✅ Upload Section - Now Shows Commission Deduction -->
         <section id="upload">
             <h2>Upload Your Beats</h2>
             <form id="uploadForm">
@@ -84,26 +73,13 @@
 
                 <label for="price">Price ($):</label>
                 <input type="number" id="price" name="price" step="0.01" required>
+                <p><strong>Note:</strong> A <strong>12.5% commission</strong> will be deducted upon sale.</p>
 
                 <label for="beatFile">Upload Beat File:</label>
                 <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
 
                 <button type="submit">Upload Beat</button>
             </form>
-        </section>
-
-        <!-- ✅ Discover Section -->
-        <section id="discover">
-            <h2>Discover Beats</h2>
-            <div id="beatGallery">
-                <p>Loading beats... Please wait!</p>
-            </div>
-        </section>
-
-        <!-- ✅ Profile Section -->
-        <section id="profile">
-            <h2>Your Profile</h2>
-            <p>Manage your uploaded beats and track your sales.</p>
         </section>
     </main>
 
