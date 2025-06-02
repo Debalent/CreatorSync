@@ -1,4 +1,12 @@
 {
-  "watch": ["server.js"],
-  "exec": "node server.js"
+  "watch": ["server.js"],  // ✅ Watches for changes in server.js and auto-restarts
+  "exec": "node server.js",  // ✅ Runs server.js on change
+  "delay": "500ms",  // ⏳ Adds a slight delay before restart to prevent multiple fast refreshes
+  "ext": "js,json",  // 📌 Monitors changes in JavaScript & JSON files
+  "ignore": ["node_modules/", "uploads/"],  // 🚫 Prevents Nodemon from restarting when dependencies or uploaded files change
+  "env": {
+    "NODE_ENV": "development",  // 🌍 Allows using environment variables for better configuration
+    "PORT": "3000"
+  },
+  "verbose": true  // 📝 Enables detailed logs for debugging
 }
