@@ -1,5 +1,5 @@
 🎶 Contribute to CreatorSync
-MookBeatz isn’t just about beats—it’s built on collaboration. Whether you're a developer, designer, producer, or music enthusiast, we welcome contributions to improve the platform and expand its capabilities.
+CreatorSync isn’t just about beats—it’s built on collaboration. Whether you're a developer, designer, producer, or music enthusiast, we welcome contributions to improve the platform and expand its capabilities.
 🚀 How to Get Involved
 - 🎛️ Fork & Clone – Start by forking the repository and cloning it locally.
 - 🐛 Issue Tracking – Check out open issues or suggest improvements.
