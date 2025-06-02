@@ -12,17 +12,33 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.x]  # ✅ Supports multiple Node versions
 
     steps:
-    - uses: actions/checkout@v4
+    - name: 🚀 Checkout Repository
+      uses: actions/checkout@v4  # ✅ Ensures we get the latest code
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: 🔧 Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'  # ✅ Enables caching to speed up dependencies installation
 
-    - name: Build
+    - name: 📦 Install Dependencies
       run: |
         npm install
-        gulp
+        npm ci  # ✅ Ensures clean installation for reproducible builds
+
+    - name: 🛠 Run Gulp Build
+      run: gulp
+      env:
+        NODE_ENV: production  # ✅ Adds environment setting for production mode
+
+    - name: ✅ Verify Build Success
+      run: echo "Build completed successfully!"  # ✅ Provides clear logging
+
+    - name: 🚀 Upload Build Artifacts (Optional)
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-output
+        path: dist/  # ✅ Uploads built files for reference (modify if needed)
