@@ -10,8 +10,6 @@ CreatorSync isn’t just about beats—it’s built on collaboration. Whether yo
 - Fork the Repo – Click the fork button to create your own copy.
 - Clone Locally – Run:
 git clone -  https://github.com/Debalent/CreatorSync.git
-- 
-
 - Create a Branch – Develop features on a separate branch:
 git checkout -b feature-name
 - Commit & Push – After making changes:
@@ -20,7 +18,7 @@ git commit -m "Added new feature"
 git push origin feature-name
 - Submit a Pull Request – Open a PR to merge your changes into the main branch.
 💬 Join the Discussion
-MookBeatz thrives on collaboration! Stay connected, share ideas, suggest improvements, and help shape the platform.
+CreatorSync thrives on collaboration! Stay connected, share ideas, suggest improvements, and help shape the platform.
 🔗 Connect on Discord
 Want to discuss development, music, or just connect? Hit me up directly:
 ➡ Discord: demond9490
