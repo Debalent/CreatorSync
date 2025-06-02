@@ -22,6 +22,6 @@ CreatorSync thrives on collaboration! Stay connected, share ideas, suggest impro
 🔗 Connect on Discord
 Want to discuss development, music, or just connect? Hit me up directly:
 ➡ Discord: demond9490
-Together, we can make MookBeatz an even stronger hub for producers and creators! 🚀🎶
+Together, we can make Creator Sync an even stronger hub for producers and creators! 🚀🎶
 
 
