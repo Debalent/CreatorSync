@@ -1,125 +1,135 @@
-/* General Styles */
+/* General Styles - Setting up base appearance */
 body {
-  background-color: #002d62;
-  color: #ffffff;
-  font-family: "Old English Text MT", serif;
+  background: linear-gradient(135deg, #002d62, #000000); /* Adds a smooth gradient from deep blue to black */
+  color: #ffffff; /* White text for contrast */
+  font-family: "Old English Text MT", serif; /* Keeps the Old English styling */
   margin: 0;
   padding: 0;
 }
 
-/* Header */
+/* Header - Enhancing the title bar */
 header {
-  background-color: #c8102e;
+  background: linear-gradient(90deg, #c8102e, #7a0019); /* Gradient effect for a modern look */
   text-align: center;
   padding: 20px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adds depth */
 }
 
 header h1 {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 3em; /* Enlarging for emphasis */
+  letter-spacing: 2px; /* Adds spacing between characters */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Creates a glowing effect */
 }
 
-/* Navigation */
+/* Navigation - Making interactions engaging */
 nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   justify-content: center;
-}
-
-nav ul li {
-  margin: 0 15px;
+  gap: 20px; /* Creates space between navigation items */
 }
 
 nav ul li a {
   color: #ffffff;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px; /* Softens edges */
+  transition: all 0.3s ease-in-out; /* Smooth animation */
 }
 
 nav ul li a:hover {
+  background: rgba(255, 193, 7, 0.3); /* Adds a subtle highlight */
   color: #ffc107;
-  transform: scale(1.05);
+  transform: scale(1.1); /* Slight growth effect */
 }
 
-/* Sections */
+/* Sections - Making content visually appealing */
 section {
   padding: 20px;
-  background-color: #ffffff;
-  color: #002d62;
-  border: 2px solid #c8102e;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  color: #ffffff;
+  border: 2px solid rgba(200, 16, 46, 0.5); /* Softened border */
+  border-radius: 15px; /* Rounded corners */
   margin: 20px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px); /* Blurs background behind it */
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); /* Creates a lifted effect */
 }
 
 section h2 {
-  color: #c8102e;
+  color: #ffc107;
+  text-transform: uppercase; /* Makes section headers stand out */
 }
 
-/* Form */
+/* Form - Improving input and button styles */
 form label {
   display: block;
   margin: 10px 0 5px;
+  font-weight: bold;
 }
 
 form input {
   margin-bottom: 15px;
-  padding: 5px;
+  padding: 10px;
   width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  background: rgba(0, 45, 98, 0.8); /* Slight transparency for a modern touch */
+  color: #ffffff;
 }
 
 form button {
-  background-color: #c8102e;
+  background: linear-gradient(90deg, #c8102e, #7a0019); /* Gradient styling */
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 form button:hover {
-  background-color: #002d62;
-  transform: scale(1.05);
+  background: #002d62;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 10px #ffffff; /* Adds glowing effect */
 }
 
-/* Footer */
+/* Footer - Adding finishing touches */
 footer {
-  background-color: #c8102e;
+  background: linear-gradient(90deg, #c8102e, #7a0019);
   text-align: center;
   padding: 10px 0;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5); /* Slight shadow for lift */
 }
 
 footer p {
   color: #ffffff;
 }
 
-footer img {
-  max-width: 100px;
-}
-
-/* Back to Top Button */
+/* Back to Top Button - Making it interactive */
 #backToTop {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #c8102e;
+  background: #c8102e;
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 #backToTop:hover {
-  background-color: #002d62;
-  transform: scale(1.05);
+  background: #002d62;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 10px #ffffff; /* Adds glowing effect */
 }
 
-/* Responsive Design */
+/* Responsive Design - Adjusting for smaller screens */
 @media (max-width: 768px) {
   nav ul {
     flex-direction: column;
@@ -132,6 +142,6 @@ footer img {
   }
 
   form button {
-    width: 100%;
+    width: 100%; /* Ensures button stretches on small screens */
   }
 }
