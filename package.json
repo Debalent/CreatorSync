@@ -1,7 +1,34 @@
 {
+  "name": "creatorsync",
+  "version": "1.0.0",
+  "description": "Collaborative platform integrating beat creation, real-time messaging, and seamless finalization workflows.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
-  }
+    "express": "^5.1.0",
+    "mongoose": "^7.2.2",                // ✅ Modern MongoDB connection with retry logic
+    "multer": "^1.4.5-lts",              // ✅ Efficient file upload handling
+    "stripe": "^14.0.0",                 // ✅ Payment processing for beat transactions
+    "bcrypt": "^5.1.0",                  // ✅ Secure password hashing
+    "crypto": "^1.0.1",                  // ✅ Random token generation (password reset, auth)
+    "socket.io": "^4.5.0",               // ✅ Real-time messaging integration for creator collabs
+    "morgan": "^1.11.0",                 // ✅ HTTP request logging (useful for debugging)
+    "helmet": "^7.1.0",                  // ✅ Security headers to protect against common attacks
+    "compression": "^1.7.4",             // ✅ Faster API responses via Gzip compression
+    "uuid": "^9.0.0"                     // ✅ Unique identifiers for file tracking
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"                  // ✅ Auto-restarts server on code changes (for dev mode)
+  },
+  "engines": {
+    "node": ">=18.0.0"                   // ✅ Enforces latest stable Node.js for performance
+  },
+  "keywords": ["music", "beats", "collaboration", "payments", "finisher"],
+  "author": "Demond Balentine",
+  "license": "MIT"
 }
