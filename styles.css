@@ -1,112 +1,226 @@
-/* 🚀 General Styles - Optimized for readability & performance */
-body {
-    background: linear-gradient(135deg, #002d62, #000000); /* Smooth transition */
-    color: #ffffff;
-    font-family: "Old English Text MT", serif;
-    margin: 0;
-    padding: 0;
-    font-size: clamp(14px, 2vw, 18px); /* ✅ Adapts font size for all screens */
-    scroll-behavior: smooth; /* ✅ Enables smooth scrolling */
+/* ========================================================
+   CreatorSync  –  Global Theme & Resets
+   ===================================================== */
+
+/* ❖ CSS custom-properties = single source of truth for brand colours */
+:root {
+  --brand-blue: #002d62;
+  --brand-maroon: #7a0019;
+  --brand-crimson: #c8102e;
+  --accent-gold: #ffc107;
+  --accent-gold-dark: #d39e00;
+  --text-light: #ffffff;
+  --bg-dark: #000000;
+  --glass-blur: 8px;
+  --radius: 12px;
+  --shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* ✅ Header Tweaks + Logo */
+/* ❖ Universal box-sizing for saner layouts */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: linear-gradient(135deg, var(--brand-blue), var(--bg-dark));
+  color: var(--text-light);
+  font-family: "Old English Text MT", serif;
+  font-size: clamp(14px, 2vw, 18px);
+  scroll-behavior: smooth;
+  min-height: 100vh;                 /* NEW – ensures footer sits at bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================================
+   Header / Navigation
+   ===================================================== */
 header {
-    background: linear-gradient(90deg, #c8102e, #7a0019);
-    text-align: center;
-    padding: 15px 0;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background: linear-gradient(90deg, var(--brand-crimson), var(--brand-maroon));
+  text-align: center;
+  padding: 15px 0;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #siteLogo {
-    max-width: 120px; /* ✅ Adjust for mobile */
-    display: block;
-    margin-bottom: 10px;
+  max-width: 120px;
+  margin-bottom: 10px;
 }
 
-/* ✅ Navigation - Optimized for Mobile */
+/* Navigation list */
 nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap; /* ✅ Ensures better layout on mobile */
-    list-style: none;
-    padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  list-style: none;
 }
 
 nav ul li a {
-    padding: 12px 18px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255, 193, 7, 0.4);
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text-light);
+  background: rgba(255, 193, 7, 0.4);
+  transition: background 0.25s, transform 0.25s;
+}
+nav ul li a:hover,
+nav ul li a:focus-visible {
+  background: rgba(255, 193, 7, 0.6);
+  transform: translateY(-2px);
+  outline: none;
 }
 
-nav ul li a:hover {
-    background: rgba(255, 193, 7, 0.6);
-    transform: translateY(-2px); /* ✅ Slight lift instead of scale */
-}
-
-/* ✅ Sections - Performance & Mobile-Friendly Improvements */
+/* ========================================================
+   Sections & Containers
+   ===================================================== */
+main,
 section {
-    padding: 16px;
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
+  width: min(100%, 1100px);
+  margin-inline: auto;
+  padding: 16px;
+  backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius);
 }
 
-/* ✅ Commission Fee - Visibility Enhancements */
-.commission-info {
-    color: #ffcc00;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 10px;
-    font-size: 1.2rem;
+/* Beat gallery grid */
+#beatGallery {
+  display: grid;                     /* NEW */
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-/* ✅ Upload Section - Ensuring Clear Fee Visibility */
+/* Card styling for each beat */
+.beatItem {
+  background: rgba(255,255,255,0.05);/* NEW glassy card */
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  animation: fadeIn 0.5s ease-in forwards; /* NEW subtle entrance */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@keyframes fadeIn { from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);} }
+
+.beatItem h3 { font-size: 1.25rem; }
+
+/* Audio player full width & themed */
+.beatItem audio {
+  width: 100%;
+  height: 32px;
+  accent-color: var(--accent-gold);      /* NEW – modern browser support */
+}
+
+/* ========================================================
+   Buttons (Stripe, PayPal placeholder, Chat Send)
+   ===================================================== */
+button,
+.stripeButton {
+  cursor: pointer;
+  padding: 10px 18px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: var(--accent-gold);
+  color: #111;
+  transition: transform 0.2s, background 0.2s;
+}
+button:hover,
+button:focus-visible {
+  background: var(--accent-gold-dark);
+  transform: translateY(-2px);
+  outline: none;
+}
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Placeholder PayPal container just inherits spacing */
+[id^="paypal-"] { margin-top: 8px; }
+
+/* ========================================================
+   Commission & Upload Note
+   ===================================================== */
+.commission-info,
 #upload p {
-    color: #ffcc00;
-    font-size: 1rem;
-    text-align: center;
+  color: var(--accent-gold);
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
 }
 
-/* ✅ Footer */
+/* ========================================================
+   Chat Widget (NEW)
+   ===================================================== */
+#chat-container {                      /* NEW – main wrapper */
+  margin-top: 32px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  height: 350px;                       /* can adjust */
+}
+#chat-box {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+/* custom scrollbar */
+#chat-box::-webkit-scrollbar { width: 6px; }
+#chat-box::-webkit-scrollbar-thumb { background: var(--accent-gold-dark); border-radius: 3px; }
+
+/* message bubbles */
+.chat-message {
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.sender   { color: var(--accent-gold); font-weight: 600; }
+
+/* chat input row */
+#chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+#message-input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.5);
+  color: var(--text-light);
+}
+#send-button { min-width: 90px; }
+
+/* ========================================================
+   Footer & “Back to Top”
+   ===================================================== */
 footer {
-    text-align: center;
-    padding: 12px;
-    background: #222;
+  text-align: center;
+  padding: 12px;
+  background: #222;
+  margin-top: auto;                    /* push to bottom */
 }
 
-/* 🔥 Back to Top Button */
 #backToTop {
-    bottom: 15px;
-    right: 15px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 999;
 }
+#backToTop:hover { transform: translateY(-3px); }
 
-#backToTop:hover {
-    transform: translateY(-3px);
-}
-
-/* 📱 Responsive Adjustments */
+/* ========================================================
+   Media Queries
+   ===================================================== */
 @media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    section {
-        padding: 12px;
-        margin: 5px;
-    }
-
-    form button {
-        width: 100%;
-        font-size: 16px;
-    }
-
-    .commission-info {
-        font-size: 1rem;
-    }
+  nav ul { flex-direction: column; gap: 10px; }
+  section { padding: 12px; margin: 5px; }
+  form button { width: 100%; font-size: 16px; }
+  .commission-info { font-size: 1rem; }
 }
