@@ -1,95 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- ✅ Standard Meta Configuration -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="CreatorSync - Upload, discover, and sell high-quality beats">
-    <meta name="keywords" content="CreatorSync, beats, music, producers, buy, sell, upload">
-    <meta name="author" content="Mook B">
+  <!-- Root HTML element with language set to English -->
 
-    <!-- ✅ SEO & Social Media Sharing -->
-    <meta property="og:title" content="CreatorSync">
-    <meta property="og:description" content="Join CreatorSync, the ultimate platform for uploading and discovering beats">
-    <meta property="og:image" content="https://yourwebsite.com/creator-sync-logo.png">
-    <meta property="og:url" content="https://yourwebsite.com">
-    <meta name="twitter:card" content="summary_large_image">
+  <head>
+    <!-- Head section: contains metadata and external resource links -->
+    <meta charset="UTF-8" />
+    <!-- Sets document character encoding to UTF-8 -->
 
-    <title>CreatorSync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Ensures proper scaling on mobile devices for responsive design -->
 
-    <!-- ✅ Link to Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <!-- 🔥 Header Section -->
+    <title>CreatorSync - Unified Creative Platform</title>
+    <!-- Sets the title of the page (displayed in the browser tab) -->
+
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Links to the external CSS file for styling -->
+  </head>
+
+  <body>
+    <!-- Body section: contains all visible content -->
+
+    <!-- HEADER SECTION: Contains the main navigation bar -->
     <header>
-        <img src="assets/creator-sync-logo.png" alt="CreatorSync Logo" id="siteLogo" loading="lazy">
-        <h1>CreatorSync</h1>
-        <nav aria-label="Primary Navigation">
-            <button id="menuToggle" aria-label="Toggle navigation">☰</button>
-            <ul id="navMenu">
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#upload">Upload</a></li>
-                <li><a href="#discover">Discover</a></li>
-                <li><a href="#profile">Profile</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <!-- Navigation container grouping the external partner links -->
+        <ul class="nav-links">
+          <!-- List of navigation links for industry partners; these are crucial to showcase strategic integrations -->
+          <li>
+            <a href="https://soundcloud.com" target="_blank">
+              SoundCloud
+            </a>
+            <!-- SoundCloud link; opens in a new tab -->
+          </li>
+          <li>
+            <a href="https://www.ascap.com" target="_blank">
+              ASCAP
+            </a>
+            <!-- ASCAP link -->
+          </li>
+          <li>
+            <a href="https://www.bmi.com" target="_blank">
+              BMI
+            </a>
+            <!-- BMI link -->
+          </li>
+          <li>
+            <a href="https://distrokid.com" target="_blank">
+              DistroKid
+            </a>
+            <!-- DistroKid link -->
+          </li>
+        </ul>
+      </nav>
     </header>
 
-    <!-- ✅ Mobile-Friendly Navigation -->
-    <script>
-        document.getElementById("menuToggle").addEventListener("click", () => {
-            document.getElementById("navMenu").classList.toggle("active");
-        });
-    </script>
-
-    <!-- 🔥 Main Content -->
+    <!-- MAIN CONTENT SECTION: Homepage introduction and feature overview -->
     <main>
-        <!-- ✅ Updated About Section (Now Includes Commission Info) -->
-        <section id="about">
-            <h2>About CreatorSync</h2>
-            <p>
-                Welcome to <strong>CreatorSync</strong>, the ultimate hub for producers, artists, and music enthusiasts to 
-                <strong>upload, discover, and sell high-quality beats</strong>.  
-                Our platform empowers creators by providing seamless tools for showcasing their work, 
-                licensing tracks, and connecting with buyers effortlessly.
-            </p>
-            <p>
-                **Note:** A <strong>12.5% commission fee</strong> applies to all transactions. 
-                This ensures smooth operations while keeping CreatorSync affordable and accessible to all creators.
-            </p>
-        </section>
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Welcome to CreatorSync</h1>
+        <!-- Main headline introducing the platform -->
+        <p>
+          Empowering creativity through innovative project management and real-time communication.
+        </p>
+        <!-- Brief value proposition emphasizing core capabilities -->
+      </section>
 
-        <!-- ✅ Upload Section - Now Shows Commission Deduction -->
-        <section id="upload">
-            <h2>Upload Your Beats</h2>
-            <form id="uploadForm">
-                <label for="beatTitle">Title:</label>
-                <input type="text" id="beatTitle" name="beatTitle" required>
+      <!-- MESSAGING SYSTEM OVERVIEW SECTION -->
+      <!-- This section highlights the instant messaging prototype integrated into the platform -->
+      <section id="messaging-overview">
+        <h2>Instant Messaging System</h2>
+        <p>
+          Our real-time chat widget is built using Socket.IO to empower seamless communication. This proof-of-concept demonstrates the potential for an integrated communications suite.
+        </p>
 
-                <label for="beatGenre">Genre:</label>
-                <input type="text" id="beatGenre" name="beatGenre" required>
+        <!-- Chat Widget Container -->
+        <div id="chat-container">
+          <!-- Chat Box: Area where messages will be dynamically loaded -->
+          <div id="chat-box">
+            <!-- Example message block -->
+            <div class="chat-message">
+              <span class="sender">Alice:</span>
+              <span class="message">Hi there, welcome to CreatorSync!</span>
+            </div>
+          </div>
 
-                <label for="price">Price ($):</label>
-                <input type="number" id="price" name="price" step="0.01" required>
-                <p><strong>Note:</strong> A <strong>12.5% commission</strong> will be deducted upon sale.</p>
-
-                <label for="beatFile">Upload Beat File:</label>
-                <input type="file" id="beatFile" name="beatFile" accept=".wav" required>
-
-                <button type="submit">Upload Beat</button>
-            </form>
-        </section>
+          <!-- Chat Input Area: Field for composing new messages -->
+          <div id="chat-input">
+            <input
+              type="text"
+              id="message-input"
+              placeholder="Type your message here..."
+            />
+            <!-- Input field for typing the message -->
+            <button id="send-button">Send</button>
+            <!-- Button that triggers sending the message -->
+          </div>
+          <!-- Investor Note: This widget serves as an example of our future fully integrated real-time messaging system. -->
+        </div>
+      </section>
+      <!-- End of Messaging System Overview Section -->
     </main>
 
-    <!-- 🔥 Footer -->
-    <footer>
-        <img src="assets/creator-sync-logo.png" alt="CreatorSync Logo" id="footerLogo" loading="lazy">
-        <p>© 2025 CreatorSync - Designed by Mook B</p>
-    </footer>
+    <!-- USER DASHBOARD SECTION -->
+    <!-- This section is intended to be shown when a user is logged in; it contains quick navigation to industry partners -->
+    <section id="dashboard" class="dashboard">
+      <h2>User Dashboard</h2>
+      <!-- Dashboard title -->
+      <p>Access your creative projects and explore key industry platforms:</p>
+      <!-- Brief instructions regarding the dashboard -->
 
-    <!-- ✅ Load JavaScript for Interactive Features -->
-    <script src="script.js" defer></script>
-</body>
+      <ul class="dashboard-links">
+        <!-- List of quick-access links replicated for logged-in users -->
+        <li>
+          <a href="https://soundcloud.com" target="_blank">
+            SoundCloud
+          </a>
+        </li>
+        <li>
+          <a href="https://www.ascap.com" target="_blank">
+            ASCAP
+          </a>
+        </li>
+        <li>
+          <a href="https://www.bmi.com" target="_blank">
+            BMI
+          </a>
+        </li>
+        <li>
+          <a href="https://distrokid.com" target="_blank">
+            DistroKid
+          </a>
+        </li>
+      </ul>
+      <!-- Investor Note: The dashboard consolidates essential links to demonstrate our integration with key music industry platforms. -->
+    </section>
+
+    <!-- SCRIPT SECTION: Links to an external JavaScript file for interactive functionalities -->
+    <script src="script.js"></script>
+    <!-- Investor Note: The script includes code for real-time chat (Socket.IO integration) and other dynamic UI functions -->
+  </body>
 </html>
