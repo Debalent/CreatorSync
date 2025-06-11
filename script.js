@@ -1,99 +1,198 @@
-// 🚀 Function to dynamically load beats from the backend with improved performance
-const loadBeats = async () => {
-    try {
-        const response = await fetch('/beats'); // ✅ Relative URL (avoids hardcoded localhost)
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+/* ========================================================
+   CreatorSync – Front-End Logic
+   --------------------------------------------------------
+   This file powers:
+   1. Beat gallery (lazy paginated fetch, Stripe/PayPal pay)
+   2. Real-time chat (Socket.IO)
+   3. Upload workflow
+   All major blocks include investor-facing side-notes (❖)
+   ===================================================== */
 
-        const beats = await response.json();
-        beatGallery.innerHTML = ""; // ✅ Clears the gallery before populating
+/* ---------- DOM ELEMENT LOOK-UPS (cached once) ---------- */
+const beatGallery  = document.getElementById("beatGallery");   // ❖ Grid that lists available beats
+const uploadForm   = document.getElementById("uploadForm");    // ❖ <form> used by sellers to upload new beats
+const chatBox      = document.getElementById("chat-box");      // ❖ Scrollable div that shows chat messages
+const chatInput    = document.getElementById("message-input"); // ❖ <input> where user types a message
+const sendBtn      = document.getElementById("send-button");   // ❖ “Send” button in chat widget
 
-        // ✅ Use document fragment for efficient DOM manipulation
-        const fragment = document.createDocumentFragment();
+/* ---------- GLOBAL STATE ---------- */
+let currentPage   = 1;        // ❖ Tracks which /beats page we’re on
+let isFetching    = false;    // ❖ Guards against duplicate fetches
+let activePlayer  = null;     // ❖ Keeps the currently-playing <audio> so we can pause it if another starts
 
-        beats.forEach((beat) => {
-            const beatItem = document.createElement("div");
-            beatItem.classList.add("beatItem");
+/* ========================================================
+   1. BEAT GALLERY
+   ===================================================== */
 
-            // ✅ Calculate final price after 12.5% commission deduction
-            const finalPrice = (beat.price * 1.125).toFixed(2);
+/**
+ * Dynamically loads beats from backend with pagination,
+ * memoises in localStorage and keeps DOM manipulation cheap
+ */
+async function loadBeats(page = 1) {
+  if (isFetching) return;                // ❖ Prevent spam clicking / multiple scroll triggers
+  isFetching = true;
 
-            // ✅ Display commission details for transparency
-            beatItem.innerHTML = `
-                <h3>🎵 ${beat.title}</h3>
-                <p>Genre: ${beat.genre}</p>
-                <p>Mood: ${beat.mood}</p>
-                <p>Price Before Commission: $${beat.price.toFixed(2)}</p>
-                <p><strong>Final Price (Including 12.5% Fee): $${finalPrice}</strong></p>
-            `;
+  try {
+    // ── 1️⃣ Try cache first – makes reloads snappy ──────────────────────────
+    const cacheKey = `beats-page-${page}`;
+    let beats = JSON.parse(localStorage.getItem(cacheKey) || "null");
 
-            // 🎧 Optimized audio player creation
-            const audioPlayer = new Audio(`/uploads/${beat.filename}`);
-            audioPlayer.controls = true;
-            beatItem.appendChild(audioPlayer);
-
-            // 💳 Payment Buttons
-            const stripeButton = document.createElement("button");
-            stripeButton.classList.add("stripeButton");
-            stripeButton.textContent = "Pay with Stripe";
-            stripeButton.addEventListener("click", () => handleStripePayment(beat.id, finalPrice));
-
-            const paypalButtonContainer = document.createElement("div");
-            paypalButtonContainer.id = `paypal-button-${beat.id}`;
-            beatItem.appendChild(stripeButton);
-            beatItem.appendChild(paypalButtonContainer);
-
-            renderPayPalButton(beat.id, finalPrice, paypalButtonContainer.id); // ✅ Renders PayPal button dynamically
-
-            fragment.appendChild(beatItem); // ✅ Append to fragment (improves performance)
-        });
-
-        beatGallery.appendChild(fragment); // ✅ Single reflow instead of multiple
-    } catch (error) {
-        console.error("Error loading beats:", error);
-        beatGallery.innerHTML = "<p>Failed to load beats. Please try again later.</p>";
+    if (!beats) {
+      // No cache? fetch from API.
+      const res = await fetch(`/beats?page=${page}&limit=10`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      beats = await res.json();
+      localStorage.setItem(cacheKey, JSON.stringify(beats)); // ❖ Cache for next visit
     }
-};
 
-// 💰 Function to handle Stripe payment with better error handling (Now includes fee calculation)
-const handleStripePayment = async (beatId, finalPrice) => {
-    try {
-        const response = await fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ beatId, price: finalPrice }),
-        });
+    // ── 2️⃣ Build nodes inside a DocumentFragment (zero reflows) ──────────
+    const frag = document.createDocumentFragment();
 
-        if (!response.ok) throw new Error(`Stripe Error: ${response.status}`);
+    beats.forEach(beat => {
+      const beatEl = document.createElement("div");
+      beatEl.className = "beatItem";
 
-        const { sessionId } = await response.json();
-        const stripe = Stripe('your-publishable-key');
-        await stripe.redirectToCheckout({ sessionId });
-    } catch (error) {
-        console.error("Stripe payment error:", error);
-        alert("Payment initiation failed. Please try again.");
-    }
-};
+      // Price maths – commission baked in so buyers see the true cost
+      const finalPrice = (beat.price * 1.125).toFixed(2);
 
-// 📤 Handle form submission to upload beats with better success handling
-uploadForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const formData = new FormData(uploadForm);
+      beatEl.innerHTML = `
+        <h3>🎵 ${beat.title}</h3>
+        <p>Genre: ${beat.genre}</p>
+        <p>Mood: ${beat.mood}</p>
+        <p>Price (before fee): $${beat.price.toFixed(2)}</p>
+        <p><strong>Final Price (+12.5% fee): $${finalPrice}</strong></p>
+      `;
 
-    try {
-        const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData,
-        });
+      // ── Audio player – single-player policy ─────────────────────────────
+      const audio = new Audio(`/uploads/${beat.filename}`);
+      audio.controls = true;
+      audio.addEventListener("play", () => {
+        if (activePlayer && activePlayer !== audio) activePlayer.pause(); // Pause previous track
+        activePlayer = audio;
+      });
+      beatEl.appendChild(audio);
 
-        if (!response.ok) throw new Error(`Upload Error: ${response.status}`);
+      // ── Stripe button ───────────────────────────────────────────────────
+      const stripeBtn = document.createElement("button");
+      stripeBtn.textContent = "Pay with Stripe";
+      stripeBtn.className   = "stripeButton";
+      stripeBtn.onclick     = () => handleStripePayment(beat._id, finalPrice);
+      beatEl.appendChild(stripeBtn);
 
-        alert("✅ Beat uploaded successfully!");
-        await loadBeats(); // ✅ Refresh beats dynamically after upload
-    } catch (error) {
-        console.error("Error during upload:", error);
-        alert("❌ Failed to upload the beat. Please check the console for details.");
-    }
+      // ── PayPal button container ─────────────────────────────────────────
+      const ppContainer = document.createElement("div");
+      ppContainer.id    = `paypal-${beat._id}`;
+      beatEl.appendChild(ppContainer);
+      renderPayPalButton(beat._id, finalPrice, ppContainer.id);   // Existing util
+
+      frag.appendChild(beatEl);
+    });
+
+    beatGallery.appendChild(frag);
+  } catch (err) {
+    console.error("Beat load failed:", err);
+    if (page === 1) beatGallery.innerHTML = "<p>Failed to load beats.</p>";
+  } finally {
+    isFetching = false;
+  }
+}
+
+/* Infinite-scroll: fetch next page when bottom is ~200 px away */
+window.addEventListener("scroll", () => {
+  const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+  if (nearBottom && !isFetching) loadBeats(++currentPage);
 });
 
-// 🌍 Load beats when the page is fully loaded
-document.addEventListener("DOMContentLoaded", loadBeats); // ✅ Ensures beats load only after the DOM is ready
+/* Stripe payment helper (reads publishable key from <meta name="stripe-key">) */
+async function handleStripePayment(beatId, finalPrice) {
+  try {
+    const res = await fetch("/create-checkout-session", {
+      method : "POST",
+      headers: { "Content-Type": "application/json" },
+      body   : JSON.stringify({ beatId, price: finalPrice })
+    });
+    if (!res.ok) throw new Error(`Stripe HTTP ${res.status}`);
+    const { sessionId } = await res.json();
+
+    const pk = document.querySelector('meta[name="stripe-key"]').content;
+    const stripe = Stripe(pk);                     // ❖ Uses env-specific key injected by HTML
+    await stripe.redirectToCheckout({ sessionId });
+  } catch (err) {
+    console.error("Stripe error:", err);
+    alert("Payment failed. Please retry.");
+  }
+}
+
+/* Upload workflow – refreshes gallery on success */
+uploadForm?.addEventListener("submit", async evt => {
+  evt.preventDefault();
+  const data = new FormData(uploadForm);
+
+  try {
+    const res = await fetch("/upload", { method: "POST", body: data });
+    if (!res.ok) throw new Error(`Upload HTTP ${res.status}`);
+    alert("✅ Beat uploaded!");
+    beatGallery.innerHTML = "";           // Clear & reload from page 1
+    currentPage = 1;
+    await loadBeats();
+  } catch (err) {
+    console.error("Upload failed:", err);
+    alert("❌ Upload failed. Check console.");
+  }
+});
+
+
+/* ========================================================
+   2. INSTANT MESSAGING (Socket.IO)
+   ===================================================== */
+
+let socket;   // Socket.IO client instance
+
+function initChat() {
+  // Guard in case chat elements don’t exist on a given page
+  if (!chatBox || !chatInput || !sendBtn) return;
+
+  /* 1️⃣ Connect to server – assumes server is serving Socket.IO at same origin */
+  socket = io();   // No URL keeps it relative (works on prod, dev, behind proxy)
+
+  /* 2️⃣ Incoming messages */
+  socket.on("chat message", ({ user, text, timestamp }) => {
+    appendChatMessage(user, text, timestamp);
+  });
+
+  /* 3️⃣ Send message on button click or Enter */
+  sendBtn.onclick = sendMessage;
+  chatInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+}
+
+/* Append a new <div> to chatBox – keeps latest message in view */
+function appendChatMessage(user, text, timestamp) {
+  const msg = document.createElement("div");
+  msg.className = "chat-message";
+  msg.innerHTML = `<span class="sender">${user}:</span> <span class="message">${text}</span>`;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight; // auto-scroll to bottom
+}
+
+function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  const payload = { user: "You", text, timestamp: Date.now() };
+  appendChatMessage(payload.user, text, payload.timestamp); // optimistic UI
+  socket.emit("chat message", payload);                     // broadcast to server
+  chatInput.value = "";
+}
+
+/* ========================================================
+   3. APP BOOTSTRAP
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadBeats();   // Fetch first page immediately
+  initChat();    // Wire up chat widget
+});
