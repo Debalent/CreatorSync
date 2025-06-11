@@ -47,7 +47,7 @@ CreatorSync represents my personal vision for an innovative solution in streamli
 For inquiries regarding CreatorSync, licensing, or investment opportunities, please contact me directly at:
 
 Email: [demond.balentine@atlasschool.com](mailto:demond.balentine@atlasschool.com)  
-Phone: 479-224-9349
+Phone: 479-250-2573
 
 ---
 
