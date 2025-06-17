@@ -19,7 +19,7 @@
     "stripe": "^14.0.0",
     "bcrypt": "5.1.0",
     "crypto": "^1.0.1",
-    "morgan": "^1.11.0",
+    
     "helmet": "^7.1.0",
     "compression": "^1.7.4",
     "uuid": "^9.0.0"
@@ -38,5 +38,5 @@
     "finisher"
   ],
   "author": "Demond Balentine",
-  "license": "MIT"
+  
 }
