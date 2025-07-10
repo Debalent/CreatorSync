@@ -1,0 +1,7 @@
+router.get("/analytics/:sellerAccount", async (req, res) => {
+  const stats = await Beat.aggregate([
+    { $match: { sellerAccount: req.params.sellerAccount } },
+    { $group: { _id: null, totalBeats: { $sum: 1 }, totalPrice: { $sum: "$price" } } },
+  ]);
+  res.json(stats[0] || { totalBeats: 0, totalPrice: 0 });
+});
