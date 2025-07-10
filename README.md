@@ -32,6 +32,7 @@ Prerequisites
 
 Node.js: Version 18.0.0 or higher
 npm: Version 8 or higher (included with Node.js)
+Visual Studio Code: For development with Live Server extension
 A Stripe account for payment processing (if applicable)
 Environment variables configured via a .env file
 
@@ -50,15 +51,33 @@ Configure environment variables:Create a .env file in the project root and add r
 Edit .env with your specific configuration.
 
 
+Development Environment
+
+Backend Development:The backend is built with Express.js and runs on Node.js. Use nodemon for automatic server restarts during development:  
+npm run dev
+
+The server runs on the port specified in your .env file (default: 3000).
+
+Front-End Development:For static assets (HTML, CSS, JavaScript), use Visual Studio Code with the Live Server extension. The project is configured to run Live Server on port 5501. To start:  
+
+Open the project in VS Code.  
+Right-click on your index.html (or main front-end file) and select "Open with Live Server."  
+Access the front-end at http://localhost:5501.
+
+
+Real-Time Features:Ensure client-side code connects to the Socket.IO server for real-time functionality.
+
+
+
 Usage
 
-Start the development server:  npm run dev
+Start the backend server:  npm run dev
 
-Or start the production server:  npm start
+Or for production:  npm start
 
 
-Access the application at http://localhost:3000 (or the port specified in your .env file).
-For real-time features, ensure client-side code connects to the Socket.IO server.
+Access the backend API at http://localhost:3000 (or the port specified in your .env file).
+For front-end development, use Live Server as described above.
 
 
 Dependencies
@@ -81,6 +100,6 @@ Important Notice
 All rights reserved. No part of this project may be reproduced, distributed, or modified without explicit written permission from the developer. This repository is not open for collaboration or external contributions.
 
 Contact
-For inquiries regarding CreatorSync, licensing, or investment opportunities, please contact:Email: demond.balentine@atlasschool.com Phone: 479-250-2573
+For inquiries regarding CreatorSync, licensing, or investment opportunities, please contact:Email: demond.balentine@atlasschool.comPhone: 479-250-2573
 
 Thank you for your interest in CreatorSync.
