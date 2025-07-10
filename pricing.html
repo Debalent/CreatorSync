@@ -1,0 +1,100 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <!-- CreatorSync – pricing.html (v1.0.0) -->
+  <!-- Pricing page showcasing subscription plans -->
+  <!-- Investor Note: Transparent pricing drives monetization and user trust -->
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CreatorSync subscription plans with transparent pricing and secure payments." />
+    <!-- ❖ SEO metadata boosts discoverability -->
+    <meta name="stripe-key" content="pk_test_your_stripe_publishable_key" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.stripe.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' ws://localhost:3000" />
+    <!-- ❖ CSP aligns with index.html for security -->
+    <title>CreatorSync - Subscription Plans</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <header>
+      <img id="siteLogo" src="/logo.png" alt="CreatorSync Logo" />
+      <nav aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="/" aria-current="page">Home</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+          <li><a href="https://soundcloud.com" target="_blank" rel="noopener noreferrer">SoundCloud</a></li>
+          <li><a href="https://www.ascap.com" target="_blank" rel="noopener noreferrer">ASCAP</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="pricing-title">
+        <h1 id="pricing-title">Choose Your Plan</h1>
+        <p>Unlock premium features with CreatorSync subscriptions.</p>
+        <!-- ❖ Clear CTA drives conversions -->
+      </section>
+
+      <section id="pricing-plans" aria-labelledby="plans-title">
+        <h2 id="plans-title">Subscription Plans</h2>
+        <div class="pricing-grid">
+          <!-- Populated dynamically by script -->
+        </div>
+        <!-- Investor Note: Dynamic pricing showcases scalable monetization -->
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 CreatorSync. All rights reserved.</p>
+      <button id="backToTop" aria-label="Back to top">↑ Top</button>
+    </footer>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/calculateCommission.js"></script>
+    <script>
+      // Dynamically load subscription plans
+      const plans = ["bi_weekly", "monthly", "quarterly", "semi_annually", "annually", "bi_annually"];
+      const pricingGrid = document.querySelector(".pricing-grid");
+
+      plans.forEach(plan => {
+        const pricing = calculateSubscriptionPrice(plan);
+        if (!pricing) return;
+
+        const planCard = document.createElement("div");
+        planCard.className = "beatItem"; // Reuse beatItem styling
+        planCard.innerHTML = `
+          <h3>${plan.replace("_", " ").toUpperCase()}</h3>
+          <p>Duration: ${pricing.duration_days} days</p>
+          <p>Base Price: ${pricing.formattedPrice}</p>
+          <p>Commission (12.5%): $${pricing.commissionFee}</p>
+          <p>Tax (10%): $${pricing.taxAmount}</p>
+          <p><strong>Final Price: $${pricing.finalPrice}</strong></p>
+          <button class="stripeButton" onclick="subscribe('${plan}', ${pricing.finalPrice})">Subscribe Now</button>
+        `;
+        pricingGrid.appendChild(planCard);
+      });
+
+      async function subscribe(plan, finalPrice) {
+        try {
+          const res = await fetch("/api/v1/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ subscriptionPlan: plan }),
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const { sessionId } = await res.json();
+          const stripe = Stripe(document.querySelector('meta[name="stripe-key"]').content);
+          await stripe.redirectToCheckout({ sessionId });
+        } catch (err) {
+          alert(`Subscription failed: ${err.message}. Please retry.`);
+        }
+      }
+    </script>
+    <!-- Investor Note: Dynamic pricing and Stripe integration drive revenue -->
+  </body>
+</html>
+```
