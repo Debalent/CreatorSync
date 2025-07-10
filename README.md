@@ -81,6 +81,6 @@ Important Notice
 All rights reserved. No part of this project may be reproduced, distributed, or modified without explicit written permission from the developer. This repository is not open for collaboration or external contributions.
 
 Contact
-For inquiries regarding CreatorSync, licensing, or investment opportunities, please contact:Email: demond.balentine@atlasschool.comPhone: 479-250-2573
+For inquiries regarding CreatorSync, licensing, or investment opportunities, please contact:Email: demond.balentine@atlasschool.com Phone: 479-250-2573
 
 Thank you for your interest in CreatorSync.
