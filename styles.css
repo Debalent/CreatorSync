@@ -1,77 +1,98 @@
 /* ========================================================
-   CreatorSync  –  Global Theme & Resets
+   CreatorSync – Global Theme & Resets (v2.0.0)
+   =====================================================
+   Modern, vibrant, and accessible styling for music collaboration platform
+   Investor-facing sidenotes (❖) highlight business value for seed funding
    ===================================================== */
 
-/* ❖ CSS custom-properties = single source of truth for brand colours */
+/* ❖ CSS custom-properties for brand consistency and easy theme updates */
 :root {
-  --brand-blue: #002d62;
-  --brand-maroon: #7a0019;
-  --brand-crimson: #c8102e;
-  --accent-gold: #ffc107;
-  --accent-gold-dark: #d39e00;
-  --text-light: #ffffff;
-  --bg-dark: #000000;
-  --glass-blur: 8px;
-  --radius: 12px;
-  --shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  --brand-blue: #1e3a8a; /* Vibrant blue for primary branding */
+  --brand-neon: #06b6d4; /* Eye-catching neon cyan for accents */
+  --brand-dark: #0f172a; /* Deep slate for backgrounds */
+  --accent-gold: #facc15; /* Bright gold for CTAs */
+  --accent-gold-dark: #ca8a04; /* Darker gold for hover states */
+  --text-light: #f1f5f9; /* High-contrast text for readability */
+  --text-dark: #1e293b; /* Dark text for light backgrounds */
+  --glass-blur: 10px; /* Enhanced glassmorphism for modern aesthetic */
+  --radius: 12px; /* Consistent rounded corners */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  --transition: all 0.3s ease; /* Smooth animations for UX */
 }
 
-/* ❖ Universal box-sizing for saner layouts */
+/* ❖ Import modern fonts for attention-grabbing typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@500;700&display=swap');
+
+/* ❖ Universal resets for consistent layouts across devices */
 *,
 *::before,
-*::after { box-sizing: border-box; margin: 0; padding: 0; }
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  background: linear-gradient(135deg, var(--brand-blue), var(--bg-dark));
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-dark));
   color: var(--text-light);
-  font-family: "Old English Text MT", serif;
-  font-size: clamp(14px, 2vw, 18px);
+  font-family: 'Inter', 'Poppins', system-ui, sans-serif; /* ❖ Modern, readable fonts */
+  font-size: clamp(16px, 2.5vw, 18px); /* ❖ Responsive typography */
+  line-height: 1.6;
   scroll-behavior: smooth;
-  min-height: 100vh;                 /* NEW – ensures footer sits at bottom */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-display: swap; /* ❖ Prevents font loading delays */
 }
 
 /* ========================================================
    Header / Navigation
    ===================================================== */
 header {
-  background: linear-gradient(90deg, var(--brand-crimson), var(--brand-maroon));
+  background: linear-gradient(90deg, var(--brand-neon), var(--brand-blue));
   text-align: center;
-  padding: 15px 0;
+  padding: 20px 0;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* ❖ Sticky header ensures navigation accessibility */
 }
 
 #siteLogo {
-  max-width: 120px;
-  margin-bottom: 10px;
+  max-width: 140px;
+  margin-bottom: 12px;
+  transition: var(--transition);
+}
+#siteLogo:hover {
+  transform: scale(1.05); /* ❖ Subtle animation for engagement */
 }
 
 /* Navigation list */
 nav ul {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
   list-style: none;
 }
 
 nav ul li a {
-  padding: 12px 18px;
+  padding: 12px 20px;
   border-radius: var(--radius);
   text-decoration: none;
   color: var(--text-light);
-  background: rgba(255, 193, 7, 0.4);
-  transition: background 0.25s, transform 0.25s;
+  background: rgba(6, 182, 212, 0.3); /* ❖ Glassy effect for modern look */
+  backdrop-filter: blur(var(--glass-blur));
+  transition: var(--transition);
 }
 nav ul li a:hover,
 nav ul li a:focus-visible {
-  background: rgba(255, 193, 7, 0.6);
-  transform: translateY(-2px);
-  outline: none;
+  background: rgba(6, 182, 212, 0.5);
+  transform: translateY(-3px);
+  outline: 2px solid var(--accent-gold);
 }
 
 /* ========================================================
@@ -79,67 +100,115 @@ nav ul li a:focus-visible {
    ===================================================== */
 main,
 section {
-  width: min(100%, 1100px);
+  width: min(100%, 1200px); /* ❖ Wider content area for modern screens */
   margin-inline: auto;
-  padding: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(var(--glass-blur));
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 /* Beat gallery grid */
 #beatGallery {
-  display: grid;                     /* NEW */
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* ❖ Responsive grid for scalability */
 }
 
 /* Card styling for each beat */
 .beatItem {
-  background: rgba(255,255,255,0.05);/* NEW glassy card */
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(15, 23, 42, 0.7); /* ❖ Glassy, dark card for contrast */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
-  animation: fadeIn 0.5s ease-in forwards; /* NEW subtle entrance */
+  padding: 20px;
+  box-shadow: var(--shadow);
+  animation: slideIn 0.5s ease-out forwards; /* ❖ Entrance animation for engagement */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
-@keyframes fadeIn { from {opacity:0;transform:translateY(10px);} to {opacity:1;transform:translateY(0);} }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-.beatItem h3 { font-size: 1.25rem; }
+.beatItem h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--accent-gold); /* ❖ Bold titles grab attention */
+}
 
-/* Audio player full width & themed */
+/* Audio player styling */
 .beatItem audio {
   width: 100%;
-  height: 32px;
-  accent-color: var(--accent-gold);      /* NEW – modern browser support */
+  height: 40px;
+  accent-color: var(--accent-gold);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: var(--accent-gold);
+  background: linear-gradient(90deg, var(--brand-neon), var(--brand-blue));
+  border-radius: var(--radius);
+  animation: pulse 1.5s infinite; /* ❖ Dynamic loader enhances UX */
+}
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Error state */
+.error {
+  text-align: center;
+  padding: 15px;
+  color: var(--text-light);
+  background: rgba(255, 0, 0, 0.3);
+  border-radius: var(--radius);
 }
 
 /* ========================================================
-   Buttons (Stripe, PayPal placeholder, Chat Send)
+   Buttons (Stripe, PayPal, Chat Send)
    ===================================================== */
 button,
 .stripeButton {
   cursor: pointer;
-  padding: 10px 18px;
+  padding: 12px 24px;
   border: none;
   border-radius: var(--radius);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
   font-size: 1rem;
   background: var(--accent-gold);
-  color: #111;
-  transition: transform 0.2s, background 0.2s;
+  color: var(--text-dark);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
 }
 button:hover,
-button:focus-visible {
+button:focus-visible,
+.stripeButton:hover,
+.stripeButton:focus-visible {
   background: var(--accent-gold-dark);
-  transform: translateY(-2px);
-  outline: none;
+  transform: translateY(-3px);
+  outline: 2px solid var(--brand-neon); /* ❖ Accessible focus states */
 }
-button:disabled { opacity: 0.6; cursor: not-allowed; }
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 
-/* Placeholder PayPal container just inherits spacing */
-[id^="paypal-"] { margin-top: 8px; }
+/* PayPal container */
+[id^="paypal-"] {
+  margin-top: 12px;
+  min-height: 40px; /* ❖ Prevents layout shift */
+}
 
 /* ========================================================
    Commission & Upload Note
@@ -147,80 +216,137 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .commission-info,
 #upload p {
   color: var(--accent-gold);
-  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 12px;
+  font-size: 1.1rem;
 }
 
 /* ========================================================
-   Chat Widget (NEW)
+   Chat Widget
    ===================================================== */
-#chat-container {                      /* NEW – main wrapper */
-  margin-top: 32px;
-  border: 1px solid rgba(255,255,255,0.15);
+#chat-container {
+  margin-top: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(var(--glass-blur));
   display: flex;
   flex-direction: column;
-  height: 350px;                       /* can adjust */
+  height: 400px; /* ❖ Fixed height for consistent UX */
+  box-shadow: var(--shadow);
 }
+
 #chat-box {
   flex: 1;
-  padding: 10px;
+  padding: 15px;
   overflow-y: auto;
+  scrollbar-width: thin; /* ❖ Cross-browser scrollbar styling */
+  scrollbar-color: var(--accent-gold-dark) transparent;
 }
-/* custom scrollbar */
-#chat-box::-webkit-scrollbar { width: 6px; }
-#chat-box::-webkit-scrollbar-thumb { background: var(--accent-gold-dark); border-radius: 3px; }
+#chat-box::-webkit-scrollbar {
+  width: 8px;
+}
+#chat-box::-webkit-scrollbar-thumb {
+  background: var(--accent-gold-dark);
+  border-radius: var(--radius);
+}
 
-/* message bubbles */
 .chat-message {
-  margin-bottom: 8px;
-  line-height: 1.3;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  font-size: 1rem;
 }
-.sender   { color: var(--accent-gold); font-weight: 600; }
+.sender {
+  color: var(--accent-gold);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
 
-/* chat input row */
+/* Chat input row */
 #chat-input {
   display: flex;
-  gap: 8px;
-  padding: 8px;
-  background: rgba(0,0,0,0.3);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 #message-input {
   flex: 1;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
   color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
 }
-#send-button { min-width: 90px; }
+#message-input:focus {
+  outline: 2px solid var(--brand-neon);
+}
+#send-button {
+  min-width: 100px;
+}
 
 /* ========================================================
    Footer & “Back to Top”
    ===================================================== */
 footer {
   text-align: center;
-  padding: 12px;
-  background: #222;
-  margin-top: auto;                    /* push to bottom */
+  padding: 15px;
+  background: var(--brand-dark);
+  color: var(--text-light);
+  margin-top: auto;
+  font-family: 'Inter', sans-serif;
 }
 
 #backToTop {
   position: fixed;
-  bottom: 15px;
-  right: 15px;
+  bottom: 20px;
+  right: 20px;
   z-index: 999;
+  background: var(--brand-neon);
+  padding: 10px 15px;
 }
-#backToTop:hover { transform: translateY(-3px); }
+#backToTop:hover {
+  transform: translateY(-4px);
+  background: var(--accent-gold);
+}
 
 /* ========================================================
    Media Queries
    ===================================================== */
 @media (max-width: 768px) {
-  nav ul { flex-direction: column; gap: 10px; }
-  section { padding: 12px; margin: 5px; }
-  form button { width: 100%; font-size: 16px; }
-  .commission-info { font-size: 1rem; }
+  nav ul {
+    flex-direction: column;
+    gap: 12px;
+  }
+  section {
+    padding: 15px;
+    margin: 8px;
+  }
+  .beatItem {
+    padding: 15px;
+  }
+  button,
+  .stripeButton {
+    width: 100%;
+    font-size: 1rem;
+  }
+  .commission-info {
+    font-size: 1rem;
+  }
+  #chat-container {
+    height: 300px; /* ❖ Adjusted for mobile usability */
+  }
+}
+
+@media (max-width: 480px) {
+  #beatGallery {
+    grid-template-columns: 1fr; /* ❖ Single column for small screens */
+  }
+  #siteLogo {
+    max-width: 100px;
+  }
 }
