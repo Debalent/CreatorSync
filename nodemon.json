@@ -1,12 +1,38 @@
 {
-  "watch": ["server.js"],  // ✅ Watches for changes in server.js and auto-restarts
-  "exec": "node server.js",  // ✅ Runs server.js on change
-  "delay": "500ms",  // ⏳ Adds a slight delay before restart to prevent multiple fast refreshes
-  "ext": "js,json",  // 📌 Monitors changes in JavaScript & JSON files
-  "ignore": ["node_modules/", "uploads/"],  // 🚫 Prevents Nodemon from restarting when dependencies or uploaded files change
+  "watch": [
+    "server.js",
+    "routes/",
+    "middleware/",
+    "calculateCommission.js",
+    "checkout.js",
+    "styles.css",
+    "script.js"
+  ], // ❖ Watches all critical files (server, routes, frontend) for seamless development
+  "exec": "node --inspect server.js", // ❖ Runs server with debugging support, enhancing developer productivity
+  "delay": "750ms", // ❖ Optimized delay prevents rapid restarts, balancing speed and stability
+  "ext": "js,json,css,html", // ❖ Monitors JS, JSON, CSS, and HTML for full-stack development
+  "ignore": [
+    "node_modules/",
+    "uploads/",
+    "recordings/",
+    "logs/",
+    "*.log",
+    ".git/"
+  ], // ❖ Excludes irrelevant files to optimize restart efficiency
   "env": {
-    "NODE_ENV": "development",  // 🌍 Allows using environment variables for better configuration
-    "PORT": "3000"
+    "NODE_ENV": "development", // ❖ Development mode ensures safe testing
+    "PORT": "3000", // ❖ Consistent port aligns with server.js
+    "MONGO_URI": "mongodb://localhost:27017/creatorsync", // ❖ Placeholder for local dev DB
+    "STRIPE_SECRET_KEY": "", // ❖ Secure Stripe key placeholder, loaded from .env
+    "REDIS_URL": "redis://localhost:6379", // ❖ Supports caching in development
+    "CLIENT_URL": "http://localhost:3000", // ❖ Local dev URL for checkout redirects
+    "TAX_RATE": "0.1", // ❖ Default tax rate for pricing calculations
+    "DISCOUNT_RATE": "0", // ❖ Default discount rate for flexibility
+    "SOCKET_AUTH_TOKEN": "dev-token" // ❖ Secure Socket.IO auth for local testing
   },
-  "verbose": true  // 📝 Enables detailed logs for debugging
+  "verbose": true, // ❖ Detailed logs aid debugging and showcase robust dev tools
+  "events": {
+    "restart": "echo 'Server restarted due to changes in watched files'", // ❖ Custom feedback improves dev experience
+    "crash": "echo 'Server crashed, check logs for details'" // ❖ Alerts developers to issues, ensuring reliability
+  }
 }
