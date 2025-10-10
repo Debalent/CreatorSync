@@ -50,7 +50,7 @@
         </div>
 
         <!-- Finisher App Container -->
-        <div class="finisher-app-container" id="finisherAppContainer" style="display: none;">
+        <div class="finisher-app-container hidden" id="finisherAppContainer">
             <!-- Integration Options -->
             
             <!-- Option 1: Iframe Integration (if your Finisher is web-based) -->
@@ -60,11 +60,12 @@
                 frameborder="0"
                 allow="microphone; autoplay; encrypted-media"
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-                class="finisher-iframe">
+                class="finisher-iframe"
+                title="The Finisher Audio Workstation">
             </iframe>
             
             <!-- Option 2: Direct Integration Container (if you want to embed components) -->
-            <div class="finisher-direct-integration" id="finisherDirect" style="display: none;">
+            <div class="finisher-direct-integration hidden" id="finisherDirect">
                 <div class="integration-message">
                     <h3>The Finisher Integration</h3>
                     <p>Your Finisher app will be integrated here.</p>
@@ -82,7 +83,7 @@
         </div>
 
         <!-- No Subscription Access -->
-        <div class="no-access" id="noAccess" style="display: none;">
+        <div class="no-access hidden" id="noAccess">
             <div class="no-access-content">
                 <i class="fas fa-lock"></i>
                 <h2>Subscription Required</h2>
