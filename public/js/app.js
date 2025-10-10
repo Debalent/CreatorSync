@@ -109,7 +109,11 @@ class CreatorSyncApp {
         // Authentication buttons
         document.getElementById('loginBtn')?.addEventListener('click', () => this.showLoginModal());
         document.getElementById('signupBtn')?.addEventListener('click', () => this.showSignupModal());
-        document.getElementById('finisherBtn')?.addEventListener('click', () => this.showSubscriptionModal());
+        document.getElementById('finisherBtn')?.addEventListener('click', () => this.handleFinisherAccess());
+        document.getElementById('finisherNavLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleFinisherAccess();
+        });
 
         // Modal controls
         document.getElementById('loginModalClose')?.addEventListener('click', () => this.hideModal('loginModal'));
@@ -857,10 +861,49 @@ class CreatorSyncApp {
         return 'strong';
     }
 
+    async handleFinisherAccess() {
+        console.log('🎵 Accessing The Finisher...');
+        
+        // Check if user is logged in
+        if (!this.currentUser) {
+            this.showNotification('Please log in to access The Finisher', 'warning');
+            this.showModal('loginModal');
+            return;
+        }
+
+        try {
+            // Check subscription status
+            const response = await fetch('/api/subscriptions/finisher-access', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to check subscription status');
+            }
+
+            const data = await response.json();
+
+            if (data.hasAccess) {
+                // User has access, redirect to Finisher
+                window.location.href = '/finisher-app.html';
+            } else {
+                // User needs subscription
+                this.showSubscriptionModal();
+            }
+
+        } catch (error) {
+            console.error('❌ Error checking Finisher access:', error);
+            this.showNotification('Unable to access The Finisher. Please try again.', 'error');
+        }
+    }
+
     openFinisher() {
-        // Redirect to The Finisher application
-        window.open('/finisher', '_blank');
-        this.showToast('Opening The Finisher...', 'info');
+        // Legacy method - redirect to new handler
+        this.handleFinisherAccess();
     }
 
     showUserMenu() {

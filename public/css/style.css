@@ -147,6 +147,56 @@ body {
     width: 100%;
 }
 
+/* Finisher Navigation Link */
+.finisher-link {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1.25rem !important;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    text-decoration: none;
+}
+
+.finisher-link:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    color: white !important;
+}
+
+.finisher-link:hover::after {
+    width: 0; /* Override the default nav-link underline */
+}
+
+.finisher-link i {
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.pro-badge {
+    background: #ffd700;
+    color: #1a1a1a;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: pulse 2s infinite;
+    margin-left: 0.25rem;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
 .nav-auth {
     display: flex;
     gap: var(--spacing-md);

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finisher - CreatorSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/finisher-integration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="finisher-integration-body">
+    <!-- Top Navigation Bar -->
+    <nav class="finisher-integration-nav">
+        <div class="nav-left">
+            <button class="nav-btn back-btn" id="backToCreatorSync" title="Back to CreatorSync">
+                <i class="fas fa-arrow-left"></i>
+                Back to CreatorSync
+            </button>
+            <div class="finisher-brand">
+                <i class="fas fa-magic"></i>
+                <span>The Finisher</span>
+                <span class="powered-by">Powered by CreatorSync</span>
+            </div>
+        </div>
+        
+        <div class="nav-center">
+            <div class="subscription-status" id="subscriptionStatus">
+                <span class="status-badge" id="statusBadge">PRO</span>
+                <span id="planName">Pro Plan</span>
+            </div>
+        </div>
+        
+        <div class="nav-right">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/32x32/6c5ce7/ffffff?text=U" alt="User Avatar" class="user-avatar" id="userAvatar">
+                <span id="userName">User</span>
+            </div>
+            <button class="nav-btn" id="userMenu" title="User Menu">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="finisher-container">
+        <!-- Subscription Check -->
+        <div class="subscription-check" id="subscriptionCheck">
+            <div class="loading-spinner"></div>
+            <p>Verifying your subscription...</p>
+        </div>
+
+        <!-- Finisher App Container -->
+        <div class="finisher-app-container" id="finisherAppContainer" style="display: none;">
+            <!-- Integration Options -->
+            
+            <!-- Option 1: Iframe Integration (if your Finisher is web-based) -->
+            <iframe 
+                id="finisherFrame"
+                src=""
+                frameborder="0"
+                allow="microphone; autoplay; encrypted-media"
+                sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                class="finisher-iframe">
+            </iframe>
+            
+            <!-- Option 2: Direct Integration Container (if you want to embed components) -->
+            <div class="finisher-direct-integration" id="finisherDirect" style="display: none;">
+                <div class="integration-message">
+                    <h3>The Finisher Integration</h3>
+                    <p>Your Finisher app will be integrated here.</p>
+                    <div class="integration-options">
+                        <h4>Integration Methods:</h4>
+                        <ul>
+                            <li><strong>Iframe:</strong> Embed your existing web app</li>
+                            <li><strong>API:</strong> Connect via REST API calls</li>
+                            <li><strong>Component:</strong> Integrate React/Vue components</li>
+                            <li><strong>Desktop:</strong> Launch desktop app with deep linking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Subscription Access -->
+        <div class="no-access" id="noAccess" style="display: none;">
+            <div class="no-access-content">
+                <i class="fas fa-lock"></i>
+                <h2>Subscription Required</h2>
+                <p>Access to The Finisher requires an active CreatorSync subscription.</p>
+                
+                <div class="subscription-plans">
+                    <div class="plan-card">
+                        <h3>Pro Plan</h3>
+                        <div class="price">$29.99<span>/month</span></div>
+                        <ul>
+                            <li>Full Finisher Access</li>
+                            <li>100GB Cloud Storage</li>
+                            <li>Priority Support</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="upgradeSubscription('pro')">
+                            Upgrade to Pro
+                        </button>
+                    </div>
+                    
+                    <div class="plan-card featured">
+                        <div class="featured-badge">Most Popular</div>
+                        <h3>Enterprise</h3>
+                        <div class="price">$99.99<span>/month</span></div>
+                        <ul>
+                            <li>Full Finisher Access</li>
+                            <li>Unlimited Storage</li>
+                            <li>24/7 Support</li>
+                            <li>White-label Options</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="upgradeSubscription('enterprise')">
+                            Upgrade to Enterprise
+                        </button>
+                    </div>
+                </div>
+                
+                <p class="trial-notice">
+                    <i class="fas fa-gift"></i>
+                    All plans include a 14-day free trial
+                </p>
+                
+                <button class="btn btn-outline" onclick="goBackToCreatorSync()">
+                    Return to CreatorSync
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Integration Configuration Modal -->
+    <div class="modal" id="integrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configure The Finisher Integration</h3>
+                <button class="close-btn" data-modal="integrationModal" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="integration-config">
+                    <h4>Choose Integration Method:</h4>
+                    
+                    <div class="integration-option">
+                        <input type="radio" id="iframeIntegration" name="integration" value="iframe" checked>
+                        <label for="iframeIntegration">
+                            <strong>Web App (Iframe)</strong>
+                            <p>Embed your existing Finisher web application</p>
+                        </label>
+                        <div class="config-details">
+                            <label for="finisherUrl">Finisher App URL:</label>
+                            <input type="url" id="finisherUrl" placeholder="https://your-finisher-app.com" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="integration-option">
+                        <input type="radio" id="apiIntegration" name="integration" value="api">
+                        <label for="apiIntegration">
+                            <strong>API Integration</strong>
+                            <p>Connect via REST API calls</p>
+                        </label>
+                        <div class="config-details">
+                            <label for="apiEndpoint">API Endpoint:</label>
+                            <input type="url" id="apiEndpoint" placeholder="https://api.finisher.com" class="form-input">
+                            <label for="apiKey">API Key:</label>
+                            <input type="password" id="apiKey" placeholder="Your API key" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="integration-option">
+                        <input type="radio" id="desktopIntegration" name="integration" value="desktop">
+                        <label for="desktopIntegration">
+                            <strong>Desktop App</strong>
+                            <p>Launch desktop application with deep linking</p>
+                        </label>
+                        <div class="config-details">
+                            <label for="desktopProtocol">Protocol:</label>
+                            <input type="text" id="desktopProtocol" placeholder="finisher://" class="form-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-outline" data-modal="integrationModal">Cancel</button>
+                    <button class="btn btn-primary" id="saveIntegration">Save Configuration</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Menu Dropdown -->
+    <div class="dropdown-menu" id="userMenuDropdown">
+        <a href="#" onclick="openIntegrationConfig()">
+            <i class="fas fa-cog"></i>
+            Configure Integration
+        </a>
+        <a href="#" onclick="openSubscriptionSettings()">
+            <i class="fas fa-credit-card"></i>
+            Subscription Settings
+        </a>
+        <a href="#" onclick="openSupport()">
+            <i class="fas fa-question-circle"></i>
+            Support
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/finisher-integration.js"></script>
+</body>
+</html>

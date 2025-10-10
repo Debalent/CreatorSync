@@ -207,6 +207,19 @@ class CreatorSyncServer {
                 this.handleFileShare(socket, fileData);
             });
 
+            // Finisher integration events
+            socket.on('finisher_project_update', (projectData) => {
+                this.handleFinisherProjectUpdate(socket, projectData);
+            });
+
+            socket.on('finisher_collaboration_invite', (inviteData) => {
+                this.handleFinisherCollaborationInvite(socket, inviteData);
+            });
+
+            socket.on('finisher_sync_request', (syncData) => {
+                this.handleFinisherSync(socket, syncData);
+            });
+
             // Disconnect handling
             socket.on('disconnect', () => {
                 console.log(`User disconnected: ${socket.id}`);
@@ -497,6 +510,170 @@ class CreatorSyncServer {
                 message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
             });
         });
+    }
+
+    // Finisher Integration Handlers
+    handleFinisherProjectUpdate(socket, projectData) {
+        try {
+            console.log('🎵 Finisher project update received:', projectData.projectId);
+            
+            // Broadcast project update to relevant users
+            if (projectData.collaborators) {
+                projectData.collaborators.forEach(userId => {
+                    const targetSocket = this.findSocketByUserId(userId);
+                    if (targetSocket) {
+                        targetSocket.emit('finisher_project_updated', {
+                            projectId: projectData.projectId,
+                            projectName: projectData.projectName,
+                            lastModified: projectData.lastModified,
+                            changes: projectData.changes
+                        });
+                    }
+                });
+            }
+            
+            // Emit acknowledgment back to sender
+            socket.emit('finisher_project_sync_complete', {
+                projectId: projectData.projectId,
+                status: 'success'
+            });
+            
+        } catch (error) {
+            console.error('❌ Error handling Finisher project update:', error);
+            socket.emit('finisher_error', {
+                type: 'project_update_failed',
+                message: 'Failed to sync project update'
+            });
+        }
+    }
+
+    handleFinisherCollaborationInvite(socket, inviteData) {
+        try {
+            console.log('🤝 Finisher collaboration invite:', inviteData.targetUserId);
+            
+            const targetSocket = this.findSocketByUserId(inviteData.targetUserId);
+            if (targetSocket) {
+                targetSocket.emit('finisher_collaboration_invite', {
+                    projectId: inviteData.projectId,
+                    projectName: inviteData.projectName,
+                    inviterName: inviteData.inviterName,
+                    inviterId: inviteData.inviterId,
+                    message: inviteData.message,
+                    finisherUrl: inviteData.finisherUrl
+                });
+                
+                // Acknowledge to sender
+                socket.emit('finisher_invite_sent', {
+                    targetUserId: inviteData.targetUserId,
+                    status: 'delivered'
+                });
+            } else {
+                // User not online, could store invitation for later
+                socket.emit('finisher_invite_sent', {
+                    targetUserId: inviteData.targetUserId,
+                    status: 'pending'
+                });
+            }
+            
+        } catch (error) {
+            console.error('❌ Error handling Finisher collaboration invite:', error);
+            socket.emit('finisher_error', {
+                type: 'invite_failed',
+                message: 'Failed to send collaboration invite'
+            });
+        }
+    }
+
+    handleFinisherSync(socket, syncData) {
+        try {
+            console.log('🔄 Finisher sync request:', syncData.type);
+            
+            switch (syncData.type) {
+                case 'user_data':
+                    this.syncUserDataToFinisher(socket, syncData);
+                    break;
+                case 'project_list':
+                    this.syncProjectListToFinisher(socket, syncData);
+                    break;
+                case 'beat_library':
+                    this.syncBeatLibraryToFinisher(socket, syncData);
+                    break;
+                default:
+                    socket.emit('finisher_error', {
+                        type: 'invalid_sync_type',
+                        message: `Unknown sync type: ${syncData.type}`
+                    });
+            }
+            
+        } catch (error) {
+            console.error('❌ Error handling Finisher sync:', error);
+            socket.emit('finisher_error', {
+                type: 'sync_failed',
+                message: 'Failed to process sync request'
+            });
+        }
+    }
+
+    syncUserDataToFinisher(socket, syncData) {
+        const user = this.connectedUsers.get(socket.id);
+        if (user) {
+            socket.emit('finisher_sync_response', {
+                type: 'user_data',
+                data: {
+                    userId: user.userId,
+                    username: user.username,
+                    email: user.email,
+                    subscription: user.subscription || 'free',
+                    avatar: user.avatar
+                }
+            });
+        }
+    }
+
+    syncProjectListToFinisher(socket, syncData) {
+        // This would typically query a database for user's projects
+        // For now, send a mock response
+        socket.emit('finisher_sync_response', {
+            type: 'project_list',
+            data: {
+                projects: [
+                    {
+                        id: 'proj_1',
+                        name: 'My First Beat',
+                        lastModified: new Date().toISOString(),
+                        collaborators: []
+                    }
+                ]
+            }
+        });
+    }
+
+    syncBeatLibraryToFinisher(socket, syncData) {
+        // This would typically query the beats database
+        // For now, send a mock response
+        socket.emit('finisher_sync_response', {
+            type: 'beat_library',
+            data: {
+                beats: [
+                    {
+                        id: 'beat_1',
+                        title: 'Sample Beat',
+                        genre: 'Hip Hop',
+                        bpm: 120,
+                        url: '/uploads/sample-beat.mp3'
+                    }
+                ]
+            }
+        });
+    }
+
+    findSocketByUserId(userId) {
+        for (const [socketId, userData] of this.connectedUsers) {
+            if (userData.userId === userId) {
+                return this.io.sockets.sockets.get(socketId);
+            }
+        }
+        return null;
     }
 
     start() {
