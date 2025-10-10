@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorSync - Monetize Your Beats</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>CreatorSync</h1>
+                <span class="brand-tagline">Powered by The Finisher</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#beats" class="nav-link">Beats</a>
+                <a href="#sounds" class="nav-link">Sounds</a>
+                <a href="#studio" class="nav-link">Studio</a>
+                <a href="#marketplace" class="nav-link">Marketplace</a>
+            </div>
+            
+            <div class="nav-auth">
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-secondary" id="signupBtn">Sign Up</button>
+                <button class="btn btn-primary" id="finisherBtn">Get The Finisher</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Monetize Your Musical Vision</h1>
+            <p class="hero-subtitle">
+                The ultimate platform for producers and artists to sell beats, 
+                license tracks, and collaborate in real-time.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-play"></i>
+                    Start Creating
+                </button>
+                <button class="btn btn-outline btn-lg">
+                    <i class="fas fa-headphones"></i>
+                    Explore Beats
+                </button>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="waveform-container">
+                <div class="waveform"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Beats -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trending Beats</h2>
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-category="all">All</button>
+                    <button class="tab-btn" data-category="hip-hop">Hip Hop</button>
+                    <button class="tab-btn" data-category="trap">Trap</button>
+                    <button class="tab-btn" data-category="r&b">R&B</button>
+                    <button class="tab-btn" data-category="pop">Pop</button>
+                </div>
+            </div>
+            
+            <div class="beats-grid" id="beatsGrid">
+                <!-- Beat cards will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Player -->
+    <div class="audio-player" id="audioPlayer">
+        <div class="player-content">
+            <div class="track-info">
+                <img src="assets/default-artwork.jpg" alt="Track artwork" class="track-artwork">
+                <div class="track-details">
+                    <h4 class="track-title">Select a beat to play</h4>
+                    <p class="track-artist">CreatorSync</p>
+                </div>
+            </div>
+            
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn play-btn" id="playBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <span class="time current-time">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <span class="time total-time">0:00</span>
+            </div>
+            
+            <div class="player-options">
+                <button class="option-btn" id="volumeBtn">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="option-btn" id="favoriteBtn">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="option-btn" id="downloadBtn">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="option-btn" id="shareBtn">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marketplace Section -->
+    <section class="marketplace-section">
+        <div class="container">
+            <h2>Marketplace</h2>
+            <div class="marketplace-stats">
+                <div class="stat-card">
+                    <i class="fas fa-music"></i>
+                    <h3>50K+</h3>
+                    <p>Beats Available</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>10K+</h3>
+                    <p>Active Creators</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>$2M+</h3>
+                    <p>Creator Earnings</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>150+</h3>
+                    <p>Countries</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Finisher Integration Section -->
+    <section class="finisher-section">
+        <div class="container">
+            <div class="finisher-content">
+                <div class="finisher-text">
+                    <h2>Upgrade to The Finisher</h2>
+                    <p class="finisher-subtitle">
+                        Take your music production to the next level with our professional-grade suite of tools and services.
+                    </p>
+                    <div class="finisher-features">
+                        <div class="feature-item">
+                            <i class="fas fa-magic"></i>
+                            <div>
+                                <h4>Advanced Audio Processing</h4>
+                                <p>Professional mastering and mixing tools</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-cloud"></i>
+                            <div>
+                                <h4>Cloud Collaboration</h4>
+                                <p>Real-time project sharing and editing</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Advanced Analytics</h4>
+                                <p>Detailed insights and performance metrics</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-infinity"></i>
+                            <div>
+                                <h4>Unlimited Storage</h4>
+                                <p>Store all your projects in the cloud</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subscription-plans">
+                        <div class="plan-card starter">
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="amount">$9.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Basic audio processing</li>
+                                <li><i class="fas fa-check"></i> 5GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Standard support</li>
+                                <li><i class="fas fa-check"></i> CreatorSync integration</li>
+                            </ul>
+                            <button class="btn btn-outline subscribe-btn" data-plan="starter">Start Free Trial</button>
+                        </div>
+                        
+                        <div class="plan-card pro featured">
+                            <div class="popular-badge">Most Popular</div>
+                            <h3>Pro</h3>
+                            <div class="price">
+                                <span class="amount">$29.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Advanced audio processing</li>
+                                <li><i class="fas fa-check"></i> 100GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Priority support</li>
+                                <li><i class="fas fa-check"></i> Advanced collaboration tools</li>
+                                <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                <li><i class="fas fa-check"></i> Revenue sharing benefits</li>
+                            </ul>
+                            <button class="btn btn-primary subscribe-btn" data-plan="pro">Start Free Trial</button>
+                        </div>
+                        
+                        <div class="plan-card enterprise">
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="amount">$99.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Professional audio suite</li>
+                                <li><i class="fas fa-check"></i> Unlimited storage</li>
+                                <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                                <li><i class="fas fa-check"></i> White-label solutions</li>
+                                <li><i class="fas fa-check"></i> Custom integrations</li>
+                                <li><i class="fas fa-check"></i> Advanced revenue tools</li>
+                            </ul>
+                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise">Contact Sales</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Collaboration -->
+    <section class="collaboration-section">
+        <div class="container">
+            <div class="collab-content">
+                <div class="collab-text">
+                    <h2>Real-Time Collaboration</h2>
+                    <p>Work together seamlessly with producers and artists worldwide. 
+                    Share projects, get feedback, and create amazing music together.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Live project sharing</li>
+                        <li><i class="fas fa-check"></i> Real-time chat and feedback</li>
+                        <li><i class="fas fa-check"></i> Version control and history</li>
+                        <li><i class="fas fa-check"></i> Secure file encryption</li>
+                    </ul>
+                    <button class="btn btn-primary">Start Collaborating</button>
+                </div>
+                <div class="collab-visual">
+                    <div class="collaboration-demo">
+                        <div class="user-avatar active">
+                            <img src="assets/user1.jpg" alt="User 1">
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="assets/user2.jpg" alt="User 2">
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="assets/user3.jpg" alt="User 3">
+                            <span class="status-indicator"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CreatorSync</h3>
+                    <p>Proprietary platform for music monetization and collaboration.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-soundcloud"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#beats">Browse Beats</a></li>
+                        <li><a href="#upload">Upload Beats</a></li>
+                        <li><a href="#collaborate">Collaborate</a></li>
+                        <li><a href="#analytics">Analytics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                        <li><a href="#status">System Status</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#licensing">Licensing</a></li>
+                        <li><a href="#copyright">Copyright</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 CreatorSync. All rights reserved. Developed by Demond Balentine.</p>
+                <p>Contact: <a href="mailto:demond.balentine@atlasschool.com">demond.balentine@atlasschool.com</a> | Phone: 479-250-2573</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Authentication Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <button class="modal-close" id="loginModalClose">&times;</button>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <div class="form-footer">
+                    <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+                    <p>Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Join CreatorSync</h2>
+                <button class="modal-close" id="signupModalClose">&times;</button>
+            </div>
+            <form class="auth-form" id="signupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signupUsername">Username</label>
+                        <input type="text" id="signupUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupArtistName">Artist Name</label>
+                        <input type="text" id="signupArtistName" name="artistName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" name="password" required>
+                    <div class="password-strength" id="passwordStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                    <label for="agreeTerms">I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a></label>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="subscribeNewsletter" name="subscribeNewsletter">
+                    <label for="subscribeNewsletter">Subscribe to updates about The Finisher and new features</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- The Finisher Subscription Modal -->
+    <div class="modal large" id="subscriptionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upgrade to The Finisher</h2>
+                <button class="modal-close" id="subscriptionModalClose">&times;</button>
+            </div>
+            <div class="subscription-content">
+                <div class="subscription-benefits">
+                    <h3>Why upgrade to The Finisher?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="fas fa-rocket"></i>
+                            <h4>Accelerate Your Workflow</h4>
+                            <p>Advanced tools that cut your production time in half</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-users"></i>
+                            <h4>Professional Collaboration</h4>
+                            <p>Work with top producers and artists worldwide</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-chart-trending-up"></i>
+                            <h4>Maximize Revenue</h4>
+                            <p>Enhanced monetization tools and priority placement</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-shield-check"></i>
+                            <h4>Professional Support</h4>
+                            <p>Priority support and dedicated account management</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="subscription-form">
+                    <form id="subscriptionForm">
+                        <div class="plan-selection">
+                            <div class="plan-option" data-plan="starter">
+                                <input type="radio" name="plan" value="starter" id="planStarter">
+                                <label for="planStarter">
+                                    <div class="plan-info">
+                                        <h4>Starter Plan</h4>
+                                        <div class="plan-price">$9.99/month</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="plan-option featured" data-plan="pro">
+                                <input type="radio" name="plan" value="pro" id="planPro" checked>
+                                <label for="planPro">
+                                    <div class="plan-info">
+                                        <h4>Pro Plan</h4>
+                                        <div class="plan-price">$29.99/month</div>
+                                        <div class="plan-badge">Recommended</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="plan-option" data-plan="enterprise">
+                                <input type="radio" name="plan" value="enterprise" id="planEnterprise">
+                                <label for="planEnterprise">
+                                    <div class="plan-info">
+                                        <h4>Enterprise Plan</h4>
+                                        <div class="plan-price">$99.99/month</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="trial-info">
+                            <i class="fas fa-gift"></i>
+                            <p>Start with a <strong>14-day free trial</strong>. Cancel anytime.</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full btn-lg">Start Free Trial</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
