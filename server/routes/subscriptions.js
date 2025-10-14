@@ -357,7 +357,7 @@ router.get('/analytics', authenticateUser, (req, res) => {
     }
 });
 
-// The Finisher access control
+// The Finisher access control with tiered features
 router.get('/finisher-access', authenticateUser, (req, res) => {
     try {
         const userId = req.user.id;
@@ -367,13 +367,45 @@ router.get('/finisher-access', authenticateUser, (req, res) => {
 
         if (subscription) {
             const plan = FINISHER_PLANS[subscription.planId];
+            
+            // Define tiered features based on plan
+            const tierFeatures = {
+                starter: {
+                    mixmaster1: true,
+                    effectsSuite: false,
+                    mastering: false,
+                    collaboration: false,
+                    unlimitedStorage: false,
+                    prioritySupport: false
+                },
+                pro: {
+                    mixmaster1: true,
+                    effectsSuite: true,
+                    mastering: true,
+                    collaboration: true,
+                    unlimitedStorage: false,
+                    prioritySupport: true
+                },
+                enterprise: {
+                    mixmaster1: true,
+                    effectsSuite: true,
+                    mastering: true,
+                    collaboration: true,
+                    unlimitedStorage: true,
+                    prioritySupport: true,
+                    whiteLabel: true
+                }
+            };
+            
             res.json({
                 success: true,
                 hasAccess: true,
-                plan: plan,
-                features: plan.features,
+                plan: subscription.planId,
+                planName: plan.name,
+                features: tierFeatures[subscription.planId] || tierFeatures.starter,
                 limits: plan.limits,
-                finisherUrl: `/finisher?token=${this.generateFinisherToken(userId)}`,
+                finisherUrl: `/finisher-app.html?token=${this.generateFinisherToken(userId)}`,
+                mixmasterUrl: `/mixmaster1-app.html?token=${this.generateFinisherToken(userId)}`,
                 subscription: {
                     id: subscription.id,
                     planId: subscription.planId,
@@ -385,7 +417,7 @@ router.get('/finisher-access', authenticateUser, (req, res) => {
                 success: true,
                 hasAccess: false,
                 upgradeUrl: '/subscription/upgrade',
-                message: 'Upgrade to access The Finisher'
+                message: 'Upgrade to access The Finisher and Mixmaster1'
             });
         }
 

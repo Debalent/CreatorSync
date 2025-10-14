@@ -21,6 +21,7 @@ const beatRoutes = require('./routes/beats');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const subscriptionRoutes = require('./routes/subscriptions');
+const aiSongwriterRoutes = require('./routes/ai-songwriter');
 
 class CreatorSyncServer {
     constructor() {
@@ -118,6 +119,7 @@ class CreatorSyncServer {
         this.app.use('/api/users', userRoutes);
         this.app.use('/api/payments', paymentRoutes);
         this.app.use('/api/subscriptions', subscriptionRoutes);
+        this.app.use('/api/ai-songwriter', aiSongwriterRoutes);
 
         // Beat upload endpoint
         this.app.post('/api/upload/beat', this.upload.fields([

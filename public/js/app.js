@@ -872,7 +872,7 @@ class CreatorSyncApp {
         }
 
         try {
-            // Check subscription status
+            // Check subscription status and feature access
             const response = await fetch('/api/subscriptions/finisher-access', {
                 method: 'GET',
                 headers: {
@@ -888,8 +888,19 @@ class CreatorSyncApp {
             const data = await response.json();
 
             if (data.hasAccess) {
-                // User has access, redirect to Finisher
-                window.location.href = '/finisher-app.html';
+                // Determine destination based on plan and features
+                if (data.features && data.features.effectsSuite && data.features.mastering) {
+                    // Pro or Enterprise - Access full Finisher suite
+                    console.log(`🚀 Redirecting to The Finisher (${data.planName})`);
+                    window.location.href = '/finisher-app.html';
+                } else if (data.features && data.features.mixmaster1) {
+                    // Starter plan - Direct access to Mixmaster1
+                    console.log(`🎛️ Redirecting to Mixmaster1 (${data.planName})`);
+                    window.location.href = '/mixmaster1-app.html';
+                } else {
+                    // Fallback to full Finisher
+                    window.location.href = '/finisher-app.html';
+                }
             } else {
                 // User needs subscription
                 this.showSubscriptionModal();

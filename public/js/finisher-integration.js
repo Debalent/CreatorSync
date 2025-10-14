@@ -35,6 +35,9 @@ class FinisherIntegration {
         
         // Initialize integration based on subscription
         this.initializeIntegration();
+        
+        // Set up Finisher tab navigation
+        this.setupFinisherTabs();
     }
 
     connectSocket() {
@@ -307,6 +310,94 @@ class FinisherIntegration {
         this.showDirectIntegration();
     }
 
+    setupFinisherTabs() {
+        // Set up tab navigation for The Finisher interface
+        document.querySelectorAll('.finisher-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const tabName = e.target.closest('.finisher-tab').dataset.tab;
+                this.switchFinisherTab(tabName);
+            });
+        });
+    }
+
+    switchFinisherTab(tabName) {
+        // Update tab buttons
+        document.querySelectorAll('.finisher-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tab === tabName);
+        });
+
+        // Update panels
+        document.querySelectorAll('.finisher-panel').forEach(panel => {
+            panel.classList.toggle('active', panel.id === `${tabName}-panel`);
+        });
+
+        // Load Mixmaster1 iframe when mixer tab is activated
+        if (tabName === 'mixer') {
+            this.loadMixmaster1();
+        }
+
+        console.log(`Switched to ${tabName} tab`);
+    }
+
+    loadMixmaster1() {
+        const mixmasterFrame = document.getElementById('mixmasterFrame');
+        if (mixmasterFrame && !mixmasterFrame.src) {
+            mixmasterFrame.src = '/mixmaster1-app.html';
+            console.log('🎛️ Loading Mixmaster1...');
+        }
+    }
+
+    updateUIBasedOnPlan(plan) {
+        // Update UI elements based on subscription plan
+        const planFeatures = {
+            starter: {
+                mixmaster1: true,
+                effectsSuite: false,
+                mastering: false,
+                collaboration: false
+            },
+            pro: {
+                mixmaster1: true,
+                effectsSuite: true,
+                mastering: true,
+                collaboration: true
+            },
+            enterprise: {
+                mixmaster1: true,
+                effectsSuite: true,
+                mastering: true,
+                collaboration: true,
+                whiteLabel: true
+            }
+        };
+
+        const features = planFeatures[plan] || planFeatures.starter;
+
+        // Hide/show tabs based on plan
+        this.updateTabVisibility(features);
+        
+        // Update plan display
+        document.getElementById('planName').textContent = `${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`;
+        document.getElementById('statusBadge').textContent = plan.toUpperCase();
+    }
+
+    updateTabVisibility(features) {
+        // Show/hide tabs based on available features
+        const effectsTab = document.getElementById('effectsTab');
+        const masteringTab = document.getElementById('masteringTab');
+        const collaborationTab = document.getElementById('collaborationTab');
+
+        if (effectsTab) {
+            effectsTab.style.display = features.effectsSuite ? 'flex' : 'none';
+        }
+        if (masteringTab) {
+            masteringTab.style.display = features.mastering ? 'flex' : 'none';
+        }
+        if (collaborationTab) {
+            collaborationTab.style.display = features.collaboration ? 'flex' : 'none';
+        }
+    }
+
     handleFinisherMessage(data) {
         console.log('📨 Message from Finisher:', data);
         
@@ -532,6 +623,38 @@ window.goBackToCreatorSync = function() {
     window.location.href = '/';
 };
 
+// Global functions for HTML onclick handlers
+window.switchToMixer = function() {
+    if (window.finisherIntegration) {
+        window.finisherIntegration.switchFinisherTab('mixer');
+    }
+};
+
+window.switchToEffects = function() {
+    if (window.finisherIntegration) {
+        window.finisherIntegration.switchFinisherTab('effects');
+    }
+};
+
+window.switchToMastering = function() {
+    if (window.finisherIntegration) {
+        window.finisherIntegration.switchFinisherTab('mastering');
+    }
+};
+
+window.openMixmasterFullscreen = function() {
+    const mixmasterUrl = '/mixmaster1-app.html';
+    window.open(mixmasterUrl, '_blank', 'fullscreen=yes,scrollbars=yes,resizable=yes');
+};
+
+window.resetMixmaster = function() {
+    const mixmasterFrame = document.getElementById('mixmasterFrame');
+    if (mixmasterFrame && confirm('Reset Mixmaster1? This will reload the mixer and lose unsaved changes.')) {
+        mixmasterFrame.src = mixmasterFrame.src; // Reload iframe
+        console.log('🔄 Mixmaster1 reset');
+    }
+};
+
 window.openIntegrationConfig = function() {
     if (window.finisherIntegration) {
         window.finisherIntegration.openIntegrationConfig();
@@ -556,9 +679,949 @@ window.logout = function() {
     }
 };
 
+/**
+ * AI Songwriter Assistant
+ * Analyzes user writing patterns and provides intelligent suggestions
+ */
+class AISongwriterAssistant {
+    constructor() {
+        this.userStyle = {
+            cadencePattern: 0,
+            toneConsistency: 0,
+            rhythmPreference: 0,
+            vocabularyComplexity: 0,
+            rhymeSchemePreference: [],
+            averageLineLength: 0,
+            emotionalTone: 'neutral'
+        };
+        
+        this.writingHistory = [];
+        this.currentSong = {
+            title: '',
+            genre: '',
+            mood: '',
+            lyrics: '',
+            structure: []
+        };
+        
+        this.analysisCache = new Map();
+        this.suggestionEngine = new SuggestionEngine();
+        
+        this.init();
+    }
+
+    init() {
+        console.log('🧠 Initializing AI Songwriter Assistant...');
+        this.setupEventListeners();
+        this.loadUserData();
+        this.updateUI();
+    }
+
+    setupEventListeners() {
+        // Main textarea for lyric writing
+        const lyricsTextarea = document.getElementById('lyricsTextarea');
+        if (lyricsTextarea) {
+            lyricsTextarea.addEventListener('input', (e) => {
+                this.onLyricsChange(e.target.value);
+            });
+            
+            lyricsTextarea.addEventListener('paste', (e) => {
+                setTimeout(() => this.onLyricsChange(e.target.value), 100);
+            });
+        }
+
+        // Song metadata inputs
+        const songTitle = document.getElementById('songTitle');
+        const songGenre = document.getElementById('songGenre');
+        const songMood = document.getElementById('songMood');
+
+        if (songTitle) songTitle.addEventListener('change', (e) => this.updateSongMetadata('title', e.target.value));
+        if (songGenre) songGenre.addEventListener('change', (e) => this.updateSongMetadata('genre', e.target.value));
+        if (songMood) songMood.addEventListener('change', (e) => this.updateSongMetadata('mood', e.target.value));
+
+        // Control buttons
+        const analyzeStyleBtn = document.getElementById('analyzeStyleBtn');
+        const generateSuggestionBtn = document.getElementById('generateSuggestionBtn');
+        const overcomeBlocBtn = document.getElementById('overcomeBlocBtn');
+        const saveProjectBtn = document.getElementById('saveProjectBtn');
+
+        if (analyzeStyleBtn) analyzeStyleBtn.addEventListener('click', () => this.analyzeWritingStyle());
+        if (generateSuggestionBtn) generateSuggestionBtn.addEventListener('click', () => this.generateSuggestions());
+        if (overcomeBlocBtn) overcomeBlocBtn.addEventListener('click', () => this.openWritersBlockAssistant());
+        if (saveProjectBtn) saveProjectBtn.addEventListener('click', () => this.saveProject());
+
+        // Quick action buttons
+        const rhymeHelperBtn = document.getElementById('rhymeHelperBtn');
+        const synonymFinderBtn = document.getElementById('synonymFinderBtn');
+        const moodMatchBtn = document.getElementById('moodMatchBtn');
+        const structureHelpBtn = document.getElementById('structureHelpBtn');
+
+        if (rhymeHelperBtn) rhymeHelperBtn.addEventListener('click', () => this.showRhymeHelper());
+        if (synonymFinderBtn) synonymFinderBtn.addEventListener('click', () => this.showSynonymFinder());
+        if (moodMatchBtn) moodMatchBtn.addEventListener('click', () => this.showMoodMatcher());
+        if (structureHelpBtn) structureHelpBtn.addEventListener('click', () => this.showStructureHelper());
+
+        // Writer's block assistant
+        const closeBlockAssistant = document.getElementById('closeBlockAssistant');
+        const continueLineBtn = document.getElementById('continueLineBtn');
+        const rewriteBtn = document.getElementById('rewriteBtn');
+
+        if (closeBlockAssistant) closeBlockAssistant.addEventListener('click', () => this.closeWritersBlockAssistant());
+        if (continueLineBtn) continueLineBtn.addEventListener('click', () => this.continueLine());
+        if (rewriteBtn) rewriteBtn.addEventListener('click', () => this.rewriteInStyle());
+    }
+
+    onLyricsChange(lyrics) {
+        this.currentSong.lyrics = lyrics;
+        this.updateWritingStats(lyrics);
+        this.analyzePatterns(lyrics);
+        
+        // Debounced analysis for performance
+        clearTimeout(this.analysisTimeout);
+        this.analysisTimeout = setTimeout(() => {
+            this.performDeepAnalysis(lyrics);
+        }, 1000);
+    }
+
+    updateSongMetadata(field, value) {
+        this.currentSong[field] = value;
+        this.analyzePatterns(this.currentSong.lyrics);
+    }
+
+    updateWritingStats(lyrics) {
+        const lines = lyrics.split('\n').filter(line => line.trim().length > 0);
+        const words = lyrics.split(/\s+/).filter(word => word.length > 0);
+        const rhymeScheme = this.detectRhymeScheme(lines);
+
+        // Update UI
+        document.getElementById('lineCount').textContent = lines.length;
+        document.getElementById('wordCount').textContent = words.length;
+        document.getElementById('rhymeScheme').textContent = rhymeScheme || '-';
+    }
+
+    analyzePatterns(lyrics) {
+        if (!lyrics || lyrics.trim().length < 50) return;
+
+        const analysis = this.performPatternAnalysis(lyrics);
+        this.updateStyleMetrics(analysis);
+        this.updateLearningStatus();
+    }
+
+    performPatternAnalysis(lyrics) {
+        const lines = lyrics.split('\n').filter(line => line.trim().length > 0);
+        const words = lyrics.split(/\s+/).filter(word => word.length > 0);
+
+        // Cadence analysis - rhythm and flow
+        const cadenceScore = this.analyzeCadence(lines);
+        
+        // Tone analysis - emotional consistency
+        const toneScore = this.analyzeTone(lyrics);
+        
+        // Rhythm analysis - syllable patterns
+        const rhythmScore = this.analyzeRhythm(lines);
+
+        return {
+            cadence: cadenceScore,
+            tone: toneScore,
+            rhythm: rhythmScore,
+            averageLineLength: lines.reduce((sum, line) => sum + line.length, 0) / lines.length,
+            vocabularyComplexity: this.analyzeVocabulary(words),
+            emotionalTone: this.detectEmotionalTone(lyrics)
+        };
+    }
+
+    analyzeCadence(lines) {
+        if (lines.length < 2) return 0;
+        
+        let consistencyScore = 0;
+        const syllableCounts = lines.map(line => this.countSyllables(line));
+        
+        // Check for consistent syllable patterns
+        const avgSyllables = syllableCounts.reduce((a, b) => a + b, 0) / syllableCounts.length;
+        const variance = syllableCounts.reduce((sum, count) => sum + Math.pow(count - avgSyllables, 2), 0) / syllableCounts.length;
+        
+        // Lower variance = higher consistency
+        consistencyScore = Math.max(0, 100 - (variance * 5));
+        
+        return Math.min(100, consistencyScore);
+    }
+
+    analyzeTone(lyrics) {
+        const words = lyrics.toLowerCase().split(/\s+/);
+        
+        // Emotional word categories
+        const positiveWords = ['love', 'happy', 'joy', 'dream', 'hope', 'light', 'beautiful', 'amazing', 'wonderful', 'fantastic'];
+        const negativeWords = ['hate', 'sad', 'pain', 'dark', 'lost', 'broken', 'hurt', 'alone', 'empty', 'fear'];
+        const neutralWords = ['and', 'the', 'is', 'in', 'on', 'at', 'to', 'for', 'of', 'with'];
+
+        let positiveCount = 0;
+        let negativeCount = 0;
+        let totalEmotionalWords = 0;
+
+        words.forEach(word => {
+            if (positiveWords.includes(word)) {
+                positiveCount++;
+                totalEmotionalWords++;
+            } else if (negativeWords.includes(word)) {
+                negativeCount++;
+                totalEmotionalWords++;
+            }
+        });
+
+        if (totalEmotionalWords === 0) return 50;
+
+        // Calculate tone consistency (how much it leans one way)
+        const dominantTone = Math.max(positiveCount, negativeCount);
+        const consistency = (dominantTone / totalEmotionalWords) * 100;
+
+        return Math.min(100, consistency);
+    }
+
+    analyzeRhythm(lines) {
+        if (lines.length < 4) return 0;
+
+        let rhythmScore = 0;
+        const stressPatterns = lines.map(line => this.getStressPattern(line));
+        
+        // Check for recurring rhythm patterns
+        const patternMap = new Map();
+        stressPatterns.forEach(pattern => {
+            const key = pattern.join('');
+            patternMap.set(key, (patternMap.get(key) || 0) + 1);
+        });
+
+        // Higher score for more consistent rhythm patterns
+        const maxOccurrence = Math.max(...patternMap.values());
+        rhythmScore = (maxOccurrence / lines.length) * 100;
+
+        return Math.min(100, rhythmScore);
+    }
+
+    analyzeVocabulary(words) {
+        const uniqueWords = new Set(words.map(word => word.toLowerCase()));
+        const complexWords = words.filter(word => word.length > 6).length;
+        
+        return Math.min(100, (complexWords / words.length) * 200 + (uniqueWords.size / words.length) * 100);
+    }
+
+    detectEmotionalTone(lyrics) {
+        const words = lyrics.toLowerCase().split(/\s+/);
+        
+        const emotions = {
+            happy: ['happy', 'joy', 'love', 'excited', 'amazing', 'wonderful', 'fantastic', 'great'],
+            sad: ['sad', 'cry', 'tears', 'lonely', 'empty', 'broken', 'hurt', 'pain'],
+            angry: ['angry', 'mad', 'hate', 'rage', 'fury', 'fight', 'war', 'destroy'],
+            romantic: ['love', 'heart', 'kiss', 'romance', 'beautiful', 'together', 'forever'],
+            energetic: ['run', 'jump', 'dance', 'move', 'energy', 'power', 'strong', 'fast'],
+            melancholy: ['grey', 'dark', 'alone', 'quiet', 'still', 'empty', 'lost', 'fading']
+        };
+
+        const scores = {};
+        Object.keys(emotions).forEach(emotion => {
+            scores[emotion] = 0;
+            emotions[emotion].forEach(word => {
+                scores[emotion] += words.filter(w => w.includes(word)).length;
+            });
+        });
+
+        const dominantEmotion = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        return scores[dominantEmotion] > 0 ? dominantEmotion : 'neutral';
+    }
+
+    countSyllables(text) {
+        // Simple syllable counting algorithm
+        return text.toLowerCase().replace(/[^a-z]/g, '').replace(/[aeiou]+/g, 'a').length || 1;
+    }
+
+    getStressPattern(line) {
+        // Simplified stress pattern detection
+        const words = line.split(/\s+/);
+        return words.map(word => word.length > 4 ? 1 : 0);
+    }
+
+    detectRhymeScheme(lines) {
+        if (lines.length < 2) return '';
+        
+        const endWords = lines.map(line => {
+            const words = line.trim().split(/\s+/);
+            return words[words.length - 1]?.toLowerCase().replace(/[^a-z]/g, '') || '';
+        });
+
+        // Simple rhyme detection based on ending sounds
+        const rhymeGroups = new Map();
+        let currentLabel = 'A';
+        
+        endWords.forEach((word, index) => {
+            let foundRhyme = false;
+            for (let [rhyme, label] of rhymeGroups) {
+                if (this.wordsRhyme(word, rhyme)) {
+                    foundRhyme = true;
+                    break;
+                }
+            }
+            
+            if (!foundRhyme && word.length > 0) {
+                rhymeGroups.set(word, currentLabel);
+                currentLabel = String.fromCharCode(currentLabel.charCodeAt(0) + 1);
+            }
+        });
+
+        return endWords.map(word => {
+            for (let [rhyme, label] of rhymeGroups) {
+                if (this.wordsRhyme(word, rhyme)) return label;
+            }
+            return 'X';
+        }).join('');
+    }
+
+    wordsRhyme(word1, word2) {
+        if (word1.length < 2 || word2.length < 2) return false;
+        
+        // Simple rhyme detection - last 2-3 characters
+        const end1 = word1.slice(-2);
+        const end2 = word2.slice(-2);
+        
+        return end1 === end2 || word1.slice(-3) === word2.slice(-3);
+    }
+
+    updateStyleMetrics(analysis) {
+        // Update user style profile
+        this.userStyle.cadencePattern = analysis.cadence;
+        this.userStyle.toneConsistency = analysis.tone;
+        this.userStyle.rhythmPreference = analysis.rhythm;
+        this.userStyle.averageLineLength = analysis.averageLineLength;
+        this.userStyle.vocabularyComplexity = analysis.vocabularyComplexity;
+        this.userStyle.emotionalTone = analysis.emotionalTone;
+
+        // Update UI progress bars
+        this.updateProgressBar('cadencePattern', analysis.cadence);
+        this.updateProgressBar('tonePattern', analysis.tone);
+        this.updateProgressBar('rhythmPattern', analysis.rhythm);
+
+        // Update scores
+        document.getElementById('cadenceScore').textContent = `${Math.round(analysis.cadence)}% consistent`;
+        document.getElementById('toneScore').textContent = `${Math.round(analysis.tone)}% consistent`;
+        document.getElementById('rhythmScore').textContent = `${Math.round(analysis.rhythm)}% consistent`;
+    }
+
+    updateProgressBar(id, value) {
+        const bar = document.getElementById(id);
+        if (bar) {
+            bar.style.width = `${value}%`;
+        }
+    }
+
+    updateLearningStatus() {
+        const lyricsLength = this.currentSong.lyrics.length;
+        const status = document.getElementById('learningStatus');
+        const aiStatus = document.getElementById('aiStatus');
+        const aiStatusText = document.getElementById('aiStatusText');
+
+        if (lyricsLength < 100) {
+            status.textContent = 'Learning your style...';
+            aiStatus.className = 'status-indicator learning';
+            aiStatusText.textContent = 'Learning';
+        } else if (lyricsLength < 500) {
+            status.textContent = 'Analyzing patterns...';
+            aiStatus.className = 'status-indicator learning';
+            aiStatusText.textContent = 'Analyzing';
+        } else {
+            status.textContent = 'Style learned! Ready to assist.';
+            aiStatus.className = 'status-indicator active';
+            aiStatusText.textContent = 'AI Ready';
+        }
+    }
+
+    async generateSuggestions() {
+        const suggestionsList = document.getElementById('suggestionsList');
+        if (!suggestionsList) return;
+
+        // Show loading
+        suggestionsList.innerHTML = '<div class="loading">Generating AI suggestions based on your style...</div>';
+
+        try {
+            const suggestions = await this.suggestionEngine.generateSuggestions(
+                this.currentSong,
+                this.userStyle,
+                this.writingHistory
+            );
+
+            this.displaySuggestions(suggestions);
+        } catch (error) {
+            console.error('Error generating suggestions:', error);
+            suggestionsList.innerHTML = '<div class="suggestion-placeholder"><i class="fas fa-exclamation-triangle"></i><p>Error generating suggestions. Please try again.</p></div>';
+        }
+    }
+
+    displaySuggestions(suggestions) {
+        const suggestionsList = document.getElementById('suggestionsList');
+        if (!suggestionsList || !suggestions.length) return;
+
+        suggestionsList.innerHTML = suggestions.map(suggestion => `
+            <div class="suggestion-item" onclick="window.aiSongwriter.applySuggestion('${suggestion.type}', '${suggestion.text.replace(/'/g, "\\'")}')">
+                <div class="suggestion-text">${suggestion.text}</div>
+                <div class="suggestion-meta">
+                    <span>${suggestion.type}</span>
+                    <span>Confidence: ${suggestion.confidence}%</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    applySuggestion(type, text) {
+        const textarea = document.getElementById('lyricsTextarea');
+        if (!textarea) return;
+
+        const currentPosition = textarea.selectionStart;
+        const currentText = textarea.value;
+        
+        let newText;
+        if (type === 'line') {
+            // Add as new line
+            newText = currentText + '\n' + text;
+        } else if (type === 'word') {
+            // Replace current word
+            const beforeCursor = currentText.substring(0, currentPosition);
+            const afterCursor = currentText.substring(currentPosition);
+            const lastSpaceIndex = beforeCursor.lastIndexOf(' ');
+            const nextSpaceIndex = afterCursor.indexOf(' ');
+            
+            const before = beforeCursor.substring(0, lastSpaceIndex + 1);
+            const after = nextSpaceIndex === -1 ? '' : afterCursor.substring(nextSpaceIndex);
+            
+            newText = before + text + after;
+        } else {
+            // Insert at cursor
+            const before = currentText.substring(0, currentPosition);
+            const after = currentText.substring(currentPosition);
+            newText = before + text + after;
+        }
+
+        textarea.value = newText;
+        this.onLyricsChange(newText);
+        
+        // Move cursor to end of inserted text
+        const newPosition = currentPosition + text.length;
+        textarea.setSelectionRange(newPosition, newPosition);
+        textarea.focus();
+    }
+
+    openWritersBlockAssistant() {
+        const assistant = document.getElementById('writersBlockAssistant');
+        if (assistant) {
+            assistant.classList.remove('hidden');
+            this.loadBlockTechniques();
+        }
+    }
+
+    closeWritersBlockAssistant() {
+        const assistant = document.getElementById('writersBlockAssistant');
+        if (assistant) {
+            assistant.classList.add('hidden');
+        }
+    }
+
+    async loadBlockTechniques() {
+        // Load creative prompts
+        this.loadCreativePrompts();
+    }
+
+    async loadCreativePrompts() {
+        const promptContent = document.getElementById('promptContent');
+        if (!promptContent) return;
+
+        const prompts = await this.suggestionEngine.generateCreativePrompts(this.userStyle, this.currentSong);
+        
+        promptContent.innerHTML = prompts.map(prompt => `
+            <div class="prompt-item">
+                <h5>${prompt.title}</h5>
+                <p>${prompt.description}</p>
+                <button class="btn btn-small" onclick="window.aiSongwriter.applyPrompt('${prompt.text.replace(/'/g, "\\'")}')">Use Prompt</button>
+            </div>
+        `).join('');
+    }
+
+    applyPrompt(promptText) {
+        const textarea = document.getElementById('lyricsTextarea');
+        if (textarea) {
+            textarea.value += '\n\n' + promptText;
+            this.onLyricsChange(textarea.value);
+            this.closeWritersBlockAssistant();
+            textarea.focus();
+        }
+    }
+
+    continueLine() {
+        const partialLine = document.getElementById('partialLine');
+        if (!partialLine || !partialLine.value.trim()) return;
+
+        const continuations = this.suggestionEngine.generateLineContinuations(
+            partialLine.value,
+            this.userStyle
+        );
+
+        const continuationsDiv = document.getElementById('continuations');
+        if (continuationsDiv) {
+            continuationsDiv.innerHTML = continuations.map(cont => `
+                <div class="continuation-item" onclick="window.aiSongwriter.applyContinuation('${cont.replace(/'/g, "\\'")}')">
+                    ${cont}
+                </div>
+            `).join('');
+        }
+    }
+
+    applyContinuation(continuation) {
+        const partialLine = document.getElementById('partialLine');
+        const fullLine = partialLine.value + continuation;
+        
+        const textarea = document.getElementById('lyricsTextarea');
+        if (textarea) {
+            textarea.value += '\n' + fullLine;
+            this.onLyricsChange(textarea.value);
+            partialLine.value = '';
+            document.getElementById('continuations').innerHTML = '';
+        }
+    }
+
+    rewriteInStyle() {
+        const rewriteInput = document.getElementById('rewriteInput');
+        if (!rewriteInput || !rewriteInput.value.trim()) return;
+
+        const rewrites = this.suggestionEngine.rewriteInUserStyle(
+            rewriteInput.value,
+            this.userStyle
+        );
+
+        const rewritesDiv = document.getElementById('rewrites');
+        if (rewritesDiv) {
+            rewritesDiv.innerHTML = rewrites.map(rewrite => `
+                <div class="rewrite-item" onclick="window.aiSongwriter.applyRewrite('${rewrite.replace(/'/g, "\\'")}')">
+                    ${rewrite}
+                </div>
+            `).join('');
+        }
+    }
+
+    applyRewrite(rewrite) {
+        const textarea = document.getElementById('lyricsTextarea');
+        if (textarea) {
+            textarea.value += '\n' + rewrite;
+            this.onLyricsChange(textarea.value);
+            document.getElementById('rewriteInput').value = '';
+            document.getElementById('rewrites').innerHTML = '';
+        }
+    }
+
+    showRhymeHelper() {
+        // Implementation for rhyme helper
+        this.showToast('Rhyme Helper activated! Type a word to find rhymes.', 'info');
+    }
+
+    showSynonymFinder() {
+        // Implementation for synonym finder
+        this.showToast('Synonym Finder activated! Select a word to find alternatives.', 'info');
+    }
+
+    showMoodMatcher() {
+        // Implementation for mood matcher
+        this.showToast('Mood Matcher analyzing your song\'s emotional tone...', 'info');
+    }
+
+    showStructureHelper() {
+        // Implementation for structure helper
+        this.showToast('Song Structure Helper will suggest verse/chorus patterns.', 'info');
+    }
+
+    saveProject() {
+        const projectData = {
+            ...this.currentSong,
+            userStyle: this.userStyle,
+            timestamp: new Date().toISOString(),
+            version: '1.0'
+        };
+
+        localStorage.setItem('aiSongwriterProject', JSON.stringify(projectData));
+        this.showToast('Project saved successfully!', 'success');
+    }
+
+    loadUserData() {
+        const savedProject = localStorage.getItem('aiSongwriterProject');
+        if (savedProject) {
+            try {
+                const data = JSON.parse(savedProject);
+                this.currentSong = { ...this.currentSong, ...data };
+                this.userStyle = { ...this.userStyle, ...data.userStyle };
+                
+                // Restore UI
+                const songTitle = document.getElementById('songTitle');
+                const songGenre = document.getElementById('songGenre');
+                const songMood = document.getElementById('songMood');
+                const lyricsTextarea = document.getElementById('lyricsTextarea');
+
+                if (songTitle) songTitle.value = this.currentSong.title || '';
+                if (songGenre) songGenre.value = this.currentSong.genre || '';
+                if (songMood) songMood.value = this.currentSong.mood || '';
+                if (lyricsTextarea) {
+                    lyricsTextarea.value = this.currentSong.lyrics || '';
+                    this.onLyricsChange(this.currentSong.lyrics || '');
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+    }
+
+    showToast(message, type = 'info') {
+        // Use existing toast system
+        if (window.finisherIntegration && window.finisherIntegration.showToast) {
+            window.finisherIntegration.showToast(message, type);
+        }
+    }
+
+    updateUI() {
+        // Update initial UI state
+        this.updateWritingStats(this.currentSong.lyrics || '');
+        this.updateLearningStatus();
+    }
+}
+
+/**
+ * AI Suggestion Engine
+ * Generates contextual suggestions based on user patterns
+ */
+class SuggestionEngine {
+    constructor() {
+        this.templates = {
+            verse: [
+                "In the {time} when {emotion} fills the air",
+                "Walking through the {place} with {feeling} in my heart",
+                "Remember when we {action} under {setting}",
+                "Every {noun} tells a story of {theme}"
+            ],
+            chorus: [
+                "And we'll {action} like there's no tomorrow",
+                "This is the {noun} that we've been waiting for",
+                "Hold on to {concept} with all your might",
+                "We are the {group} that {action} together"
+            ],
+            bridge: [
+                "Sometimes I wonder if {question}",
+                "In the silence I can hear {sound}",
+                "Maybe {possibility} is all we need",
+                "Beyond the {obstacle} lies our {goal}"
+            ]
+        };
+
+        this.rhymeDatabase = new Map();
+        this.initializeRhymeDatabase();
+    }
+
+    initializeRhymeDatabase() {
+        // Simple rhyme database - in production this would be much larger
+        const rhymes = {
+            'love': ['above', 'dove', 'shove', 'glove'],
+            'heart': ['start', 'part', 'art', 'smart'],
+            'night': ['light', 'bright', 'sight', 'flight'],
+            'day': ['way', 'say', 'play', 'stay'],
+            'time': ['rhyme', 'climb', 'prime', 'mime'],
+            'dreams': ['seems', 'themes', 'streams', 'beams']
+        };
+
+        Object.entries(rhymes).forEach(([word, rhymeList]) => {
+            this.rhymeDatabase.set(word, rhymeList);
+            // Add reverse mappings
+            rhymeList.forEach(rhyme => {
+                if (!this.rhymeDatabase.has(rhyme)) {
+                    this.rhymeDatabase.set(rhyme, [word, ...rhymeList.filter(r => r !== rhyme)]);
+                }
+            });
+        });
+    }
+
+    async generateSuggestions(currentSong, userStyle, writingHistory) {
+        const suggestions = [];
+
+        // Line suggestions based on current context
+        const lineSuggestions = this.generateLineSuggestions(currentSong, userStyle);
+        suggestions.push(...lineSuggestions);
+
+        // Word suggestions for vocabulary enhancement
+        const wordSuggestions = this.generateWordSuggestions(currentSong, userStyle);
+        suggestions.push(...wordSuggestions);
+
+        // Structure suggestions
+        const structureSuggestions = this.generateStructureSuggestions(currentSong);
+        suggestions.push(...structureSuggestions);
+
+        return suggestions.slice(0, 6); // Limit to 6 suggestions
+    }
+
+    generateLineSuggestions(currentSong, userStyle) {
+        const suggestions = [];
+        const { genre, mood, lyrics } = currentSong;
+        
+        // Determine song section
+        const lines = lyrics.split('\n').filter(l => l.trim());
+        const currentSection = this.detectCurrentSection(lines);
+        
+        // Get templates for current section
+        const templates = this.templates[currentSection] || this.templates.verse;
+        
+        templates.forEach(template => {
+            const filledTemplate = this.fillTemplate(template, { genre, mood, userStyle });
+            if (filledTemplate !== template) {
+                suggestions.push({
+                    type: 'line',
+                    text: filledTemplate,
+                    confidence: this.calculateConfidence(filledTemplate, userStyle),
+                    context: currentSection
+                });
+            }
+        });
+
+        return suggestions;
+    }
+
+    generateWordSuggestions(currentSong, userStyle) {
+        const suggestions = [];
+        const { lyrics, mood } = currentSong;
+        
+        // Find the last word that could be enhanced
+        const words = lyrics.split(/\s+/);
+        const lastMeaningfulWord = words.reverse().find(word => 
+            word.length > 3 && !/^(the|and|or|but|in|on|at|to|for|of|with)$/i.test(word)
+        );
+
+        if (lastMeaningfulWord) {
+            const synonyms = this.getSynonyms(lastMeaningfulWord, mood);
+            synonyms.forEach(synonym => {
+                suggestions.push({
+                    type: 'word',
+                    text: synonym,
+                    confidence: this.calculateWordConfidence(synonym, userStyle),
+                    context: 'synonym'
+                });
+            });
+        }
+
+        return suggestions.slice(0, 2);
+    }
+
+    generateStructureSuggestions(currentSong) {
+        const suggestions = [];
+        const lines = currentSong.lyrics.split('\n').filter(l => l.trim());
+        
+        if (lines.length > 0 && lines.length % 4 === 0) {
+            suggestions.push({
+                type: 'structure',
+                text: 'Consider adding a chorus here',
+                confidence: 85,
+                context: 'song structure'
+            });
+        }
+
+        return suggestions;
+    }
+
+    detectCurrentSection(lines) {
+        const lineCount = lines.length;
+        
+        if (lineCount === 0) return 'verse';
+        if (lineCount <= 4) return 'verse';
+        if (lineCount <= 8) return 'chorus';
+        if (lineCount <= 12) return 'verse';
+        if (lineCount <= 16) return 'bridge';
+        
+        return 'verse';
+    }
+
+    fillTemplate(template, context) {
+        const replacements = {
+            '{time}': ['morning', 'evening', 'midnight', 'dawn'][Math.floor(Math.random() * 4)],
+            '{emotion}': this.getEmotionWord(context.mood),
+            '{place}': ['city', 'garden', 'highway', 'home'][Math.floor(Math.random() * 4)],
+            '{feeling}': this.getFeelingWord(context.mood),
+            '{action}': ['dance', 'sing', 'run', 'fly'][Math.floor(Math.random() * 4)],
+            '{setting}': ['starlight', 'moonbeams', 'sunshine', 'rainfall'][Math.floor(Math.random() * 4)],
+            '{noun}': ['moment', 'dream', 'story', 'memory'][Math.floor(Math.random() * 4)],
+            '{theme}': ['hope', 'love', 'freedom', 'change'][Math.floor(Math.random() * 4)],
+            '{concept}': ['hope', 'faith', 'love', 'dreams'][Math.floor(Math.random() * 4)],
+            '{group}': ['ones', 'people', 'dreamers', 'fighters'][Math.floor(Math.random() * 4)],
+            '{question}': ['we\'ll make it through', 'this is real', 'we belong here'][Math.floor(Math.random() * 3)],
+            '{sound}': ['whispers', 'echoes', 'melodies', 'silence'][Math.floor(Math.random() * 4)],
+            '{possibility}': ['love', 'hope', 'trust', 'faith'][Math.floor(Math.random() * 4)],
+            '{obstacle}': ['darkness', 'storm', 'wall', 'fear'][Math.floor(Math.random() * 4)],
+            '{goal}': ['future', 'dreams', 'destiny', 'home'][Math.floor(Math.random() * 4)]
+        };
+
+        let filled = template;
+        Object.entries(replacements).forEach(([placeholder, replacement]) => {
+            filled = filled.replace(new RegExp(placeholder, 'g'), replacement);
+        });
+
+        return filled;
+    }
+
+    getEmotionWord(mood) {
+        const emotions = {
+            happy: ['joy', 'bliss', 'excitement', 'elation'],
+            sad: ['sorrow', 'melancholy', 'grief', 'longing'],
+            energetic: ['passion', 'fire', 'energy', 'power'],
+            romantic: ['love', 'devotion', 'tenderness', 'warmth'],
+            melancholy: ['nostalgia', 'yearning', 'solitude', 'reflection']
+        };
+
+        const moodWords = emotions[mood] || emotions.happy;
+        return moodWords[Math.floor(Math.random() * moodWords.length)];
+    }
+
+    getFeelingWord(mood) {
+        const feelings = {
+            happy: ['happiness', 'contentment', 'peace', 'satisfaction'],
+            sad: ['emptiness', 'sadness', 'loss', 'pain'],
+            energetic: ['excitement', 'adrenaline', 'motivation', 'drive'],
+            romantic: ['love', 'affection', 'desire', 'connection'],
+            melancholy: ['nostalgia', 'wistfulness', 'contemplation', 'introspection']
+        };
+
+        const moodFeelings = feelings[mood] || feelings.happy;
+        return moodFeelings[Math.floor(Math.random() * moodFeelings.length)];
+    }
+
+    getSynonyms(word, mood) {
+        // Simple synonym database - in production this would be much more comprehensive
+        const synonyms = {
+            'love': ['affection', 'devotion', 'passion', 'romance'],
+            'happy': ['joyful', 'elated', 'cheerful', 'blissful'],
+            'sad': ['melancholy', 'sorrowful', 'downhearted', 'blue'],
+            'beautiful': ['stunning', 'gorgeous', 'magnificent', 'radiant'],
+            'strong': ['powerful', 'mighty', 'robust', 'fierce'],
+            'light': ['radiance', 'glow', 'brilliance', 'luminance']
+        };
+
+        return synonyms[word.toLowerCase()] || [word];
+    }
+
+    calculateConfidence(text, userStyle) {
+        let confidence = 50; // Base confidence
+
+        // Adjust based on user style compatibility
+        if (userStyle.emotionalTone !== 'neutral') {
+            confidence += 15;
+        }
+
+        if (userStyle.cadencePattern > 70) {
+            confidence += 10;
+        }
+
+        if (userStyle.vocabularyComplexity > 60) {
+            confidence += 10;
+        }
+
+        return Math.min(95, Math.max(60, confidence + Math.random() * 20));
+    }
+
+    calculateWordConfidence(word, userStyle) {
+        let confidence = 60;
+
+        if (word.length > userStyle.averageLineLength / 8) {
+            confidence += userStyle.vocabularyComplexity > 50 ? 15 : -10;
+        }
+
+        return Math.min(90, Math.max(50, confidence + Math.random() * 15));
+    }
+
+    async generateCreativePrompts(userStyle, currentSong) {
+        const prompts = [
+            {
+                title: "Emotional Memory",
+                description: "Write about a moment that changed how you see the world",
+                text: "Think of a specific moment when everything changed..."
+            },
+            {
+                title: "Character Story",
+                description: "Create a character and tell their story in verse",
+                text: "There was someone who lived in your neighborhood who..."
+            },
+            {
+                title: "Metaphor Challenge",
+                description: "Use an everyday object as a metaphor for love",
+                text: "Love is like a [object] because..."
+            },
+            {
+                title: "Dialogue Song",
+                description: "Write a conversation between two people",
+                text: "\"What did you mean when you said...\" \"I meant that...\""
+            },
+            {
+                title: "Stream of Consciousness",
+                description: "Write continuously without stopping for 2 minutes",
+                text: "Right now I'm thinking about..."
+            }
+        ];
+
+        return prompts.slice(0, 3);
+    }
+
+    generateLineContinuations(partialLine, userStyle) {
+        const continuations = [
+            " and I know it's true",
+            " in the morning light",
+            " when the world was young",
+            " like a distant dream",
+            " with an open heart",
+            " through the darkest night",
+            " in this moment now",
+            " with you by my side"
+        ];
+
+        // Filter based on user style
+        return continuations
+            .filter(cont => cont.length <= userStyle.averageLineLength / 2)
+            .slice(0, 4);
+    }
+
+    rewriteInUserStyle(originalText, userStyle) {
+        // Simple rewriting based on style patterns
+        const rewrites = [];
+        const lines = originalText.split('\n');
+
+        lines.forEach(line => {
+            if (line.trim()) {
+                // Adjust complexity based on user preference
+                if (userStyle.vocabularyComplexity > 70) {
+                    // Make more sophisticated
+                    const sophisticated = line
+                        .replace(/good/g, 'magnificent')
+                        .replace(/nice/g, 'delightful')
+                        .replace(/big/g, 'tremendous');
+                    rewrites.push(sophisticated);
+                } else if (userStyle.vocabularyComplexity < 30) {
+                    // Simplify
+                    const simple = line
+                        .replace(/magnificent/g, 'good')
+                        .replace(/tremendous/g, 'big')
+                        .replace(/delightful/g, 'nice');
+                    rewrites.push(simple);
+                } else {
+                    // Maintain similar complexity but change style
+                    rewrites.push(line + " (reimagined)");
+                }
+            }
+        });
+
+        return rewrites.slice(0, 3);
+    }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.finisherIntegration = new FinisherIntegration();
+    
+    // Initialize AI Songwriter when on the appropriate tab
+    setTimeout(() => {
+        window.aiSongwriter = new AISongwriterAssistant();
+    }, 1000);
 });
 
 // Add toast styles to head

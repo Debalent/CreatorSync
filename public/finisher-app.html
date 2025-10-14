@@ -51,32 +51,401 @@
 
         <!-- Finisher App Container -->
         <div class="finisher-app-container hidden" id="finisherAppContainer">
-            <!-- Integration Options -->
+            <!-- The Finisher Navigation Tabs -->
+            <div class="finisher-nav-tabs">
+                <button class="finisher-tab active" data-tab="dashboard" id="dashboardTab">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </button>
+                <button class="finisher-tab" data-tab="mixer" id="mixerTab">
+                    <i class="fas fa-sliders-h"></i>
+                    Mixmaster1
+                </button>
+                <button class="finisher-tab" data-tab="effects" id="effectsTab">
+                    <i class="fas fa-magic"></i>
+                    Effects Suite
+                </button>
+                <button class="finisher-tab" data-tab="mastering" id="masteringTab">
+                    <i class="fas fa-award"></i>
+                    Mastering
+                </button>
+                <button class="finisher-tab" data-tab="ai-songwriter" id="aiSongwriterTab">
+                    <i class="fas fa-brain"></i>
+                    AI Songwriter
+                </button>
+                <button class="finisher-tab" data-tab="collaboration" id="collaborationTab">
+                    <i class="fas fa-users"></i>
+                    Collaborate
+                </button>
+            </div>
             
-            <!-- Option 1: Iframe Integration (if your Finisher is web-based) -->
-            <iframe 
-                id="finisherFrame"
-                src=""
-                frameborder="0"
-                allow="microphone; autoplay; encrypted-media"
-                sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-                class="finisher-iframe"
-                title="The Finisher Audio Workstation">
-            </iframe>
+            <!-- Dashboard Panel -->
+            <div class="finisher-panel active" id="dashboard-panel">
+                <div class="dashboard-content">
+                    <div class="welcome-section">
+                        <h2>Welcome to The Finisher</h2>
+                        <p>Your complete audio production suite with professional mixing and mastering tools.</p>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <div class="action-card" onclick="switchToMixer()">
+                            <div class="action-icon">
+                                <i class="fas fa-sliders-h"></i>
+                            </div>
+                            <h3>Launch Mixmaster1</h3>
+                            <p>Professional mixing console with EQ, effects, and real-time processing</p>
+                            <button class="btn btn-primary">Open Mixer</button>
+                        </div>
+                        
+                        <div class="action-card" onclick="switchToEffects()">
+                            <div class="action-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h3>Effects Suite</h3>
+                            <p>Professional audio effects and processing plugins</p>
+                            <button class="btn btn-outline">Browse Effects</button>
+                        </div>
+                        
+                        <div class="action-card" onclick="switchToMastering()">
+                            <div class="action-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <h3>Mastering Suite</h3>
+                            <p>AI-powered mastering with professional presets</p>
+                            <button class="btn btn-outline">Start Mastering</button>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-projects">
+                        <h3>Recent Projects</h3>
+                        <div class="project-list">
+                            <div class="project-item">
+                                <div class="project-info">
+                                    <h4>Untitled Project</h4>
+                                    <p>Last modified: Just now</p>
+                                </div>
+                                <button class="btn btn-small">Open</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            <!-- Option 2: Direct Integration Container (if you want to embed components) -->
-            <div class="finisher-direct-integration hidden" id="finisherDirect">
-                <div class="integration-message">
-                    <h3>The Finisher Integration</h3>
-                    <p>Your Finisher app will be integrated here.</p>
-                    <div class="integration-options">
-                        <h4>Integration Methods:</h4>
-                        <ul>
-                            <li><strong>Iframe:</strong> Embed your existing web app</li>
-                            <li><strong>API:</strong> Connect via REST API calls</li>
-                            <li><strong>Component:</strong> Integrate React/Vue components</li>
-                            <li><strong>Desktop:</strong> Launch desktop app with deep linking</li>
-                        </ul>
+            <!-- Mixmaster1 Panel (Embedded) -->
+            <div class="finisher-panel" id="mixer-panel">
+                <div class="embedded-app-header">
+                    <h3>
+                        <i class="fas fa-sliders-h"></i>
+                        Mixmaster1 Professional Mixer
+                    </h3>
+                    <div class="app-controls">
+                        <button class="btn btn-small" onclick="openMixmasterFullscreen()">
+                            <i class="fas fa-expand"></i>
+                            Fullscreen
+                        </button>
+                        <button class="btn btn-small" onclick="resetMixmaster()">
+                            <i class="fas fa-undo"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                <div class="embedded-app-container">
+                    <iframe 
+                        id="mixmasterFrame" 
+                        src="/mixmaster1-app.html" 
+                        frameborder="0" 
+                        allow="microphone; autoplay; encrypted-media"
+                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+                        style="width: 100%; height: 800px; border-radius: 8px; background: #1a1a1a;"
+                        title="Mixmaster1 Professional Mixer">
+                    </iframe>
+                </div>
+            </div>
+            
+            <!-- Effects Suite Panel -->
+            <div class="finisher-panel" id="effects-panel">
+                <div class="effects-content">
+                    <h2>Professional Effects Suite</h2>
+                    <div class="effects-grid">
+                        <div class="effect-card">
+                            <div class="effect-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h3>Reverb Pro</h3>
+                            <p>Professional reverb with multiple algorithms</p>
+                            <button class="btn btn-primary">Load Effect</button>
+                        </div>
+                        
+                        <div class="effect-card">
+                            <div class="effect-icon">
+                                <i class="fas fa-sync"></i>
+                            </div>
+                            <h3>Delay Master</h3>
+                            <p>Advanced delay with tempo sync and feedback</p>
+                            <button class="btn btn-primary">Load Effect</button>
+                        </div>
+                        
+                        <div class="effect-card">
+                            <div class="effect-icon">
+                                <i class="fas fa-compress"></i>
+                            </div>
+                            <h3>Compressor+</h3>
+                            <p>Multi-band compressor with sidechain</p>
+                            <button class="btn btn-primary">Load Effect</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mastering Panel -->
+            <div class="finisher-panel" id="mastering-panel">
+                <div class="mastering-content">
+                    <h2>AI-Powered Mastering Suite</h2>
+                    <div class="mastering-interface">
+                        <div class="mastering-card">
+                            <h3>Quick Master</h3>
+                            <p>AI analyzes your track and applies professional mastering</p>
+                            <button class="btn btn-primary">Analyze & Master</button>
+                        </div>
+                        
+                        <div class="mastering-card">
+                            <h3>Custom Master</h3>
+                            <p>Manual control over EQ, compression, and limiting</p>
+                            <button class="btn btn-outline">Open Manual Controls</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Collaboration Panel -->
+            <div class="finisher-panel" id="collaboration-panel">
+                <div class="collaboration-content">
+                    <h2>Real-Time Collaboration</h2>
+                    <div class="collaboration-interface">
+                        <div class="collab-card">
+                            <h3>Invite Collaborators</h3>
+                            <p>Share your project with other producers and artists</p>
+                            <button class="btn btn-primary">Invite Users</button>
+                        </div>
+                        
+                        <div class="collab-card">
+                            <h3>Live Sessions</h3>
+                            <p>Work together in real-time with live audio streaming</p>
+                            <button class="btn btn-outline">Start Live Session</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Songwriter Panel -->
+            <div class="finisher-panel" id="ai-songwriter-panel">
+                <div class="ai-songwriter-content">
+                    <div class="songwriter-header">
+                        <h2>
+                            <i class="fas fa-brain"></i>
+                            AI Songwriter Assistant
+                        </h2>
+                        <div class="ai-status">
+                            <span class="status-indicator active" id="aiStatus"></span>
+                            <span id="aiStatusText">AI Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="songwriter-workspace">
+                        <!-- Writing Interface -->
+                        <div class="writing-panel">
+                            <div class="writing-header">
+                                <h3>Lyric Workspace</h3>
+                                <div class="writing-controls">
+                                    <button class="btn btn-small" id="analyzeStyleBtn">
+                                        <i class="fas fa-chart-line"></i>
+                                        Analyze Style
+                                    </button>
+                                    <button class="btn btn-small" id="saveProjectBtn">
+                                        <i class="fas fa-save"></i>
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="song-metadata">
+                                <div class="metadata-row">
+                                    <input type="text" id="songTitle" placeholder="Song Title" class="form-input title-input">
+                                    <select id="songGenre" class="form-select">
+                                        <option value="">Select Genre</option>
+                                        <option value="pop">Pop</option>
+                                        <option value="rock">Rock</option>
+                                        <option value="hip-hop">Hip-Hop</option>
+                                        <option value="rnb">R&B</option>
+                                        <option value="country">Country</option>
+                                        <option value="electronic">Electronic</option>
+                                        <option value="indie">Indie</option>
+                                        <option value="folk">Folk</option>
+                                    </select>
+                                    <select id="songMood" class="form-select">
+                                        <option value="">Select Mood</option>
+                                        <option value="happy">Happy</option>
+                                        <option value="melancholy">Melancholy</option>
+                                        <option value="energetic">Energetic</option>
+                                        <option value="romantic">Romantic</option>
+                                        <option value="rebellious">Rebellious</option>
+                                        <option value="introspective">Introspective</option>
+                                        <option value="uplifting">Uplifting</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="writing-area">
+                                <textarea 
+                                    id="lyricsTextarea" 
+                                    placeholder="Start writing your lyrics here... The AI will learn your style as you write."
+                                    class="lyrics-textarea"
+                                    rows="20"
+                                ></textarea>
+                                
+                                <div class="writing-stats">
+                                    <div class="stat">
+                                        <span class="stat-label">Lines:</span>
+                                        <span id="lineCount">0</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Words:</span>
+                                        <span id="wordCount">0</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-label">Rhyme Scheme:</span>
+                                        <span id="rhymeScheme">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Assistant Panel -->
+                        <div class="ai-assistant-panel">
+                            <div class="assistant-header">
+                                <h3>AI Assistant</h3>
+                                <div class="ai-learning-status">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span id="learningStatus">Learning your style...</span>
+                                </div>
+                            </div>
+
+                            <!-- Style Analysis -->
+                            <div class="style-analysis" id="styleAnalysis">
+                                <h4>Your Writing Style</h4>
+                                <div class="style-metrics">
+                                    <div class="metric">
+                                        <label>Cadence Pattern:</label>
+                                        <div class="pattern-bar">
+                                            <div class="pattern-fill" id="cadencePattern" style="width: 0%"></div>
+                                        </div>
+                                        <span id="cadenceScore">Analyzing...</span>
+                                    </div>
+                                    <div class="metric">
+                                        <label>Tone Consistency:</label>
+                                        <div class="pattern-bar">
+                                            <div class="pattern-fill" id="tonePattern" style="width: 0%"></div>
+                                        </div>
+                                        <span id="toneScore">Analyzing...</span>
+                                    </div>
+                                    <div class="metric">
+                                        <label>Rhythm Preference:</label>
+                                        <div class="pattern-bar">
+                                            <div class="pattern-fill" id="rhythmPattern" style="width: 0%"></div>
+                                        </div>
+                                        <span id="rhythmScore">Analyzing...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI Suggestions -->
+                            <div class="ai-suggestions">
+                                <h4>AI Suggestions</h4>
+                                <div class="suggestion-controls">
+                                    <button class="btn btn-primary" id="generateSuggestionBtn">
+                                        <i class="fas fa-magic"></i>
+                                        Generate Ideas
+                                    </button>
+                                    <button class="btn btn-outline" id="overcomeBlocBtn">
+                                        <i class="fas fa-lightbulb"></i>
+                                        Overcome Block
+                                    </button>
+                                </div>
+                                
+                                <div class="suggestions-list" id="suggestionsList">
+                                    <div class="suggestion-placeholder">
+                                        <i class="fas fa-robot"></i>
+                                        <p>Start writing to receive AI-powered suggestions based on your unique style!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <h4>Quick Actions</h4>
+                                <div class="action-buttons">
+                                    <button class="action-btn" id="rhymeHelperBtn">
+                                        <i class="fas fa-music"></i>
+                                        Find Rhymes
+                                    </button>
+                                    <button class="action-btn" id="synonymFinderBtn">
+                                        <i class="fas fa-thesaurus"></i>
+                                        Find Synonyms
+                                    </button>
+                                    <button class="action-btn" id="moodMatchBtn">
+                                        <i class="fas fa-heart"></i>
+                                        Match Mood
+                                    </button>
+                                    <button class="action-btn" id="structureHelpBtn">
+                                        <i class="fas fa-list"></i>
+                                        Song Structure
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Writer's Block Assistant -->
+                    <div class="writers-block-assistant hidden" id="writersBlockAssistant">
+                        <div class="block-assistant-header">
+                            <h3>
+                                <i class="fas fa-lightbulb"></i>
+                                Writer's Block Assistant
+                            </h3>
+                            <button class="close-btn" id="closeBlockAssistant">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="block-techniques">
+                            <div class="technique-card active" data-technique="prompt">
+                                <h4>Creative Prompts</h4>
+                                <p>AI-generated prompts based on your writing style</p>
+                                <div class="prompt-content" id="promptContent">
+                                    <div class="loading">Generating personalized prompts...</div>
+                                </div>
+                            </div>
+                            
+                            <div class="technique-card" data-technique="continuation">
+                                <h4>Line Continuation</h4>
+                                <p>Let AI complete your unfinished thoughts</p>
+                                <div class="continuation-content" id="continuationContent">
+                                    <input type="text" id="partialLine" placeholder="Start a line..." class="form-input">
+                                    <button class="btn btn-primary" id="continueLineBtn">Continue</button>
+                                    <div class="continuations" id="continuations"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="technique-card" data-technique="rewrite">
+                                <h4>Style Rewrite</h4>
+                                <p>Rewrite existing lines in your unique style</p>
+                                <div class="rewrite-content" id="rewriteContent">
+                                    <textarea id="rewriteInput" placeholder="Paste lyrics to rewrite..." class="form-textarea"></textarea>
+                                    <button class="btn btn-primary" id="rewriteBtn">Rewrite in My Style</button>
+                                    <div class="rewrites" id="rewrites"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
