@@ -1,6 +1,6 @@
 // CreatorSync - Client-side JavaScript Application
 class CreatorSyncApp {
-    constructor() {
+    constructor () {
         this.socket = null;
         this.audioPlayer = null;
         this.currentTrack = null;
@@ -9,11 +9,11 @@ class CreatorSyncApp {
         this.currentCategory = 'all';
         this.currentUser = null;
         this.authToken = localStorage.getItem('authToken');
-        
+
         this.init();
     }
 
-    init() {
+    init () {
         this.initializeSocket();
         this.initializeAudioPlayer();
         this.bindEventListeners();
@@ -21,12 +21,36 @@ class CreatorSyncApp {
         this.initializeScrollEffects();
         this.initializeAuth();
         this.checkAuthStatus();
+
+        // Initialize translation system after DOM is ready
+        this.initializeTranslations();
+    }
+
+    initializeTranslations () {
+        // Listen for language change events
+        window.addEventListener('languageChanged', (e) => {
+            this.onLanguageChanged(e.detail.language);
+        });
+
+        // Update UI elements that depend on current language
+        this.updateLanguageSpecificContent();
+    }
+
+    onLanguageChanged (newLanguage) {
+        // Update any language-specific content
+        this.updateAuthUI();
+        this.updateLanguageSpecificContent();
+    }
+
+    updateLanguageSpecificContent () {
+        // Update dynamic content that depends on language
+        // This will be called when language changes
     }
 
     // Socket.IO Real-time Connection
-    initializeSocket() {
+    initializeSocket () {
         this.socket = io();
-        
+
         this.socket.on('connect', () => {
             console.log('Connected to CreatorSync server');
             this.updateConnectionStatus(true);
@@ -56,7 +80,7 @@ class CreatorSyncApp {
     }
 
     // Audio Player Functionality
-    initializeAudioPlayer() {
+    initializeAudioPlayer () {
         this.audioPlayer = {
             audio: new Audio(),
             progress: document.getElementById('progress'),
@@ -97,7 +121,7 @@ class CreatorSyncApp {
     }
 
     // Event Listeners
-    bindEventListeners() {
+    bindEventListeners () {
         // Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -196,7 +220,7 @@ class CreatorSyncApp {
     }
 
     // Beat Management
-    loadBeats() {
+    loadBeats () {
         // Simulate loading beats data
         this.beats = [
             {
@@ -249,12 +273,12 @@ class CreatorSyncApp {
         this.renderBeats();
     }
 
-    renderBeats() {
+    renderBeats () {
         const beatsGrid = document.getElementById('beatsGrid');
         beatsGrid.innerHTML = '';
 
-        const filteredBeats = this.currentCategory === 'all' 
-            ? this.beats 
+        const filteredBeats = this.currentCategory === 'all'
+            ? this.beats
             : this.beats.filter(beat => beat.category === this.currentCategory);
 
         filteredBeats.forEach(beat => {
@@ -263,7 +287,7 @@ class CreatorSyncApp {
         });
     }
 
-    createBeatCard(beat) {
+    createBeatCard (beat) {
         const card = document.createElement('div');
         card.className = 'beat-card';
         card.innerHTML = `
@@ -323,7 +347,7 @@ class CreatorSyncApp {
     }
 
     // Audio Player Controls
-    playBeat(beat) {
+    playBeat (beat) {
         this.currentTrack = beat;
         this.audioPlayer.audio.src = beat.audioUrl;
         this.updateTrackInfo(beat);
@@ -331,7 +355,7 @@ class CreatorSyncApp {
         this.play();
     }
 
-    togglePlay() {
+    togglePlay () {
         if (this.isPlaying) {
             this.pause();
         } else {
@@ -339,7 +363,7 @@ class CreatorSyncApp {
         }
     }
 
-    play() {
+    play () {
         if (this.audioPlayer.audio.src) {
             this.audioPlayer.audio.play();
             this.isPlaying = true;
@@ -347,13 +371,13 @@ class CreatorSyncApp {
         }
     }
 
-    pause() {
+    pause () {
         this.audioPlayer.audio.pause();
         this.isPlaying = false;
         this.updatePlayButton();
     }
 
-    previousTrack() {
+    previousTrack () {
         if (this.currentTrack) {
             const currentIndex = this.beats.findIndex(beat => beat.id === this.currentTrack.id);
             const prevIndex = currentIndex > 0 ? currentIndex - 1 : this.beats.length - 1;
@@ -361,7 +385,7 @@ class CreatorSyncApp {
         }
     }
 
-    nextTrack() {
+    nextTrack () {
         if (this.currentTrack) {
             const currentIndex = this.beats.findIndex(beat => beat.id === this.currentTrack.id);
             const nextIndex = currentIndex < this.beats.length - 1 ? currentIndex + 1 : 0;
@@ -369,50 +393,50 @@ class CreatorSyncApp {
         }
     }
 
-    updatePlayButton() {
+    updatePlayButton () {
         const icon = this.audioPlayer.playBtn.querySelector('i');
         icon.className = this.isPlaying ? 'fas fa-pause' : 'fas fa-play';
     }
 
-    updateTrackInfo(beat) {
+    updateTrackInfo (beat) {
         this.audioPlayer.trackTitle.textContent = beat.title;
         this.audioPlayer.trackArtist.textContent = beat.artist;
         this.audioPlayer.trackArtwork.src = beat.artwork;
     }
 
-    updateProgress() {
+    updateProgress () {
         const { currentTime, duration } = this.audioPlayer.audio;
         const progress = (currentTime / duration) * 100;
         this.audioPlayer.progress.style.width = `${progress}%`;
         this.audioPlayer.currentTime.textContent = this.formatTime(currentTime);
     }
 
-    updateTotalTime() {
+    updateTotalTime () {
         const { duration } = this.audioPlayer.audio;
         this.audioPlayer.totalTime.textContent = this.formatTime(duration);
     }
 
-    formatTime(seconds) {
+    formatTime (seconds) {
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    showAudioPlayer() {
+    showAudioPlayer () {
         document.getElementById('audioPlayer').classList.add('active');
     }
 
-    hideAudioPlayer() {
+    hideAudioPlayer () {
         document.getElementById('audioPlayer').classList.remove('active');
     }
 
     // Filter and Search
-    filterBeats(category) {
+    filterBeats (category) {
         this.currentCategory = category;
         this.renderBeats();
     }
 
-    updateActiveTab(activeBtn) {
+    updateActiveTab (activeBtn) {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.remove('active');
         });
@@ -420,52 +444,52 @@ class CreatorSyncApp {
     }
 
     // User Interactions
-    toggleBeatFavorite(beatId) {
+    toggleBeatFavorite (beatId) {
         // Toggle favorite status and update UI
         this.socket.emit('toggle_favorite', { beatId });
     }
 
-    purchaseBeat(beatId) {
+    purchaseBeat (beatId) {
         const beat = this.beats.find(b => b.id === beatId);
         if (beat) {
             this.showPurchaseModal(beat);
         }
     }
 
-    toggleFavorite() {
+    toggleFavorite () {
         if (this.currentTrack) {
             this.toggleBeatFavorite(this.currentTrack.id);
         }
     }
 
-    downloadTrack() {
+    downloadTrack () {
         if (this.currentTrack) {
             // Implement download functionality
             this.showNotification('Download started!', 'success');
         }
     }
 
-    shareTrack() {
+    shareTrack () {
         if (this.currentTrack) {
             this.showShareModal(this.currentTrack);
         }
     }
 
-    toggleMute() {
+    toggleMute () {
         this.audioPlayer.audio.muted = !this.audioPlayer.audio.muted;
         const icon = this.audioPlayer.volumeBtn.querySelector('i');
         icon.className = this.audioPlayer.audio.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
     }
 
     // UI Effects and Interactions
-    smoothScroll(target) {
+    smoothScroll (target) {
         const element = document.querySelector(target);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    handleScroll() {
+    handleScroll () {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 100) {
             navbar.style.background = 'rgba(15, 15, 35, 0.98)';
@@ -474,7 +498,7 @@ class CreatorSyncApp {
         }
     }
 
-    handleKeyboard(e) {
+    handleKeyboard (e) {
         // Keyboard shortcuts
         if (e.code === 'Space' && !e.target.matches('input, textarea')) {
             e.preventDefault();
@@ -486,7 +510,7 @@ class CreatorSyncApp {
         }
     }
 
-    initializeScrollEffects() {
+    initializeScrollEffects () {
         // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
@@ -508,14 +532,19 @@ class CreatorSyncApp {
     }
 
     // Modal and Notification Systems
-    showNotification(message, type = 'info') {
+    showNotification (messageKey, type = 'info', interpolations = {}) {
+        // If message is already a string, use it directly (for backward compatibility)
+        const message = typeof messageKey === 'string' && !messageKey.includes('.')
+            ? messageKey
+            : translationSystem.translate(messageKey, interpolations);
+
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `
             <div class="notification-content">
                 <i class="fas fa-${this.getNotificationIcon(type)}"></i>
                 <span>${message}</span>
-                <button class="notification-close">×</button>
+                <button class="notification-close" data-translate="actions.close">×</button>
             </div>
         `;
 
@@ -534,7 +563,7 @@ class CreatorSyncApp {
         }, 5000);
     }
 
-    hideNotification(notification) {
+    hideNotification (notification) {
         notification.classList.remove('show');
         setTimeout(() => {
             if (notification.parentNode) {
@@ -543,7 +572,7 @@ class CreatorSyncApp {
         }, 300);
     }
 
-    getNotificationIcon(type) {
+    getNotificationIcon (type) {
         const icons = {
             success: 'check-circle',
             error: 'exclamation-circle',
@@ -553,27 +582,27 @@ class CreatorSyncApp {
         return icons[type] || 'info-circle';
     }
 
-    showCreateModal() {
+    showCreateModal () {
         // Implementation for create modal
         this.showNotification('Create feature coming soon!', 'info');
     }
 
-    showPurchaseModal(beat) {
+    showPurchaseModal (beat) {
         // Implementation for purchase modal
         this.showNotification(`Purchase process for "${beat.title}" initiated!`, 'success');
     }
 
-    showShareModal(track) {
+    showShareModal (track) {
         // Implementation for share modal
         this.showNotification(`Sharing "${track.title}"`, 'info');
     }
 
-    showCollaborationInvite(data) {
+    showCollaborationInvite (data) {
         this.showNotification(`Collaboration invite from ${data.userName}`, 'info');
     }
 
     // Real-time Features
-    updateConnectionStatus(isConnected) {
+    updateConnectionStatus (isConnected) {
         const statusIndicator = document.querySelector('.connection-status');
         if (statusIndicator) {
             statusIndicator.classList.toggle('connected', isConnected);
@@ -581,7 +610,7 @@ class CreatorSyncApp {
         }
     }
 
-    updateUserStatus(userId, isOnline) {
+    updateUserStatus (userId, isOnline) {
         const userElements = document.querySelectorAll(`[data-user-id="${userId}"]`);
         userElements.forEach(element => {
             element.classList.toggle('online', isOnline);
@@ -589,23 +618,23 @@ class CreatorSyncApp {
         });
     }
 
-    addBeatToGrid(beatData) {
+    addBeatToGrid (beatData) {
         this.beats.unshift(beatData);
         this.renderBeats();
     }
 
     // Authentication Methods
-    initializeAuth() {
+    initializeAuth () {
         // Update UI based on authentication state
         this.updateAuthUI();
     }
 
-    async checkAuthStatus() {
+    async checkAuthStatus () {
         if (this.authToken) {
             try {
                 const response = await fetch('/api/auth/profile', {
                     headers: {
-                        'Authorization': `Bearer ${this.authToken}`
+                        Authorization: `Bearer ${this.authToken}`
                     }
                 });
 
@@ -624,7 +653,7 @@ class CreatorSyncApp {
         }
     }
 
-    updateAuthUI() {
+    updateAuthUI () {
         const loginBtn = document.getElementById('loginBtn');
         const signupBtn = document.getElementById('signupBtn');
         const finisherBtn = document.getElementById('finisherBtn');
@@ -634,7 +663,7 @@ class CreatorSyncApp {
             loginBtn.textContent = this.currentUser.username;
             loginBtn.onclick = () => this.showUserMenu();
             signupBtn.style.display = 'none';
-            
+
             // Update The Finisher button based on subscription status
             if (this.currentUser.subscription?.active) {
                 finisherBtn.textContent = 'Open The Finisher';
@@ -652,15 +681,15 @@ class CreatorSyncApp {
         }
     }
 
-    showLoginModal() {
+    showLoginModal () {
         this.showModal('loginModal');
     }
 
-    showSignupModal() {
+    showSignupModal () {
         this.showModal('signupModal');
     }
 
-    showSubscriptionModal(selectedPlan = 'pro') {
+    showSubscriptionModal (selectedPlan = 'pro') {
         // Pre-select the plan
         const planRadio = document.getElementById(`plan${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)}`);
         if (planRadio) {
@@ -669,7 +698,7 @@ class CreatorSyncApp {
         this.showModal('subscriptionModal');
     }
 
-    showModal(modalId) {
+    showModal (modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.classList.add('active');
@@ -677,7 +706,7 @@ class CreatorSyncApp {
         }
     }
 
-    hideModal(modalId) {
+    hideModal (modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.classList.remove('active');
@@ -685,7 +714,7 @@ class CreatorSyncApp {
         }
     }
 
-    async handleLogin(e) {
+    async handleLogin (e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const loginData = Object.fromEntries(formData);
@@ -705,7 +734,7 @@ class CreatorSyncApp {
                 this.authToken = data.token;
                 this.currentUser = data.user;
                 localStorage.setItem('authToken', this.authToken);
-                
+
                 this.hideModal('loginModal');
                 this.updateAuthUI();
                 this.showToast('Welcome back!', 'success');
@@ -726,7 +755,7 @@ class CreatorSyncApp {
         }
     }
 
-    async handleSignup(e) {
+    async handleSignup (e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const signupData = Object.fromEntries(formData);
@@ -755,7 +784,7 @@ class CreatorSyncApp {
                 this.authToken = data.token;
                 this.currentUser = data.user;
                 localStorage.setItem('authToken', this.authToken);
-                
+
                 this.hideModal('signupModal');
                 this.updateAuthUI();
                 this.showToast('Account created successfully!', 'success');
@@ -781,7 +810,7 @@ class CreatorSyncApp {
         }
     }
 
-    async handleSubscription(e) {
+    async handleSubscription (e) {
         e.preventDefault();
         const formData = new FormData(e.target);
         const selectedPlan = formData.get('plan');
@@ -799,7 +828,7 @@ class CreatorSyncApp {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.authToken}`
+                    Authorization: `Bearer ${this.authToken}`
                 },
                 body: JSON.stringify({
                     plan: selectedPlan,
@@ -831,7 +860,7 @@ class CreatorSyncApp {
         }
     }
 
-    logout() {
+    logout () {
         this.authToken = null;
         this.currentUser = null;
         localStorage.removeItem('authToken');
@@ -839,7 +868,7 @@ class CreatorSyncApp {
         this.showToast('Logged out successfully', 'info');
     }
 
-    checkPasswordStrength(password) {
+    checkPasswordStrength (password) {
         const strengthIndicator = document.getElementById('passwordStrength');
         if (!strengthIndicator) return;
 
@@ -847,9 +876,9 @@ class CreatorSyncApp {
         strengthIndicator.className = `password-strength ${strength}`;
     }
 
-    calculatePasswordStrength(password) {
+    calculatePasswordStrength (password) {
         let score = 0;
-        
+
         if (password.length >= 8) score++;
         if (/[a-z]/.test(password)) score++;
         if (/[A-Z]/.test(password)) score++;
@@ -861,9 +890,9 @@ class CreatorSyncApp {
         return 'strong';
     }
 
-    async handleFinisherAccess() {
+    async handleFinisherAccess () {
         console.log('🎵 Accessing The Finisher...');
-        
+
         // Check if user is logged in
         if (!this.currentUser) {
             this.showNotification('Please log in to access The Finisher', 'warning');
@@ -876,7 +905,7 @@ class CreatorSyncApp {
             const response = await fetch('/api/subscriptions/finisher-access', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -905,19 +934,18 @@ class CreatorSyncApp {
                 // User needs subscription
                 this.showSubscriptionModal();
             }
-
         } catch (error) {
             console.error('❌ Error checking Finisher access:', error);
             this.showNotification('Unable to access The Finisher. Please try again.', 'error');
         }
     }
 
-    openFinisher() {
+    openFinisher () {
         // Legacy method - redirect to new handler
         this.handleFinisherAccess();
     }
 
-    showUserMenu() {
+    showUserMenu () {
         // Create and show user dropdown menu
         const existingMenu = document.querySelector('.user-menu');
         if (existingMenu) {
@@ -937,17 +965,17 @@ class CreatorSyncApp {
                 <a href="#" onclick="app.showProfile()">Profile</a>
                 <a href="#" onclick="app.showAnalytics()">Analytics</a>
                 <a href="#" onclick="app.showSettings()">Settings</a>
-                ${this.currentUser.subscription?.active ? 
-                    '<a href="#" onclick="app.openFinisher()">Open The Finisher</a>' :
-                    '<a href="#" onclick="app.showSubscriptionModal()">Upgrade to Pro</a>'
-                }
+                ${this.currentUser.subscription?.active
+        ? '<a href="#" onclick="app.openFinisher()">Open The Finisher</a>'
+        : '<a href="#" onclick="app.showSubscriptionModal()">Upgrade to Pro</a>'
+}
                 <hr>
                 <a href="#" onclick="app.logout()">Logout</a>
             </div>
         `;
 
         document.body.appendChild(menu);
-        
+
         // Position menu
         const loginBtn = document.getElementById('loginBtn');
         const rect = loginBtn.getBoundingClientRect();
@@ -965,33 +993,38 @@ class CreatorSyncApp {
         }, 100);
     }
 
-    showProfile() {
+    showProfile () {
         // Navigate to profile page or show profile modal
         this.showToast('Profile feature coming soon!', 'info');
     }
 
-    showAnalytics() {
+    showAnalytics () {
         // Navigate to analytics page
         this.showToast('Analytics feature coming soon!', 'info');
     }
 
-    showSettings() {
+    showSettings () {
         // Show settings modal
         this.showToast('Settings feature coming soon!', 'info');
     }
 
-    showToast(message, type = 'info') {
+    showToast (messageKey, type = 'info', interpolations = {}) {
         const container = document.getElementById('toastContainer');
         if (!container) return;
 
+        // If message is already a string, use it directly (for backward compatibility)
+        const message = typeof messageKey === 'string' && !messageKey.includes('.')
+            ? messageKey
+            : translationSystem.translate(messageKey, interpolations);
+
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        
+
         const icon = this.getToastIcon(type);
         toast.innerHTML = `
             <i class="fas fa-${icon}"></i>
             <span>${message}</span>
-            <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: auto;">&times;</button>
+            <button onclick="this.parentElement.remove()" data-translate="actions.close" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: auto;">&times;</button>
         `;
 
         container.appendChild(toast);
@@ -1006,7 +1039,7 @@ class CreatorSyncApp {
         }, 5000);
     }
 
-    getToastIcon(type) {
+    getToastIcon (type) {
         const icons = {
             success: 'check-circle',
             error: 'exclamation-circle',
@@ -1019,6 +1052,36 @@ class CreatorSyncApp {
 
 // Additional CSS for dynamic elements
 const additionalStyles = `
+.language-selector {
+    position: relative;
+    margin-left: var(--spacing-md);
+}
+
+.language-selector select {
+    background: var(--surface-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.language-selector select:hover {
+    border-color: var(--primary-color);
+}
+
+.language-selector select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.language-selector option {
+    background: var(--card-color);
+    color: var(--text-primary);
+}
 .beat-card {
     background: var(--card-color);
     border-radius: var(--radius-lg);

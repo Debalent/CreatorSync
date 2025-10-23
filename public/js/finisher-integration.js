@@ -4,7 +4,7 @@
  */
 
 class FinisherIntegration {
-    constructor() {
+    constructor () {
         this.socket = null;
         this.subscriptionStatus = null;
         this.integrationConfig = {
@@ -14,62 +14,61 @@ class FinisherIntegration {
             apiKey: '',
             desktopProtocol: 'finisher://'
         };
-        
+
         this.init();
     }
 
-    async init() {
+    async init () {
         console.log('🎵 Initializing Finisher Integration...');
-        
+
         // Connect to Socket.IO
         this.connectSocket();
-        
+
         // Load configuration from localStorage
         this.loadConfiguration();
-        
+
         // Check subscription status
         await this.checkSubscription();
-        
+
         // Set up event listeners
         this.setupEventListeners();
-        
+
         // Initialize integration based on subscription
         this.initializeIntegration();
-        
+
         // Set up Finisher tab navigation
         this.setupFinisherTabs();
     }
 
-    connectSocket() {
+    connectSocket () {
         try {
             this.socket = io();
-            
+
             this.socket.on('connect', () => {
                 console.log('✅ Connected to CreatorSync server');
                 this.authenticateSocket();
             });
-            
+
             this.socket.on('finisher_message', (data) => {
                 this.handleFinisherMessage(data);
             });
-            
+
             this.socket.on('subscription_updated', (data) => {
                 this.handleSubscriptionUpdate(data);
             });
-            
         } catch (error) {
             console.error('❌ Socket connection failed:', error);
         }
     }
 
-    authenticateSocket() {
+    authenticateSocket () {
         const userData = this.getUserData();
         if (userData) {
             this.socket.emit('authenticate', userData);
         }
     }
 
-    getUserData() {
+    getUserData () {
         try {
             return JSON.parse(localStorage.getItem('userData')) || null;
         } catch (error) {
@@ -78,7 +77,7 @@ class FinisherIntegration {
         }
     }
 
-    loadConfiguration() {
+    loadConfiguration () {
         try {
             const savedConfig = localStorage.getItem('finisherConfig');
             if (savedConfig) {
@@ -89,7 +88,7 @@ class FinisherIntegration {
         }
     }
 
-    saveConfiguration() {
+    saveConfiguration () {
         try {
             localStorage.setItem('finisherConfig', JSON.stringify(this.integrationConfig));
             console.log('✅ Configuration saved');
@@ -98,7 +97,7 @@ class FinisherIntegration {
         }
     }
 
-    async checkSubscription() {
+    async checkSubscription () {
         try {
             const userData = this.getUserData();
             if (!userData) {
@@ -112,7 +111,7 @@ class FinisherIntegration {
             const response = await fetch('/api/subscriptions/finisher-access', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${userData.token}`,
+                    Authorization: `Bearer ${userData.token}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -134,14 +133,13 @@ class FinisherIntegration {
                 console.log('❌ No Finisher access');
                 this.showNoAccess('Subscription required for Finisher access');
             }
-
         } catch (error) {
             console.error('❌ Subscription check failed:', error);
             this.showNoAccess('Unable to verify subscription. Please try again.');
         }
     }
 
-    updateSubscriptionDisplay(subscriptionData) {
+    updateSubscriptionDisplay (subscriptionData) {
         const statusBadge = document.getElementById('statusBadge');
         const planName = document.getElementById('planName');
         const userName = document.getElementById('userName');
@@ -162,26 +160,26 @@ class FinisherIntegration {
         }
     }
 
-    showSubscriptionCheck() {
+    showSubscriptionCheck () {
         document.getElementById('subscriptionCheck').style.display = 'flex';
         document.getElementById('finisherAppContainer').style.display = 'none';
         document.getElementById('noAccess').style.display = 'none';
     }
 
-    showFinisherApp() {
+    showFinisherApp () {
         document.getElementById('subscriptionCheck').style.display = 'none';
         document.getElementById('finisherAppContainer').style.display = 'block';
         document.getElementById('noAccess').style.display = 'none';
-        
+
         // Initialize the appropriate integration method
         this.initializeFinisherApp();
     }
 
-    showNoAccess(message) {
+    showNoAccess (message) {
         document.getElementById('subscriptionCheck').style.display = 'none';
         document.getElementById('finisherAppContainer').style.display = 'none';
         document.getElementById('noAccess').style.display = 'flex';
-        
+
         // Update message if provided
         if (message) {
             const messageElement = document.querySelector('.no-access-content p');
@@ -191,73 +189,73 @@ class FinisherIntegration {
         }
     }
 
-    initializeFinisherApp() {
+    initializeFinisherApp () {
         switch (this.integrationConfig.method) {
-            case 'iframe':
-                this.initializeIframeIntegration();
-                break;
-            case 'api':
-                this.initializeApiIntegration();
-                break;
-            case 'desktop':
-                this.initializeDesktopIntegration();
-                break;
-            default:
-                this.showDirectIntegration();
+        case 'iframe':
+            this.initializeIframeIntegration();
+            break;
+        case 'api':
+            this.initializeApiIntegration();
+            break;
+        case 'desktop':
+            this.initializeDesktopIntegration();
+            break;
+        default:
+            this.showDirectIntegration();
         }
     }
 
-    initializeIframeIntegration() {
+    initializeIframeIntegration () {
         const iframe = document.getElementById('finisherFrame');
         const directDiv = document.getElementById('finisherDirect');
-        
+
         if (this.integrationConfig.url) {
             // Set iframe source with authentication parameters
             const userData = this.getUserData();
             const authParams = userData ? `?auth=${encodeURIComponent(userData.token)}` : '';
             const fullUrl = this.integrationConfig.url + authParams;
-            
+
             iframe.src = fullUrl;
             iframe.style.display = 'block';
             directDiv.style.display = 'none';
-            
+
             // Set up iframe communication
             this.setupIframeMessaging();
-            
+
             console.log('✅ Iframe integration initialized');
         } else {
             this.showDirectIntegration();
         }
     }
 
-    setupIframeMessaging() {
+    setupIframeMessaging () {
         window.addEventListener('message', (event) => {
             // Verify origin for security
             if (this.integrationConfig.url && !event.origin.startsWith(new URL(this.integrationConfig.url).origin)) {
                 return;
             }
-            
+
             this.handleFinisherMessage(event.data);
         });
     }
 
-    async initializeApiIntegration() {
+    async initializeApiIntegration () {
         const directDiv = document.getElementById('finisherDirect');
         const iframe = document.getElementById('finisherFrame');
-        
+
         iframe.style.display = 'none';
         directDiv.style.display = 'block';
-        
+
         try {
             // Test API connection
             if (this.integrationConfig.apiEndpoint && this.integrationConfig.apiKey) {
                 const response = await fetch(`${this.integrationConfig.apiEndpoint}/health`, {
                     headers: {
-                        'Authorization': `Bearer ${this.integrationConfig.apiKey}`,
+                        Authorization: `Bearer ${this.integrationConfig.apiKey}`,
                         'Content-Type': 'application/json'
                     }
                 });
-                
+
                 if (response.ok) {
                     console.log('✅ API integration connected');
                     this.loadApiInterface();
@@ -271,46 +269,45 @@ class FinisherIntegration {
         }
     }
 
-    initializeDesktopIntegration() {
+    initializeDesktopIntegration () {
         try {
             const userData = this.getUserData();
             const protocol = this.integrationConfig.desktopProtocol;
             const authData = userData ? btoa(JSON.stringify(userData)) : '';
             const launchUrl = `${protocol}launch?auth=${authData}`;
-            
+
             // Attempt to launch desktop app
             window.location.href = launchUrl;
-            
+
             console.log('✅ Desktop integration launched');
-            
+
             // Show fallback message
             setTimeout(() => {
                 this.showDirectIntegration();
             }, 3000);
-            
         } catch (error) {
             console.error('❌ Desktop integration failed:', error);
             this.showDirectIntegration();
         }
     }
 
-    showDirectIntegration() {
+    showDirectIntegration () {
         const iframe = document.getElementById('finisherFrame');
         const directDiv = document.getElementById('finisherDirect');
-        
+
         iframe.style.display = 'none';
         directDiv.style.display = 'block';
-        
+
         console.log('📋 Showing direct integration options');
     }
 
-    loadApiInterface() {
+    loadApiInterface () {
         // This would load a custom interface for API-based integration
         // For now, show the direct integration message
         this.showDirectIntegration();
     }
 
-    setupFinisherTabs() {
+    setupFinisherTabs () {
         // Set up tab navigation for The Finisher interface
         document.querySelectorAll('.finisher-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
@@ -320,7 +317,7 @@ class FinisherIntegration {
         });
     }
 
-    switchFinisherTab(tabName) {
+    switchFinisherTab (tabName) {
         // Update tab buttons
         document.querySelectorAll('.finisher-tab').forEach(tab => {
             tab.classList.toggle('active', tab.dataset.tab === tabName);
@@ -339,7 +336,7 @@ class FinisherIntegration {
         console.log(`Switched to ${tabName} tab`);
     }
 
-    loadMixmaster1() {
+    loadMixmaster1 () {
         const mixmasterFrame = document.getElementById('mixmasterFrame');
         if (mixmasterFrame && !mixmasterFrame.src) {
             mixmasterFrame.src = '/mixmaster1-app.html';
@@ -347,7 +344,7 @@ class FinisherIntegration {
         }
     }
 
-    updateUIBasedOnPlan(plan) {
+    updateUIBasedOnPlan (plan) {
         // Update UI elements based on subscription plan
         const planFeatures = {
             starter: {
@@ -375,13 +372,13 @@ class FinisherIntegration {
 
         // Hide/show tabs based on plan
         this.updateTabVisibility(features);
-        
+
         // Update plan display
         document.getElementById('planName').textContent = `${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`;
         document.getElementById('statusBadge').textContent = plan.toUpperCase();
     }
 
-    updateTabVisibility(features) {
+    updateTabVisibility (features) {
         // Show/hide tabs based on available features
         const effectsTab = document.getElementById('effectsTab');
         const masteringTab = document.getElementById('masteringTab');
@@ -398,49 +395,49 @@ class FinisherIntegration {
         }
     }
 
-    handleFinisherMessage(data) {
+    handleFinisherMessage (data) {
         console.log('📨 Message from Finisher:', data);
-        
+
         switch (data.type) {
-            case 'project_saved':
-                this.handleProjectSaved(data);
-                break;
-            case 'collaboration_request':
-                this.handleCollaborationRequest(data);
-                break;
-            case 'error':
-                this.handleFinisherError(data);
-                break;
-            default:
-                console.log('Unknown message type:', data.type);
+        case 'project_saved':
+            this.handleProjectSaved(data);
+            break;
+        case 'collaboration_request':
+            this.handleCollaborationRequest(data);
+            break;
+        case 'error':
+            this.handleFinisherError(data);
+            break;
+        default:
+            console.log('Unknown message type:', data.type);
         }
     }
 
-    handleProjectSaved(data) {
+    handleProjectSaved (data) {
         // Sync project data with CreatorSync
         if (this.socket) {
             this.socket.emit('finisher_project_update', data);
         }
-        
+
         this.showToast('Project saved successfully', 'success');
     }
 
-    handleCollaborationRequest(data) {
+    handleCollaborationRequest (data) {
         // Handle collaboration invites from Finisher
         if (this.socket) {
             this.socket.emit('collaboration_invite', data);
         }
     }
 
-    handleFinisherError(data) {
+    handleFinisherError (data) {
         console.error('Finisher error:', data.message);
         this.showToast(data.message || 'An error occurred in The Finisher', 'error');
     }
 
-    handleSubscriptionUpdate(data) {
+    handleSubscriptionUpdate (data) {
         this.subscriptionStatus = data;
         this.updateSubscriptionDisplay(data);
-        
+
         if (!data.hasAccess) {
             this.showNoAccess('Your subscription has been cancelled or expired');
         } else if (document.getElementById('noAccess').style.display !== 'none') {
@@ -449,7 +446,7 @@ class FinisherIntegration {
         }
     }
 
-    setupEventListeners() {
+    setupEventListeners () {
         // Back to CreatorSync button
         document.getElementById('backToCreatorSync')?.addEventListener('click', () => {
             this.goBackToCreatorSync();
@@ -489,28 +486,28 @@ class FinisherIntegration {
         });
     }
 
-    goBackToCreatorSync() {
+    goBackToCreatorSync () {
         // Navigate back to main CreatorSync interface
         window.location.href = '/';
     }
 
-    toggleUserMenu() {
+    toggleUserMenu () {
         const dropdown = document.getElementById('userMenuDropdown');
         dropdown?.classList.toggle('show');
     }
 
-    openIntegrationConfig() {
+    openIntegrationConfig () {
         document.getElementById('integrationModal').style.display = 'flex';
         this.populateConfigForm();
     }
 
-    populateConfigForm() {
+    populateConfigForm () {
         // Populate form with current configuration
         document.getElementById('finisherUrl').value = this.integrationConfig.url || '';
         document.getElementById('apiEndpoint').value = this.integrationConfig.apiEndpoint || '';
         document.getElementById('apiKey').value = this.integrationConfig.apiKey || '';
         document.getElementById('desktopProtocol').value = this.integrationConfig.desktopProtocol || 'finisher://';
-        
+
         // Select current integration method
         const methodRadio = document.getElementById(`${this.integrationConfig.method}Integration`);
         if (methodRadio) {
@@ -518,50 +515,50 @@ class FinisherIntegration {
         }
     }
 
-    saveIntegrationConfig() {
+    saveIntegrationConfig () {
         // Get selected integration method
         const selectedMethod = document.querySelector('input[name="integration"]:checked')?.value;
-        
+
         if (selectedMethod) {
             this.integrationConfig.method = selectedMethod;
             this.integrationConfig.url = document.getElementById('finisherUrl').value;
             this.integrationConfig.apiEndpoint = document.getElementById('apiEndpoint').value;
             this.integrationConfig.apiKey = document.getElementById('apiKey').value;
             this.integrationConfig.desktopProtocol = document.getElementById('desktopProtocol').value;
-            
+
             this.saveConfiguration();
             this.closeModal('integrationModal');
-            
+
             // Reinitialize with new configuration
             if (this.subscriptionStatus?.hasAccess) {
                 this.initializeFinisherApp();
             }
-            
+
             this.showToast('Integration configuration saved', 'success');
         }
     }
 
-    closeModal(modalId) {
+    closeModal (modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
 
-    openSubscriptionSettings() {
+    openSubscriptionSettings () {
         // Redirect to subscription management
         window.open('/subscription-settings', '_blank');
     }
 
-    openSupport() {
+    openSupport () {
         // Open support chat or redirect to support page
         window.open('/support', '_blank');
     }
 
-    logout() {
+    logout () {
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
         window.location.href = '/';
     }
 
-    showToast(message, type = 'info') {
+    showToast (message, type = 'info') {
         // Create and show toast notification
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
@@ -569,12 +566,12 @@ class FinisherIntegration {
             <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
             <span>${message}</span>
         `;
-        
+
         document.body.appendChild(toast);
-        
+
         // Animate in
         setTimeout(() => toast.classList.add('show'), 100);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             toast.classList.remove('show');
@@ -582,13 +579,13 @@ class FinisherIntegration {
         }, 3000);
     }
 
-    initializeIntegration() {
+    initializeIntegration () {
         console.log('🎵 Finisher Integration Ready');
     }
 }
 
 // Global functions for HTML onclick handlers
-window.upgradeSubscription = async function(plan) {
+window.upgradeSubscription = async function (plan) {
     try {
         const userData = JSON.parse(localStorage.getItem('userData'));
         if (!userData) {
@@ -599,7 +596,7 @@ window.upgradeSubscription = async function(plan) {
         const response = await fetch('/api/subscriptions/create', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${userData.token}`,
+                Authorization: `Bearer ${userData.token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ plan })
@@ -619,35 +616,35 @@ window.upgradeSubscription = async function(plan) {
     }
 };
 
-window.goBackToCreatorSync = function() {
+window.goBackToCreatorSync = function () {
     window.location.href = '/';
 };
 
 // Global functions for HTML onclick handlers
-window.switchToMixer = function() {
+window.switchToMixer = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.switchFinisherTab('mixer');
     }
 };
 
-window.switchToEffects = function() {
+window.switchToEffects = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.switchFinisherTab('effects');
     }
 };
 
-window.switchToMastering = function() {
+window.switchToMastering = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.switchFinisherTab('mastering');
     }
 };
 
-window.openMixmasterFullscreen = function() {
+window.openMixmasterFullscreen = function () {
     const mixmasterUrl = '/mixmaster1-app.html';
     window.open(mixmasterUrl, '_blank', 'fullscreen=yes,scrollbars=yes,resizable=yes');
 };
 
-window.resetMixmaster = function() {
+window.resetMixmaster = function () {
     const mixmasterFrame = document.getElementById('mixmasterFrame');
     if (mixmasterFrame && confirm('Reset Mixmaster1? This will reload the mixer and lose unsaved changes.')) {
         mixmasterFrame.src = mixmasterFrame.src; // Reload iframe
@@ -655,25 +652,25 @@ window.resetMixmaster = function() {
     }
 };
 
-window.openIntegrationConfig = function() {
+window.openIntegrationConfig = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.openIntegrationConfig();
     }
 };
 
-window.openSubscriptionSettings = function() {
+window.openSubscriptionSettings = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.openSubscriptionSettings();
     }
 };
 
-window.openSupport = function() {
+window.openSupport = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.openSupport();
     }
 };
 
-window.logout = function() {
+window.logout = function () {
     if (window.finisherIntegration) {
         window.finisherIntegration.logout();
     }
@@ -684,7 +681,7 @@ window.logout = function() {
  * Analyzes user writing patterns and provides intelligent suggestions
  */
 class AISongwriterAssistant {
-    constructor() {
+    constructor () {
         this.userStyle = {
             cadencePattern: 0,
             toneConsistency: 0,
@@ -694,7 +691,7 @@ class AISongwriterAssistant {
             averageLineLength: 0,
             emotionalTone: 'neutral'
         };
-        
+
         this.writingHistory = [];
         this.currentSong = {
             title: '',
@@ -703,28 +700,28 @@ class AISongwriterAssistant {
             lyrics: '',
             structure: []
         };
-        
+
         this.analysisCache = new Map();
         this.suggestionEngine = new SuggestionEngine();
-        
+
         this.init();
     }
 
-    init() {
+    init () {
         console.log('🧠 Initializing AI Songwriter Assistant...');
         this.setupEventListeners();
         this.loadUserData();
         this.updateUI();
     }
 
-    setupEventListeners() {
+    setupEventListeners () {
         // Main textarea for lyric writing
         const lyricsTextarea = document.getElementById('lyricsTextarea');
         if (lyricsTextarea) {
             lyricsTextarea.addEventListener('input', (e) => {
                 this.onLyricsChange(e.target.value);
             });
-            
+
             lyricsTextarea.addEventListener('paste', (e) => {
                 setTimeout(() => this.onLyricsChange(e.target.value), 100);
             });
@@ -771,11 +768,11 @@ class AISongwriterAssistant {
         if (rewriteBtn) rewriteBtn.addEventListener('click', () => this.rewriteInStyle());
     }
 
-    onLyricsChange(lyrics) {
+    onLyricsChange (lyrics) {
         this.currentSong.lyrics = lyrics;
         this.updateWritingStats(lyrics);
         this.analyzePatterns(lyrics);
-        
+
         // Debounced analysis for performance
         clearTimeout(this.analysisTimeout);
         this.analysisTimeout = setTimeout(() => {
@@ -783,12 +780,12 @@ class AISongwriterAssistant {
         }, 1000);
     }
 
-    updateSongMetadata(field, value) {
+    updateSongMetadata (field, value) {
         this.currentSong[field] = value;
         this.analyzePatterns(this.currentSong.lyrics);
     }
 
-    updateWritingStats(lyrics) {
+    updateWritingStats (lyrics) {
         const lines = lyrics.split('\n').filter(line => line.trim().length > 0);
         const words = lyrics.split(/\s+/).filter(word => word.length > 0);
         const rhymeScheme = this.detectRhymeScheme(lines);
@@ -799,7 +796,7 @@ class AISongwriterAssistant {
         document.getElementById('rhymeScheme').textContent = rhymeScheme || '-';
     }
 
-    analyzePatterns(lyrics) {
+    analyzePatterns (lyrics) {
         if (!lyrics || lyrics.trim().length < 50) return;
 
         const analysis = this.performPatternAnalysis(lyrics);
@@ -807,16 +804,16 @@ class AISongwriterAssistant {
         this.updateLearningStatus();
     }
 
-    performPatternAnalysis(lyrics) {
+    performPatternAnalysis (lyrics) {
         const lines = lyrics.split('\n').filter(line => line.trim().length > 0);
         const words = lyrics.split(/\s+/).filter(word => word.length > 0);
 
         // Cadence analysis - rhythm and flow
         const cadenceScore = this.analyzeCadence(lines);
-        
+
         // Tone analysis - emotional consistency
         const toneScore = this.analyzeTone(lyrics);
-        
+
         // Rhythm analysis - syllable patterns
         const rhythmScore = this.analyzeRhythm(lines);
 
@@ -830,25 +827,25 @@ class AISongwriterAssistant {
         };
     }
 
-    analyzeCadence(lines) {
+    analyzeCadence (lines) {
         if (lines.length < 2) return 0;
-        
+
         let consistencyScore = 0;
         const syllableCounts = lines.map(line => this.countSyllables(line));
-        
+
         // Check for consistent syllable patterns
         const avgSyllables = syllableCounts.reduce((a, b) => a + b, 0) / syllableCounts.length;
         const variance = syllableCounts.reduce((sum, count) => sum + Math.pow(count - avgSyllables, 2), 0) / syllableCounts.length;
-        
+
         // Lower variance = higher consistency
         consistencyScore = Math.max(0, 100 - (variance * 5));
-        
+
         return Math.min(100, consistencyScore);
     }
 
-    analyzeTone(lyrics) {
+    analyzeTone (lyrics) {
         const words = lyrics.toLowerCase().split(/\s+/);
-        
+
         // Emotional word categories
         const positiveWords = ['love', 'happy', 'joy', 'dream', 'hope', 'light', 'beautiful', 'amazing', 'wonderful', 'fantastic'];
         const negativeWords = ['hate', 'sad', 'pain', 'dark', 'lost', 'broken', 'hurt', 'alone', 'empty', 'fear'];
@@ -877,12 +874,12 @@ class AISongwriterAssistant {
         return Math.min(100, consistency);
     }
 
-    analyzeRhythm(lines) {
+    analyzeRhythm (lines) {
         if (lines.length < 4) return 0;
 
         let rhythmScore = 0;
         const stressPatterns = lines.map(line => this.getStressPattern(line));
-        
+
         // Check for recurring rhythm patterns
         const patternMap = new Map();
         stressPatterns.forEach(pattern => {
@@ -897,16 +894,16 @@ class AISongwriterAssistant {
         return Math.min(100, rhythmScore);
     }
 
-    analyzeVocabulary(words) {
+    analyzeVocabulary (words) {
         const uniqueWords = new Set(words.map(word => word.toLowerCase()));
         const complexWords = words.filter(word => word.length > 6).length;
-        
+
         return Math.min(100, (complexWords / words.length) * 200 + (uniqueWords.size / words.length) * 100);
     }
 
-    detectEmotionalTone(lyrics) {
+    detectEmotionalTone (lyrics) {
         const words = lyrics.toLowerCase().split(/\s+/);
-        
+
         const emotions = {
             happy: ['happy', 'joy', 'love', 'excited', 'amazing', 'wonderful', 'fantastic', 'great'],
             sad: ['sad', 'cry', 'tears', 'lonely', 'empty', 'broken', 'hurt', 'pain'],
@@ -928,20 +925,20 @@ class AISongwriterAssistant {
         return scores[dominantEmotion] > 0 ? dominantEmotion : 'neutral';
     }
 
-    countSyllables(text) {
+    countSyllables (text) {
         // Simple syllable counting algorithm
         return text.toLowerCase().replace(/[^a-z]/g, '').replace(/[aeiou]+/g, 'a').length || 1;
     }
 
-    getStressPattern(line) {
+    getStressPattern (line) {
         // Simplified stress pattern detection
         const words = line.split(/\s+/);
         return words.map(word => word.length > 4 ? 1 : 0);
     }
 
-    detectRhymeScheme(lines) {
+    detectRhymeScheme (lines) {
         if (lines.length < 2) return '';
-        
+
         const endWords = lines.map(line => {
             const words = line.trim().split(/\s+/);
             return words[words.length - 1]?.toLowerCase().replace(/[^a-z]/g, '') || '';
@@ -950,16 +947,16 @@ class AISongwriterAssistant {
         // Simple rhyme detection based on ending sounds
         const rhymeGroups = new Map();
         let currentLabel = 'A';
-        
+
         endWords.forEach((word, index) => {
             let foundRhyme = false;
-            for (let [rhyme, label] of rhymeGroups) {
+            for (const [rhyme, label] of rhymeGroups) {
                 if (this.wordsRhyme(word, rhyme)) {
                     foundRhyme = true;
                     break;
                 }
             }
-            
+
             if (!foundRhyme && word.length > 0) {
                 rhymeGroups.set(word, currentLabel);
                 currentLabel = String.fromCharCode(currentLabel.charCodeAt(0) + 1);
@@ -967,24 +964,24 @@ class AISongwriterAssistant {
         });
 
         return endWords.map(word => {
-            for (let [rhyme, label] of rhymeGroups) {
+            for (const [rhyme, label] of rhymeGroups) {
                 if (this.wordsRhyme(word, rhyme)) return label;
             }
             return 'X';
         }).join('');
     }
 
-    wordsRhyme(word1, word2) {
+    wordsRhyme (word1, word2) {
         if (word1.length < 2 || word2.length < 2) return false;
-        
+
         // Simple rhyme detection - last 2-3 characters
         const end1 = word1.slice(-2);
         const end2 = word2.slice(-2);
-        
+
         return end1 === end2 || word1.slice(-3) === word2.slice(-3);
     }
 
-    updateStyleMetrics(analysis) {
+    updateStyleMetrics (analysis) {
         // Update user style profile
         this.userStyle.cadencePattern = analysis.cadence;
         this.userStyle.toneConsistency = analysis.tone;
@@ -1004,14 +1001,14 @@ class AISongwriterAssistant {
         document.getElementById('rhythmScore').textContent = `${Math.round(analysis.rhythm)}% consistent`;
     }
 
-    updateProgressBar(id, value) {
+    updateProgressBar (id, value) {
         const bar = document.getElementById(id);
         if (bar) {
             bar.style.width = `${value}%`;
         }
     }
 
-    updateLearningStatus() {
+    updateLearningStatus () {
         const lyricsLength = this.currentSong.lyrics.length;
         const status = document.getElementById('learningStatus');
         const aiStatus = document.getElementById('aiStatus');
@@ -1032,7 +1029,7 @@ class AISongwriterAssistant {
         }
     }
 
-    async generateSuggestions() {
+    async generateSuggestions () {
         const suggestionsList = document.getElementById('suggestionsList');
         if (!suggestionsList) return;
 
@@ -1053,12 +1050,12 @@ class AISongwriterAssistant {
         }
     }
 
-    displaySuggestions(suggestions) {
+    displaySuggestions (suggestions) {
         const suggestionsList = document.getElementById('suggestionsList');
         if (!suggestionsList || !suggestions.length) return;
 
         suggestionsList.innerHTML = suggestions.map(suggestion => `
-            <div class="suggestion-item" onclick="window.aiSongwriter.applySuggestion('${suggestion.type}', '${suggestion.text.replace(/'/g, "\\'")}')">
+            <div class="suggestion-item" onclick="window.aiSongwriter.applySuggestion('${suggestion.type}', '${suggestion.text.replace(/'/g, '\\\'')}')">
                 <div class="suggestion-text">${suggestion.text}</div>
                 <div class="suggestion-meta">
                     <span>${suggestion.type}</span>
@@ -1068,13 +1065,13 @@ class AISongwriterAssistant {
         `).join('');
     }
 
-    applySuggestion(type, text) {
+    applySuggestion (type, text) {
         const textarea = document.getElementById('lyricsTextarea');
         if (!textarea) return;
 
         const currentPosition = textarea.selectionStart;
         const currentText = textarea.value;
-        
+
         let newText;
         if (type === 'line') {
             // Add as new line
@@ -1085,10 +1082,10 @@ class AISongwriterAssistant {
             const afterCursor = currentText.substring(currentPosition);
             const lastSpaceIndex = beforeCursor.lastIndexOf(' ');
             const nextSpaceIndex = afterCursor.indexOf(' ');
-            
+
             const before = beforeCursor.substring(0, lastSpaceIndex + 1);
             const after = nextSpaceIndex === -1 ? '' : afterCursor.substring(nextSpaceIndex);
-            
+
             newText = before + text + after;
         } else {
             // Insert at cursor
@@ -1099,14 +1096,14 @@ class AISongwriterAssistant {
 
         textarea.value = newText;
         this.onLyricsChange(newText);
-        
+
         // Move cursor to end of inserted text
         const newPosition = currentPosition + text.length;
         textarea.setSelectionRange(newPosition, newPosition);
         textarea.focus();
     }
 
-    openWritersBlockAssistant() {
+    openWritersBlockAssistant () {
         const assistant = document.getElementById('writersBlockAssistant');
         if (assistant) {
             assistant.classList.remove('hidden');
@@ -1114,34 +1111,34 @@ class AISongwriterAssistant {
         }
     }
 
-    closeWritersBlockAssistant() {
+    closeWritersBlockAssistant () {
         const assistant = document.getElementById('writersBlockAssistant');
         if (assistant) {
             assistant.classList.add('hidden');
         }
     }
 
-    async loadBlockTechniques() {
+    async loadBlockTechniques () {
         // Load creative prompts
         this.loadCreativePrompts();
     }
 
-    async loadCreativePrompts() {
+    async loadCreativePrompts () {
         const promptContent = document.getElementById('promptContent');
         if (!promptContent) return;
 
         const prompts = await this.suggestionEngine.generateCreativePrompts(this.userStyle, this.currentSong);
-        
+
         promptContent.innerHTML = prompts.map(prompt => `
             <div class="prompt-item">
                 <h5>${prompt.title}</h5>
                 <p>${prompt.description}</p>
-                <button class="btn btn-small" onclick="window.aiSongwriter.applyPrompt('${prompt.text.replace(/'/g, "\\'")}')">Use Prompt</button>
+                <button class="btn btn-small" onclick="window.aiSongwriter.applyPrompt('${prompt.text.replace(/'/g, '\\\'')}')">Use Prompt</button>
             </div>
         `).join('');
     }
 
-    applyPrompt(promptText) {
+    applyPrompt (promptText) {
         const textarea = document.getElementById('lyricsTextarea');
         if (textarea) {
             textarea.value += '\n\n' + promptText;
@@ -1151,7 +1148,7 @@ class AISongwriterAssistant {
         }
     }
 
-    continueLine() {
+    continueLine () {
         const partialLine = document.getElementById('partialLine');
         if (!partialLine || !partialLine.value.trim()) return;
 
@@ -1163,17 +1160,17 @@ class AISongwriterAssistant {
         const continuationsDiv = document.getElementById('continuations');
         if (continuationsDiv) {
             continuationsDiv.innerHTML = continuations.map(cont => `
-                <div class="continuation-item" onclick="window.aiSongwriter.applyContinuation('${cont.replace(/'/g, "\\'")}')">
+                <div class="continuation-item" onclick="window.aiSongwriter.applyContinuation('${cont.replace(/'/g, '\\\'')}')">
                     ${cont}
                 </div>
             `).join('');
         }
     }
 
-    applyContinuation(continuation) {
+    applyContinuation (continuation) {
         const partialLine = document.getElementById('partialLine');
         const fullLine = partialLine.value + continuation;
-        
+
         const textarea = document.getElementById('lyricsTextarea');
         if (textarea) {
             textarea.value += '\n' + fullLine;
@@ -1183,7 +1180,7 @@ class AISongwriterAssistant {
         }
     }
 
-    rewriteInStyle() {
+    rewriteInStyle () {
         const rewriteInput = document.getElementById('rewriteInput');
         if (!rewriteInput || !rewriteInput.value.trim()) return;
 
@@ -1195,14 +1192,14 @@ class AISongwriterAssistant {
         const rewritesDiv = document.getElementById('rewrites');
         if (rewritesDiv) {
             rewritesDiv.innerHTML = rewrites.map(rewrite => `
-                <div class="rewrite-item" onclick="window.aiSongwriter.applyRewrite('${rewrite.replace(/'/g, "\\'")}')">
+                <div class="rewrite-item" onclick="window.aiSongwriter.applyRewrite('${rewrite.replace(/'/g, '\\\'')}')">
                     ${rewrite}
                 </div>
             `).join('');
         }
     }
 
-    applyRewrite(rewrite) {
+    applyRewrite (rewrite) {
         const textarea = document.getElementById('lyricsTextarea');
         if (textarea) {
             textarea.value += '\n' + rewrite;
@@ -1212,27 +1209,27 @@ class AISongwriterAssistant {
         }
     }
 
-    showRhymeHelper() {
+    showRhymeHelper () {
         // Implementation for rhyme helper
         this.showToast('Rhyme Helper activated! Type a word to find rhymes.', 'info');
     }
 
-    showSynonymFinder() {
+    showSynonymFinder () {
         // Implementation for synonym finder
         this.showToast('Synonym Finder activated! Select a word to find alternatives.', 'info');
     }
 
-    showMoodMatcher() {
+    showMoodMatcher () {
         // Implementation for mood matcher
         this.showToast('Mood Matcher analyzing your song\'s emotional tone...', 'info');
     }
 
-    showStructureHelper() {
+    showStructureHelper () {
         // Implementation for structure helper
         this.showToast('Song Structure Helper will suggest verse/chorus patterns.', 'info');
     }
 
-    saveProject() {
+    saveProject () {
         const projectData = {
             ...this.currentSong,
             userStyle: this.userStyle,
@@ -1244,14 +1241,14 @@ class AISongwriterAssistant {
         this.showToast('Project saved successfully!', 'success');
     }
 
-    loadUserData() {
+    loadUserData () {
         const savedProject = localStorage.getItem('aiSongwriterProject');
         if (savedProject) {
             try {
                 const data = JSON.parse(savedProject);
                 this.currentSong = { ...this.currentSong, ...data };
                 this.userStyle = { ...this.userStyle, ...data.userStyle };
-                
+
                 // Restore UI
                 const songTitle = document.getElementById('songTitle');
                 const songGenre = document.getElementById('songGenre');
@@ -1271,14 +1268,14 @@ class AISongwriterAssistant {
         }
     }
 
-    showToast(message, type = 'info') {
+    showToast (message, type = 'info') {
         // Use existing toast system
         if (window.finisherIntegration && window.finisherIntegration.showToast) {
             window.finisherIntegration.showToast(message, type);
         }
     }
 
-    updateUI() {
+    updateUI () {
         // Update initial UI state
         this.updateWritingStats(this.currentSong.lyrics || '');
         this.updateLearningStatus();
@@ -1290,25 +1287,25 @@ class AISongwriterAssistant {
  * Generates contextual suggestions based on user patterns
  */
 class SuggestionEngine {
-    constructor() {
+    constructor () {
         this.templates = {
             verse: [
-                "In the {time} when {emotion} fills the air",
-                "Walking through the {place} with {feeling} in my heart",
-                "Remember when we {action} under {setting}",
-                "Every {noun} tells a story of {theme}"
+                'In the {time} when {emotion} fills the air',
+                'Walking through the {place} with {feeling} in my heart',
+                'Remember when we {action} under {setting}',
+                'Every {noun} tells a story of {theme}'
             ],
             chorus: [
-                "And we'll {action} like there's no tomorrow",
-                "This is the {noun} that we've been waiting for",
-                "Hold on to {concept} with all your might",
-                "We are the {group} that {action} together"
+                'And we\'ll {action} like there\'s no tomorrow',
+                'This is the {noun} that we\'ve been waiting for',
+                'Hold on to {concept} with all your might',
+                'We are the {group} that {action} together'
             ],
             bridge: [
-                "Sometimes I wonder if {question}",
-                "In the silence I can hear {sound}",
-                "Maybe {possibility} is all we need",
-                "Beyond the {obstacle} lies our {goal}"
+                'Sometimes I wonder if {question}',
+                'In the silence I can hear {sound}',
+                'Maybe {possibility} is all we need',
+                'Beyond the {obstacle} lies our {goal}'
             ]
         };
 
@@ -1316,15 +1313,15 @@ class SuggestionEngine {
         this.initializeRhymeDatabase();
     }
 
-    initializeRhymeDatabase() {
+    initializeRhymeDatabase () {
         // Simple rhyme database - in production this would be much larger
         const rhymes = {
-            'love': ['above', 'dove', 'shove', 'glove'],
-            'heart': ['start', 'part', 'art', 'smart'],
-            'night': ['light', 'bright', 'sight', 'flight'],
-            'day': ['way', 'say', 'play', 'stay'],
-            'time': ['rhyme', 'climb', 'prime', 'mime'],
-            'dreams': ['seems', 'themes', 'streams', 'beams']
+            love: ['above', 'dove', 'shove', 'glove'],
+            heart: ['start', 'part', 'art', 'smart'],
+            night: ['light', 'bright', 'sight', 'flight'],
+            day: ['way', 'say', 'play', 'stay'],
+            time: ['rhyme', 'climb', 'prime', 'mime'],
+            dreams: ['seems', 'themes', 'streams', 'beams']
         };
 
         Object.entries(rhymes).forEach(([word, rhymeList]) => {
@@ -1338,7 +1335,7 @@ class SuggestionEngine {
         });
     }
 
-    async generateSuggestions(currentSong, userStyle, writingHistory) {
+    async generateSuggestions (currentSong, userStyle, writingHistory) {
         const suggestions = [];
 
         // Line suggestions based on current context
@@ -1356,17 +1353,17 @@ class SuggestionEngine {
         return suggestions.slice(0, 6); // Limit to 6 suggestions
     }
 
-    generateLineSuggestions(currentSong, userStyle) {
+    generateLineSuggestions (currentSong, userStyle) {
         const suggestions = [];
         const { genre, mood, lyrics } = currentSong;
-        
+
         // Determine song section
         const lines = lyrics.split('\n').filter(l => l.trim());
         const currentSection = this.detectCurrentSection(lines);
-        
+
         // Get templates for current section
         const templates = this.templates[currentSection] || this.templates.verse;
-        
+
         templates.forEach(template => {
             const filledTemplate = this.fillTemplate(template, { genre, mood, userStyle });
             if (filledTemplate !== template) {
@@ -1382,13 +1379,13 @@ class SuggestionEngine {
         return suggestions;
     }
 
-    generateWordSuggestions(currentSong, userStyle) {
+    generateWordSuggestions (currentSong, userStyle) {
         const suggestions = [];
         const { lyrics, mood } = currentSong;
-        
+
         // Find the last word that could be enhanced
         const words = lyrics.split(/\s+/);
-        const lastMeaningfulWord = words.reverse().find(word => 
+        const lastMeaningfulWord = words.reverse().find(word =>
             word.length > 3 && !/^(the|and|or|but|in|on|at|to|for|of|with)$/i.test(word)
         );
 
@@ -1407,10 +1404,10 @@ class SuggestionEngine {
         return suggestions.slice(0, 2);
     }
 
-    generateStructureSuggestions(currentSong) {
+    generateStructureSuggestions (currentSong) {
         const suggestions = [];
         const lines = currentSong.lyrics.split('\n').filter(l => l.trim());
-        
+
         if (lines.length > 0 && lines.length % 4 === 0) {
             suggestions.push({
                 type: 'structure',
@@ -1423,19 +1420,19 @@ class SuggestionEngine {
         return suggestions;
     }
 
-    detectCurrentSection(lines) {
+    detectCurrentSection (lines) {
         const lineCount = lines.length;
-        
+
         if (lineCount === 0) return 'verse';
         if (lineCount <= 4) return 'verse';
         if (lineCount <= 8) return 'chorus';
         if (lineCount <= 12) return 'verse';
         if (lineCount <= 16) return 'bridge';
-        
+
         return 'verse';
     }
 
-    fillTemplate(template, context) {
+    fillTemplate (template, context) {
         const replacements = {
             '{time}': ['morning', 'evening', 'midnight', 'dawn'][Math.floor(Math.random() * 4)],
             '{emotion}': this.getEmotionWord(context.mood),
@@ -1462,7 +1459,7 @@ class SuggestionEngine {
         return filled;
     }
 
-    getEmotionWord(mood) {
+    getEmotionWord (mood) {
         const emotions = {
             happy: ['joy', 'bliss', 'excitement', 'elation'],
             sad: ['sorrow', 'melancholy', 'grief', 'longing'],
@@ -1475,7 +1472,7 @@ class SuggestionEngine {
         return moodWords[Math.floor(Math.random() * moodWords.length)];
     }
 
-    getFeelingWord(mood) {
+    getFeelingWord (mood) {
         const feelings = {
             happy: ['happiness', 'contentment', 'peace', 'satisfaction'],
             sad: ['emptiness', 'sadness', 'loss', 'pain'],
@@ -1488,21 +1485,21 @@ class SuggestionEngine {
         return moodFeelings[Math.floor(Math.random() * moodFeelings.length)];
     }
 
-    getSynonyms(word, mood) {
+    getSynonyms (word, mood) {
         // Simple synonym database - in production this would be much more comprehensive
         const synonyms = {
-            'love': ['affection', 'devotion', 'passion', 'romance'],
-            'happy': ['joyful', 'elated', 'cheerful', 'blissful'],
-            'sad': ['melancholy', 'sorrowful', 'downhearted', 'blue'],
-            'beautiful': ['stunning', 'gorgeous', 'magnificent', 'radiant'],
-            'strong': ['powerful', 'mighty', 'robust', 'fierce'],
-            'light': ['radiance', 'glow', 'brilliance', 'luminance']
+            love: ['affection', 'devotion', 'passion', 'romance'],
+            happy: ['joyful', 'elated', 'cheerful', 'blissful'],
+            sad: ['melancholy', 'sorrowful', 'downhearted', 'blue'],
+            beautiful: ['stunning', 'gorgeous', 'magnificent', 'radiant'],
+            strong: ['powerful', 'mighty', 'robust', 'fierce'],
+            light: ['radiance', 'glow', 'brilliance', 'luminance']
         };
 
         return synonyms[word.toLowerCase()] || [word];
     }
 
-    calculateConfidence(text, userStyle) {
+    calculateConfidence (text, userStyle) {
         let confidence = 50; // Base confidence
 
         // Adjust based on user style compatibility
@@ -1521,7 +1518,7 @@ class SuggestionEngine {
         return Math.min(95, Math.max(60, confidence + Math.random() * 20));
     }
 
-    calculateWordConfidence(word, userStyle) {
+    calculateWordConfidence (word, userStyle) {
         let confidence = 60;
 
         if (word.length > userStyle.averageLineLength / 8) {
@@ -1531,48 +1528,48 @@ class SuggestionEngine {
         return Math.min(90, Math.max(50, confidence + Math.random() * 15));
     }
 
-    async generateCreativePrompts(userStyle, currentSong) {
+    async generateCreativePrompts (userStyle, currentSong) {
         const prompts = [
             {
-                title: "Emotional Memory",
-                description: "Write about a moment that changed how you see the world",
-                text: "Think of a specific moment when everything changed..."
+                title: 'Emotional Memory',
+                description: 'Write about a moment that changed how you see the world',
+                text: 'Think of a specific moment when everything changed...'
             },
             {
-                title: "Character Story",
-                description: "Create a character and tell their story in verse",
-                text: "There was someone who lived in your neighborhood who..."
+                title: 'Character Story',
+                description: 'Create a character and tell their story in verse',
+                text: 'There was someone who lived in your neighborhood who...'
             },
             {
-                title: "Metaphor Challenge",
-                description: "Use an everyday object as a metaphor for love",
-                text: "Love is like a [object] because..."
+                title: 'Metaphor Challenge',
+                description: 'Use an everyday object as a metaphor for love',
+                text: 'Love is like a [object] because...'
             },
             {
-                title: "Dialogue Song",
-                description: "Write a conversation between two people",
-                text: "\"What did you mean when you said...\" \"I meant that...\""
+                title: 'Dialogue Song',
+                description: 'Write a conversation between two people',
+                text: '"What did you mean when you said..." "I meant that..."'
             },
             {
-                title: "Stream of Consciousness",
-                description: "Write continuously without stopping for 2 minutes",
-                text: "Right now I'm thinking about..."
+                title: 'Stream of Consciousness',
+                description: 'Write continuously without stopping for 2 minutes',
+                text: 'Right now I\'m thinking about...'
             }
         ];
 
         return prompts.slice(0, 3);
     }
 
-    generateLineContinuations(partialLine, userStyle) {
+    generateLineContinuations (partialLine, userStyle) {
         const continuations = [
-            " and I know it's true",
-            " in the morning light",
-            " when the world was young",
-            " like a distant dream",
-            " with an open heart",
-            " through the darkest night",
-            " in this moment now",
-            " with you by my side"
+            ' and I know it\'s true',
+            ' in the morning light',
+            ' when the world was young',
+            ' like a distant dream',
+            ' with an open heart',
+            ' through the darkest night',
+            ' in this moment now',
+            ' with you by my side'
         ];
 
         // Filter based on user style
@@ -1581,7 +1578,7 @@ class SuggestionEngine {
             .slice(0, 4);
     }
 
-    rewriteInUserStyle(originalText, userStyle) {
+    rewriteInUserStyle (originalText, userStyle) {
         // Simple rewriting based on style patterns
         const rewrites = [];
         const lines = originalText.split('\n');
@@ -1605,7 +1602,7 @@ class SuggestionEngine {
                     rewrites.push(simple);
                 } else {
                     // Maintain similar complexity but change style
-                    rewrites.push(line + " (reimagined)");
+                    rewrites.push(line + ' (reimagined)');
                 }
             }
         });
@@ -1617,7 +1614,7 @@ class SuggestionEngine {
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.finisherIntegration = new FinisherIntegration();
-    
+
     // Initialize AI Songwriter when on the appropriate tab
     setTimeout(() => {
         window.aiSongwriter = new AISongwriterAssistant();

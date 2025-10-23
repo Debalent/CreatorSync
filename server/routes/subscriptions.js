@@ -102,7 +102,7 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
             .find(sub => sub.userId === userId && sub.status === 'active');
 
         if (existingSubscription) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 error: 'User already has an active subscription',
                 currentPlan: existingSubscription.planId
             });
@@ -114,7 +114,7 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
             payment_method_types: ['card'],
             line_items: [{
                 price: plan.stripePriceId,
-                quantity: 1,
+                quantity: 1
             }],
             mode: 'subscription',
             success_url: `${process.env.CLIENT_URL}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -154,10 +154,9 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
             checkoutUrl: session.url,
             subscriptionId
         });
-
     } catch (error) {
         console.error('Create subscription error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to create subscription',
             message: error.message
         });
@@ -171,7 +170,7 @@ router.post('/success', authenticateUser, async (req, res) => {
 
         // Retrieve the checkout session from Stripe
         const session = await stripe.checkout.sessions.retrieve(sessionId);
-        
+
         if (session.payment_status === 'paid' || session.mode === 'subscription') {
             // Find the subscription
             const subscription = Array.from(subscriptions.values())
@@ -217,10 +216,9 @@ router.post('/success', authenticateUser, async (req, res) => {
         } else {
             res.status(400).json({ error: 'Payment not completed' });
         }
-
     } catch (error) {
         console.error('Subscription success error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to process subscription success',
             message: error.message
         });
@@ -269,10 +267,9 @@ router.post('/cancel', authenticateUser, async (req, res) => {
                 cancelledAt: subscription.cancelledAt
             }
         });
-
     } catch (error) {
         console.error('Cancel subscription error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to cancel subscription',
             message: error.message
         });
@@ -309,7 +306,6 @@ router.get('/status', authenticateUser, (req, res) => {
                 hasFinisherAccess: false
             });
         }
-
     } catch (error) {
         console.error('Get subscription status error:', error);
         res.status(500).json({ error: 'Failed to get subscription status' });
@@ -350,7 +346,6 @@ router.get('/analytics', authenticateUser, (req, res) => {
             success: true,
             analytics
         });
-
     } catch (error) {
         console.error('Get subscription analytics error:', error);
         res.status(500).json({ error: 'Failed to get analytics' });
@@ -367,7 +362,7 @@ router.get('/finisher-access', authenticateUser, (req, res) => {
 
         if (subscription) {
             const plan = FINISHER_PLANS[subscription.planId];
-            
+
             // Define tiered features based on plan
             const tierFeatures = {
                 starter: {
@@ -396,7 +391,7 @@ router.get('/finisher-access', authenticateUser, (req, res) => {
                     whiteLabel: true
                 }
             };
-            
+
             res.json({
                 success: true,
                 hasAccess: true,
@@ -420,7 +415,6 @@ router.get('/finisher-access', authenticateUser, (req, res) => {
                 message: 'Upgrade to access The Finisher and Mixmaster1'
             });
         }
-
     } catch (error) {
         console.error('Check Finisher access error:', error);
         res.status(500).json({ error: 'Failed to check access' });
@@ -444,32 +438,31 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
 
         // Handle subscription events
         switch (event.type) {
-            case 'customer.subscription.created':
-                this.handleSubscriptionCreated(event.data.object);
-                break;
-            
-            case 'customer.subscription.updated':
-                this.handleSubscriptionUpdated(event.data.object);
-                break;
-            
-            case 'customer.subscription.deleted':
-                this.handleSubscriptionDeleted(event.data.object);
-                break;
-            
-            case 'invoice.payment_succeeded':
-                this.handlePaymentSucceeded(event.data.object);
-                break;
-            
-            case 'invoice.payment_failed':
-                this.handlePaymentFailed(event.data.object);
-                break;
-            
-            default:
-                console.log(`Unhandled event type: ${event.type}`);
+        case 'customer.subscription.created':
+            this.handleSubscriptionCreated(event.data.object);
+            break;
+
+        case 'customer.subscription.updated':
+            this.handleSubscriptionUpdated(event.data.object);
+            break;
+
+        case 'customer.subscription.deleted':
+            this.handleSubscriptionDeleted(event.data.object);
+            break;
+
+        case 'invoice.payment_succeeded':
+            this.handlePaymentSucceeded(event.data.object);
+            break;
+
+        case 'invoice.payment_failed':
+            this.handlePaymentFailed(event.data.object);
+            break;
+
+        default:
+            console.log(`Unhandled event type: ${event.type}`);
         }
 
         res.json({ received: true });
-
     } catch (error) {
         console.error('Webhook processing error:', error);
         res.status(500).json({ error: 'Webhook processing failed' });
@@ -477,10 +470,10 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
 });
 
 // Helper functions
-async function grantFinisherAccess(userId, planId) {
+async function grantFinisherAccess (userId, planId) {
     // Implementation for granting access to The Finisher
     console.log(`Granting Finisher access to user ${userId} with plan ${planId}`);
-    
+
     // In real implementation:
     // 1. Create user account in The Finisher system
     // 2. Set up plan limits and features
@@ -488,32 +481,32 @@ async function grantFinisherAccess(userId, planId) {
     // 4. Configure integrations between CreatorSync and The Finisher
 }
 
-function generateFinisherToken(userId) {
+function generateFinisherToken (userId) {
     // Generate secure token for accessing The Finisher
     return `finisher_${userId}_${Date.now()}`;
 }
 
-function handleSubscriptionCreated(subscription) {
+function handleSubscriptionCreated (subscription) {
     console.log('Subscription created:', subscription.id);
     // Update subscription status in database
 }
 
-function handleSubscriptionUpdated(subscription) {
+function handleSubscriptionUpdated (subscription) {
     console.log('Subscription updated:', subscription.id);
     // Update subscription details in database
 }
 
-function handleSubscriptionDeleted(subscription) {
+function handleSubscriptionDeleted (subscription) {
     console.log('Subscription deleted:', subscription.id);
     // Handle subscription cancellation
 }
 
-function handlePaymentSucceeded(invoice) {
+function handlePaymentSucceeded (invoice) {
     console.log('Payment succeeded:', invoice.id);
     // Renew subscription, send receipt
 }
 
-function handlePaymentFailed(invoice) {
+function handlePaymentFailed (invoice) {
     console.log('Payment failed:', invoice.id);
     // Handle failed payment, notify user
 }

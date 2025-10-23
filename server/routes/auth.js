@@ -3,13 +3,17 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const dataManager = require('../utils/dataManager');
+const translationManager = require('../utils/translationManager');
 
-// Mock user database (replace with real database)
-const users = new Map();
+// In-memory sessions (for simplicity, can be replaced with Redis)
 const sessions = new Map();
 
+// Export sessions for use in other routes
+module.exports.sessions = sessions;
+
 // Middleware to verify authentication
-const authenticateUser = (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -22,7 +26,7 @@ const authenticateUser = (req, res, next) => {
         return res.status(401).json({ error: 'Invalid or expired token' });
     }
 
-    req.user = users.get(session.userId);
+    req.user = await dataManager.findUserById(session.userId);
     next();
 };
 
@@ -37,10 +41,7 @@ router.post('/register', async (req, res) => {
         }
 
         // Check if user already exists
-        const existingUser = Array.from(users.values()).find(
-            user => user.email === email || user.username === username
-        );
-
+        const existingUser = await dataManager.findUserByEmail(email);
         if (existingUser) {
             return res.status(409).json({ error: 'User already exists' });
         }
@@ -73,7 +74,7 @@ router.post('/register', async (req, res) => {
             }
         };
 
-        users.set(userId, user);
+        await dataManager.addUser(user);
 
         // Create session
         const token = uuidv4();
@@ -88,14 +89,13 @@ router.post('/register', async (req, res) => {
 
         // Return user data (without password)
         const { password: _, ...userWithoutPassword } = user;
-        
+
         res.status(201).json({
             success: true,
-            message: 'User registered successfully',
+            message: translationManager.translate(req.language, 'auth.signupSuccessful'),
             user: userWithoutPassword,
             token
         });
-
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).json({ error: 'Failed to register user' });
@@ -112,15 +112,15 @@ router.post('/login', async (req, res) => {
         }
 
         // Find user by email
-        const user = Array.from(users.values()).find(user => user.email === email);
-        
+        const user = await dataManager.findUserByEmail(email);
+
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Verify password
         const isValidPassword = await bcrypt.compare(password, user.password);
-        
+
         if (!isValidPassword) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -138,14 +138,13 @@ router.post('/login', async (req, res) => {
 
         // Return user data (without password)
         const { password: _, ...userWithoutPassword } = user;
-        
+
         res.json({
             success: true,
-            message: 'Login successful',
+            message: translationManager.translate(req.language, 'auth.loginSuccessful'),
             user: userWithoutPassword,
             token
         });
-
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Failed to login' });
@@ -166,7 +165,6 @@ router.post('/logout', authenticateUser, (req, res) => {
             success: true,
             message: 'Logout successful'
         });
-
     } catch (error) {
         console.error('Logout error:', error);
         res.status(500).json({ error: 'Failed to logout' });
@@ -177,12 +175,11 @@ router.post('/logout', authenticateUser, (req, res) => {
 router.get('/profile', authenticateUser, (req, res) => {
     try {
         const { password: _, ...userWithoutPassword } = req.user;
-        
+
         res.json({
             success: true,
             user: userWithoutPassword
         });
-
     } catch (error) {
         console.error('Profile error:', error);
         res.status(500).json({ error: 'Failed to get profile' });
@@ -190,7 +187,7 @@ router.get('/profile', authenticateUser, (req, res) => {
 });
 
 // Update user profile
-router.put('/profile', authenticateUser, (req, res) => {
+router.put('/profile', authenticateUser, async (req, res) => {
     try {
         const { artistName, bio, location, website, socialLinks } = req.body;
         const user = req.user;
@@ -203,16 +200,15 @@ router.put('/profile', authenticateUser, (req, res) => {
         if (socialLinks) user.profile.socialLinks = { ...user.profile.socialLinks, ...socialLinks };
 
         user.updatedAt = new Date();
-        users.set(user.id, user);
+        await dataManager.updateUser(user.id, user);
 
         const { password: _, ...userWithoutPassword } = user;
-        
+
         res.json({
             success: true,
             message: 'Profile updated successfully',
             user: userWithoutPassword
         });
-
     } catch (error) {
         console.error('Profile update error:', error);
         res.status(500).json({ error: 'Failed to update profile' });
@@ -231,7 +227,7 @@ router.put('/password', authenticateUser, async (req, res) => {
 
         // Verify current password
         const isValidPassword = await bcrypt.compare(currentPassword, user.password);
-        
+
         if (!isValidPassword) {
             return res.status(401).json({ error: 'Current password is incorrect' });
         }
@@ -242,13 +238,12 @@ router.put('/password', authenticateUser, async (req, res) => {
 
         user.password = hashedPassword;
         user.updatedAt = new Date();
-        users.set(user.id, user);
+        await dataManager.updateUser(user.id, user);
 
         res.json({
             success: true,
             message: 'Password changed successfully'
         });
-
     } catch (error) {
         console.error('Password change error:', error);
         res.status(500).json({ error: 'Failed to change password' });
@@ -256,7 +251,7 @@ router.put('/password', authenticateUser, async (req, res) => {
 });
 
 // Verify email (placeholder)
-router.post('/verify-email', authenticateUser, (req, res) => {
+router.post('/verify-email', authenticateUser, async (req, res) => {
     try {
         const { verificationCode } = req.body;
         const user = req.user;
@@ -265,7 +260,7 @@ router.post('/verify-email', authenticateUser, (req, res) => {
         if (verificationCode === '123456') {
             user.isVerified = true;
             user.updatedAt = new Date();
-            users.set(user.id, user);
+            await dataManager.updateUser(user.id, user);
 
             res.json({
                 success: true,
@@ -274,7 +269,6 @@ router.post('/verify-email', authenticateUser, (req, res) => {
         } else {
             res.status(400).json({ error: 'Invalid verification code' });
         }
-
     } catch (error) {
         console.error('Email verification error:', error);
         res.status(500).json({ error: 'Failed to verify email' });
@@ -282,7 +276,7 @@ router.post('/verify-email', authenticateUser, (req, res) => {
 });
 
 // Request password reset (placeholder)
-router.post('/forgot-password', (req, res) => {
+router.post('/forgot-password', async (req, res) => {
     try {
         const { email } = req.body;
 
@@ -291,8 +285,8 @@ router.post('/forgot-password', (req, res) => {
         }
 
         // Mock password reset (implement real email sending)
-        const user = Array.from(users.values()).find(user => user.email === email);
-        
+        const user = await dataManager.findUserByEmail(email);
+
         if (user) {
             // In real implementation, send password reset email
             console.log(`Password reset requested for: ${email}`);
@@ -303,7 +297,6 @@ router.post('/forgot-password', (req, res) => {
             success: true,
             message: 'If an account with that email exists, a password reset link has been sent'
         });
-
     } catch (error) {
         console.error('Password reset error:', error);
         res.status(500).json({ error: 'Failed to process password reset request' });

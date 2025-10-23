@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
+    "lint": "eslint server/ public/js/",
+    "lint:fix": "eslint server/ public/js/ --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -34,6 +36,11 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^7.2.1",
     "nodemon": "^3.0.1"
   },
   "engines": {

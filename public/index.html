@@ -16,23 +16,31 @@
                 <h1>CreatorSync</h1>
                 <span class="brand-tagline">Powered by The Finisher</span>
             </div>
-            
+
             <div class="nav-menu">
-                <a href="#beats" class="nav-link">Beats</a>
-                <a href="#sounds" class="nav-link">Sounds</a>
-                <a href="#studio" class="nav-link">Studio</a>
-                <a href="#marketplace" class="nav-link">Marketplace</a>
-                <a href="#finisher" class="nav-link finisher-link" id="finisherNavLink">
+                <a href="#beats" class="nav-link" data-translate="nav.beats">Beats</a>
+                <a href="#sounds" class="nav-link" data-translate="nav.sounds">Sounds</a>
+                <a href="#studio" class="nav-link" data-translate="nav.studio">Studio</a>
+                <a href="#marketplace" class="nav-link" data-translate="nav.marketplace">Marketplace</a>
+                <a href="#finisher" class="nav-link finisher-link" id="finisherNavLink" data-translate="nav.finisher">
                     <i class="fas fa-magic"></i>
                     The Finisher
                     <span class="pro-badge">PRO</span>
                 </a>
             </div>
-            
+
             <div class="nav-auth">
-                <button class="btn btn-outline" id="loginBtn">Login</button>
-                <button class="btn btn-secondary" id="signupBtn">Sign Up</button>
-                <button class="btn btn-primary" id="finisherBtn">Get The Finisher</button>
+                <button class="btn btn-outline" id="loginBtn" data-translate="nav.login">Login</button>
+                <button class="btn btn-secondary" id="signupBtn" data-translate="nav.signup">Sign Up</button>
+                <button class="btn btn-primary" id="finisherBtn" data-translate="nav.getFinisher">Get The Finisher</button>
+                <div class="language-selector">
+                    <select id="languageSelect" title="Select Language">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                    </select>
+                </div>
             </div>
         </div>
     </nav>
@@ -40,23 +48,23 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Monetize Your Musical Vision</h1>
-            <p class="hero-subtitle">
-                The ultimate platform for producers and artists to sell beats, 
+            <h1 class="hero-title" data-translate="hero.title">Monetize Your Musical Vision</h1>
+            <p class="hero-subtitle" data-translate="hero.subtitle">
+                The ultimate platform for producers and artists to sell beats,
                 license tracks, and collaborate in real-time.
             </p>
             <div class="hero-actions">
-                <button class="btn btn-primary btn-lg">
+                <button class="btn btn-primary btn-lg" data-translate="hero.startCreating">
                     <i class="fas fa-play"></i>
                     Start Creating
                 </button>
-                <button class="btn btn-outline btn-lg">
+                <button class="btn btn-outline btn-lg" data-translate="hero.exploreBeats">
                     <i class="fas fa-headphones"></i>
                     Explore Beats
                 </button>
             </div>
         </div>
-        
+
         <div class="hero-visual">
             <div class="waveform-container">
                 <div class="waveform"></div>
@@ -68,16 +76,16 @@
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2>Trending Beats</h2>
+                <h2 data-translate="sections.trendingBeats">Trending Beats</h2>
                 <div class="filter-tabs">
-                    <button class="tab-btn active" data-category="all">All</button>
-                    <button class="tab-btn" data-category="hip-hop">Hip Hop</button>
-                    <button class="tab-btn" data-category="trap">Trap</button>
-                    <button class="tab-btn" data-category="r&b">R&B</button>
-                    <button class="tab-btn" data-category="pop">Pop</button>
+                    <button class="tab-btn active" data-category="all" data-translate="filters.all">All</button>
+                    <button class="tab-btn" data-category="hip-hop" data-translate="filters.hipHop">Hip Hop</button>
+                    <button class="tab-btn" data-category="trap" data-translate="filters.trap">Trap</button>
+                    <button class="tab-btn" data-category="r&b" data-translate="filters.rnb">R&B</button>
+                    <button class="tab-btn" data-category="pop" data-translate="filters.pop">Pop</button>
                 </div>
             </div>
-            
+
             <div class="beats-grid" id="beatsGrid">
                 <!-- Beat cards will be dynamically loaded here -->
             </div>
@@ -94,7 +102,7 @@
                     <p class="track-artist">CreatorSync</p>
                 </div>
             </div>
-            
+
             <div class="player-controls">
                 <button class="control-btn" id="prevBtn" title="Previous Track" aria-label="Previous Track">
                     <i class="fas fa-step-backward"></i>
@@ -106,7 +114,7 @@
                     <i class="fas fa-step-forward"></i>
                 </button>
             </div>
-            
+
             <div class="progress-container">
                 <span class="time current-time">0:00</span>
                 <div class="progress-bar">
@@ -114,7 +122,7 @@
                 </div>
                 <span class="time total-time">0:00</span>
             </div>
-            
+
             <div class="player-options">
                 <button class="option-btn" id="volumeBtn" title="Volume Control" aria-label="Volume Control">
                     <i class="fas fa-volume-up"></i>
@@ -135,27 +143,27 @@
     <!-- Marketplace Section -->
     <section class="marketplace-section">
         <div class="container">
-            <h2>Marketplace</h2>
+            <h2 data-translate="sections.marketplace">Marketplace</h2>
             <div class="marketplace-stats">
                 <div class="stat-card">
                     <i class="fas fa-music"></i>
                     <h3>50K+</h3>
-                    <p>Beats Available</p>
+                    <p data-translate="stats.beatsAvailable">Beats Available</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-users"></i>
                     <h3>10K+</h3>
-                    <p>Active Creators</p>
+                    <p data-translate="stats.activeCreators">Active Creators</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-dollar-sign"></i>
                     <h3>$2M+</h3>
-                    <p>Creator Earnings</p>
+                    <p data-translate="stats.creatorEarnings">Creator Earnings</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-globe"></i>
                     <h3>150+</h3>
-                    <p>Countries</p>
+                    <p data-translate="stats.countries">Countries</p>
                 </div>
             </div>
         </div>
@@ -200,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="subscription-plans">
                         <div class="plan-card starter">
                             <h3>Starter</h3>
@@ -216,7 +224,7 @@
                             </ul>
                             <button class="btn btn-outline subscribe-btn" data-plan="starter">Start Free Trial</button>
                         </div>
-                        
+
                         <div class="plan-card pro featured">
                             <div class="popular-badge">Most Popular</div>
                             <h3>Pro</h3>
@@ -234,7 +242,7 @@
                             </ul>
                             <button class="btn btn-primary subscribe-btn" data-plan="pro">Start Free Trial</button>
                         </div>
-                        
+
                         <div class="plan-card enterprise">
                             <h3>Enterprise</h3>
                             <div class="price">
@@ -263,7 +271,7 @@
             <div class="collab-content">
                 <div class="collab-text">
                     <h2>Real-Time Collaboration</h2>
-                    <p>Work together seamlessly with producers and artists worldwide. 
+                    <p>Work together seamlessly with producers and artists worldwide.
                     Share projects, get feedback, and create amazing music together.</p>
                     <ul class="feature-list">
                         <li><i class="fas fa-check"></i> Live project sharing</li>
@@ -307,7 +315,7 @@
                         <a href="#" title="Follow us on SoundCloud" aria-label="Follow us on SoundCloud"><i class="fab fa-soundcloud"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Platform</h4>
                     <ul>
@@ -317,7 +325,7 @@
                         <li><a href="#analytics">Analytics</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
@@ -327,7 +335,7 @@
                         <li><a href="#status">System Status</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Legal</h4>
                     <ul>
@@ -337,8 +345,22 @@
                         <li><a href="#copyright">Copyright</a></li>
                     </ul>
                 </div>
+
+                <div class="footer-section">
+                    <h4 data-translate="partners.industryPartners">Industry Partners</h4>
+                    <ul>
+                        <li><a href="https://www.ascap.com" target="_blank" rel="noopener" data-translate="partners.ascap">ASCAP</a></li>
+                        <li><a href="https://www.bmi.com" target="_blank" rel="noopener" data-translate="partners.bmi">BMI</a></li>
+                        <li><a href="https://www.sesac.com" target="_blank" rel="noopener" data-translate="partners.sesac">SESAC</a></li>
+                        <li><a href="https://www.songtrust.com" target="_blank" rel="noopener" data-translate="partners.songtrust">Songtrust</a></li>
+                        <li><a href="https://www.tunecore.com" target="_blank" rel="noopener" data-translate="partners.tunecore">TuneCore</a></li>
+                        <li><a href="https://www.distrokid.com" target="_blank" rel="noopener" data-translate="partners.distrokid">DistroKid</a></li>
+                        <li><a href="https://www.cdbaby.com" target="_blank" rel="noopener" data-translate="partners.cdbaby">CD Baby</a></li>
+                        <li><a href="https://www.landr.com" target="_blank" rel="noopener" data-translate="partners.landr">LANDR</a></li>
+                    </ul>
+                </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 CreatorSync. All rights reserved. Developed by Demond Balentine.</p>
                 <p>Contact: <a href="mailto:demond.balentine@atlasschool.com">demond.balentine@atlasschool.com</a> | Phone: 479-250-2573</p>
@@ -350,22 +372,22 @@
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Welcome Back</h2>
+                <h2 data-translate="auth.welcomeBack">Welcome Back</h2>
                 <button class="modal-close" id="loginModalClose">&times;</button>
             </div>
             <form class="auth-form" id="loginForm">
                 <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" name="email" required>
+                    <label for="loginEmail" data-translate="auth.email">Email</label>
+                    <input type="email" id="loginEmail" name="email" required data-translate-title="auth.email">
                 </div>
                 <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" name="password" required>
+                    <label for="loginPassword" data-translate="auth.password">Password</label>
+                    <input type="password" id="loginPassword" name="password" required autocomplete="current-password" data-translate-title="auth.password">
                 </div>
-                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <button type="submit" class="btn btn-primary btn-full" data-translate="auth.login">Login</button>
                 <div class="form-footer">
-                    <a href="#" id="forgotPasswordLink">Forgot Password?</a>
-                    <p>Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+                    <a href="#" id="forgotPasswordLink" data-translate="auth.forgotPassword">Forgot Password?</a>
+                    <p data-translate="auth.dontHaveAccount">Don't have an account? <a href="#" id="switchToSignup" data-translate="auth.signup">Sign up</a></p>
                 </div>
             </form>
         </div>
@@ -374,44 +396,44 @@
     <div class="modal" id="signupModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Join CreatorSync</h2>
+                <h2 data-translate="auth.joinCreatorSync">Join CreatorSync</h2>
                 <button class="modal-close" id="signupModalClose">&times;</button>
             </div>
             <form class="auth-form" id="signupForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="signupUsername">Username</label>
-                        <input type="text" id="signupUsername" name="username" required>
+                        <label for="signupUsername" data-translate="auth.username">Username</label>
+                        <input type="text" id="signupUsername" name="username" required data-translate-title="auth.username">
                     </div>
                     <div class="form-group">
-                        <label for="signupArtistName">Artist Name</label>
-                        <input type="text" id="signupArtistName" name="artistName">
+                        <label for="signupArtistName" data-translate="auth.artistName">Artist Name</label>
+                        <input type="text" id="signupArtistName" name="artistName" data-translate-title="auth.artistName">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" name="email" required>
+                    <label for="signupEmail" data-translate="auth.email">Email</label>
+                    <input type="email" id="signupEmail" name="email" required data-translate-title="auth.email">
                 </div>
                 <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" name="password" required>
+                    <label for="signupPassword" data-translate="auth.password">Password</label>
+                    <input type="password" id="signupPassword" name="password" required autocomplete="new-password" data-translate-title="auth.password">
                     <div class="password-strength" id="passwordStrength"></div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <label for="confirmPassword" data-translate="auth.confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password" data-translate-title="auth.confirmPassword">
                 </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
-                    <label for="agreeTerms">I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a></label>
+                    <label for="agreeTerms">I agree to the <a href="#terms" data-translate="footer.termsOfService">Terms of Service</a> and <a href="#privacy" data-translate="footer.privacyPolicy">Privacy Policy</a></label>
                 </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="subscribeNewsletter" name="subscribeNewsletter">
-                    <label for="subscribeNewsletter">Subscribe to updates about The Finisher and new features</label>
+                    <label for="subscribeNewsletter" data-translate="subscription.subscribeUpdates">Subscribe to updates about The Finisher and new features</label>
                 </div>
-                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                <button type="submit" class="btn btn-primary btn-full" data-translate="auth.createAccount">Create Account</button>
                 <div class="form-footer">
-                    <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+                    <p data-translate="auth.alreadyHaveAccount">Already have an account? <a href="#" id="switchToLogin" data-translate="auth.login">Login</a></p>
                 </div>
             </form>
         </div>
@@ -498,6 +520,7 @@
 
     <!-- Scripts -->
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/translation.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

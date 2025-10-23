@@ -17,14 +17,14 @@ const authenticateUser = (req, res, next) => {
 // Get all beats with filtering and pagination
 router.get('/', (req, res) => {
     try {
-        const { 
-            category, 
-            genre, 
-            bpmMin, 
-            bpmMax, 
-            priceMin, 
-            priceMax, 
-            key, 
+        const {
+            category,
+            genre,
+            bpmMin,
+            bpmMax,
+            priceMin,
+            priceMax,
+            key,
             search,
             sortBy = 'newest',
             page = 1,
@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
         }
 
         if (genre) {
-            filteredBeats = filteredBeats.filter(beat => 
+            filteredBeats = filteredBeats.filter(beat =>
                 beat.genre.toLowerCase().includes(genre.toLowerCase())
             );
         }
@@ -61,14 +61,14 @@ router.get('/', (req, res) => {
         }
 
         if (key) {
-            filteredBeats = filteredBeats.filter(beat => 
+            filteredBeats = filteredBeats.filter(beat =>
                 beat.key.toLowerCase().includes(key.toLowerCase())
             );
         }
 
         if (search) {
             const searchLower = search.toLowerCase();
-            filteredBeats = filteredBeats.filter(beat => 
+            filteredBeats = filteredBeats.filter(beat =>
                 beat.title.toLowerCase().includes(searchLower) ||
                 beat.artist.toLowerCase().includes(searchLower) ||
                 beat.tags.some(tag => tag.toLowerCase().includes(searchLower))
@@ -77,27 +77,27 @@ router.get('/', (req, res) => {
 
         // Apply sorting
         switch (sortBy) {
-            case 'newest':
-                filteredBeats.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-                break;
-            case 'oldest':
-                filteredBeats.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
-                break;
-            case 'price-low':
-                filteredBeats.sort((a, b) => a.price - b.price);
-                break;
-            case 'price-high':
-                filteredBeats.sort((a, b) => b.price - a.price);
-                break;
-            case 'popular':
-                filteredBeats.sort((a, b) => (b.likes + b.plays) - (a.likes + a.plays));
-                break;
-            case 'bpm-low':
-                filteredBeats.sort((a, b) => a.bpm - b.bpm);
-                break;
-            case 'bpm-high':
-                filteredBeats.sort((a, b) => b.bpm - a.bpm);
-                break;
+        case 'newest':
+            filteredBeats.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+            break;
+        case 'oldest':
+            filteredBeats.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
+            break;
+        case 'price-low':
+            filteredBeats.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-high':
+            filteredBeats.sort((a, b) => b.price - a.price);
+            break;
+        case 'popular':
+            filteredBeats.sort((a, b) => (b.likes + b.plays) - (a.likes + a.plays));
+            break;
+        case 'bpm-low':
+            filteredBeats.sort((a, b) => a.bpm - b.bpm);
+            break;
+        case 'bpm-high':
+            filteredBeats.sort((a, b) => b.bpm - a.bpm);
+            break;
         }
 
         // Apply pagination
@@ -125,7 +125,6 @@ router.get('/', (req, res) => {
                 search
             }
         });
-
     } catch (error) {
         console.error('Get beats error:', error);
         res.status(500).json({ error: 'Failed to get beats' });
@@ -154,7 +153,6 @@ router.get('/:id', (req, res) => {
                 stats
             }
         });
-
     } catch (error) {
         console.error('Get beat error:', error);
         res.status(500).json({ error: 'Failed to get beat' });
@@ -183,8 +181,8 @@ router.post('/', authenticateUser, (req, res) => {
 
         // Validation
         if (!title || !artist || !category || !audioUrl) {
-            return res.status(400).json({ 
-                error: 'Title, artist, category, and audio URL are required' 
+            return res.status(400).json({
+                error: 'Title, artist, category, and audio URL are required'
             });
         }
 
@@ -222,7 +220,6 @@ router.post('/', authenticateUser, (req, res) => {
             message: 'Beat created successfully',
             beat
         });
-
     } catch (error) {
         console.error('Create beat error:', error);
         res.status(500).json({ error: 'Failed to create beat' });
@@ -268,7 +265,6 @@ router.put('/:id', authenticateUser, (req, res) => {
             message: 'Beat updated successfully',
             beat
         });
-
     } catch (error) {
         console.error('Update beat error:', error);
         res.status(500).json({ error: 'Failed to update beat' });
@@ -297,7 +293,6 @@ router.delete('/:id', authenticateUser, (req, res) => {
             success: true,
             message: 'Beat deleted successfully'
         });
-
     } catch (error) {
         console.error('Delete beat error:', error);
         res.status(500).json({ error: 'Failed to delete beat' });
@@ -316,7 +311,7 @@ router.post('/:id/like', authenticateUser, (req, res) => {
 
         // Toggle like (simplified - implement proper user tracking)
         const isLiked = req.body.isLiked !== false; // Default to like
-        
+
         if (isLiked) {
             beat.likes += 1;
         } else {
@@ -332,7 +327,6 @@ router.post('/:id/like', authenticateUser, (req, res) => {
             likes: beat.likes,
             isLiked
         });
-
     } catch (error) {
         console.error('Like beat error:', error);
         res.status(500).json({ error: 'Failed to like beat' });
@@ -363,7 +357,6 @@ router.post('/:id/play', (req, res) => {
             message: 'Play recorded',
             plays: beat.plays
         });
-
     } catch (error) {
         console.error('Track play error:', error);
         res.status(500).json({ error: 'Failed to track play' });
@@ -386,7 +379,7 @@ router.get('/:id/analytics', authenticateUser, (req, res) => {
         }
 
         const stats = beatStats.get(id) || { views: 0, plays: 0, downloads: 0 };
-        
+
         // Mock detailed analytics
         const analytics = {
             ...stats,
@@ -402,7 +395,6 @@ router.get('/:id/analytics', authenticateUser, (req, res) => {
             success: true,
             analytics
         });
-
     } catch (error) {
         console.error('Get analytics error:', error);
         res.status(500).json({ error: 'Failed to get analytics' });
@@ -413,7 +405,7 @@ router.get('/:id/analytics', authenticateUser, (req, res) => {
 router.get('/trending/now', (req, res) => {
     try {
         const allBeats = Array.from(beats.values());
-        
+
         // Calculate trending score based on recent plays, likes, and uploads
         const trendingBeats = allBeats
             .map(beat => {
@@ -421,7 +413,7 @@ router.get('/trending/now', (req, res) => {
                 const daysSinceUpload = (new Date() - new Date(beat.uploadedAt)) / (1000 * 60 * 60 * 24);
                 const recencyFactor = Math.max(0, 1 - (daysSinceUpload / 30)); // Decay over 30 days
                 const trendingScore = (beat.likes + stats.plays + stats.views) * recencyFactor;
-                
+
                 return {
                     ...beat,
                     stats,
@@ -435,7 +427,6 @@ router.get('/trending/now', (req, res) => {
             success: true,
             beats: trendingBeats
         });
-
     } catch (error) {
         console.error('Get trending beats error:', error);
         res.status(500).json({ error: 'Failed to get trending beats' });
@@ -497,10 +488,10 @@ const initializeSampleBeats = () => {
 
     sampleBeats.forEach(beat => {
         beats.set(beat.id, beat);
-        beatStats.set(beat.id, { 
-            views: Math.floor(Math.random() * 1000), 
-            plays: beat.plays, 
-            downloads: beat.downloads 
+        beatStats.set(beat.id, {
+            views: Math.floor(Math.random() * 1000),
+            plays: beat.plays,
+            downloads: beat.downloads
         });
     });
 };

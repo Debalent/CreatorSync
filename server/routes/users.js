@@ -18,7 +18,7 @@ const authenticateUser = (req, res, next) => {
 router.get('/:identifier', (req, res) => {
     try {
         const { identifier } = req.params;
-        
+
         // Find user by ID or username
         let user = users.get(identifier);
         if (!user) {
@@ -31,11 +31,11 @@ router.get('/:identifier', (req, res) => {
 
         // Remove sensitive information
         const { password, ...publicProfile } = user;
-        
+
         // Add social stats
         const userFollowers = followers.get(user.id) || new Set();
         const userFollowing = following.get(user.id) || new Set();
-        
+
         const profileWithStats = {
             ...publicProfile,
             stats: {
@@ -49,7 +49,6 @@ router.get('/:identifier', (req, res) => {
             success: true,
             user: profileWithStats
         });
-
     } catch (error) {
         console.error('Get user profile error:', error);
         res.status(500).json({ error: 'Failed to get user profile' });
@@ -106,21 +105,21 @@ router.get('/:identifier/beats', (req, res) => {
 
         // Apply sorting
         switch (sortBy) {
-            case 'newest':
-                userBeats.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-                break;
-            case 'oldest':
-                userBeats.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
-                break;
-            case 'popular':
-                userBeats.sort((a, b) => (b.likes + b.plays) - (a.likes + a.plays));
-                break;
-            case 'price-high':
-                userBeats.sort((a, b) => b.price - a.price);
-                break;
-            case 'price-low':
-                userBeats.sort((a, b) => a.price - b.price);
-                break;
+        case 'newest':
+            userBeats.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+            break;
+        case 'oldest':
+            userBeats.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
+            break;
+        case 'popular':
+            userBeats.sort((a, b) => (b.likes + b.plays) - (a.likes + a.plays));
+            break;
+        case 'price-high':
+            userBeats.sort((a, b) => b.price - a.price);
+            break;
+        case 'price-low':
+            userBeats.sort((a, b) => a.price - b.price);
+            break;
         }
 
         // Apply pagination
@@ -140,7 +139,6 @@ router.get('/:identifier/beats', (req, res) => {
                 pages: Math.ceil(userBeats.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get user beats error:', error);
         res.status(500).json({ error: 'Failed to get user beats' });
@@ -188,7 +186,6 @@ router.post('/:userId/follow', authenticateUser, (req, res) => {
             isFollowing: !isFollowing,
             followerCount: targetFollowers.size
         });
-
     } catch (error) {
         console.error('Follow/Unfollow error:', error);
         res.status(500).json({ error: 'Failed to update follow status' });
@@ -233,7 +230,6 @@ router.get('/:userId/followers', (req, res) => {
                 pages: Math.ceil(followerList.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get followers error:', error);
         res.status(500).json({ error: 'Failed to get followers' });
@@ -278,7 +274,6 @@ router.get('/:userId/following', (req, res) => {
                 pages: Math.ceil(followingList.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get following error:', error);
         res.status(500).json({ error: 'Failed to get following' });
@@ -307,11 +302,11 @@ router.get('/search/all', (req, res) => {
             );
         }).map(user => {
             const { password, ...publicData } = user;
-            
+
             // Add social stats
             const userFollowers = followers.get(user.id) || new Set();
             const userFollowing = following.get(user.id) || new Set();
-            
+
             return {
                 ...publicData,
                 stats: {
@@ -343,7 +338,6 @@ router.get('/search/all', (req, res) => {
             },
             query: q
         });
-
     } catch (error) {
         console.error('Search users error:', error);
         res.status(500).json({ error: 'Failed to search users' });
@@ -400,7 +394,6 @@ router.get('/:userId/favorites', authenticateUser, (req, res) => {
                 pages: Math.ceil(favoriteBeats.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get favorites error:', error);
         res.status(500).json({ error: 'Failed to get favorites' });
@@ -449,7 +442,6 @@ router.get('/:userId/analytics', authenticateUser, (req, res) => {
             success: true,
             analytics
         });
-
     } catch (error) {
         console.error('Get user analytics error:', error);
         res.status(500).json({ error: 'Failed to get analytics' });
@@ -463,11 +455,11 @@ router.get('/leaderboard/all', (req, res) => {
 
         const allUsers = Array.from(users.values()).map(user => {
             const { password, ...publicData } = user;
-            
+
             // Add social stats
             const userFollowers = followers.get(user.id) || new Set();
             const userFollowing = following.get(user.id) || new Set();
-            
+
             return {
                 ...publicData,
                 stats: {
@@ -481,17 +473,17 @@ router.get('/leaderboard/all', (req, res) => {
         // Sort by selected category
         let sortedUsers;
         switch (category) {
-            case 'followers':
-                sortedUsers = allUsers.sort((a, b) => b.stats.followers - a.stats.followers);
-                break;
-            case 'beats':
-                sortedUsers = allUsers.sort((a, b) => b.stats.beatsUploaded - a.stats.beatsUploaded);
-                break;
-            case 'earnings':
-                sortedUsers = allUsers.sort((a, b) => b.stats.totalEarnings - a.stats.totalEarnings);
-                break;
-            default:
-                sortedUsers = allUsers.sort((a, b) => b.stats.followers - a.stats.followers);
+        case 'followers':
+            sortedUsers = allUsers.sort((a, b) => b.stats.followers - a.stats.followers);
+            break;
+        case 'beats':
+            sortedUsers = allUsers.sort((a, b) => b.stats.beatsUploaded - a.stats.beatsUploaded);
+            break;
+        case 'earnings':
+            sortedUsers = allUsers.sort((a, b) => b.stats.totalEarnings - a.stats.totalEarnings);
+            break;
+        default:
+            sortedUsers = allUsers.sort((a, b) => b.stats.followers - a.stats.followers);
         }
 
         const limitNum = parseInt(limit);
@@ -503,7 +495,6 @@ router.get('/leaderboard/all', (req, res) => {
             category,
             total: allUsers.length
         });
-
     } catch (error) {
         console.error('Get leaderboard error:', error);
         res.status(500).json({ error: 'Failed to get leaderboard' });

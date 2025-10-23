@@ -66,10 +66,9 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
             transactionId,
             amount: beatAmount
         });
-
     } catch (error) {
         console.error('Create payment intent error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to create payment intent',
             message: error.message
         });
@@ -82,8 +81,8 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
         const { paymentIntentId, transactionId } = req.body;
 
         if (!paymentIntentId || !transactionId) {
-            return res.status(400).json({ 
-                error: 'Payment intent ID and transaction ID are required' 
+            return res.status(400).json({
+                error: 'Payment intent ID and transaction ID are required'
             });
         }
 
@@ -91,7 +90,7 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
         const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
         if (paymentIntent.status !== 'succeeded') {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 error: 'Payment not completed',
                 status: paymentIntent.status
             });
@@ -123,10 +122,9 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
                 completedAt: transaction.completedAt
             }
         });
-
     } catch (error) {
         console.error('Confirm payment error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to confirm payment',
             message: error.message
         });
@@ -145,7 +143,7 @@ router.get('/purchases', authenticateUser, (req, res) => {
 
         // Filter by status if provided
         if (status) {
-            userTransactions = userTransactions.filter(transaction => 
+            userTransactions = userTransactions.filter(transaction =>
                 transaction.status === status
             );
         }
@@ -170,7 +168,6 @@ router.get('/purchases', authenticateUser, (req, res) => {
                 pages: Math.ceil(userTransactions.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get purchases error:', error);
         res.status(500).json({ error: 'Failed to get purchase history' });
@@ -238,7 +235,6 @@ router.get('/earnings', authenticateUser, (req, res) => {
             success: true,
             earnings
         });
-
     } catch (error) {
         console.error('Get earnings error:', error);
         res.status(500).json({ error: 'Failed to get earnings' });
@@ -294,10 +290,9 @@ router.post('/payout', authenticateUser, async (req, res) => {
                 estimatedArrival: payout.estimatedArrival
             }
         });
-
     } catch (error) {
         console.error('Create payout error:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: 'Failed to create payout request',
             message: error.message
         });
@@ -355,7 +350,6 @@ router.get('/payouts', authenticateUser, (req, res) => {
                 pages: Math.ceil(payouts.length / limitNum)
             }
         });
-
     } catch (error) {
         console.error('Get payouts error:', error);
         res.status(500).json({ error: 'Failed to get payout history' });
@@ -379,30 +373,29 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
 
         // Handle the event
         switch (event.type) {
-            case 'payment_intent.succeeded':
-                const paymentIntent = event.data.object;
-                console.log('Payment succeeded:', paymentIntent.id);
-                // Update transaction status, grant access to beat, etc.
-                break;
-            
-            case 'payment_intent.payment_failed':
-                const failedPayment = event.data.object;
-                console.log('Payment failed:', failedPayment.id);
-                // Handle failed payment
-                break;
-            
-            case 'payout.paid':
-                const payout = event.data.object;
-                console.log('Payout completed:', payout.id);
-                // Update payout status
-                break;
-            
-            default:
-                console.log(`Unhandled event type: ${event.type}`);
+        case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+            console.log('Payment succeeded:', paymentIntent.id);
+            // Update transaction status, grant access to beat, etc.
+            break;
+
+        case 'payment_intent.payment_failed':
+            const failedPayment = event.data.object;
+            console.log('Payment failed:', failedPayment.id);
+            // Handle failed payment
+            break;
+
+        case 'payout.paid':
+            const payout = event.data.object;
+            console.log('Payout completed:', payout.id);
+            // Update payout status
+            break;
+
+        default:
+            console.log(`Unhandled event type: ${event.type}`);
         }
 
         res.json({ received: true });
-
     } catch (error) {
         console.error('Webhook error:', error);
         res.status(500).json({ error: 'Webhook processing failed' });
@@ -428,7 +421,6 @@ router.get('/transaction/:id', authenticateUser, (req, res) => {
             success: true,
             transaction
         });
-
     } catch (error) {
         console.error('Get transaction error:', error);
         res.status(500).json({ error: 'Failed to get transaction details' });
@@ -436,7 +428,7 @@ router.get('/transaction/:id', authenticateUser, (req, res) => {
 });
 
 // Process beat purchase (internal function)
-async function processBeatPurchase(transaction) {
+async function processBeatPurchase (transaction) {
     try {
         // In real implementation:
         // 1. Grant user access to beat files
@@ -446,14 +438,13 @@ async function processBeatPurchase(transaction) {
         // 5. Process revenue sharing
 
         console.log(`Processing beat purchase: ${transaction.beatId} for user: ${transaction.userId}`);
-        
+
         // Mock implementation
         return {
             success: true,
             downloadLink: `/api/download/beat/${transaction.beatId}?token=${uuidv4()}`,
             licenseDocument: `/api/download/license/${transaction.id}`
         };
-
     } catch (error) {
         console.error('Process beat purchase error:', error);
         throw error;
@@ -483,7 +474,6 @@ router.get('/stats', authenticateUser, (req, res) => {
             success: true,
             stats
         });
-
     } catch (error) {
         console.error('Get payment stats error:', error);
         res.status(500).json({ error: 'Failed to get payment statistics' });

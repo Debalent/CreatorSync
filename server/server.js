@@ -22,48 +22,60 @@ const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const subscriptionRoutes = require('./routes/subscriptions');
 const aiSongwriterRoutes = require('./routes/ai-songwriter');
+const pluginRoutes = require('./routes/plugins');
+
+// Import utilities
+const translationManager = require('./utils/translationManager');
 
 class CreatorSyncServer {
-    constructor() {
+    constructor () {
         this.app = express();
         this.server = http.createServer(this.app);
         this.io = socketIo(this.server, {
             cors: {
-                origin: process.env.CLIENT_URL || "http://localhost:5501",
-                methods: ["GET", "POST"]
+                origin: process.env.CLIENT_URL || 'http://localhost:5501',
+                methods: ['GET', 'POST']
             }
         });
-        
+
         this.port = process.env.PORT || 3000;
         this.connectedUsers = new Map();
         this.activeCollaborations = new Map();
-        
+
         this.initializeMiddleware();
+        this.initializeTranslations();
         this.initializeRoutes();
         this.initializeSocketHandlers();
         this.initializeErrorHandling();
     }
 
-    initializeMiddleware() {
+    initializeMiddleware () {
         // Security middleware
         this.app.use(helmet({
             contentSecurityPolicy: {
                 directives: {
-                    defaultSrc: ["'self'"],
-                    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
-                    fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
-                    scriptSrc: ["'self'", "'unsafe-inline'"],
-                    imgSrc: ["'self'", "data:", "https:"],
-                    connectSrc: ["'self'", "ws:", "wss:"]
+                    defaultSrc: ['\'self\''],
+                    styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
+                    fontSrc: ['\'self\'', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
+                    scriptSrc: ['\'self\'', '\'unsafe-inline\''],
+                    imgSrc: ['\'self\'', 'data:', 'https:'],
+                    connectSrc: ['\'self\'', 'ws:', 'wss:']
                 }
             }
         }));
 
         // CORS configuration
         this.app.use(cors({
-            origin: process.env.CLIENT_URL || "http://localhost:5501",
+            origin: process.env.CLIENT_URL || 'http://localhost:5501',
             credentials: true
         }));
+
+        // Language detection middleware
+        this.app.use((req, res, next) => {
+            const acceptLanguage = req.headers['accept-language'];
+            req.language = translationManager.detectLanguage(acceptLanguage);
+            next();
+        });
 
         // Compression for better performance
         this.app.use(compression());
@@ -90,8 +102,8 @@ class CreatorSyncServer {
             }
         });
 
-        this.upload = multer({ 
-            storage: storage,
+        this.upload = multer({
+            storage,
             limits: {
                 fileSize: 100 * 1024 * 1024 // 100MB limit
             },
@@ -102,7 +114,7 @@ class CreatorSyncServer {
                     'image/jpeg', 'image/png', 'image/gif',
                     'application/zip', 'application/x-zip-compressed'
                 ];
-                
+
                 if (allowedMimes.includes(file.mimetype)) {
                     cb(null, true);
                 } else {
@@ -112,7 +124,16 @@ class CreatorSyncServer {
         });
     }
 
-    initializeRoutes() {
+    async initializeTranslations () {
+        try {
+            await translationManager.initialize();
+            console.log('🌍 Translation system initialized successfully');
+        } catch (error) {
+            console.error('❌ Failed to initialize translation system:', error);
+        }
+    }
+
+    initializeRoutes () {
         // API routes
         this.app.use('/api/auth', authRoutes);
         this.app.use('/api/beats', beatRoutes);
@@ -120,6 +141,7 @@ class CreatorSyncServer {
         this.app.use('/api/payments', paymentRoutes);
         this.app.use('/api/subscriptions', subscriptionRoutes);
         this.app.use('/api/ai-songwriter', aiSongwriterRoutes);
+        this.app.use('/api/plugins', pluginRoutes);
 
         // Beat upload endpoint
         this.app.post('/api/upload/beat', this.upload.fields([
@@ -138,8 +160,8 @@ class CreatorSyncServer {
 
         // Health check
         this.app.get('/api/health', (req, res) => {
-            res.json({ 
-                status: 'healthy', 
+            res.json({
+                status: 'healthy',
                 timestamp: new Date().toISOString(),
                 uptime: process.uptime(),
                 version: '1.0.0'
@@ -152,7 +174,7 @@ class CreatorSyncServer {
         });
     }
 
-    initializeSocketHandlers() {
+    initializeSocketHandlers () {
         this.io.on('connection', (socket) => {
             console.log(`User connected: ${socket.id}`);
 
@@ -163,7 +185,7 @@ class CreatorSyncServer {
                     socketId: socket.id,
                     connectedAt: new Date()
                 });
-                
+
                 // Notify other users
                 socket.broadcast.emit('user_online', {
                     userId: userData.userId,
@@ -226,14 +248,14 @@ class CreatorSyncServer {
             socket.on('disconnect', () => {
                 console.log(`User disconnected: ${socket.id}`);
                 const user = this.connectedUsers.get(socket.id);
-                
+
                 if (user) {
                     // Notify other users
                     socket.broadcast.emit('user_offline', {
                         userId: user.userId,
                         username: user.username
                     });
-                    
+
                     this.connectedUsers.delete(socket.id);
                 }
             });
@@ -241,10 +263,10 @@ class CreatorSyncServer {
     }
 
     // Socket event handlers
-    handleBeatPlay(socket, beatData) {
+    handleBeatPlay (socket, beatData) {
         // Track play analytics
         console.log(`Beat played: ${beatData.beatId} by user: ${socket.id}`);
-        
+
         // Emit to analytics system
         this.io.emit('beat_analytics', {
             type: 'play',
@@ -254,10 +276,10 @@ class CreatorSyncServer {
         });
     }
 
-    handleBeatLike(socket, beatData) {
+    handleBeatLike (socket, beatData) {
         // Handle beat like/unlike
         console.log(`Beat liked: ${beatData.beatId} by user: ${socket.id}`);
-        
+
         // Update like count and emit to all users
         socket.broadcast.emit('beat_liked', {
             beatId: beatData.beatId,
@@ -265,10 +287,10 @@ class CreatorSyncServer {
         });
     }
 
-    handleToggleFavorite(socket, data) {
+    handleToggleFavorite (socket, data) {
         // Toggle favorite status
         console.log(`Favorite toggled: ${data.beatId} by user: ${socket.id}`);
-        
+
         // Emit confirmation back to user
         socket.emit('favorite_updated', {
             beatId: data.beatId,
@@ -276,7 +298,7 @@ class CreatorSyncServer {
         });
     }
 
-    handleJoinCollaboration(socket, collaborationId) {
+    handleJoinCollaboration (socket, collaborationId) {
         const collaboration = this.activeCollaborations.get(collaborationId);
         if (collaboration) {
             // Add user to collaboration
@@ -287,14 +309,14 @@ class CreatorSyncServer {
         }
     }
 
-    handleLeaveCollaboration(socket, collaborationId) {
+    handleLeaveCollaboration (socket, collaborationId) {
         socket.to(`collab_${collaborationId}`).emit('user_left_collaboration', {
             userId: socket.id,
             collaborationId
         });
     }
 
-    handleCollaborationUpdate(socket, data) {
+    handleCollaborationUpdate (socket, data) {
         // Broadcast collaboration updates to all participants
         socket.to(`collab_${data.collaborationId}`).emit('collaboration_updated', {
             type: data.type,
@@ -304,7 +326,7 @@ class CreatorSyncServer {
         });
     }
 
-    handleChatMessage(socket, messageData) {
+    handleChatMessage (socket, messageData) {
         // Handle real-time chat in collaborations
         socket.to(`collab_${messageData.collaborationId}`).emit('new_message', {
             message: messageData.message,
@@ -314,7 +336,7 @@ class CreatorSyncServer {
         });
     }
 
-    handleFileShare(socket, fileData) {
+    handleFileShare (socket, fileData) {
         // Handle file sharing in collaborations
         socket.to(`collab_${fileData.collaborationId}`).emit('file_shared', {
             fileName: fileData.fileName,
@@ -326,7 +348,7 @@ class CreatorSyncServer {
     }
 
     // HTTP route handlers
-    async handleBeatUpload(req, res) {
+    async handleBeatUpload (req, res) {
         try {
             const { title, artist, category, price, bpm, key, tags } = req.body;
             const audioFile = req.files.audio ? req.files.audio[0] : null;
@@ -353,27 +375,26 @@ class CreatorSyncServer {
             };
 
             // Save to database (placeholder - implement your database logic)
-            // await this.saveBeaToDatabase(beatData);
+            // await this.saveBeatToDatabase(beatData);
 
             // Emit to all connected clients
             this.io.emit('beat_uploaded', beatData);
 
-            res.json({ 
-                success: true, 
+            res.json({
+                success: true,
                 message: 'Beat uploaded successfully',
-                beat: beatData 
+                beat: beatData
             });
-
         } catch (error) {
             console.error('Beat upload error:', error);
             res.status(500).json({ error: 'Failed to upload beat' });
         }
     }
 
-    async createCollaboration(req, res) {
+    async createCollaboration (req, res) {
         try {
             const { name, description, participants } = req.body;
-            
+
             const collaboration = {
                 id: uuidv4(),
                 name,
@@ -387,21 +408,20 @@ class CreatorSyncServer {
 
             this.activeCollaborations.set(collaboration.id, collaboration);
 
-            res.json({ 
-                success: true, 
-                collaboration 
+            res.json({
+                success: true,
+                collaboration
             });
-
         } catch (error) {
             console.error('Collaboration creation error:', error);
             res.status(500).json({ error: 'Failed to create collaboration' });
         }
     }
 
-    async inviteToCollaboration(req, res) {
+    async inviteToCollaboration (req, res) {
         try {
             const { collaborationId, userId, userEmail } = req.body;
-            
+
             // Send invitation (implement email/notification logic)
             this.io.emit('collaboration_invite', {
                 collaborationId,
@@ -410,18 +430,17 @@ class CreatorSyncServer {
                 timestamp: new Date()
             });
 
-            res.json({ 
-                success: true, 
-                message: 'Invitation sent successfully' 
+            res.json({
+                success: true,
+                message: 'Invitation sent successfully'
             });
-
         } catch (error) {
             console.error('Collaboration invitation error:', error);
             res.status(500).json({ error: 'Failed to send invitation' });
         }
     }
 
-    async getCollaboration(req, res) {
+    async getCollaboration (req, res) {
         try {
             const { id } = req.params;
             const collaboration = this.activeCollaborations.get(id);
@@ -431,14 +450,13 @@ class CreatorSyncServer {
             }
 
             res.json({ collaboration });
-
         } catch (error) {
             console.error('Get collaboration error:', error);
             res.status(500).json({ error: 'Failed to get collaboration' });
         }
     }
 
-    async getDashboardAnalytics(req, res) {
+    async getDashboardAnalytics (req, res) {
         try {
             // Mock analytics data - implement real analytics
             const analytics = {
@@ -460,14 +478,13 @@ class CreatorSyncServer {
             };
 
             res.json({ analytics });
-
         } catch (error) {
             console.error('Analytics error:', error);
             res.status(500).json({ error: 'Failed to get analytics' });
         }
     }
 
-    async getEarningsAnalytics(req, res) {
+    async getEarningsAnalytics (req, res) {
         try {
             // Mock earnings data - implement real analytics
             const earnings = {
@@ -487,27 +504,26 @@ class CreatorSyncServer {
             };
 
             res.json({ earnings });
-
         } catch (error) {
             console.error('Earnings analytics error:', error);
             res.status(500).json({ error: 'Failed to get earnings analytics' });
         }
     }
 
-    initializeErrorHandling() {
+    initializeErrorHandling () {
         // Handle 404 errors
         this.app.use((req, res) => {
-            res.status(404).json({ 
+            res.status(404).json({
                 error: 'Not found',
-                message: 'The requested resource was not found' 
+                message: 'The requested resource was not found'
             });
         });
 
         // Global error handler
         this.app.use((error, req, res, next) => {
             console.error('Server error:', error);
-            
-            res.status(error.status || 500).json({ 
+
+            res.status(error.status || 500).json({
                 error: 'Internal server error',
                 message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
             });
@@ -515,10 +531,10 @@ class CreatorSyncServer {
     }
 
     // Finisher Integration Handlers
-    handleFinisherProjectUpdate(socket, projectData) {
+    handleFinisherProjectUpdate (socket, projectData) {
         try {
             console.log('🎵 Finisher project update received:', projectData.projectId);
-            
+
             // Broadcast project update to relevant users
             if (projectData.collaborators) {
                 projectData.collaborators.forEach(userId => {
@@ -533,13 +549,12 @@ class CreatorSyncServer {
                     }
                 });
             }
-            
+
             // Emit acknowledgment back to sender
             socket.emit('finisher_project_sync_complete', {
                 projectId: projectData.projectId,
                 status: 'success'
             });
-            
         } catch (error) {
             console.error('❌ Error handling Finisher project update:', error);
             socket.emit('finisher_error', {
@@ -549,10 +564,10 @@ class CreatorSyncServer {
         }
     }
 
-    handleFinisherCollaborationInvite(socket, inviteData) {
+    handleFinisherCollaborationInvite (socket, inviteData) {
         try {
             console.log('🤝 Finisher collaboration invite:', inviteData.targetUserId);
-            
+
             const targetSocket = this.findSocketByUserId(inviteData.targetUserId);
             if (targetSocket) {
                 targetSocket.emit('finisher_collaboration_invite', {
@@ -563,7 +578,7 @@ class CreatorSyncServer {
                     message: inviteData.message,
                     finisherUrl: inviteData.finisherUrl
                 });
-                
+
                 // Acknowledge to sender
                 socket.emit('finisher_invite_sent', {
                     targetUserId: inviteData.targetUserId,
@@ -576,7 +591,6 @@ class CreatorSyncServer {
                     status: 'pending'
                 });
             }
-            
         } catch (error) {
             console.error('❌ Error handling Finisher collaboration invite:', error);
             socket.emit('finisher_error', {
@@ -586,27 +600,26 @@ class CreatorSyncServer {
         }
     }
 
-    handleFinisherSync(socket, syncData) {
+    handleFinisherSync (socket, syncData) {
         try {
             console.log('🔄 Finisher sync request:', syncData.type);
-            
+
             switch (syncData.type) {
-                case 'user_data':
-                    this.syncUserDataToFinisher(socket, syncData);
-                    break;
-                case 'project_list':
-                    this.syncProjectListToFinisher(socket, syncData);
-                    break;
-                case 'beat_library':
-                    this.syncBeatLibraryToFinisher(socket, syncData);
-                    break;
-                default:
-                    socket.emit('finisher_error', {
-                        type: 'invalid_sync_type',
-                        message: `Unknown sync type: ${syncData.type}`
-                    });
+            case 'user_data':
+                this.syncUserDataToFinisher(socket, syncData);
+                break;
+            case 'project_list':
+                this.syncProjectListToFinisher(socket, syncData);
+                break;
+            case 'beat_library':
+                this.syncBeatLibraryToFinisher(socket, syncData);
+                break;
+            default:
+                socket.emit('finisher_error', {
+                    type: 'invalid_sync_type',
+                    message: `Unknown sync type: ${syncData.type}`
+                });
             }
-            
         } catch (error) {
             console.error('❌ Error handling Finisher sync:', error);
             socket.emit('finisher_error', {
@@ -616,7 +629,7 @@ class CreatorSyncServer {
         }
     }
 
-    syncUserDataToFinisher(socket, syncData) {
+    syncUserDataToFinisher (socket, syncData) {
         const user = this.connectedUsers.get(socket.id);
         if (user) {
             socket.emit('finisher_sync_response', {
@@ -632,7 +645,7 @@ class CreatorSyncServer {
         }
     }
 
-    syncProjectListToFinisher(socket, syncData) {
+    syncProjectListToFinisher (socket, syncData) {
         // This would typically query a database for user's projects
         // For now, send a mock response
         socket.emit('finisher_sync_response', {
@@ -650,7 +663,7 @@ class CreatorSyncServer {
         });
     }
 
-    syncBeatLibraryToFinisher(socket, syncData) {
+    syncBeatLibraryToFinisher (socket, syncData) {
         // This would typically query the beats database
         // For now, send a mock response
         socket.emit('finisher_sync_response', {
@@ -669,7 +682,7 @@ class CreatorSyncServer {
         });
     }
 
-    findSocketByUserId(userId) {
+    findSocketByUserId (userId) {
         for (const [socketId, userData] of this.connectedUsers) {
             if (userData.userId === userId) {
                 return this.io.sockets.sockets.get(socketId);
@@ -678,7 +691,7 @@ class CreatorSyncServer {
         return null;
     }
 
-    start() {
+    start () {
         this.server.listen(this.port, () => {
             console.log(`
 🎵 CreatorSync Server Running
@@ -693,9 +706,9 @@ class CreatorSyncServer {
         process.on('SIGINT', this.shutdown.bind(this));
     }
 
-    shutdown() {
+    shutdown () {
         console.log('🛑 Shutting down CreatorSync server...');
-        
+
         this.server.close(() => {
             console.log('✅ Server closed successfully');
             process.exit(0);
