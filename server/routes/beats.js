@@ -2,6 +2,9 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const searchEngine = require('../utils/searchEngine');
+const audioProcessor = require('../utils/audioProcessor');
+const dataManager = require('../utils/dataManager');
 
 // Mock beats database (replace with real database)
 const beats = new Map();
@@ -128,6 +131,61 @@ router.get('/', (req, res) => {
     } catch (error) {
         console.error('Get beats error:', error);
         res.status(500).json({ error: 'Failed to get beats' });
+    }
+});
+
+// Advanced search endpoint
+router.get('/search/advanced', async (req, res) => {
+    try {
+        const beatsData = await dataManager.readData('beats.json');
+        const allBeats = beatsData.beats || [];
+
+        const searchResults = searchEngine.searchBeats(allBeats, req.query);
+
+        res.json({
+            success: true,
+            ...searchResults
+        });
+    } catch (error) {
+        console.error('Search error:', error);
+        res.status(500).json({ error: 'Failed to search beats' });
+    }
+});
+
+// Get search suggestions
+router.get('/search/suggestions', async (req, res) => {
+    try {
+        const { query } = req.query;
+        const beatsData = await dataManager.readData('beats.json');
+        const allBeats = beatsData.beats || [];
+
+        const suggestions = searchEngine.getSearchSuggestions(allBeats, query);
+
+        res.json({
+            success: true,
+            suggestions
+        });
+    } catch (error) {
+        console.error('Suggestions error:', error);
+        res.status(500).json({ error: 'Failed to get suggestions' });
+    }
+});
+
+// Get filter options
+router.get('/search/filters', async (req, res) => {
+    try {
+        const beatsData = await dataManager.readData('beats.json');
+        const allBeats = beatsData.beats || [];
+
+        const filterOptions = searchEngine.getFilterOptions(allBeats);
+
+        res.json({
+            success: true,
+            filters: filterOptions
+        });
+    } catch (error) {
+        console.error('Filter options error:', error);
+        res.status(500).json({ error: 'Failed to get filter options' });
     }
 });
 

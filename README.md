@@ -48,31 +48,46 @@ CreatorSync provides a **three-tier audio production ecosystem** where creativit
 
 ---
 
-## 📈 **Platform Status & Recent Updates (October 2025)**
+## 📈 **Platform Status & Recent Updates (November 2025)**
 
 ### **🎯 Current Metrics**
 - **Pre-Launch Phase** - Platform development complete
-- **Development Ready** with full feature implementation
+- **Production Ready** with enterprise-grade infrastructure
 - **$2M-$5M Valuation** based on technology and market potential
 - **Ready for Launch** with complete feature set
-- **Enterprise-Grade Security** with advanced authentication
+- **Enterprise-Grade Security** with advanced authentication and rate limiting
+- **Docker-Ready Deployment** with full containerization support
 
-### **🚀 Latest Features Added**
+### **🚀 Latest Features Added (November 2025)**
+- ✅ **Production-Grade Logging** with Winston and log rotation
+- ✅ **Redis Caching Layer** for improved performance and scalability
+- ✅ **JWT Authentication** for REST API and WebSocket connections
+- ✅ **API Rate Limiting** with multiple tiers for different endpoints
+- ✅ **Swagger/OpenAPI Documentation** for comprehensive API reference
+- ✅ **Docker & Docker Compose** support for easy deployment
+- ✅ **CI/CD Pipeline** with GitHub Actions for automated testing and deployment
+- ✅ **Jest Testing Framework** with unit and integration test support
+- ✅ **Database Models** for User and Beat management (ready for MongoDB/PostgreSQL)
+- ✅ **Role-Based Authorization** and subscription-based access control
+
+### **🚀 Previous Features**
 - ✅ **AI Songwriter Assistant** with pattern learning and style recognition
 - ✅ **Multi-language Support** (English, German, Spanish, French)
 - ✅ **ESLint Code Quality** standards implementation
 - ✅ **Plugin Architecture** for seamless DAW integration
 - ✅ **Advanced Documentation** and comprehensive investor materials
 - ✅ **Translation Management** system for global market expansion
-- ✅ **Enhanced Security** with rate limiting and input validation
 
 ### **🔄 Development Status**
-- **Backend**: Fully implemented with Express.js and Socket.IO
+- **Backend**: Production-ready with Express.js, Socket.IO, and Redis caching
 - **Frontend**: Complete with modern responsive design
 - **AI Integration**: Revolutionary songwriter assistant deployed
-- **Payment Processing**: Stripe integration ready for deployment
-- **Security**: Enterprise-grade protection implemented
-- **Testing**: Ready for beta launch and user acquisition
+- **Payment Processing**: Stripe integration with rate limiting protection
+- **Security**: Enterprise-grade protection with JWT, rate limiting, and authentication
+- **Testing**: Jest framework with 70% coverage threshold
+- **DevOps**: Docker containerization and CI/CD pipeline ready
+- **Documentation**: Comprehensive API docs with Swagger UI
+- **Monitoring**: Advanced logging with Winston and log rotation
 
 ---
 
@@ -375,27 +390,54 @@ Download CreatorSync plugins for your DAW:
 ### **Backend Stack**
 - **Node.js** - Runtime environment
 - **Express.js** - Web application framework
-- **Socket.IO** - Real-time communication
+- **Socket.IO** - Real-time bidirectional communication
 - **Stripe** - Payment processing
 - **bcrypt** - Password security
 - **Multer** - File upload handling
+- **Winston** - Advanced logging with rotation
+- **Redis** - High-performance caching layer
+- **JWT** - Secure token-based authentication
+
+### **DevOps & Infrastructure**
+- **Docker** - Containerization for consistent deployments
+- **Docker Compose** - Multi-container orchestration
+- **GitHub Actions** - CI/CD pipeline automation
+- **Jest** - Testing framework with coverage reporting
+- **Swagger/OpenAPI** - Interactive API documentation
+- **MongoDB/PostgreSQL** - Database options (production-ready models)
 
 ### **Security Features**
 - **Helmet** - HTTP security headers
 - **CORS** - Cross-origin resource sharing
-- **Rate Limiting** - API protection
+- **Express Rate Limit** - Multi-tier API protection
+  - General API: 100 req/15min
+  - Authentication: 5 attempts/15min
+  - Uploads: 20 files/hour
+  - Payments: 10 attempts/hour
+- **JWT Authentication** - Secure token-based auth for REST and WebSocket
 - **Input Validation** - Data sanitization
-- **Secure Authentication** - Token-based auth system
+- **Role-Based Authorization** - Admin, producer, user roles
+- **Subscription-Based Access** - Feature gating by subscription tier
+
+### **Performance Optimizations**
+- **Redis Caching** - Reduces database load and improves response times
+- **Compression** - Gzip compression for all responses
+- **Log Rotation** - Prevents disk space issues with 10MB max files
+- **Connection Pooling** - Efficient database connections
+- **Rate Limiting** - Prevents abuse and ensures fair resource allocation
 
 ## 📦 **Installation & Setup**
 
 ### **Prerequisites**
 - **Node.js** version 18.0.0 or higher
 - **npm** version 8 or higher
+- **Docker & Docker Compose** (optional, for containerized deployment)
+- **Redis** (optional, for caching - included in Docker setup)
+- **MongoDB or PostgreSQL** (for production - included in Docker setup)
 - **Visual Studio Code** (recommended)
 - **Stripe Account** for payment processing
 
-### **Quick Start**
+### **Quick Start (Development)**
 
 1. **Clone the Repository**
    ```bash
@@ -414,7 +456,7 @@ Download CreatorSync plugins for your DAW:
    # Edit .env with your configuration
    ```
 
-4. **Configure Stripe**
+4. **Configure Environment Variables**
    ```env
    STRIPE_SECRET_KEY=sk_test_your_key_here
    STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
@@ -425,14 +467,67 @@ Download CreatorSync plugins for your DAW:
    ```bash
    # Backend server (Terminal 1)
    npm run dev
-   
+
    # Frontend development (VS Code)
    # Right-click index.html → "Open with Live Server"
    ```
 
 6. **Access the Application**
    - **Backend API**: http://localhost:3000
+   - **API Documentation**: http://localhost:3000/api-docs
    - **Frontend**: http://localhost:5501
+
+### **Quick Start (Docker - Recommended for Production)**
+
+1. **Clone and Configure**
+   ```bash
+   git clone https://github.com/Debalent/CreatorSync.git
+   cd CreatorSync
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+2. **Start with Docker Compose**
+   ```bash
+   # Start all services (app, MongoDB, Redis)
+   npm run docker:up
+
+   # View logs
+   npm run docker:logs
+
+   # Stop all services
+   npm run docker:down
+   ```
+
+3. **Access the Application**
+   - **Backend API**: http://localhost:3000
+   - **API Documentation**: http://localhost:3000/api-docs
+   - **MongoDB**: localhost:27017
+   - **Redis**: localhost:6379
+
+### **Available Scripts**
+
+```bash
+# Development
+npm run dev              # Start development server with nodemon
+npm start                # Start production server
+
+# Testing
+npm test                 # Run all tests with coverage
+npm run test:watch       # Run tests in watch mode
+npm run test:unit        # Run unit tests only
+npm run test:integration # Run integration tests only
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint issues automatically
+
+# Docker
+npm run docker:build     # Build Docker image
+npm run docker:up        # Start Docker containers
+npm run docker:down      # Stop Docker containers
+npm run docker:logs      # View Docker logs
+```
 
 ## 🎮 **Usage Guide**
 
@@ -455,6 +550,18 @@ Download CreatorSync plugins for your DAW:
 4. **Promote Work**: Share tracks across platforms
 
 ## 🔐 **API Documentation**
+
+### **Interactive API Documentation**
+
+CreatorSync now includes comprehensive interactive API documentation powered by Swagger/OpenAPI:
+
+- **Access**: http://localhost:3000/api-docs
+- **Features**:
+  - Interactive API testing
+  - Request/response examples
+  - Authentication testing with JWT tokens
+  - Schema definitions for all models
+  - Rate limiting information
 
 ### **Authentication Endpoints**
 ```
@@ -1079,7 +1186,29 @@ node server/server.js
 
 ---
 
-**© 2025 CreatorSync Technologies. All rights reserved.**  
+## 📚 **Additional Documentation**
+
+For detailed information about the latest enhancements and features, please refer to:
+
+- **[ENHANCEMENTS.md](./ENHANCEMENTS.md)** - Comprehensive guide to all recent platform enhancements
+  - Environment configuration
+  - API rate limiting
+  - Advanced logging system
+  - Docker support and deployment
+  - Testing framework setup
+  - CI/CD pipeline
+  - API documentation with Swagger
+  - WebSocket authentication
+  - Database models
+  - Redis caching layer
+
+- **[API Documentation](http://localhost:3000/api-docs)** - Interactive Swagger UI (when server is running)
+
+- **[.env.example](./.env.example)** - Environment variable template with all configuration options
+
+---
+
+**© 2025 CreatorSync Technologies. All rights reserved.**
 **Developed with ❤️ by Demond Balentine**
 
 *"Where Music Meets Technology. Where Creators Meet Success."*

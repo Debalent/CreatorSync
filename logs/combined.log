@@ -1,0 +1,2 @@
+{"level":"info","message":"Test info message","service":"creatorsync","timestamp":"2025-11-10 13:47:17"}
+{"component":"TestComponent","level":"info","message":"Test message","service":"creatorsync","timestamp":"2025-11-10 13:47:17","userId":"123"}

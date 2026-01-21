@@ -9,7 +9,6 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const morgan = require('morgan');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
@@ -23,9 +22,23 @@ const paymentRoutes = require('./routes/payments');
 const subscriptionRoutes = require('./routes/subscriptions');
 const aiSongwriterRoutes = require('./routes/ai-songwriter');
 const pluginRoutes = require('./routes/plugins');
+const analyticsRoutes = require('./routes/analytics');
+const notificationRoutes = require('./routes/notifications');
 
 // Import utilities
 const translationManager = require('./utils/translationManager');
+const { logger, requestLogger, errorLogger, socketLogger } = require('./utils/logger');
+const { cacheManager } = require('./utils/cache');
+const swaggerSpec = require('./utils/swagger');
+const swaggerUi = require('swagger-ui-express');
+const NotificationManager = require('./utils/notificationManager');
+const emailService = require('./utils/emailService');
+const audioProcessor = require('./utils/audioProcessor');
+const searchEngine = require('./utils/searchEngine');
+
+// Import middleware
+const { apiLimiter, authLimiter, uploadLimiter, paymentLimiter } = require('./middleware/rateLimiter');
+const { socketAuth } = require('./middleware/auth');
 
 class CreatorSyncServer {
     constructor () {
@@ -42,11 +55,24 @@ class CreatorSyncServer {
         this.connectedUsers = new Map();
         this.activeCollaborations = new Map();
 
+        // Initialize notification manager
+        this.notificationManager = new NotificationManager(this.io);
+
+        this.initializeCache();
         this.initializeMiddleware();
         this.initializeTranslations();
         this.initializeRoutes();
         this.initializeSocketHandlers();
         this.initializeErrorHandling();
+    }
+
+    async initializeCache () {
+        try {
+            await cacheManager.connect();
+            logger.info('Cache manager initialized');
+        } catch (error) {
+            logger.warn('Cache initialization failed, continuing without cache', { error: error.message });
+        }
     }
 
     initializeMiddleware () {
@@ -80,8 +106,8 @@ class CreatorSyncServer {
         // Compression for better performance
         this.app.use(compression());
 
-        // Logging
-        this.app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+        // Logging - Use Winston instead of Morgan
+        this.app.use(requestLogger);
 
         // Body parsing
         this.app.use(express.json({ limit: '50mb' }));
@@ -134,17 +160,31 @@ class CreatorSyncServer {
     }
 
     initializeRoutes () {
-        // API routes
-        this.app.use('/api/auth', authRoutes);
+        // API Documentation
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+            customCss: '.swagger-ui .topbar { display: none }',
+            customSiteTitle: 'CreatorSync API Documentation'
+        }));
+
+        // Apply general API rate limiting
+        this.app.use('/api', apiLimiter);
+
+        // Initialize notification routes with notification manager
+        notificationRoutes.setNotificationManager(this.notificationManager);
+
+        // API routes with specific rate limiters
+        this.app.use('/api/auth', authLimiter, authRoutes);
         this.app.use('/api/beats', beatRoutes);
         this.app.use('/api/users', userRoutes);
-        this.app.use('/api/payments', paymentRoutes);
+        this.app.use('/api/payments', paymentLimiter, paymentRoutes);
         this.app.use('/api/subscriptions', subscriptionRoutes);
         this.app.use('/api/ai-songwriter', aiSongwriterRoutes);
         this.app.use('/api/plugins', pluginRoutes);
+        this.app.use('/api/analytics', analyticsRoutes);
+        this.app.use('/api/notifications', notificationRoutes);
 
-        // Beat upload endpoint
-        this.app.post('/api/upload/beat', this.upload.fields([
+        // Beat upload endpoint with rate limiting
+        this.app.post('/api/upload/beat', uploadLimiter, this.upload.fields([
             { name: 'audio', maxCount: 1 },
             { name: 'artwork', maxCount: 1 }
         ]), this.handleBeatUpload.bind(this));
@@ -175,8 +215,11 @@ class CreatorSyncServer {
     }
 
     initializeSocketHandlers () {
+        // Add Socket.IO authentication middleware
+        this.io.use(socketAuth);
+
         this.io.on('connection', (socket) => {
-            console.log(`User connected: ${socket.id}`);
+            logger.info('User connected', { socketId: socket.id, userId: socket.user?.userId });
 
             // User authentication
             socket.on('authenticate', (userData) => {
@@ -185,6 +228,11 @@ class CreatorSyncServer {
                     socketId: socket.id,
                     connectedAt: new Date()
                 });
+
+                // Register user for notifications
+                if (userData.userId) {
+                    this.notificationManager.registerUser(userData.userId, socket.id);
+                }
 
                 // Notify other users
                 socket.broadcast.emit('user_online', {
@@ -250,6 +298,11 @@ class CreatorSyncServer {
                 const user = this.connectedUsers.get(socket.id);
 
                 if (user) {
+                    // Unregister from notifications
+                    if (user.userId) {
+                        this.notificationManager.unregisterUser(user.userId);
+                    }
+
                     // Notify other users
                     socket.broadcast.emit('user_offline', {
                         userId: user.userId,
@@ -519,9 +572,17 @@ class CreatorSyncServer {
             });
         });
 
-        // Global error handler
+        // Global error handler with logging
+        this.app.use(errorLogger);
+
+        // Final error handler
         this.app.use((error, req, res, next) => {
-            console.error('Server error:', error);
+            logger.error('Server error', {
+                error: error.message,
+                stack: error.stack,
+                path: req.path,
+                method: req.method
+            });
 
             res.status(error.status || 500).json({
                 error: 'Internal server error',
@@ -693,11 +754,12 @@ class CreatorSyncServer {
 
     start () {
         this.server.listen(this.port, () => {
-            console.log(`
+            logger.info(`
 🎵 CreatorSync Server Running
 📍 Port: ${this.port}
 🌍 Environment: ${process.env.NODE_ENV || 'development'}
 🚀 Ready for music monetization and collaboration!
+📚 API Documentation: http://localhost:${this.port}/api-docs
             `);
         });
 
@@ -706,13 +768,22 @@ class CreatorSyncServer {
         process.on('SIGINT', this.shutdown.bind(this));
     }
 
-    shutdown () {
-        console.log('🛑 Shutting down CreatorSync server...');
+    async shutdown () {
+        logger.info('🛑 Shutting down CreatorSync server...');
+
+        // Close cache connection
+        await cacheManager.disconnect();
 
         this.server.close(() => {
-            console.log('✅ Server closed successfully');
+            logger.info('✅ Server closed successfully');
             process.exit(0);
         });
+
+        // Force shutdown after 10 seconds
+        setTimeout(() => {
+            logger.error('⚠️ Forced shutdown after timeout');
+            process.exit(1);
+        }, 10000);
     }
 }
 
