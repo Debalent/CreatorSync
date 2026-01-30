@@ -7,8 +7,8 @@ class TranslationSystem {
         this.init();
     }
 
-    init () {
-        this.loadTranslations();
+    async init () {
+        await this.loadTranslations();
         this.setupLanguageSelector();
         this.applyTranslations();
     }
@@ -61,7 +61,7 @@ class TranslationSystem {
             value = value?.[k];
             if (value === undefined) {
                 console.warn(`Translation key not found: ${key}`);
-                return key; // Return key as fallback
+                return undefined;
             }
         }
 
@@ -72,7 +72,7 @@ class TranslationSystem {
             }
         }
 
-        return value || key;
+        return value;
     }
 
     translate (key, interpolations = {}) {
@@ -97,6 +97,10 @@ class TranslationSystem {
     }
 
     setupLanguageSelector () {
+        if (document.getElementById('languageSelect')) {
+            return;
+        }
+
         // Create language selector dropdown
         const languageSelector = document.createElement('div');
         languageSelector.className = 'language-selector';
@@ -129,6 +133,9 @@ class TranslationSystem {
         document.querySelectorAll('[data-translate]').forEach(element => {
             const key = element.dataset.translate;
             const translation = this.getTranslation(key);
+            if (translation === undefined) {
+                return;
+            }
 
             if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                 element.placeholder = translation;
@@ -140,19 +147,28 @@ class TranslationSystem {
         // Apply translations to elements with data-translate-html
         document.querySelectorAll('[data-translate-html]').forEach(element => {
             const key = element.dataset.translateHtml;
-            element.innerHTML = this.getTranslation(key);
+            const translation = this.getTranslation(key);
+            if (translation !== undefined) {
+                element.innerHTML = translation;
+            }
         });
 
         // Apply translations to elements with data-translate-title
         document.querySelectorAll('[data-translate-title]').forEach(element => {
             const key = element.dataset.translateTitle;
-            element.title = this.getTranslation(key);
+            const translation = this.getTranslation(key);
+            if (translation !== undefined) {
+                element.title = translation;
+            }
         });
 
         // Apply translations to elements with data-translate-aria-label
         document.querySelectorAll('[data-translate-aria-label]').forEach(element => {
             const key = element.dataset.translateAriaLabel;
-            element.setAttribute('aria-label', this.getTranslation(key));
+            const translation = this.getTranslation(key);
+            if (translation !== undefined) {
+                element.setAttribute('aria-label', translation);
+            }
         });
     }
 
