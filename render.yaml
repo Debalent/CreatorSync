@@ -2,6 +2,7 @@ services:
   - type: web
     name: creatorsync
     runtime: node
+    region: oregon
     buildCommand: npm install
     startCommand: npm start
     envVars:

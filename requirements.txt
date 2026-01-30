@@ -1,0 +1,2 @@
+# This project uses Node.js, not Python
+# Empty requirements file to prevent Render auto-detection errors
