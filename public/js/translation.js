@@ -16,8 +16,12 @@ class TranslationSystem {
     detectLanguage () {
         // Check localStorage first
         const savedLanguage = localStorage.getItem('creatorSync_language');
-        if (savedLanguage) return savedLanguage;
+        if (savedLanguage && ['en', 'es', 'fr', 'de'].includes(savedLanguage)) {
+            return savedLanguage;
+        }
 
+        // Default to English
+        localStorage.setItem('creatorSync_language', 'en');
         return 'en';
     }
 
