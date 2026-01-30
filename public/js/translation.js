@@ -18,13 +18,7 @@ class TranslationSystem {
         const savedLanguage = localStorage.getItem('creatorSync_language');
         if (savedLanguage) return savedLanguage;
 
-        // Detect from browser
-        const browserLang = navigator.language || navigator.userLanguage;
-        const primaryLang = browserLang.split('-')[0];
-
-        // Check if supported
-        const supportedLangs = ['en', 'es', 'fr', 'de'];
-        return supportedLangs.includes(primaryLang) ? primaryLang : 'en';
+        return 'en';
     }
 
     async loadTranslations () {
