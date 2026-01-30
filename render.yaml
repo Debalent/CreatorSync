@@ -3,8 +3,8 @@ services:
     name: creatorsync
     runtime: node
     region: oregon
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install && npm run build || true
+    startCommand: node server/server.js
     envVars:
       - key: NODE_ENV
         value: production
