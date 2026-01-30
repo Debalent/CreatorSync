@@ -647,7 +647,7 @@ window.openMixmasterFullscreen = function () {
 window.resetMixmaster = function () {
     const mixmasterFrame = document.getElementById('mixmasterFrame');
     if (mixmasterFrame && confirm('Reset Mixmaster1? This will reload the mixer and lose unsaved changes.')) {
-        mixmasterFrame.src = mixmasterFrame.src; // Reload iframe
+        mixmasterFrame.src = mixmasterFrame.getAttribute('src') || mixmasterFrame.src; // Reload iframe
         console.log('🔄 Mixmaster1 reset');
     }
 };

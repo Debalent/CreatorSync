@@ -1276,7 +1276,7 @@ document.head.appendChild(styleSheet);
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new CreatorSyncApp();
+    window.creatorSyncApp = new CreatorSyncApp();
 });
 
 // Export for potential module usage

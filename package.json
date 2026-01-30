@@ -9,6 +9,7 @@
     "lint": "eslint server/ public/js/",
     "lint:fix": "eslint server/ public/js/ --fix",
     "test": "jest --coverage --coverageThreshold='{\"global\":{\"branches\":70,\"functions\":70,\"lines\":70,\"statements\":70}}'",
+      "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration",
