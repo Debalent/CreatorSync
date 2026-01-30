@@ -100,6 +100,14 @@ body {
     padding: 0 var(--spacing-lg);
 }
 
+.nav-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    line-height: 1.1;
+}
+
 .nav-brand h1 {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -113,12 +121,13 @@ body {
 .brand-tagline {
     font-size: var(--font-size-xs);
     color: var(--text-muted);
-    margin-left: var(--spacing-sm);
+    margin-left: 0;
+    line-height: 1.2;
 }
 
 .nav-menu {
     display: flex;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-lg);
 }
 
 .nav-link {

@@ -115,6 +115,7 @@ class CreatorSyncServer {
 
         // Static files
         this.app.use(express.static(path.join(__dirname, '../public')));
+        this.app.use('/translations', express.static(path.join(__dirname, '../translations')));
 
         // File upload configuration
         const storage = multer.diskStorage({
