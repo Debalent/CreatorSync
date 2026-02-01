@@ -739,6 +739,7 @@ section > .container > h2::after {
 
 .auth-btn-signup {
     position: relative;
+    padding-right: 3rem !important;
 }
 
 .auth-btn-signup > * {
@@ -763,23 +764,28 @@ section > .container > h2::after {
 
 .signup-badge {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
-    font-size: 0.625rem;
-    font-weight: 700;
-    padding: 0.15rem 0.4rem;
-    border-radius: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.5),
+                0 0 20px rgba(16, 185, 129, 0.3);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    z-index: 3;
     animation: badgeBounce 2s infinite;
+    white-space: nowrap;
 }
 
 @keyframes badgeBounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.08); }
 }
 
 .btn-outline {
