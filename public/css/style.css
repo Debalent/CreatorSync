@@ -1709,6 +1709,23 @@ section > .container > h2::after {
     background: linear-gradient(135deg, #25d366, #128c7e);
 }
 
+.share-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: var(--spacing-sm) 0 var(--spacing-md) 0;
+    line-height: 1.5;
+}
+
+.btn-share-global {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+}
+
 .footer-bottom {
     padding-top: var(--spacing-lg);
     border-top: 1px solid var(--border-color);
@@ -2683,6 +2700,318 @@ section > .container > h2::after {
     .plan-info {
         flex-direction: column;
         align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* =================================
+   SHARE MODAL STYLES
+   ================================= */
+
+.share-modal-content {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.share-modal-body {
+    padding: var(--spacing-lg);
+}
+
+.share-beat-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--surface-color);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.share-beat-artwork {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+}
+
+.share-beat-details h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
+}
+
+.share-beat-details p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.share-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.share-category-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.share-category-title i {
+    color: var(--primary-color);
+}
+
+.share-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.share-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.share-btn i {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.share-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* Platform-specific colors */
+.soundcloud-btn:hover {
+    background: linear-gradient(135deg, #ff5500, #ff7700);
+    color: white;
+    border-color: #ff5500;
+}
+
+.apple-music-btn:hover {
+    background: linear-gradient(135deg, #fc3c44, #ff1744);
+    color: white;
+    border-color: #fc3c44;
+}
+
+.youtube-btn:hover {
+    background: linear-gradient(135deg, #ff0000, #ff4444);
+    color: white;
+    border-color: #ff0000;
+}
+
+.amazon-btn:hover {
+    background: linear-gradient(135deg, #ff9900, #ffad33);
+    color: white;
+    border-color: #ff9900;
+}
+
+.spotify-btn:hover {
+    background: linear-gradient(135deg, #1db954, #1ed760);
+    color: white;
+    border-color: #1db954;
+}
+
+.tiktok-btn:hover {
+    background: linear-gradient(135deg, #000000, #ee1d52);
+    color: white;
+    border-color: #000000;
+}
+
+.instagram-btn:hover {
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: white;
+    border-color: #833ab4;
+}
+
+.facebook-btn:hover {
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
+    color: white;
+    border-color: #1877f2;
+}
+
+.twitter-btn:hover {
+    background: linear-gradient(135deg, #1da1f2, #0e8cd9);
+    color: white;
+    border-color: #1da1f2;
+}
+
+.linkedin-btn:hover {
+    background: linear-gradient(135deg, #0077b5, #0099d6);
+    color: white;
+    border-color: #0077b5;
+}
+
+.whatsapp-btn:hover {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: white;
+    border-color: #25d366;
+}
+
+.telegram-btn:hover {
+    background: linear-gradient(135deg, #0088cc, #0099dd);
+    color: white;
+    border-color: #0088cc;
+}
+
+.messenger-btn:hover {
+    background: linear-gradient(135deg, #0084ff, #44a4fc);
+    color: white;
+    border-color: #0084ff;
+}
+
+.email-btn:hover {
+    background: linear-gradient(135deg, #ea4335, #ff6659);
+    color: white;
+    border-color: #ea4335;
+}
+
+.share-link-container {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.share-link-input {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    font-size: var(--font-size-sm);
+}
+
+.copy-link-btn {
+    white-space: nowrap;
+}
+
+.share-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.share-stats p {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.share-stats i {
+    color: var(--primary-color);
+}
+
+/* Toast notifications for share feedback */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--surface-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+    max-width: 350px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    border-left: 4px solid #10b981;
+}
+
+.toast-error {
+    border-left: 4px solid #ef4444;
+}
+
+.toast-info {
+    border-left: 4px solid #3b82f6;
+}
+
+.toast i {
+    font-size: 1.25rem;
+}
+
+.toast-success i {
+    color: #10b981;
+}
+
+.toast-error i {
+    color: #ef4444;
+}
+
+.toast-info i {
+    color: #3b82f6;
+}
+
+/* Responsive share modal */
+@media (max-width: 768px) {
+    .share-buttons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .share-link-container {
+        flex-direction: column;
+    }
+
+    .copy-link-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .share-modal-content {
+        margin: 1rem;
+        max-height: 95vh;
+    }
+
+    .share-beat-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .share-stats {
+        flex-direction: column;
         gap: var(--spacing-sm);
     }
 }
