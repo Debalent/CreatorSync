@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Finisher - CreatorSync</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/finisher-integration.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -22,14 +24,14 @@
                 <span class="powered-by">Powered by CreatorSync</span>
             </div>
         </div>
-        
+
         <div class="nav-center">
             <div class="subscription-status" id="subscriptionStatus">
                 <span class="status-badge" id="statusBadge">PRO</span>
                 <span id="planName">Pro Plan</span>
             </div>
         </div>
-        
+
         <div class="nav-right">
             <div class="user-info">
                 <img src="https://via.placeholder.com/32x32/6c5ce7/ffffff?text=U" alt="User Avatar" class="user-avatar" id="userAvatar">
@@ -78,7 +80,7 @@
                     Collaborate
                 </button>
             </div>
-            
+
             <!-- Dashboard Panel -->
             <div class="finisher-panel active" id="dashboard-panel">
                 <div class="dashboard-content">
@@ -86,7 +88,7 @@
                         <h2>Welcome to The Finisher</h2>
                         <p>Your complete audio production suite with professional mixing and mastering tools.</p>
                     </div>
-                    
+
                     <div class="quick-actions">
                         <div class="action-card" onclick="switchToMixer()">
                             <div class="action-icon">
@@ -96,7 +98,7 @@
                             <p>Professional mixing console with EQ, effects, and real-time processing</p>
                             <button class="btn btn-primary">Open Mixer</button>
                         </div>
-                        
+
                         <div class="action-card" onclick="switchToEffects()">
                             <div class="action-icon">
                                 <i class="fas fa-magic"></i>
@@ -105,7 +107,7 @@
                             <p>Professional audio effects and processing plugins</p>
                             <button class="btn btn-outline">Browse Effects</button>
                         </div>
-                        
+
                         <div class="action-card" onclick="switchToMastering()">
                             <div class="action-icon">
                                 <i class="fas fa-award"></i>
@@ -115,7 +117,7 @@
                             <button class="btn btn-outline">Start Mastering</button>
                         </div>
                     </div>
-                    
+
                     <div class="recent-projects">
                         <h3>Recent Projects</h3>
                         <div class="project-list">
@@ -130,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mixmaster1 Panel (Embedded) -->
             <div class="finisher-panel" id="mixer-panel">
                 <div class="embedded-app-header">
@@ -150,10 +152,10 @@
                     </div>
                 </div>
                 <div class="embedded-app-container">
-                    <iframe 
-                        id="mixmasterFrame" 
-                        src="/mixmaster1-app.html" 
-                        frameborder="0" 
+                    <iframe
+                        id="mixmasterFrame"
+                        src="/mixmaster1-app.html"
+                        frameborder="0"
                         allow="microphone; autoplay; encrypted-media"
                         sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
                         style="width: 100%; height: 800px; border-radius: 8px; background: #1a1a1a;"
@@ -161,7 +163,7 @@
                     </iframe>
                 </div>
             </div>
-            
+
             <!-- Effects Suite Panel -->
             <div class="finisher-panel" id="effects-panel">
                 <div class="effects-content">
@@ -175,7 +177,7 @@
                             <p>Professional reverb with multiple algorithms</p>
                             <button class="btn btn-primary">Load Effect</button>
                         </div>
-                        
+
                         <div class="effect-card">
                             <div class="effect-icon">
                                 <i class="fas fa-sync"></i>
@@ -184,7 +186,7 @@
                             <p>Advanced delay with tempo sync and feedback</p>
                             <button class="btn btn-primary">Load Effect</button>
                         </div>
-                        
+
                         <div class="effect-card">
                             <div class="effect-icon">
                                 <i class="fas fa-compress"></i>
@@ -196,7 +198,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mastering Panel -->
             <div class="finisher-panel" id="mastering-panel">
                 <div class="mastering-content">
@@ -207,7 +209,7 @@
                             <p>AI analyzes your track and applies professional mastering</p>
                             <button class="btn btn-primary">Analyze & Master</button>
                         </div>
-                        
+
                         <div class="mastering-card">
                             <h3>Custom Master</h3>
                             <p>Manual control over EQ, compression, and limiting</p>
@@ -216,7 +218,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Collaboration Panel -->
             <div class="finisher-panel" id="collaboration-panel">
                 <div class="collaboration-content">
@@ -227,7 +229,7 @@
                             <p>Share your project with other producers and artists</p>
                             <button class="btn btn-primary">Invite Users</button>
                         </div>
-                        
+
                         <div class="collab-card">
                             <h3>Live Sessions</h3>
                             <p>Work together in real-time with live audio streaming</p>
@@ -267,7 +269,7 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div class="song-metadata">
                                 <div class="metadata-row">
                                     <input type="text" id="songTitle" placeholder="Song Title" class="form-input title-input">
@@ -296,13 +298,13 @@
                             </div>
 
                             <div class="writing-area">
-                                <textarea 
-                                    id="lyricsTextarea" 
+                                <textarea
+                                    id="lyricsTextarea"
                                     placeholder="Start writing your lyrics here... The AI will learn your style as you write."
                                     class="lyrics-textarea"
                                     rows="20"
                                 ></textarea>
-                                
+
                                 <div class="writing-stats">
                                     <div class="stat">
                                         <span class="stat-label">Lines:</span>
@@ -371,7 +373,7 @@
                                         Overcome Block
                                     </button>
                                 </div>
-                                
+
                                 <div class="suggestions-list" id="suggestionsList">
                                     <div class="suggestion-placeholder">
                                         <i class="fas fa-robot"></i>
@@ -416,7 +418,7 @@
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        
+
                         <div class="block-techniques">
                             <div class="technique-card active" data-technique="prompt">
                                 <h4>Creative Prompts</h4>
@@ -425,7 +427,7 @@
                                     <div class="loading">Generating personalized prompts...</div>
                                 </div>
                             </div>
-                            
+
                             <div class="technique-card" data-technique="continuation">
                                 <h4>Line Continuation</h4>
                                 <p>Let AI complete your unfinished thoughts</p>
@@ -435,7 +437,7 @@
                                     <div class="continuations" id="continuations"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="technique-card" data-technique="rewrite">
                                 <h4>Style Rewrite</h4>
                                 <p>Rewrite existing lines in your unique style</p>
@@ -457,7 +459,7 @@
                 <i class="fas fa-lock"></i>
                 <h2>Subscription Required</h2>
                 <p>Access to The Finisher requires an active CreatorSync subscription.</p>
-                
+
                 <div class="subscription-plans">
                     <div class="plan-card">
                         <h3>Pro Plan</h3>
@@ -471,7 +473,7 @@
                             Upgrade to Pro
                         </button>
                     </div>
-                    
+
                     <div class="plan-card featured">
                         <div class="featured-badge">Most Popular</div>
                         <h3>Enterprise</h3>
@@ -487,12 +489,12 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <p class="trial-notice">
                     <i class="fas fa-gift"></i>
                     All plans include a 14-day free trial
                 </p>
-                
+
                 <button class="btn btn-outline" onclick="goBackToCreatorSync()">
                     Return to CreatorSync
                 </button>
@@ -512,7 +514,7 @@
             <div class="modal-body">
                 <div class="integration-config">
                     <h4>Choose Integration Method:</h4>
-                    
+
                     <div class="integration-option">
                         <input type="radio" id="iframeIntegration" name="integration" value="iframe" checked>
                         <label for="iframeIntegration">
@@ -524,7 +526,7 @@
                             <input type="url" id="finisherUrl" placeholder="https://your-finisher-app.com" class="form-input">
                         </div>
                     </div>
-                    
+
                     <div class="integration-option">
                         <input type="radio" id="apiIntegration" name="integration" value="api">
                         <label for="apiIntegration">
@@ -538,7 +540,7 @@
                             <input type="password" id="apiKey" placeholder="Your API key" class="form-input">
                         </div>
                     </div>
-                    
+
                     <div class="integration-option">
                         <input type="radio" id="desktopIntegration" name="integration" value="desktop">
                         <label for="desktopIntegration">
@@ -551,7 +553,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button class="btn btn-outline" data-modal="integrationModal">Cancel</button>
                     <button class="btn btn-primary" id="saveIntegration">Save Configuration</button>

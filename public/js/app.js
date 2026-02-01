@@ -221,8 +221,14 @@ class CreatorSyncApp {
 
     // Beat Management
     loadBeats () {
-        // Simulate loading beats data
-        this.beats = [
+        // Show loading animation
+        if (window.animationsManager) {
+            window.animationsManager.showLoadingScreen('Loading Beats');
+        }
+
+        // Simulate loading beats data with delay to show animation
+        setTimeout(() => {
+            this.beats = [
             {
                 id: 1,
                 title: 'Urban Nights',
@@ -271,6 +277,12 @@ class CreatorSyncApp {
         ];
 
         this.renderBeats();
+
+        // Hide loading animation after beats are loaded
+        if (window.animationsManager) {
+            window.animationsManager.hideLoadingScreen();
+        }
+        }, 800); // Delay to show the loading animation
     }
 
     renderBeats () {

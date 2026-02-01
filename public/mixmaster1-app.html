@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mixmaster1 - Professional Audio Mixing Suite</title>
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/mixmaster1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,7 +23,7 @@
                 <span class="version">v1.0</span>
             </div>
         </div>
-        
+
         <div class="nav-center">
             <div class="project-info">
                 <span id="projectName">Untitled Project</span>
@@ -31,7 +33,7 @@
                 <span id="projectKey">C Major</span>
             </div>
         </div>
-        
+
         <div class="nav-right">
             <button class="nav-btn" id="saveProject" title="Save Project">
                 <i class="fas fa-save"></i>
@@ -65,7 +67,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <div class="mixer-board" id="mixerBoard">
                 <!-- Track 1 - Lead -->
                 <div class="mixer-channel" data-track="1">
@@ -74,7 +76,7 @@
                         <button class="channel-btn solo" title="Solo">S</button>
                         <button class="channel-btn mute" title="Mute">M</button>
                     </div>
-                    
+
                     <!-- EQ Section -->
                     <div class="eq-section">
                         <div class="eq-control">
@@ -93,7 +95,7 @@
                             <span class="eq-value">0dB</span>
                         </div>
                     </div>
-                    
+
                     <!-- Effects Section -->
                     <div class="effects-section">
                         <div class="effect-control">
@@ -107,7 +109,7 @@
                             <span class="effect-value">0%</span>
                         </div>
                     </div>
-                    
+
                     <!-- Volume and Pan -->
                     <div class="channel-controls">
                         <div class="pan-control">
@@ -120,14 +122,14 @@
                             <div class="volume-label">75</div>
                         </div>
                     </div>
-                    
+
                     <!-- Level Meter -->
                     <div class="level-meter">
                         <div class="meter-bar left" data-level="0"></div>
                         <div class="meter-bar right" data-level="0"></div>
                     </div>
                 </div>
-                
+
                 <!-- Track 2 - Bass -->
                 <div class="mixer-channel" data-track="2">
                     <div class="channel-header">
@@ -135,7 +137,7 @@
                         <button class="channel-btn solo" title="Solo">S</button>
                         <button class="channel-btn mute" title="Mute">M</button>
                     </div>
-                    
+
                     <div class="eq-section">
                         <div class="eq-control">
                             <label>High</label>
@@ -153,7 +155,7 @@
                             <span class="eq-value">+2dB</span>
                         </div>
                     </div>
-                    
+
                     <div class="effects-section">
                         <div class="effect-control">
                             <label>Reverb</label>
@@ -166,7 +168,7 @@
                             <span class="effect-value">0%</span>
                         </div>
                     </div>
-                    
+
                     <div class="channel-controls">
                         <div class="pan-control">
                             <label>Pan</label>
@@ -178,13 +180,13 @@
                             <div class="volume-label">80</div>
                         </div>
                     </div>
-                    
+
                     <div class="level-meter">
                         <div class="meter-bar left" data-level="0"></div>
                         <div class="meter-bar right" data-level="0"></div>
                     </div>
                 </div>
-                
+
                 <!-- Track 3 - Drums -->
                 <div class="mixer-channel" data-track="3">
                     <div class="channel-header">
@@ -192,7 +194,7 @@
                         <button class="channel-btn solo" title="Solo">S</button>
                         <button class="channel-btn mute" title="Mute">M</button>
                     </div>
-                    
+
                     <div class="eq-section">
                         <div class="eq-control">
                             <label>High</label>
@@ -210,7 +212,7 @@
                             <span class="eq-value">+2dB</span>
                         </div>
                     </div>
-                    
+
                     <div class="effects-section">
                         <div class="effect-control">
                             <label>Reverb</label>
@@ -223,7 +225,7 @@
                             <span class="effect-value">15%</span>
                         </div>
                     </div>
-                    
+
                     <div class="channel-controls">
                         <div class="pan-control">
                             <label>Pan</label>
@@ -235,13 +237,13 @@
                             <div class="volume-label">85</div>
                         </div>
                     </div>
-                    
+
                     <div class="level-meter">
                         <div class="meter-bar left" data-level="0"></div>
                         <div class="meter-bar right" data-level="0"></div>
                     </div>
                 </div>
-                
+
                 <!-- Master Channel -->
                 <div class="mixer-channel master-channel" data-track="master">
                     <div class="channel-header">
@@ -250,7 +252,7 @@
                             <i class="fas fa-circle"></i>
                         </button>
                     </div>
-                    
+
                     <div class="master-eq">
                         <div class="eq-control">
                             <label>High</label>
@@ -268,7 +270,7 @@
                             <span class="eq-value">0dB</span>
                         </div>
                     </div>
-                    
+
                     <div class="master-effects">
                         <div class="effect-control">
                             <label>Limiter</label>
@@ -281,12 +283,12 @@
                             <span class="effect-value">50%</span>
                         </div>
                     </div>
-                    
+
                     <div class="master-volume">
                         <input type="range" class="volume-fader master-fader" min="0" max="100" value="80" orient="vertical">
                         <div class="volume-label">80</div>
                     </div>
-                    
+
                     <div class="master-meter">
                         <div class="meter-bar left" data-level="0"></div>
                         <div class="meter-bar right" data-level="0"></div>
@@ -296,7 +298,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- Audio Analysis Section -->
         <section class="analysis-section">
             <div class="analysis-tabs">
@@ -304,7 +306,7 @@
                 <button class="tab-btn" data-tab="waveform">Waveform</button>
                 <button class="tab-btn" data-tab="histogram">Levels</button>
             </div>
-            
+
             <div class="analysis-content">
                 <div class="analysis-panel active" id="spectrum-panel">
                     <canvas id="spectrumCanvas" width="800" height="200"></canvas>
@@ -317,7 +319,7 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <div class="analysis-panel" id="waveform-panel">
                     <canvas id="waveformCanvas" width="800" height="200"></canvas>
                     <div class="waveform-controls">
@@ -326,7 +328,7 @@
                         <button class="btn btn-small" id="resetZoom">Reset</button>
                     </div>
                 </div>
-                
+
                 <div class="analysis-panel" id="histogram-panel">
                     <canvas id="histogramCanvas" width="800" height="200"></canvas>
                     <div class="histogram-info">
@@ -340,7 +342,7 @@
             </div>
         </section>
     </div>
-    
+
     <!-- Transport Controls -->
     <div class="transport-controls">
         <button class="transport-btn" id="rewindBtn" title="Rewind">
@@ -358,19 +360,19 @@
         <button class="transport-btn" id="forwardBtn" title="Fast Forward">
             <i class="fas fa-fast-forward"></i>
         </button>
-        
+
         <div class="time-display">
             <span id="currentTime">00:00</span>
             <span class="separator">/</span>
             <span id="totalTime">03:45</span>
         </div>
-        
+
         <div class="tempo-control">
             <label>BPM:</label>
             <input type="number" id="tempoInput" min="60" max="200" value="120">
         </div>
     </div>
-    
+
     <!-- Status Bar -->
     <div class="status-bar">
         <div class="status-left">
@@ -380,7 +382,7 @@
             <span class="separator">•</span>
             <span id="bufferSize">Buffer: 512</span>
         </div>
-        
+
         <div class="status-right">
             <span id="sampleRate">44.1 kHz</span>
             <span class="separator">•</span>
