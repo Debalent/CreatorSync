@@ -88,7 +88,7 @@ body {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
-    padding: var(--spacing-md) 0;
+    padding: 0.75rem 0;
 }
 
 .nav-container {
@@ -150,11 +150,11 @@ body {
 /* Carousel Cards */
 .nav-card {
     flex: 0 0 auto;
-    width: 160px;
+    width: 145px;
     background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 1rem;
+    border-radius: 10px;
+    padding: 0.75rem 0.6rem;
     text-align: center;
     text-decoration: none;
     color: var(--text-secondary);
@@ -188,8 +188,8 @@ body {
 }
 
 .nav-card-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.65rem;
+    margin-bottom: 0.4rem;
     transition: transform 0.4s ease;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
@@ -202,18 +202,18 @@ body {
 }
 
 .nav-card-content h3 {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
     transition: color 0.3s ease;
 }
 
 .nav-card-content p {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
-    opacity: 0.8;
-    line-height: 1.3;
+    opacity: 0.75;
+    line-height: 1.25;
     margin: 0;
     transition: opacity 0.3s ease;
 }
@@ -231,10 +231,10 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background: rgba(108, 92, 231, 0.9);
+    background: rgba(108, 92, 231, 0.8);
     border: none;
     color: white;
     cursor: pointer;
@@ -243,13 +243,13 @@ body {
     justify-content: center;
     transition: all 0.3s ease;
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .nav-scroll-btn:hover {
     background: var(--primary-color);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.5);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
 }
 
 .nav-scroll-btn:active {
@@ -257,15 +257,15 @@ body {
 }
 
 .nav-scroll-left {
-    left: -15px;
+    left: -10px;
 }
 
 .nav-scroll-right {
-    right: -15px;
+    right: -10px;
 }
 
 .nav-scroll-btn i {
-    font-size: 1rem;
+    font-size: 0.85rem;
 }
 
 /* Legacy nav-menu for backward compatibility */
@@ -492,11 +492,59 @@ body {
     background-clip: text;
 }
 
+.hero-title-dynamic .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease infinite;
+    font-weight: 800;
+    display: inline-block;
+}
+
+.hero-title-dynamic .typing-effect {
+    position: relative;
+    animation: gradientShift 3s ease infinite, textPulse 2s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(20deg) brightness(1.2); }
+}
+
+@keyframes textPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
 .hero-subtitle {
     font-size: var(--font-size-xl);
     color: var(--text-secondary);
     margin-bottom: var(--spacing-2xl);
     line-height: 1.6;
+}
+
+.hero-subtitle-enhanced {
+    font-size: 1.15rem;
+    line-height: 1.7;
+}
+
+.hero-subtitle-enhanced strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    position: relative;
+}
+
+.hero-subtitle-enhanced .highlight-text {
+    color: var(--primary-color);
+    font-weight: 500;
+    position: relative;
+    animation: subtleGlow 4s ease-in-out infinite;
+}
+
+@keyframes subtleGlow {
+    0%, 100% { text-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+    50% { text-shadow: 0 0 15px rgba(99, 102, 241, 0.6); }
 }
 
 .hero-actions {
