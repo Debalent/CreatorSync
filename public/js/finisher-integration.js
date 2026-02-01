@@ -1619,7 +1619,98 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         window.aiSongwriter = new AISongwriterAssistant();
     }, 1000);
+
+    // Initialize Subscription Carousel
+    initSubscriptionCarousel();
 });
+
+// Subscription Carousel Controller
+function initSubscriptionCarousel() {
+    const carousel = document.querySelector('.subscription-plans-carousel');
+    const leftBtn = document.getElementById('scrollLeft');
+    const rightBtn = document.getElementById('scrollRight');
+
+    if (!carousel || !leftBtn || !rightBtn) return;
+
+    // Scroll amount (one card width + gap)
+    const scrollAmount = 320 + 24; // card width + gap
+
+    // Update button states
+    function updateButtons() {
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        leftBtn.disabled = carousel.scrollLeft <= 0;
+        rightBtn.disabled = carousel.scrollLeft >= maxScroll - 1;
+    }
+
+    // Scroll left
+    leftBtn.addEventListener('click', () => {
+        carousel.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+        setTimeout(updateButtons, 300);
+    });
+
+    // Scroll right
+    rightBtn.addEventListener('click', () => {
+        carousel.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+        setTimeout(updateButtons, 300);
+    });
+
+    // Update on scroll
+    carousel.addEventListener('scroll', updateButtons);
+
+    // Touch/swipe support
+    let startX = 0;
+    let scrollLeft = 0;
+    let isDown = false;
+
+    carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+        carousel.style.cursor = 'grabbing';
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.style.cursor = 'grab';
+    });
+
+    carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.style.cursor = 'grab';
+    });
+
+    carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2;
+        carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch events
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+    });
+
+    carousel.addEventListener('touchmove', (e) => {
+        const x = e.touches[0].pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 2;
+        carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Initialize button states
+    updateButtons();
+
+    // Set cursor style
+    carousel.style.cursor = 'grab';
+}
 
 // Add toast styles to head
 const toastStyles = `
