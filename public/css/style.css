@@ -438,6 +438,148 @@ body {
     transform: translateY(-1px);
 }
 
+/* Enhanced Auth Buttons */
+.auth-btn-login {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.auth-btn-login i {
+    font-size: 0.875rem;
+    transition: transform 0.3s ease;
+}
+
+.auth-btn-login:hover i {
+    transform: translateX(-3px);
+}
+
+.auth-btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.auth-btn-login:hover::before {
+    left: 100%;
+}
+
+/* Enhanced Gradient Sign Up Button */
+.btn-gradient-enhanced {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4),
+                0 0 20px rgba(139, 92, 246, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-gradient-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #f97316 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.btn-gradient-enhanced::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%);
+    animation: buttonShimmer 3s infinite;
+}
+
+@keyframes buttonShimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.btn-gradient-enhanced:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5),
+                0 0 40px rgba(139, 92, 246, 0.3),
+                0 0 60px rgba(236, 72, 153, 0.2);
+}
+
+.btn-gradient-enhanced:hover::before {
+    opacity: 1;
+}
+
+.btn-gradient-enhanced:active {
+    transform: translateY(-1px) scale(1.01);
+}
+
+.auth-btn-signup {
+    position: relative;
+}
+
+.auth-btn-signup > * {
+    position: relative;
+    z-index: 2;
+}
+
+.signup-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.auth-btn-signup i {
+    font-size: 0.875rem;
+    animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.7; transform: scale(1.2) rotate(180deg); }
+}
+
+.signup-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    animation: badgeBounce 2s infinite;
+}
+
+@keyframes badgeBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
 .btn-outline {
     background: transparent;
     color: var(--text-primary);
