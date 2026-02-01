@@ -23,16 +23,60 @@
                 </div>
             </div>
 
-            <div class="nav-menu">
-                <a href="#beats" class="nav-link" data-translate="nav.beats">Beats</a>
-                <a href="#sounds" class="nav-link" data-translate="nav.sounds">Sounds</a>
-                <a href="#studio" class="nav-link" data-translate="nav.studio">Studio</a>
-                <a href="#marketplace" class="nav-link" data-translate="nav.marketplace">Marketplace</a>
-                <a href="#finisher" class="nav-link finisher-link" id="finisherNavLink" data-translate="nav.finisher">
-                    <i class="fas fa-magic"></i>
-                    The Finisher
-                    <span class="pro-badge">PRO</span>
-                </a>
+            <div class="nav-menu-wrapper">
+                <button class="nav-scroll-btn nav-scroll-left" aria-label="Scroll left">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="nav-menu-carousel">
+                    <a href="#beats" class="nav-card" data-translate="nav.beats">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Discover Beats</h3>
+                            <p>Explore thousands of premium tracks</p>
+                        </div>
+                    </a>
+                    <a href="#sounds" class="nav-card" data-translate="nav.sounds">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-drum"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Sound Packs</h3>
+                            <p>Professional samples & loops</p>
+                        </div>
+                    </a>
+                    <a href="#studio" class="nav-card" data-translate="nav.studio">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Create Studio</h3>
+                            <p>Mix, master & collaborate live</p>
+                        </div>
+                    </a>
+                    <a href="#marketplace" class="nav-card" data-translate="nav.marketplace">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Marketplace</h3>
+                            <p>Buy & sell exclusive beats</p>
+                        </div>
+                    </a>
+                    <a href="#finisher" class="nav-card nav-card-premium" id="finisherNavLink" data-translate="nav.finisher">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>The Finisher <span class="pro-badge">PRO</span></h3>
+                            <p>AI-powered music production</p>
+                        </div>
+                    </a>
+                </div>
+                <button class="nav-scroll-btn nav-scroll-right" aria-label="Scroll right">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
 
             <div class="nav-auth">
@@ -532,6 +576,7 @@
         }
     </script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="js/carousel.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/translation.js"></script>
     <script src="js/app.js"></script>
