@@ -1291,7 +1291,8 @@ function initBillingToggle() {
     const billingToggle = document.getElementById('billingToggle');
     const billingToggleFinisher = document.getElementById('billingToggleFinisher');
 
-    function updatePricing(isYearly) {
+    function updatePricing(isYearly, toggleElement) {
+        // Update pricing amounts
         const amountElements = document.querySelectorAll('.price .amount[data-monthly]');
         const yearlyTotals = document.querySelectorAll('.yearly-total');
 
@@ -1309,6 +1310,7 @@ function initBillingToggle() {
             }
         });
 
+        // Toggle yearly total visibility
         yearlyTotals.forEach(element => {
             if (isYearly) {
                 element.classList.remove('hidden');
@@ -1316,17 +1318,48 @@ function initBillingToggle() {
                 element.classList.add('hidden');
             }
         });
+
+        // Update label states for visual feedback
+        if (toggleElement) {
+            const container = toggleElement.closest('.billing-toggle');
+            if (container) {
+                const labels = container.querySelectorAll('.billing-label');
+                if (labels.length >= 2) {
+                    if (isYearly) {
+                        labels[0].classList.remove('active');
+                        labels[1].classList.add('active');
+                    } else {
+                        labels[0].classList.add('active');
+                        labels[1].classList.remove('active');
+                    }
+                }
+            }
+        }
     }
 
     if (billingToggle) {
+        // Initialize with monthly active
+        const container = billingToggle.closest('.billing-toggle');
+        if (container) {
+            const labels = container.querySelectorAll('.billing-label');
+            if (labels.length > 0) labels[0].classList.add('active');
+        }
+
         billingToggle.addEventListener('change', (e) => {
-            updatePricing(e.target.checked);
+            updatePricing(e.target.checked, e.target);
         });
     }
 
     if (billingToggleFinisher) {
+        // Initialize with monthly active
+        const container = billingToggleFinisher.closest('.billing-toggle');
+        if (container) {
+            const labels = container.querySelectorAll('.billing-label');
+            if (labels.length > 0) labels[0].classList.add('active');
+        }
+
         billingToggleFinisher.addEventListener('change', (e) => {
-            updatePricing(e.target.checked);
+            updatePricing(e.target.checked, e.target);
         });
     }
 }

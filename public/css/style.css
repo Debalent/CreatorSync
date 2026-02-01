@@ -1899,51 +1899,80 @@ body::after {
     animation: modalSlideIn 0.3s ease;
 }
 
-/* Billing Toggle */
+/* Billing Toggle - Creator Themed */
 .billing-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 2.5rem;
-    padding: 1rem;
-    background: rgba(22, 33, 62, 0.4);
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, rgba(22, 33, 62, 0.6) 0%, rgba(30, 41, 82, 0.5) 100%);
     border-radius: 3rem;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 2px solid rgba(139, 92, 246, 0.3);
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.billing-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+    animation: shimmer 3s infinite;
 }
 
 .billing-label {
-    font-size: 0.9375rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text-secondary);
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
 }
 
-.billing-toggle input:checked ~ * .billing-label:last-of-type,
-.billing-toggle input:not(:checked) ~ * .billing-label:first-of-type {
-    color: var(--text-primary);
+.billing-toggle .billing-label.active {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.8),
+                 0 0 40px rgba(139, 92, 246, 0.4);
 }
 
 .save-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #8b5cf6 100%);
+    background-size: 200% 200%;
     color: white;
-    padding: 0.25rem 0.625rem;
-    border-radius: 1rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 1.25rem;
     font-size: 0.75rem;
     font-weight: 700;
     margin-left: 0.5rem;
-    animation: pulse 2s infinite;
+    animation: gradientShift 3s ease infinite, pulse 2s infinite;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 52px;
-    height: 28px;
+    width: 64px;
+    height: 32px;
 }
 
 .toggle-switch input {
@@ -1959,40 +1988,56 @@ body::after {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(99, 102, 241, 0.2);
-    transition: 0.3s;
-    border-radius: 28px;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: linear-gradient(135deg, rgba(30, 41, 82, 0.8) 0%, rgba(22, 33, 62, 0.9) 100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 32px;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(99, 102, 241, 0.2);
 }
 
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 3px;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    transition: 0.3s;
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 2px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 2px 12px rgba(99, 102, 241, 0.6),
+                0 0 20px rgba(139, 92, 246, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .toggle-switch input:checked + .toggle-slider {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(99, 102, 241, 0.5) 100%);
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(139, 92, 246, 0.5),
+                0 0 60px rgba(139, 92, 246, 0.3);
 }
 
 .toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(24px);
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    transform: translateX(32px);
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+    box-shadow: 0 2px 15px rgba(139, 92, 246, 0.8),
+                0 0 25px rgba(168, 85, 247, 0.6),
+                0 0 40px rgba(192, 132, 252, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.toggle-slider:hover {
+    transform: scale(1.02);
 }
 
 .yearly-total {
     font-size: 0.8125rem;
-    color: var(--success-color);
+    color: #8b5cf6;
     margin-top: 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
     font-weight: 600;
 }
 
