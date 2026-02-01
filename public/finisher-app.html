@@ -461,31 +461,49 @@
                 <p>Access to The Finisher requires an active CreatorSync subscription.</p>
 
                 <div class="subscription-plans">
-                    <div class="plan-card">
-                        <h3>Pro Plan</h3>
+                    <div class="plan-card starter">
+                        <h3>Starter</h3>
+                        <div class="price">$9.99<span>/month</span></div>
+                        <ul>
+                            <li>Basic audio processing</li>
+                            <li>5GB cloud storage</li>
+                            <li>Standard support</li>
+                            <li>CreatorSync integration</li>
+                        </ul>
+                        <button class="btn btn-outline" onclick="upgradeSubscription('starter')">
+                            Upgrade to Starter
+                        </button>
+                    </div>
+
+                    <div class="plan-card pro featured">
+                        <div class="featured-badge">Most Popular</div>
+                        <h3>Pro</h3>
                         <div class="price">$29.99<span>/month</span></div>
                         <ul>
-                            <li>Full Finisher Access</li>
-                            <li>100GB Cloud Storage</li>
-                            <li>Priority Support</li>
+                            <li>Advanced audio processing</li>
+                            <li>100GB cloud storage</li>
+                            <li>Priority support</li>
+                            <li>Advanced collaboration tools</li>
+                            <li>Analytics dashboard</li>
                         </ul>
                         <button class="btn btn-primary" onclick="upgradeSubscription('pro')">
                             Upgrade to Pro
                         </button>
                     </div>
 
-                    <div class="plan-card featured">
-                        <div class="featured-badge">Most Popular</div>
+                    <div class="plan-card enterprise">
                         <h3>Enterprise</h3>
                         <div class="price">$99.99<span>/month</span></div>
                         <ul>
-                            <li>Full Finisher Access</li>
-                            <li>Unlimited Storage</li>
-                            <li>24/7 Support</li>
-                            <li>White-label Options</li>
+                            <li>Professional audio suite</li>
+                            <li>Unlimited storage</li>
+                            <li>24/7 dedicated support</li>
+                            <li>White-label solutions</li>
+                            <li>Custom integrations</li>
+                            <li>Advanced revenue tools</li>
                         </ul>
-                        <button class="btn btn-primary" onclick="upgradeSubscription('enterprise')">
-                            Upgrade to Enterprise
+                        <button class="btn btn-secondary" onclick="upgradeSubscription('enterprise')">
+                            Contact Sales
                         </button>
                     </div>
                 </div>
