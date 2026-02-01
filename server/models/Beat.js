@@ -32,6 +32,19 @@ class Beat {
         this.exclusive = data.exclusive || false;
         this.featured = data.featured || false;
         this.status = data.status || 'active'; // active, pending, archived
+
+        // Pricing and bidding system
+        this.pricingType = data.pricingType || 'standard'; // 'standard' or 'bidding'
+        this.minBidPrice = data.minBidPrice || null; // Minimum bid price for auctions
+        this.currentBid = data.currentBid || null; // Current highest bid
+        this.highestBidder = data.highestBidder || null; // User ID of highest bidder
+        this.bidHistory = data.bidHistory || []; // Array of all bids
+        this.biddingEndDate = data.biddingEndDate || null; // When bidding ends
+        this.trending = data.trending || false; // Trending status (allows switching to bidding)
+
+        // Platform commission
+        this.platformCommissionRate = 0.125; // 12.5% commission
+
         this.uploadedAt = data.uploadedAt || new Date();
         this.updatedAt = data.updatedAt || new Date();
     }
@@ -82,6 +95,110 @@ class Beat {
     }
 
     /**
+     * Switch pricing type (only allowed for trending beats)
+     * @param {String} newType - 'standard' or 'bidding'
+     * @param {Number} minPrice - Minimum bid price (required for bidding)
+     * @param {Date} endDate - Bidding end date (required for bidding)
+     * @returns {Boolean} True if successful
+     */
+    switchPricingType(newType, minPrice = null, endDate = null) {
+        if (!this.trending && newType === 'bidding') {
+            throw new Error('Only trending beats can be switched to bidding');
+        }
+
+        if (newType === 'bidding') {
+            if (!minPrice || minPrice <= 0) {
+                throw new Error('Minimum bid price is required for bidding');
+            }
+            if (!endDate || endDate <= new Date()) {
+                throw new Error('Valid bidding end date is required');
+            }
+            this.minBidPrice = minPrice;
+            this.biddingEndDate = endDate;
+            this.currentBid = null;
+            this.highestBidder = null;
+            this.bidHistory = [];
+        }
+
+        this.pricingType = newType;
+        this.updatedAt = new Date();
+        return true;
+    }
+
+    /**
+     * Place a bid on this beat
+     * @param {String} userId - User ID placing the bid
+     * @param {Number} bidAmount - Bid amount
+     * @param {String} username - Username of bidder
+     * @returns {Object} Bid result
+     */
+    placeBid(userId, bidAmount, username) {
+        if (this.pricingType !== 'bidding') {
+            throw new Error('This beat is not available for bidding');
+        }
+
+        if (new Date() > new Date(this.biddingEndDate)) {
+            throw new Error('Bidding has ended for this beat');
+        }
+
+        const minimumBid = this.currentBid
+            ? this.currentBid + (this.currentBid * 0.05) // 5% increment
+            : this.minBidPrice;
+
+        if (bidAmount < minimumBid) {
+            throw new Error(`Bid must be at least $${minimumBid.toFixed(2)}`);
+        }
+
+        // Record the bid
+        const bid = {
+            userId,
+            username,
+            amount: bidAmount,
+            timestamp: new Date()
+        };
+
+        this.bidHistory.unshift(bid); // Add to beginning of array
+        this.currentBid = bidAmount;
+        this.highestBidder = userId;
+        this.updatedAt = new Date();
+
+        return {
+            success: true,
+            currentBid: this.currentBid,
+            nextMinimumBid: this.currentBid * 1.05,
+            totalBids: this.bidHistory.length
+        };
+    }
+
+    /**
+     * Calculate platform commission
+     * @param {Number} amount - Transaction amount
+     * @returns {Object} Commission breakdown
+     */
+    calculateCommission(amount) {
+        const commission = amount * this.platformCommissionRate;
+        const sellerEarnings = amount - commission;
+
+        return {
+            totalAmount: amount,
+            platformCommission: commission,
+            sellerEarnings: sellerEarnings,
+            commissionRate: this.platformCommissionRate
+        };
+    }
+
+    /**
+     * Get final sale price (considers bidding if active)
+     * @returns {Number} Final price
+     */
+    getFinalPrice() {
+        if (this.pricingType === 'bidding' && this.currentBid) {
+            return this.currentBid;
+        }
+        return this.price;
+    }
+
+    /**
      * Get beat's public data (safe for API responses)
      * @returns {Object} Public beat data
      */
@@ -107,6 +224,12 @@ class Beat {
             license: this.license,
             exclusive: this.exclusive,
             featured: this.featured,
+            trending: this.trending,
+            pricingType: this.pricingType,
+            minBidPrice: this.minBidPrice,
+            currentBid: this.currentBid,
+            biddingEndDate: this.biddingEndDate,
+            totalBids: this.bidHistory.length,
             uploadedAt: this.uploadedAt
         };
     }
@@ -241,7 +364,7 @@ class BeatRepository {
 
         // Filter by tags
         if (filters.tags && filters.tags.length > 0) {
-            beats = beats.filter(b => 
+            beats = beats.filter(b =>
                 filters.tags.some(tag => b.tags.includes(tag))
             );
         }

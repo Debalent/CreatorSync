@@ -24,6 +24,7 @@ const aiSongwriterRoutes = require('./routes/ai-songwriter');
 const pluginRoutes = require('./routes/plugins');
 const analyticsRoutes = require('./routes/analytics');
 const notificationRoutes = require('./routes/notifications');
+const biddingRoutes = require('./routes/bidding');
 
 // Import utilities
 const translationManager = require('./utils/translationManager');
@@ -183,6 +184,7 @@ class CreatorSyncServer {
         this.app.use('/api/plugins', pluginRoutes);
         this.app.use('/api/analytics', analyticsRoutes);
         this.app.use('/api/notifications', notificationRoutes);
+        this.app.use('/api/bidding', biddingRoutes);
 
         // Beat upload endpoint with rate limiting
         this.app.post('/api/upload/beat', uploadLimiter, this.upload.fields([

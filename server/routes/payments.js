@@ -8,6 +8,22 @@ const router = express.Router();
 const transactions = new Map();
 const userWallets = new Map();
 
+// Platform commission rate
+const PLATFORM_COMMISSION_RATE = 0.125; // 12.5%
+
+// Calculate commission breakdown
+const calculateCommission = (amount) => {
+    const commission = amount * PLATFORM_COMMISSION_RATE;
+    const sellerEarnings = amount - commission;
+
+    return {
+        totalAmount: amount,
+        platformCommission: commission,
+        sellerEarnings: sellerEarnings,
+        commissionRate: PLATFORM_COMMISSION_RATE
+    };
+};
+
 // Mock authentication middleware
 const authenticateUser = (req, res, next) => {
     req.user = { id: 'mock-user-id', username: 'MockUser', email: 'user@example.com' };
@@ -17,7 +33,7 @@ const authenticateUser = (req, res, next) => {
 // Create payment intent for beat purchase
 router.post('/create-payment-intent', authenticateUser, async (req, res) => {
     try {
-        const { beatId, licenseType = 'standard', amount } = req.body;
+        const { beatId, licenseType = 'standard', amount, pricingType = 'standard', isBidding = false } = req.body;
 
         if (!beatId || !amount) {
             return res.status(400).json({ error: 'Beat ID and amount are required' });
@@ -29,6 +45,9 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
             return res.status(400).json({ error: 'Invalid amount' });
         }
 
+        // Calculate commission
+        const commissionBreakdown = calculateCommission(beatAmount);
+
         // Create payment intent with Stripe
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(beatAmount * 100), // Convert to cents
@@ -37,7 +56,11 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
                 beatId,
                 licenseType,
                 userId: req.user.id,
-                userEmail: req.user.email
+                userEmail: req.user.email,
+                pricingType,
+                isBidding: isBidding.toString(),
+                platformCommission: commissionBreakdown.platformCommission.toFixed(2),
+                sellerEarnings: commissionBreakdown.sellerEarnings.toFixed(2)
             },
             description: `CreatorSync Beat Purchase - ${beatId}`,
             receipt_email: req.user.email
@@ -54,6 +77,9 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
             currency: 'usd',
             status: 'pending',
             userId: req.user.id,
+            pricingType,
+            isBidding,
+            commission: commissionBreakdown,
             createdAt: new Date(),
             updatedAt: new Date()
         };
@@ -64,7 +90,8 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
             success: true,
             clientSecret: paymentIntent.client_secret,
             transactionId,
-            amount: beatAmount
+            amount: beatAmount,
+            commission: commissionBreakdown
         });
     } catch (error) {
         console.error('Create payment intent error:', error);
@@ -188,46 +215,51 @@ router.get('/earnings', authenticateUser, (req, res) => {
             thisMonth: 456.75,
             lastMonth: 389.25,
             growth: 17.3,
+            platformCommissionRate: PLATFORM_COMMISSION_RATE,
+            totalCommission: 410.21, // Total commission paid to platform
             transactions: [
                 {
                     id: uuidv4(),
                     type: 'sale',
                     beatTitle: 'Urban Nights',
                     amount: 35.00,
-                    fee: 3.50,
-                    net: 31.50,
+                    platformCommission: 4.38, // 12.5%
+                    sellerEarnings: 30.62,
                     buyerUsername: 'Producer123',
                     date: new Date(),
-                    status: 'completed'
+                    status: 'completed',
+                    pricingType: 'standard'
                 },
                 {
                     id: uuidv4(),
                     type: 'sale',
                     beatTitle: 'Melodic Dreams',
-                    amount: 25.00,
-                    fee: 2.50,
-                    net: 22.50,
+                    amount: 125.00,
+                    platformCommission: 15.63, // 12.5%
+                    sellerEarnings: 109.37,
                     buyerUsername: 'BeatLover',
                     date: new Date(),
-                    status: 'completed'
+                    status: 'completed',
+                    pricingType: 'bidding'
                 },
                 {
                     id: uuidv4(),
                     type: 'sale',
                     beatTitle: 'Trap Anthem',
                     amount: 45.00,
-                    fee: 4.50,
-                    net: 40.50,
+                    platformCommission: 5.63, // 12.5%
+                    sellerEarnings: 39.37,
                     buyerUsername: 'Rapper456',
                     date: new Date(),
-                    status: 'pending'
+                    status: 'pending',
+                    pricingType: 'standard'
                 }
             ],
             monthlyBreakdown: [
-                { month: 'Jan', gross: 234.50, net: 210.75, sales: 12 },
-                { month: 'Feb', gross: 345.75, net: 310.25, sales: 18 },
-                { month: 'Mar', gross: 456.25, net: 410.75, sales: 23 },
-                { month: 'Apr', gross: 567.00, net: 509.25, sales: 28 }
+                { month: 'Jan', gross: 234.50, commission: 29.31, net: 205.19, sales: 12 },
+                { month: 'Feb', gross: 345.75, commission: 43.22, net: 302.53, sales: 18 },
+                { month: 'Mar', gross: 456.25, commission: 57.03, net: 399.22, sales: 23 },
+                { month: 'Apr', gross: 567.00, commission: 70.88, net: 496.12, sales: 28 }
             ]
         };
 
