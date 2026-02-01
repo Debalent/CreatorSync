@@ -636,43 +636,310 @@ body {
 }
 
 .beat-card {
-    background: var(--card-color);
+    background: linear-gradient(145deg, rgba(22, 33, 62, 0.95), rgba(15, 15, 35, 0.9));
     border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border: 1px solid var(--border-color);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
     cursor: pointer;
     position: relative;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
 }
 
 .beat-card::before {
     content: '';
     position: absolute;
     top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.beat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
     pointer-events: none;
     z-index: 1;
 }
 
 .beat-card:hover {
-    transform: translateY(-8px) scale(1.02);
+    transform: translateY(-12px) scale(1.03);
     box-shadow:
-        0 10px 30px rgba(99, 102, 241, 0.3),
-        0 20px 50px rgba(139, 92, 246, 0.2);
-    border-color: var(--primary-color);
+        0 20px 40px rgba(99, 102, 241, 0.4),
+        0 30px 60px rgba(139, 92, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(99, 102, 241, 0.5);
+    border-color: rgba(99, 102, 241, 0.6);
 }
 
 .beat-card:hover::before {
+    left: 100%;
+}
+
+.beat-card:hover::after {
     opacity: 1;
 }
 
 .beat-card:active {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow:
+        0 10px 25px rgba(99, 102, 241, 0.3),
+        0 15px 40px rgba(139, 92, 246, 0.2);
+}
+
+/* Beat Card Elements - Enhanced Styling */
+.beat-artwork {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.beat-artwork::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.beat-card:hover .beat-artwork::before {
+    opacity: 1;
+}
+
+.beat-artwork img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: brightness(0.95);
+}
+
+.beat-card:hover .beat-artwork img {
+    transform: scale(1.15) rotate(2deg);
+    filter: brightness(1.1) contrast(1.1);
+}
+
+.beat-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.8), rgba(139, 92, 246, 0.6));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+}
+
+.beat-card:hover .beat-overlay {
+    opacity: 1;
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { background: radial-gradient(circle at center, rgba(99, 102, 241, 0.8), rgba(139, 92, 246, 0.6)); }
+    50% { background: radial-gradient(circle at center, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.7)); }
+}
+
+.play-beat-btn {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    color: var(--primary-color);
+    border: none;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.play-beat-btn::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.play-beat-btn:hover {
+    transform: scale(1.2) rotate(15deg);
+    box-shadow: 
+        0 12px 30px rgba(99, 102, 241, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.6);
+}
+
+.play-beat-btn:hover::before {
+    opacity: 0.3;
+}
+
+.play-beat-btn:active {
+    transform: scale(1.1) rotate(10deg);
+}
+
+.beat-info {
+    padding: var(--spacing-lg);
+    position: relative;
+    z-index: 3;
+}
+
+.beat-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease;
+}
+
+.beat-card:hover .beat-title {
+    color: var(--primary-color);
+}
+
+.beat-artist {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.beat-details {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.beat-details span {
+    padding: 0.25rem 0.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+}
+
+.beat-card:hover .beat-details span {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--primary-color);
+}
+
+.beat-stats {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.beat-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.beat-stats span i {
+    transition: transform 0.3s ease;
+}
+
+.beat-card:hover .beat-stats span {
+    color: var(--text-primary);
+}
+
+.beat-card:hover .beat-stats span i {
+    transform: scale(1.2);
+}
+
+.beat-tags {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.beat-tags .tag {
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.beat-card:hover .beat-tags .tag {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+    border-color: rgba(99, 102, 241, 0.5);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.beat-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+}
+
+.beat-price {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+}
+
+.favorite-btn {
+    transition: all 0.3s ease;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.1) rotate(12deg);
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.purchase-btn {
+    flex: 1;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+.purchase-btn:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    transform: translateY(-2px);
 }
 
 /* Audio Player */
