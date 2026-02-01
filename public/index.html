@@ -276,13 +276,23 @@
                         </div>
                     </div>
 
+                    <div class="billing-toggle">
+                        <span class="billing-label">Monthly</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="billingToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="billing-label">Yearly <span class="save-badge">Save 20%</span></span>
+                    </div>
+
                     <div class="subscription-plans">
                         <div class="plan-card starter">
                             <h3>Starter</h3>
                             <div class="price">
-                                <span class="amount">$9.99</span>
+                                <span class="amount" data-monthly="9.99" data-yearly="95.90">$9.99</span>
                                 <span class="period">/month</span>
                             </div>
+                            <div class="yearly-total hidden">$95.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Basic audio processing</li>
                                 <li><i class="fas fa-check"></i> 5GB cloud storage</li>
@@ -296,9 +306,10 @@
                             <div class="popular-badge">Most Popular</div>
                             <h3>Pro</h3>
                             <div class="price">
-                                <span class="amount">$29.99</span>
+                                <span class="amount" data-monthly="29.99" data-yearly="287.90">$29.99</span>
                                 <span class="period">/month</span>
                             </div>
+                            <div class="yearly-total hidden">$287.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Advanced audio processing</li>
                                 <li><i class="fas fa-check"></i> 100GB cloud storage</li>
@@ -313,9 +324,10 @@
                         <div class="plan-card enterprise">
                             <h3>Enterprise</h3>
                             <div class="price">
-                                <span class="amount">$99.99</span>
+                                <span class="amount" data-monthly="99.99" data-yearly="959.90">$99.99</span>
                                 <span class="period">/month</span>
                             </div>
+                            <div class="yearly-total hidden">$959.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Professional audio suite</li>
                                 <li><i class="fas fa-check"></i> Unlimited storage</li>

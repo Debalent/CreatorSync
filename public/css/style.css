@@ -1899,6 +1899,107 @@ body::after {
     animation: modalSlideIn 0.3s ease;
 }
 
+/* Billing Toggle */
+.billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 1rem;
+    background: rgba(22, 33, 62, 0.4);
+    border-radius: 3rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.billing-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.billing-toggle input:checked ~ * .billing-label:last-of-type,
+.billing-toggle input:not(:checked) ~ * .billing-label:first-of-type {
+    color: var(--text-primary);
+}
+
+.save-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 0.25rem 0.625rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(99, 102, 241, 0.2);
+    transition: 0.3s;
+    border-radius: 28px;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 3px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+.yearly-total {
+    font-size: 0.8125rem;
+    color: var(--success-color);
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+.yearly-total.hidden {
+    display: none;
+}
+
 .modal.large .modal-content {
     max-width: 900px;
 }
