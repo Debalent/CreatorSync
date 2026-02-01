@@ -1451,90 +1451,210 @@ body {
     line-height: 1.5;
 }
 
-/* Subscription Plans */
+/* Subscription Plans - Compact, Creative, Hyper-Responsive */
 .subscription-plans {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-2xl);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .plan-card {
-    background: var(--card-color);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-2xl);
-    border: 2px solid var(--border-color);
+    background: rgba(22, 33, 62, 0.6);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Glassmorphic gradient overlay */
+.plan-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.05) 0%, 
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(6, 182, 212, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Animated shimmer effect */
+.plan-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.03) 50%, 
+                transparent 70%);
+    transform: rotate(45deg);
+    animation: cardShimmer 3s infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes cardShimmer {
+    0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.plan-card > * {
+    position: relative;
+    z-index: 2;
 }
 
 .plan-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.25),
+                0 0 0 1px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: rgba(99, 102, 241, 0.5);
 }
 
+.plan-card:hover::before {
+    opacity: 1;
+}
+
+/* Featured plan - Pro tier */
 .plan-card.featured {
-    border-color: var(--primary-color);
+    border: 2px solid rgba(99, 102, 241, 0.5);
+    background: rgba(99, 102, 241, 0.08);
     transform: scale(1.05);
-    background: linear-gradient(135deg, var(--card-color) 0%, rgba(99, 102, 241, 0.1) 100%);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3),
+                0 0 60px rgba(99, 102, 241, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.plan-card.featured::before {
+    background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.1) 0%, 
+                rgba(139, 92, 246, 0.15) 50%,
+                rgba(6, 182, 212, 0.1) 100%);
+    opacity: 1;
 }
 
 .plan-card.featured:hover {
     transform: scale(1.05) translateY(-8px);
+    box-shadow: 0 16px 50px rgba(99, 102, 241, 0.4),
+                0 0 80px rgba(99, 102, 241, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+/* Popular badge with pulse animation */
 .popular-badge {
     position: absolute;
-    top: -12px;
+    top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
-    padding: var(--spacing-xs) var(--spacing-lg);
-    border-radius: var(--radius-lg);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
+    padding: 0.35rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5);
+    animation: badgePulse 2s infinite;
+    z-index: 10;
 }
 
+@keyframes badgePulse {
+    0%, 100% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5); }
+    50% { transform: translateX(-50%) scale(1.05); box-shadow: 0 6px 25px rgba(99, 102, 241, 0.7); }
+}
+
+/* Plan title with gradient */
 .plan-card h3 {
-    font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-lg);
-    color: var(--text-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    margin-top: 0.25rem;
+    background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
+.plan-card.featured h3 {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.35rem;
+}
+
+/* Compact pricing */
 .price {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
 }
 
 .price .amount {
-    font-size: var(--font-size-4xl);
-    font-weight: 700;
-    color: var(--primary-color);
+    font-size: 2.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
 }
 
 .price .period {
-    font-size: var(--font-size-lg);
+    font-size: 0.875rem;
     color: var(--text-secondary);
+    font-weight: 500;
 }
 
+/* Compact features list */
 .plan-features {
     list-style: none;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 1rem;
     text-align: left;
 }
 
 .plan-features li {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    gap: 0.625rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
     color: var(--text-secondary);
+    line-height: 1.4;
+    transition: all 0.3s ease;
+}
+
+.plan-features li:hover {
+    color: var(--text-primary);
+    transform: translateX(4px);
 }
 
 .plan-features i {
     color: var(--success-color);
-    font-size: var(--font-size-sm);
+    font-size: 0.75rem;
+    min-width: 12px;
+    filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.5));
 }
 
 /* Modals */
@@ -1906,7 +2026,30 @@ body {
     }
 }
 
-/* Responsive Design Updates */
+/* Hyper-Responsive Design Updates */
+@media (max-width: 1024px) {
+    .subscription-plans {
+        gap: 0.875rem;
+        max-width: 900px;
+    }
+    
+    .plan-card {
+        padding: 1.125rem;
+    }
+    
+    .plan-card h3 {
+        font-size: 1.15rem;
+    }
+    
+    .price .amount {
+        font-size: 2rem;
+    }
+    
+    .plan-features li {
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
     .finisher-features {
         grid-template-columns: 1fr;
@@ -1914,15 +2057,71 @@ body {
 
     .subscription-plans {
         grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .plan-card {
+        padding: 1.5rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .plan-card.featured {
         transform: none;
+        box-shadow: 0 6px 25px rgba(99, 102, 241, 0.3),
+                    0 0 40px rgba(99, 102, 241, 0.15);
     }
 
     .plan-card.featured:hover {
-        transform: translateY(-8px);
+        transform: translateY(-6px);
     }
+    
+    .plan-card h3 {
+        font-size: 1.35rem;
+    }
+    
+    .plan-card.featured h3 {
+        font-size: 1.5rem;
+    }
+    
+    .price .amount {
+        font-size: 2.5rem;
+    }
+    
+    .plan-features li {
+        font-size: 0.875rem;
+        margin-bottom: 0.625rem;
+    }
+    
+    .popular-badge {
+        font-size: 0.8125rem;
+        padding: 0.4rem 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .subscription-plans {
+        gap: 0.875rem;
+    }
+    
+    .plan-card {
+        padding: 1.25rem;
+    }
+    
+    .plan-card h3 {
+        font-size: 1.25rem;
+    }
+    
+    .price .amount {
+        font-size: 2.125rem;
+    }
+    
+    .plan-features li {
+        font-size: 0.8125rem;
+    }
+}
 
     .form-row {
         grid-template-columns: 1fr;
