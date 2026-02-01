@@ -62,11 +62,11 @@
                         </div>
                     </a>
                     <a href="#finisher" class="nav-card nav-card-premium" id="finisherNavLink" data-translate="nav.finisher">
-                        <div class="nav-card-icon">
-                            <i class="fas fa-magic"></i>
+                        <div class="nav-card-icon finisher-logo-container">
+                            <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo logo-glow interactive-logo">
                         </div>
                         <div class="nav-card-content">
-                            <h3>The Finisher <span class="pro-badge">PRO</span></h3>
+                            <h3><span class="pro-badge">PRO</span></h3>
                             <p>AI-powered music production</p>
                         </div>
                     </a>
@@ -79,7 +79,10 @@
             <div class="nav-auth">
                 <button class="btn btn-outline" id="loginBtn" data-translate="nav.login">Login</button>
                 <button class="btn btn-secondary" id="signupBtn" data-translate="nav.signup">Sign Up</button>
-                <button class="btn btn-primary" id="finisherBtn" data-translate="nav.getFinisher">Get The Finisher</button>
+                <button class="btn btn-primary finisher-cta-btn" id="finisherBtn" data-translate="nav.getFinisher">
+                    <span>Get</span>
+                    <img src="assets/finisher-logo.png" alt="The Finisher" class="btn-finisher-logo">
+                </button>
                 <div class="language-selector">
                     <select id="languageSelect" title="Select Language">
                         <option value="en">🇺🇸 English</option>
@@ -224,7 +227,10 @@
         <div class="container">
             <div class="finisher-content">
                 <div class="finisher-text">
-                    <h2>Upgrade to The Finisher</h2>
+                    <div class="finisher-header-logo">
+                        <h2>Upgrade to</h2>
+                        <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo-large logo-glow interactive-logo logo-echo">
+                    </div>
                     <p class="finisher-subtitle">
                         Take your music production to the next level with our professional-grade suite of tools and services.
                     </p>
@@ -493,12 +499,15 @@
     <div class="modal large" id="subscriptionModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Upgrade to The Finisher</h2>
+                <div class="modal-header-finisher">
+                    <h2>Upgrade to</h2>
+                    <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo-large logo-glow interactive-logo">
+                </div>
                 <button class="modal-close" id="subscriptionModalClose">&times;</button>
             </div>
             <div class="subscription-content">
                 <div class="subscription-benefits">
-                    <h3>Why upgrade to The Finisher?</h3>
+                    <h3>Why upgrade?</h3>
                     <div class="benefits-grid">
                         <div class="benefit-item">
                             <i class="fas fa-rocket"></i>
