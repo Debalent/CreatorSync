@@ -682,7 +682,7 @@
     .finisher-logo-large {
         height: 60px;
     }
-    
+
     .finisher-logo-xlarge {
         height: 90px;
     }
@@ -691,15 +691,15 @@
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .finisher-header-logo h2 {
         font-size: 2rem;
     }
-    
+
     .btn-finisher-logo-large {
         height: 30px;
     }
-    
+
     .get-text {
         font-size: 1.1rem;
     }
@@ -713,11 +713,11 @@
     .finisher-logo-large {
         height: 50px;
     }
-    
+
     .finisher-logo-xlarge {
         height: 70px;
     }
-    
+
     .finisher-header-logo h2 {
         font-size: 1.5rem;
     }
@@ -725,15 +725,15 @@
     .btn-finisher-logo {
         height: 20px;
     }
-    
+
     .btn-finisher-logo-large {
         height: 26px;
     }
-    
+
     .get-text {
         font-size: 1rem;
     }
-    
+
     .finisher-header-cta {
         padding: 0.6rem 1.2rem;
     }
