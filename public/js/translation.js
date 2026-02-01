@@ -95,11 +95,20 @@ class TranslationSystem {
     }
 
     setupLanguageSelector () {
-        if (document.getElementById('languageSelect')) {
+        const existingSelector = document.getElementById('languageSelect');
+
+        if (existingSelector) {
+            // Attach event listener to existing selector
+            existingSelector.addEventListener('change', (e) => {
+                this.changeLanguage(e.target.value);
+            });
+
+            // Set current language
+            existingSelector.value = this.currentLanguage;
             return;
         }
 
-        // Create language selector dropdown
+        // Create language selector dropdown if it doesn't exist
         const languageSelector = document.createElement('div');
         languageSelector.className = 'language-selector';
         languageSelector.innerHTML = `
@@ -138,7 +147,18 @@ class TranslationSystem {
             if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                 element.placeholder = translation;
             } else {
-                element.textContent = translation;
+                // For buttons and simple elements, replace text content
+                if (element.classList.contains('auth-btn-login')) {
+                    // Login button - update the span
+                    const span = element.querySelector('span');
+                    if (span) span.textContent = translation;
+                } else if (element.classList.contains('auth-btn-signup')) {
+                    // Sign up button - update the signup-text span
+                    const span = element.querySelector('.signup-text');
+                    if (span) span.textContent = translation;
+                } else {
+                    element.textContent = translation;
+                }
             }
         });
 
