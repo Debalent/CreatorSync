@@ -1613,8 +1613,23 @@ section > .container > h2::after {
     color: var(--primary-color);
 }
 
+.social-category {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.social-category:first-of-type {
+    margin-top: var(--spacing-md);
+}
+
 .social-links {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-md);
     margin-top: var(--spacing-md);
 }
@@ -1629,12 +1644,69 @@ section > .container > h2::after {
     border-radius: 50%;
     transition: all 0.3s ease;
     color: var(--text-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-links a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.social-links a:hover::before {
+    opacity: 1;
 }
 
 .social-links a:hover {
-    background: var(--primary-color);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Brand-specific hover colors */
+.social-links a:has(.fa-soundcloud):hover {
+    background: linear-gradient(135deg, #ff5500, #ff7700);
+}
+
+.social-links a:has(.fa-apple):hover {
+    background: linear-gradient(135deg, #fc3c44, #ff1744);
+}
+
+.social-links a:has(.fa-youtube):hover {
+    background: linear-gradient(135deg, #ff0000, #ff4444);
+}
+
+.social-links a:has(.fa-amazon):hover {
+    background: linear-gradient(135deg, #ff9900, #ffad33);
+}
+
+.social-links a:has(.fa-spotify):hover {
+    background: linear-gradient(135deg, #1db954, #1ed760);
+}
+
+.social-links a:has(.fa-tiktok):hover {
+    background: linear-gradient(135deg, #000000, #ee1d52, #69c9d0);
+}
+
+.social-links a:has(.fa-instagram):hover {
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+}
+
+.social-links a:has(.fa-facebook):hover {
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
+}
+
+.social-links a:has(.fa-snapchat):hover {
+    background: linear-gradient(135deg, #fffc00, #ffe600);
+    color: #000;
+}
+
+.social-links a:has(.fa-whatsapp):hover {
+    background: linear-gradient(135deg, #25d366, #128c7e);
 }
 
 .footer-bottom {
