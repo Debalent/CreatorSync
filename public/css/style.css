@@ -72,7 +72,7 @@ body {
     position: relative;
 }
 
-/* Enhanced Animated Background */
+/* Animated Mesh Gradient Background */
 body::before {
     content: '';
     position: fixed;
@@ -81,24 +81,33 @@ body::before {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-    z-index: -1;
-    animation: backgroundShift 15s ease-in-out infinite;
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+        linear-gradient(135deg, #0a0a1e 0%, #0f0f23 25%, #1a1a2e 50%, #16213e 75%, #1a1a2e 100%);
+    background-size: 200% 200%;
+    z-index: -2;
+    animation: meshGradient 20s ease-in-out infinite;
 }
 
-@keyframes backgroundShift {
+@keyframes meshGradient {
     0%, 100% {
-        background-position: 0% 0%, 100% 100%, 50% 0%;
+        background-position: 0% 0%;
+    }
+    25% {
+        background-position: 100% 0%;
     }
     50% {
-        background-position: 100% 100%, 0% 0%, 50% 100%;
+        background-position: 100% 100%;
+    }
+    75% {
+        background-position: 0% 100%;
     }
 }
 
-/* Subtle noise texture overlay */
+/* Floating Particles Layer */
 body::after {
     content: '';
     position: fixed;
@@ -107,17 +116,76 @@ body::after {
     width: 100%;
     height: 100%;
     background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.01) 2px, rgba(255, 255, 255, 0.01) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.01) 2px, rgba(255, 255, 255, 0.01) 4px);
+        radial-gradient(circle, rgba(99, 102, 241, 0.5) 1px, transparent 1px),
+        radial-gradient(circle, rgba(139, 92, 246, 0.4) 1px, transparent 1px),
+        radial-gradient(circle, rgba(168, 85, 247, 0.3) 1px, transparent 1px);
+    background-size: 100px 100px, 150px 150px, 200px 200px;
+    background-position: 0 0, 40px 60px, 80px 120px;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.4;
+    animation: floatingParticles 30s linear infinite;
+}
+
+@keyframes floatingParticles {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px);
+    }
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    position: relative;
+}
+
+/* Section Base Styling with Depth */
+section {
+    position: relative;
+    padding: var(--spacing-2xl) 0;
+    overflow: hidden;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+    opacity: 0.5;
+}
+
+/* Alternating Section Backgrounds */
+section:nth-child(even) {
+    background: linear-gradient(180deg,
+        rgba(22, 33, 62, 0.2) 0%,
+        rgba(26, 26, 46, 0.1) 50%,
+        rgba(22, 33, 62, 0.2) 100%);
+}
+
+section:nth-child(even)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -50%;
+    width: 200%;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+section > .container {
+    position: relative;
+    z-index: 1;
 }
 
 /* Navigation */
@@ -127,11 +195,67 @@ body::after {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(15, 15, 35, 0.95);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(180deg,
+        rgba(15, 15, 35, 0.98) 0%,
+        rgba(26, 26, 46, 0.95) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
     padding: 0.75rem 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(139, 92, 246, 0.1) inset;
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(139, 92, 246, 0.5),
+        transparent);
+    animation: navbarGlow 3s ease-in-out infinite;
+}
+
+@keyframes navbarGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Utility Classes - Creator Theme */
+.gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientTextFlow 5s ease infinite;
+    font-weight: 700;
+    display: inline-block;
+}
+
+@keyframes gradientTextFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.accent-line {
+    position: relative;
+    padding-left: var(--spacing-lg);
+}
+
+.accent-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;\n    width: 3px;
+    background: linear-gradient(180deg, #6366f1, #8b5cf6, #a855f7);
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
 }
 
 .nav-container {
@@ -148,6 +272,41 @@ body::after {
     align-items: center;
     gap: 2px;
     line-height: 1.1;
+}
+
+/* Section Headers with Creator Theme */
+.section-header {
+    position: relative;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.section-header h2,
+section > .container > h2,
+.marketplace-section h2,
+.finisher-section h2 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #e0e0ff 50%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+}
+
+.section-header h2::after,
+section > .container > h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, transparent);
+    border-radius: 2px;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
 }
 
 .nav-brand h1 {
