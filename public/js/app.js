@@ -1288,10 +1288,9 @@ document.head.appendChild(styleSheet);
 
 // Billing Toggle Functionality
 function initBillingToggle() {
-    const billingToggle = document.getElementById('billingToggle');
-    const billingToggleFinisher = document.getElementById('billingToggleFinisher');
+    const billingButtons = document.querySelectorAll('.billing-btn');
 
-    function updatePricing(isYearly, toggleElement) {
+    function updatePricing(isYearly) {
         // Update pricing amounts
         const amountElements = document.querySelectorAll('.price .amount[data-monthly]');
         const yearlyTotals = document.querySelectorAll('.yearly-total');
@@ -1318,50 +1317,26 @@ function initBillingToggle() {
                 element.classList.add('hidden');
             }
         });
+    }
 
-        // Update label states for visual feedback
-        if (toggleElement) {
-            const container = toggleElement.closest('.billing-toggle');
+    billingButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const period = this.getAttribute('data-period');
+            const isYearly = period === 'yearly';
+
+            // Update active state for all buttons in the same container
+            const container = this.closest('.billing-toggle');
             if (container) {
-                const labels = container.querySelectorAll('.billing-label');
-                if (labels.length >= 2) {
-                    if (isYearly) {
-                        labels[0].classList.remove('active');
-                        labels[1].classList.add('active');
-                    } else {
-                        labels[0].classList.add('active');
-                        labels[1].classList.remove('active');
-                    }
-                }
+                container.querySelectorAll('.billing-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
             }
-        }
-    }
 
-    if (billingToggle) {
-        // Initialize with monthly active
-        const container = billingToggle.closest('.billing-toggle');
-        if (container) {
-            const labels = container.querySelectorAll('.billing-label');
-            if (labels.length > 0) labels[0].classList.add('active');
-        }
-
-        billingToggle.addEventListener('change', (e) => {
-            updatePricing(e.target.checked, e.target);
+            // Update pricing
+            updatePricing(isYearly);
         });
-    }
-
-    if (billingToggleFinisher) {
-        // Initialize with monthly active
-        const container = billingToggleFinisher.closest('.billing-toggle');
-        if (container) {
-            const labels = container.querySelectorAll('.billing-label');
-            if (labels.length > 0) labels[0].classList.add('active');
-        }
-
-        billingToggleFinisher.addEventListener('change', (e) => {
-            updatePricing(e.target.checked, e.target);
-        });
-    }
+    });
 }
 
 // Initialize the application when DOM is loaded
