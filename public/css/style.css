@@ -2361,6 +2361,76 @@ section > .container > h2::after {
     filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.5));
 }
 
+/* Trial Badge */
+.trial-badge {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: var(--success-color);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 1rem 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Payment Methods Info */
+.payment-methods-info {
+    text-align: center;
+    margin: 2.5rem auto 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(22, 33, 62, 0.5), rgba(26, 26, 46, 0.5));
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    max-width: 800px;
+}
+
+.payment-methods-info > p:first-child {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.payment-icons i {
+    font-size: 2rem;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.payment-icons i:hover {
+    transform: translateY(-4px) scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(139, 92, 246, 0.5));
+    color: var(--primary-color);
+}
+
+.payment-security {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.payment-security i {
+    color: var(--success-color);
+}
+
 /* Modals */
 .modal {
     display: none;
