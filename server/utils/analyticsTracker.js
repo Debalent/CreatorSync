@@ -68,7 +68,7 @@ class AnalyticsTracker {
         ]);
 
         this.startTime = new Date();
-        
+
         logger.info('Analytics Tracker initialized');
     }
 
@@ -180,12 +180,12 @@ class AnalyticsTracker {
 
     trackRevenue(data) {
         try {
-            const { 
-                transactionId, 
-                amount, 
-                type = 'other', 
-                userId, 
-                timestamp = new Date() 
+            const {
+                transactionId,
+                amount,
+                type = 'other',
+                userId,
+                timestamp = new Date()
             } = data;
 
             // Total revenue
@@ -244,13 +244,13 @@ class AnalyticsTracker {
 
     trackInteraction(data) {
         try {
-            const { 
-                feature, 
-                action, 
-                userId, 
-                sessionId, 
-                metadata = {}, 
-                timestamp = new Date() 
+            const {
+                feature,
+                action,
+                userId,
+                sessionId,
+                metadata = {},
+                timestamp = new Date()
             } = data;
 
             // Total interactions
@@ -260,7 +260,7 @@ class AnalyticsTracker {
             // Feature usage
             const featureUsage = this.engagement.get('featureUsage');
             const featureKey = `${feature}_${action}`.toLowerCase();
-            
+
             if (featureUsage.has(feature)) {
                 featureUsage.set(feature, featureUsage.get(feature) + 1);
             } else if (featureUsage.has(featureKey)) {
@@ -281,7 +281,7 @@ class AnalyticsTracker {
                 const userSession = userSessions.get(userId);
                 userSession.totalInteractions++;
                 userSession.lastActive = timestamp;
-                
+
                 const userFeatures = userSession.features;
                 userFeatures.set(feature, (userFeatures.get(feature) || 0) + 1);
             }
@@ -312,7 +312,7 @@ class AnalyticsTracker {
         if (!userId) return;
 
         const activeUsers = this.engagement.get('activeUsers');
-        
+
         // Daily active users
         activeUsers.get('daily').add(userId);
 

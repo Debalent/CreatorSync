@@ -35,7 +35,7 @@ router.get('/dashboard', authenticate, async (req, res) => {
         };
 
         // Get user-specific or admin analytics
-        const analytics = role === 'admin' 
+        const analytics = role === 'admin'
             ? await getAdminDashboard()
             : await getUserDashboard(userId);
 
@@ -223,8 +223,8 @@ async function getUserDashboard(userId) {
         totalPlays,
         totalDownloads,
         totalRevenue,
-        averagePrice: userBeats.length > 0 
-            ? userBeats.reduce((sum, b) => sum + (b.price || 0), 0) / userBeats.length 
+        averagePrice: userBeats.length > 0
+            ? userBeats.reduce((sum, b) => sum + (b.price || 0), 0) / userBeats.length
             : 0,
         topBeats: userBeats
             .sort((a, b) => (b.plays || 0) - (a.plays || 0))
@@ -253,7 +253,7 @@ async function getAdminDashboard() {
         totalBeats: allBeats.length,
         totalPlays,
         totalRevenue,
-        activeUsers: allUsers.filter(u => u.lastActive && 
+        activeUsers: allUsers.filter(u => u.lastActive &&
             new Date(u.lastActive) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length,
         topProducers: getTopProducers(allBeats, allUsers).slice(0, 10)
     };

@@ -5,7 +5,7 @@ class TranslationManager {
     constructor () {
         this.translations = new Map();
         this.defaultLanguage = 'en';
-        this.supportedLanguages = ['en', 'es', 'fr', 'de', 'ja', 'zh', 'ru'];
+        this.supportedLanguages = ['en', 'es', 'fr', 'de', 'ja', 'zh', 'ru', 'pt', 'it', 'ko', 'ar', 'hi'];
         this.translationsDir = path.join(__dirname, '../../translations');
     }
 
