@@ -817,7 +817,7 @@ section > .container > h2::after {
     background: var(--gradient-hero);
     position: relative;
     overflow: hidden;
-    padding: 80px var(--spacing-lg) var(--spacing-2xl);
+    padding: 140px var(--spacing-lg) var(--spacing-2xl);
     gap: var(--spacing-2xl);
     justify-content: space-between;
 }
