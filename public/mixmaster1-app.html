@@ -10,6 +10,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="mixmaster-body">
+    <!-- Subscription Required Modal -->
+    <div id="subscriptionModal" class="subscription-modal" style="display: none;">
+        <div class="subscription-modal-content">
+            <h2>MixMaster1 Pro Access Required</h2>
+            <p>MixMaster1 is a premium feature available exclusively to Pro and Enterprise subscribers of The Finisher.</p>
+            <div class="subscription-benefits">
+                <h3>Unlock MixMaster1 with Pro or Enterprise:</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Professional mixing console</li>
+                    <li><i class="fas fa-check"></i> Advanced EQ and effects</li>
+                    <li><i class="fas fa-check"></i> Multi-track editing</li>
+                    <li><i class="fas fa-check"></i> Export high-quality audio</li>
+                    <li><i class="fas fa-check"></i> Cloud project storage</li>
+                </ul>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="window.location.href='index.html#finisher'">View Subscription Plans</button>
+                <button class="btn btn-outline" onclick="window.location.href='index.html'">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Navigation -->
     <nav class="mixmaster-nav">
         <div class="nav-left">
@@ -394,5 +416,41 @@
 
     <!-- Scripts -->
     <script src="js/mixmaster1.js"></script>
+    <script>
+        // Check subscription status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is authenticated
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showSubscriptionModal();
+                return;
+            }
+
+            // Verify subscription level
+            fetch('/api/users/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(user => {
+                const hasAccess = user.subscription && ['pro', 'enterprise'].includes(user.subscription.toLowerCase());
+                if (!hasAccess) {
+                    showSubscriptionModal();
+                }
+            })
+            .catch(error => {
+                console.error('Auth error:', error);
+                showSubscriptionModal();
+            });
+        });
+
+        function showSubscriptionModal() {
+            const modal = document.getElementById('subscriptionModal');
+            modal.style.display = 'flex';
+            // Disable body scroll
+            document.body.style.overflow = 'hidden';
+        }
+    </script>
 </body>
 </html>

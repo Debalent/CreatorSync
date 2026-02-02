@@ -468,10 +468,10 @@
 
 .meter-bar {
     width: 8px;
-    background: linear-gradient(to top, 
-        #4caf50 0%, 
-        #8bc34a 30%, 
-        #ffc107 70%, 
+    background: linear-gradient(to top,
+        #4caf50 0%,
+        #8bc34a 30%,
+        #ffc107 70%,
         #ff5722 100%);
     border-radius: 2px;
     transition: height 0.1s ease;
@@ -725,7 +725,7 @@
     .mixer-board {
         flex-wrap: wrap;
     }
-    
+
     .mixer-channel {
         min-width: 100px;
     }
@@ -735,32 +735,32 @@
     .mixmaster-container {
         padding: 10px;
     }
-    
+
     .mixer-section, .analysis-section {
         padding: 15px;
     }
-    
+
     .mixer-board {
         gap: 10px;
     }
-    
+
     .mixer-channel {
         min-width: 90px;
         padding: 10px;
     }
-    
+
     .transport-controls {
         bottom: 60px;
         padding: 10px 15px;
         gap: 10px;
     }
-    
+
     .transport-btn {
         width: 40px;
         height: 40px;
         padding: 8px;
     }
-    
+
     .transport-btn#playBtn {
         width: 50px;
         height: 50px;
@@ -794,4 +794,131 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #ff6b6b;
+}
+
+/* Subscription Modal */
+.subscription-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.subscription-modal-content {
+    background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+    border: 2px solid rgba(139, 92, 246, 0.5);
+    text-align: center;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.subscription-modal-content h2 {
+    color: #8b5cf6;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.subscription-modal-content p {
+    color: #a1a1aa;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.subscription-benefits {
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.subscription-benefits h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.subscription-benefits ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.subscription-benefits li {
+    padding: 0.5rem 0;
+    color: #d1d5db;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.subscription-benefits li i {
+    color: #8b5cf6;
+    font-size: 1rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.modal-actions .btn {
+    padding: 0.875rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-actions .btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    color: white;
+    border: none;
+}
+
+.modal-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+}
+
+.modal-actions .btn-outline {
+    background: transparent;
+    color: #8b5cf6;
+    border: 2px solid #8b5cf6;
+}
+
+.modal-actions .btn-outline:hover {
+    background: rgba(139, 92, 246, 0.1);
+    transform: translateY(-2px);
 }
