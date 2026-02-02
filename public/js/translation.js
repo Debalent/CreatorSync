@@ -16,7 +16,7 @@ class TranslationSystem {
     detectLanguage () {
         // Check localStorage first
         const savedLanguage = localStorage.getItem('creatorSync_language');
-        if (savedLanguage && ['en', 'es', 'fr', 'de'].includes(savedLanguage)) {
+        if (savedLanguage && ['en', 'es', 'fr', 'de', 'ja', 'zh', 'ru', 'pt', 'it', 'ko', 'ar', 'hi'].includes(savedLanguage)) {
             return savedLanguage;
         }
 
@@ -117,6 +117,14 @@ class TranslationSystem {
                 <option value="es">🇪🇸 Español</option>
                 <option value="fr">🇫🇷 Français</option>
                 <option value="de">🇩🇪 Deutsch</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="zh">🇨🇳 中文</option>
+                <option value="ru">🇷🇺 Русский</option>
+                <option value="pt">🇵🇹 Português</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="ko">🇰🇷 한국어</option>
+                <option value="ar">🇸🇦 العربية</option>
+                <option value="hi">🇮🇳 हिन्दी</option>
             </select>
         `;
 
