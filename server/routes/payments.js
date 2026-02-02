@@ -3,6 +3,8 @@ const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const treasuryManager = require('../utils/treasuryManager');
+const logger = require('../utils/logger');
 
 // Mock database for transactions
 const transactions = new Map();
@@ -151,6 +153,28 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
         transaction.completedAt = new Date();
         transaction.stripePaymentIntentId = paymentIntentId;
         transactions.set(transactionId, transaction);
+
+        // Record revenue in treasury for automated payouts
+        try {
+            treasuryManager.recordRevenue({
+                transactionId: transaction.id,
+                amount: transaction.amount,
+                commission: transaction.commission.platformCommission,
+                type: 'beat_sale',
+                userId: transaction.userId,
+                timestamp: new Date()
+            });
+            logger.info('Revenue recorded in treasury', {
+                transactionId: transaction.id,
+                amount: transaction.amount,
+                commission: transaction.commission.platformCommission
+            });
+        } catch (revenueError) {
+            logger.error('Failed to record revenue in treasury', {
+                error: revenueError.message,
+                transactionId: transaction.id
+            });
+        }
 
         // Process beat purchase (grant access, send files, etc.)
         await this.processBeatPurchase(transaction);

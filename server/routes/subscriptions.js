@@ -3,6 +3,8 @@ const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const treasuryManager = require('../utils/treasuryManager');
+const logger = require('../utils/logger');
 
 // Mock subscription database
 const subscriptions = new Map();
@@ -469,6 +471,32 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
 
         case 'invoice.payment_succeeded':
             this.handlePaymentSucceeded(event.data.object);
+            // Record subscription revenue in treasury
+            try {
+                const invoice = event.data.object;
+                const subscriptionAmount = invoice.amount_paid / 100; // Convert from cents
+                const commission = subscriptionAmount * 0.125; // 12.5% platform fee
+
+                treasuryManager.recordRevenue({
+                    transactionId: invoice.id,
+                    amount: subscriptionAmount,
+                    commission: commission,
+                    type: 'subscription',
+                    userId: invoice.customer,
+                    timestamp: new Date(invoice.created * 1000)
+                });
+
+                logger.info('Subscription revenue recorded in treasury', {
+                    invoiceId: invoice.id,
+                    amount: subscriptionAmount,
+                    commission: commission
+                });
+            } catch (revenueError) {
+                logger.error('Failed to record subscription revenue', {
+                    error: revenueError.message,
+                    invoiceId: event.data.object.id
+                });
+            }
             break;
 
         case 'invoice.payment_failed':

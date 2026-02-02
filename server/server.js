@@ -25,6 +25,7 @@ const pluginRoutes = require('./routes/plugins');
 const analyticsRoutes = require('./routes/analytics');
 const notificationRoutes = require('./routes/notifications');
 const biddingRoutes = require('./routes/bidding');
+const treasuryRoutes = require('./routes/treasury');
 
 // Import utilities
 const translationManager = require('./utils/translationManager');
@@ -36,6 +37,7 @@ const NotificationManager = require('./utils/notificationManager');
 const emailService = require('./utils/emailService');
 const audioProcessor = require('./utils/audioProcessor');
 const searchEngine = require('./utils/searchEngine');
+const payoutScheduler = require('./utils/payoutScheduler');
 
 // Import middleware
 const { apiLimiter, authLimiter, uploadLimiter, paymentLimiter } = require('./middleware/rateLimiter');
@@ -185,6 +187,7 @@ class CreatorSyncServer {
         this.app.use('/api/analytics', analyticsRoutes);
         this.app.use('/api/notifications', notificationRoutes);
         this.app.use('/api/bidding', biddingRoutes);
+        this.app.use('/api/treasury', treasuryRoutes);
 
         // Beat upload endpoint with rate limiting
         this.app.post('/api/upload/beat', uploadLimiter, this.upload.fields([
@@ -764,6 +767,14 @@ class CreatorSyncServer {
 🚀 Ready for music monetization and collaboration!
 📚 API Documentation: http://localhost:${this.port}/api-docs
             `);
+
+            // Start payout scheduler for automated weekly payouts
+            try {
+                payoutScheduler.start();
+                logger.info('💰 Payout scheduler started - Weekly payouts every Friday at 8:00 AM');
+            } catch (error) {
+                logger.error('Failed to start payout scheduler', { error: error.message });
+            }
         });
 
         // Graceful shutdown
@@ -773,6 +784,14 @@ class CreatorSyncServer {
 
     async shutdown () {
         logger.info('🛑 Shutting down CreatorSync server...');
+
+        // Stop payout scheduler
+        try {
+            payoutScheduler.stop();
+            logger.info('Payout scheduler stopped');
+        } catch (error) {
+            logger.error('Error stopping payout scheduler', { error: error.message });
+        }
 
         // Close cache connection
         await cacheManager.disconnect();
