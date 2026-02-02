@@ -1676,3 +1676,12 @@
         padding: 1rem;
     }
 }
+
+/* Pattern fill bars for style metrics */
+.pattern-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: inherit;
+    transition: width 0.5s ease;
+}

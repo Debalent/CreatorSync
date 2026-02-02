@@ -172,7 +172,7 @@
 @media (max-width: 768px) {
     .hero {
         padding: 5rem 0 3rem;
-        min-height: auto;
+        min-height: 0;
     }
 
     .hero-content {
@@ -578,7 +578,7 @@
 @media (max-width: 768px) and (orientation: landscape) {
     .hero {
         padding: 3rem 0 2rem;
-        min-height: auto;
+        min-height: 0;
     }
 
     .modal-content {

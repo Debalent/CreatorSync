@@ -922,3 +922,12 @@
     background: rgba(139, 92, 246, 0.1);
     transform: translateY(-2px);
 }
+
+/* Hide subscription modal and pause button by default */
+.subscription-modal {
+    display: none;
+}
+
+#pauseBtn {
+    display: none;
+}

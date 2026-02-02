@@ -368,8 +368,8 @@ section > .container > h2::after {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -584,8 +584,8 @@ section > .container > h2::after {
     box-shadow:
         0 4px 15px rgba(99, 102, 241, 0.4),
         0 0 20px rgba(139, 92, 246, 0.3);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .nav-scroll-btn::before {
@@ -1182,8 +1182,8 @@ section > .container > h2::after {
     text-align: center;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     box-shadow: 0 20px 60px rgba(139, 92, 246, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -1293,6 +1293,11 @@ section > .container > h2::after {
     text-align: center;
 }
 
+/* Plan check icon styling */
+.plan-check-icon {
+    color: #8b5cf6 !important;
+}
+
 /* Featured Section */
 .featured-section {
     padding: var(--spacing-2xl) 0;
@@ -1355,6 +1360,7 @@ section > .container > h2::after {
     box-shadow:
         0 4px 15px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -1458,6 +1464,7 @@ section > .container > h2::after {
     justify-content: center;
     opacity: 0;
     transition: opacity 0.4s ease;
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     z-index: 2;
 }

@@ -11,7 +11,7 @@
 </head>
 <body class="mixmaster-body">
     <!-- Subscription Required Modal -->
-    <div id="subscriptionModal" class="subscription-modal" style="display: none;">
+    <div id="subscriptionModal" class="subscription-modal">
         <div class="subscription-modal-content">
             <h2>MixMaster1 Pro Access Required</h2>
             <p>MixMaster1 is a premium feature available exclusively to Pro and Enterprise subscribers of The Finisher.</p>
@@ -103,17 +103,17 @@
                     <div class="eq-section">
                         <div class="eq-control">
                             <label>High</label>
-                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="high">
+                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="high" aria-label="High frequency EQ">
                             <span class="eq-value">0dB</span>
                         </div>
                         <div class="eq-control">
                             <label>Mid</label>
-                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="mid">
+                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="mid" aria-label="Mid frequency EQ">
                             <span class="eq-value">0dB</span>
                         </div>
                         <div class="eq-control">
                             <label>Low</label>
-                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="low">
+                            <input type="range" class="eq-knob" min="-12" max="12" value="0" data-freq="low" aria-label="Low frequency EQ">
                             <span class="eq-value">0dB</span>
                         </div>
                     </div>
@@ -122,12 +122,12 @@
                     <div class="effects-section">
                         <div class="effect-control">
                             <label>Reverb</label>
-                            <input type="range" class="effect-knob" min="0" max="100" value="20" data-effect="reverb">
+                            <input type="range" class="effect-knob" min="0" max="100" value="20" data-effect="reverb" aria-label="Reverb effect level">
                             <span class="effect-value">20%</span>
                         </div>
                         <div class="effect-control">
                             <label>Delay</label>
-                            <input type="range" class="effect-knob" min="0" max="100" value="0" data-effect="delay">
+                            <input type="range" class="effect-knob" min="0" max="100" value="0" data-effect="delay" aria-label="Delay effect level">
                             <span class="effect-value">0%</span>
                         </div>
                     </div>
@@ -136,11 +136,11 @@
                     <div class="channel-controls">
                         <div class="pan-control">
                             <label>Pan</label>
-                            <input type="range" class="pan-knob" min="-100" max="100" value="0">
+                            <input type="range" class="pan-knob" min="-100" max="100" value="0" aria-label="Pan control">
                             <span class="pan-value">C</span>
                         </div>
                         <div class="volume-control">
-                            <input type="range" class="volume-fader" min="0" max="100" value="75" orient="vertical">
+                            <input type="range" class="volume-fader" min="0" max="100" value="75" orient="vertical" aria-label="Volume fader">
                             <div class="volume-label">75</div>
                         </div>
                     </div>
@@ -373,7 +373,7 @@
         <button class="transport-btn" id="playBtn" title="Play">
             <i class="fas fa-play"></i>
         </button>
-        <button class="transport-btn" id="pauseBtn" title="Pause" style="display: none;">
+        <button class="transport-btn" id="pauseBtn" title="Pause">
             <i class="fas fa-pause"></i>
         </button>
         <button class="transport-btn" id="stopBtn" title="Stop">

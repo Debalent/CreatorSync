@@ -273,7 +273,7 @@
                             <div class="song-metadata">
                                 <div class="metadata-row">
                                     <input type="text" id="songTitle" placeholder="Song Title" class="form-input title-input">
-                                    <select id="songGenre" class="form-select">
+                                    <select id="songGenre" class="form-select" aria-label="Select song genre">
                                         <option value="">Select Genre</option>
                                         <option value="pop">Pop</option>
                                         <option value="rock">Rock</option>
@@ -284,7 +284,7 @@
                                         <option value="indie">Indie</option>
                                         <option value="folk">Folk</option>
                                     </select>
-                                    <select id="songMood" class="form-select">
+                                    <select id="songMood" class="form-select" aria-label="Select song mood">
                                         <option value="">Select Mood</option>
                                         <option value="happy">Happy</option>
                                         <option value="melancholy">Melancholy</option>
@@ -339,21 +339,21 @@
                                     <div class="metric">
                                         <label>Cadence Pattern:</label>
                                         <div class="pattern-bar">
-                                            <div class="pattern-fill" id="cadencePattern" style="width: 0%"></div>
+                                            <div class="pattern-fill" id="cadencePattern"></div>
                                         </div>
                                         <span id="cadenceScore">Analyzing...</span>
                                     </div>
                                     <div class="metric">
                                         <label>Tone Consistency:</label>
                                         <div class="pattern-bar">
-                                            <div class="pattern-fill" id="tonePattern" style="width: 0%"></div>
+                                            <div class="pattern-fill" id="tonePattern"></div>
                                         </div>
                                         <span id="toneScore">Analyzing...</span>
                                     </div>
                                     <div class="metric">
                                         <label>Rhythm Preference:</label>
                                         <div class="pattern-bar">
-                                            <div class="pattern-fill" id="rhythmPattern" style="width: 0%"></div>
+                                            <div class="pattern-fill" id="rhythmPattern"></div>
                                         </div>
                                         <span id="rhythmScore">Analyzing...</span>
                                     </div>
@@ -414,7 +414,7 @@
                                 <i class="fas fa-lightbulb"></i>
                                 Writer's Block Assistant
                             </h3>
-                            <button class="close-btn" id="closeBlockAssistant">
+                            <button class="close-btn" id="closeBlockAssistant" aria-label="Close writer's block assistant">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
