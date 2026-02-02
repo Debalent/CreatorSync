@@ -26,6 +26,7 @@ const analyticsRoutes = require('./routes/analytics');
 const notificationRoutes = require('./routes/notifications');
 const biddingRoutes = require('./routes/bidding');
 const treasuryRoutes = require('./routes/treasury');
+const platformAnalyticsRoutes = require('./routes/platform-analytics');
 
 // Import utilities
 const translationManager = require('./utils/translationManager');
@@ -38,6 +39,7 @@ const emailService = require('./utils/emailService');
 const audioProcessor = require('./utils/audioProcessor');
 const searchEngine = require('./utils/searchEngine');
 const payoutScheduler = require('./utils/payoutScheduler');
+const analyticsTracker = require('./utils/analyticsTracker');
 
 // Import middleware
 const { apiLimiter, authLimiter, uploadLimiter, paymentLimiter } = require('./middleware/rateLimiter');
@@ -188,6 +190,7 @@ class CreatorSyncServer {
         this.app.use('/api/notifications', notificationRoutes);
         this.app.use('/api/bidding', biddingRoutes);
         this.app.use('/api/treasury', treasuryRoutes);
+        this.app.use('/api/platform-analytics', platformAnalyticsRoutes);
 
         // Beat upload endpoint with rate limiting
         this.app.post('/api/upload/beat', uploadLimiter, this.upload.fields([
@@ -775,6 +778,9 @@ class CreatorSyncServer {
             } catch (error) {
                 logger.error('Failed to start payout scheduler', { error: error.message });
             }
+
+            // Schedule analytics maintenance tasks
+            this.scheduleAnalyticsMaintenance();
         });
 
         // Graceful shutdown
@@ -782,8 +788,47 @@ class CreatorSyncServer {
         process.on('SIGINT', this.shutdown.bind(this));
     }
 
+    scheduleAnalyticsMaintenance () {
+        // Create daily snapshot at midnight
+        setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                analyticsTracker.createDailySnapshot();
+                analyticsTracker.resetDailyMetrics();
+                logger.info('Daily analytics snapshot created');
+            }
+        }, 60000); // Check every minute
+
+        // Cleanup old sessions every 30 minutes
+        setInterval(() => {
+            analyticsTracker.cleanupOldSessions();
+        }, 30 * 60 * 1000);
+
+        // Create monthly report on the 1st of each month
+        setInterval(() => {
+            const now = new Date();
+            if (now.getDate() === 1 && now.getHours() === 0) {
+                const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
+                const monthKey = `${lastMonth.getFullYear()}-${String(lastMonth.getMonth() + 1).padStart(2, '0')}`;
+                analyticsTracker.createMonthlyReport(monthKey);
+                analyticsTracker.resetMonthlyMetrics();
+                logger.info('Monthly analytics report created', { month: monthKey });
+            }
+        }, 60000);
+
+        logger.info('📊 Analytics maintenance tasks scheduled');
+    }
+
     async shutdown () {
         logger.info('🛑 Shutting down CreatorSync server...');
+
+        // Create final analytics snapshot before shutdown
+        try {
+            analyticsTracker.createDailySnapshot();
+            logger.info('Final analytics snapshot created');
+        } catch (error) {
+            logger.error('Error creating final snapshot', { error: error.message });
+        }
 
         // Stop payout scheduler
         try {

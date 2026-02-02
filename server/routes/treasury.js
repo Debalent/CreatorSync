@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const treasuryManager = require('../utils/treasuryManager');
 const payoutScheduler = require('../utils/payoutScheduler');
+const analyticsTracker = require('../utils/analyticsTracker');
 const logger = require('../utils/logger');
 
 // Mock admin authentication middleware
@@ -187,6 +188,15 @@ router.post('/revenue/record', authenticateAdmin, (req, res) => {
             transactionId,
             amount: parseFloat(amount),
             commission: parseFloat(commission),
+            type: type || 'beat_sale',
+            userId,
+            timestamp: new Date()
+        });
+
+        // Also track in analytics for bookkeeping
+        analyticsTracker.trackRevenue({
+            transactionId,
+            amount: parseFloat(amount),
             type: type || 'beat_sale',
             userId,
             timestamp: new Date()

@@ -4,6 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const treasuryManager = require('../utils/treasuryManager');
+const analyticsTracker = require('../utils/analyticsTracker');
 const logger = require('../utils/logger');
 
 // Mock database for transactions
@@ -164,13 +165,35 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
                 userId: transaction.userId,
                 timestamp: new Date()
             });
-            logger.info('Revenue recorded in treasury', {
+
+            // Track in analytics for bookkeeping
+            analyticsTracker.trackRevenue({
+                transactionId: transaction.id,
+                amount: transaction.amount,
+                type: 'beat_sale',
+                userId: transaction.userId,
+                timestamp: new Date()
+            });
+
+            // Track purchase interaction
+            analyticsTracker.trackInteraction({
+                feature: 'beat_purchase',
+                action: 'completed',
+                userId: transaction.userId,
+                metadata: {
+                    beatId: transaction.beatId,
+                    amount: transaction.amount,
+                    licenseType: transaction.licenseType
+                }
+            });
+
+            logger.info('Revenue recorded in treasury and analytics', {
                 transactionId: transaction.id,
                 amount: transaction.amount,
                 commission: transaction.commission.platformCommission
             });
         } catch (revenueError) {
-            logger.error('Failed to record revenue in treasury', {
+            logger.error('Failed to record revenue', {
                 error: revenueError.message,
                 transactionId: transaction.id
             });

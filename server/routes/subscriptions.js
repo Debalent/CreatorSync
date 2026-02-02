@@ -4,6 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const treasuryManager = require('../utils/treasuryManager');
+const analyticsTracker = require('../utils/analyticsTracker');
 const logger = require('../utils/logger');
 
 // Mock subscription database

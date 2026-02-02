@@ -6,6 +6,7 @@ const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const { logger } = require('../utils/logger');
 const dataManager = require('../utils/dataManager');
+const analyticsTracker = require('../utils/analyticsTracker');
 
 /**
  * @swagger
@@ -24,10 +25,31 @@ router.get('/dashboard', authenticate, async (req, res) => {
         const userId = req.user.userId;
         const role = req.user.role;
 
+        // Get user-specific engagement data from analytics tracker
+        const userSessions = analyticsTracker.engagement.get('userSessions');
+        const userSession = userSessions.get(userId) || {
+            totalInteractions: 0,
+            features: new Map(),
+            lastActive: new Date(),
+            firstActive: new Date()
+        };
+
         // Get user-specific or admin analytics
         const analytics = role === 'admin' 
             ? await getAdminDashboard()
             : await getUserDashboard(userId);
+
+        // Add real-time engagement data
+        analytics.engagement = {
+            ...analytics.engagement,
+            totalInteractions: userSession.totalInteractions,
+            featuresUsed: Array.from(userSession.features.entries()).map(([feature, count]) => ({
+                feature,
+                count
+            })),
+            lastActive: userSession.lastActive,
+            memberSince: userSession.firstActive
+        };
 
         res.json({
             success: true,
