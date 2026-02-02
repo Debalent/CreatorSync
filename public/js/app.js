@@ -1310,8 +1310,16 @@ function initFAQ() {
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.creatorSyncApp = new CreatorSyncApp();
+    // Initialize FAQ first (independent of main app)
     initFAQ();
+
+    // Then initialize main app
+    try {
+        window.creatorSyncApp = new CreatorSyncApp();
+    } catch (error) {
+        console.error('Error initializing CreatorSyncApp:', error);
+        // FAQ and other features will still work
+    }
 });
 
 // Export for potential module usage
