@@ -24,6 +24,7 @@ const FINISHER_PLANS = {
         name: 'Starter',
         price: 9.99,
         stripePriceId: 'price_starter_monthly', // Replace with actual Stripe price ID
+        billingPeriod: 'monthly',
         features: [
             'Basic audio processing',
             '5GB cloud storage',
@@ -36,11 +37,12 @@ const FINISHER_PLANS = {
             collaborators: 2
         }
     },
-    pro: {
-        id: 'pro',
+    'pro-monthly': {
+        id: 'pro-monthly',
         name: 'Pro',
         price: 29.99,
         stripePriceId: 'price_pro_monthly', // Replace with actual Stripe price ID
+        billingPeriod: 'monthly',
         features: [
             'Advanced audio processing',
             '100GB cloud storage',
@@ -55,18 +57,64 @@ const FINISHER_PLANS = {
             collaborators: 10
         }
     },
-    enterprise: {
-        id: 'enterprise',
+    'pro-yearly': {
+        id: 'pro-yearly',
+        name: 'Pro',
+        price: 23.99,
+        yearlyTotal: 287.90,
+        stripePriceId: 'price_pro_yearly', // Replace with actual Stripe price ID
+        billingPeriod: 'yearly',
+        features: [
+            'Advanced audio processing',
+            '100GB cloud storage',
+            'Priority support',
+            'Advanced collaboration tools',
+            'Analytics dashboard',
+            'Revenue sharing benefits',
+            'MixMaster1 access'
+        ],
+        limits: {
+            projects: 100,
+            storage: 100 * 1024 * 1024 * 1024, // 100GB
+            collaborators: 10
+        }
+    },
+    'enterprise-monthly': {
+        id: 'enterprise-monthly',
         name: 'Enterprise',
         price: 99.99,
         stripePriceId: 'price_enterprise_monthly', // Replace with actual Stripe price ID
+        billingPeriod: 'monthly',
         features: [
             'Professional audio suite',
             'Unlimited storage',
             '24/7 dedicated support',
             'White-label solutions',
             'Custom integrations',
-            'Advanced revenue tools'
+            'Advanced revenue tools',
+            'MixMaster1 access'
+        ],
+        limits: {
+            projects: -1, // Unlimited
+            storage: -1, // Unlimited
+            collaborators: -1 // Unlimited
+        }
+    },
+    'enterprise-yearly': {
+        id: 'enterprise-yearly',
+        name: 'Enterprise',
+        price: 79.99,
+        yearlyTotal: 959.90,
+        stripePriceId: 'price_enterprise_yearly', // Replace with actual Stripe price ID
+        billingPeriod: 'yearly',
+        features: [
+            'Professional audio suite',
+            'Unlimited storage',
+            '24/7 dedicated support',
+            'White-label solutions',
+            'Custom integrations',
+            'Advanced revenue tools',
+            'MixMaster1 access'
         ],
         limits: {
             projects: -1, // Unlimited
