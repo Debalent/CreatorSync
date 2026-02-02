@@ -390,7 +390,7 @@
 }
 
 .brand-logo {
-    height: 56px;
+    height: 80px;
     width: auto;
     transition: all 0.3s ease;
     filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
@@ -417,7 +417,7 @@
 /* ==================== RESPONSIVE MEDIA QUERIES ==================== */
 @media (max-width: 768px) {
     .brand-logo {
-        height: 36px;
+        height: 48px;
     }
 
     .wave-logo {
@@ -449,7 +449,7 @@
 
 @media (max-width: 480px) {
     .brand-logo {
-        height: 32px;
+        height: 40px;
     }
 
     .wave-logo {
@@ -540,7 +540,7 @@
 }
 
 .finisher-logo-large {
-    height: 80px;
+    height: 100px;
     width: auto;
     margin-left: 1rem;
     transition: all 0.4s ease;
