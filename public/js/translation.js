@@ -156,6 +156,15 @@ class TranslationSystem {
                     // Sign up button - update the signup-text span
                     const span = element.querySelector('.signup-text');
                     if (span) span.textContent = translation;
+                } else if (element.classList.contains('nav-card')) {
+                    // Navigation cards - preserve icons, only update text in nav-card-content
+                    const contentH3 = element.querySelector('.nav-card-content h3');
+                    const contentP = element.querySelector('.nav-card-content p');
+                    // Translation object should have title and description
+                    if (typeof translation === 'object') {
+                        if (contentH3 && translation.title) contentH3.textContent = translation.title;
+                        if (contentP && translation.description) contentP.textContent = translation.description;
+                    }
                 } else {
                     element.textContent = translation;
                 }
