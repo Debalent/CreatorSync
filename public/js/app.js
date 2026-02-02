@@ -1286,63 +1286,9 @@ const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
 
-// Billing Toggle Functionality
-function initBillingToggle() {
-    const billingButtons = document.querySelectorAll('.billing-btn');
-
-    function updatePricing(isYearly) {
-        // Update pricing amounts
-        const amountElements = document.querySelectorAll('.price .amount[data-monthly]');
-        const yearlyTotals = document.querySelectorAll('.yearly-total');
-
-        amountElements.forEach(element => {
-            const monthly = element.getAttribute('data-monthly');
-            const yearly = element.getAttribute('data-yearly');
-
-            if (isYearly) {
-                // Show yearly pricing (monthly equivalent)
-                const yearlyMonthly = (parseFloat(yearly) / 12).toFixed(2);
-                element.textContent = `$${yearlyMonthly}`;
-            } else {
-                // Show monthly pricing
-                element.textContent = `$${monthly}`;
-            }
-        });
-
-        // Toggle yearly total visibility
-        yearlyTotals.forEach(element => {
-            if (isYearly) {
-                element.classList.remove('hidden');
-            } else {
-                element.classList.add('hidden');
-            }
-        });
-    }
-
-    billingButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const period = this.getAttribute('data-period');
-            const isYearly = period === 'yearly';
-
-            // Update active state for all buttons in the same container
-            const container = this.closest('.billing-toggle');
-            if (container) {
-                container.querySelectorAll('.billing-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                this.classList.add('active');
-            }
-
-            // Update pricing
-            updatePricing(isYearly);
-        });
-    });
-}
-
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.creatorSyncApp = new CreatorSyncApp();
-    initBillingToggle();
 });
 
 // Export for potential module usage

@@ -61,6 +61,15 @@
                             <p>Buy & sell exclusive beats</p>
                         </div>
                     </a>
+                    <a href="mixmaster1-app.html" class="nav-card" data-translate="nav.mixmaster">
+                        <div class="nav-card-icon">
+                            <img src="assets/mixmaster1-logo.png" alt="MixMaster1" class="mixmaster-logo logo-glow interactive-logo">
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>MixMaster1</h3>
+                            <p>Professional mixing suite</p>
+                        </div>
+                    </a>
                     <a href="#finisher" class="nav-card nav-card-premium" id="finisherNavLink" data-translate="nav.finisher">
                         <div class="nav-card-icon finisher-logo-container">
                             <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo logo-glow interactive-logo">
@@ -279,39 +288,49 @@
                         </div>
                     </div>
 
-                    <div class="billing-toggle">
-                        <button class="billing-btn active" data-period="monthly">Monthly</button>
-                        <button class="billing-btn" data-period="yearly">
-                            Yearly
-                            <span class="save-badge">Save 20%</span>
-                        </button>
-                    </div>
-
                     <div class="subscription-plans">
+                        <!-- Monthly Plans -->
                         <div class="plan-card starter">
+                            <div class="billing-period-badge">Monthly</div>
                             <h3>Starter</h3>
                             <div class="price">
-                                <span class="amount" data-monthly="9.99" data-yearly="95.90">$9.99</span>
+                                <span class="amount">$9.99</span>
                                 <span class="period">/month</span>
                             </div>
-                            <div class="yearly-total hidden">$95.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Basic audio processing</li>
                                 <li><i class="fas fa-check"></i> 5GB cloud storage</li>
                                 <li><i class="fas fa-check"></i> Standard support</li>
                                 <li><i class="fas fa-check"></i> CreatorSync integration</li>
                             </ul>
-                            <button class="btn btn-outline subscribe-btn" data-plan="starter">Start Free Trial</button>
+                            <button class="btn btn-outline subscribe-btn" data-plan="starter-monthly">Start Free Trial</button>
+                        </div>
+
+                        <div class="plan-card starter">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="amount">$7.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$95.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Basic audio processing</li>
+                                <li><i class="fas fa-check"></i> 5GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Standard support</li>
+                                <li><i class="fas fa-check"></i> CreatorSync integration</li>
+                            </ul>
+                            <button class="btn btn-outline subscribe-btn" data-plan="starter-yearly">Start Free Trial</button>
                         </div>
 
                         <div class="plan-card pro featured">
                             <div class="popular-badge">Most Popular</div>
+                            <div class="billing-period-badge">Monthly</div>
                             <h3>Pro</h3>
                             <div class="price">
-                                <span class="amount" data-monthly="29.99" data-yearly="287.90">$29.99</span>
+                                <span class="amount">$29.99</span>
                                 <span class="period">/month</span>
                             </div>
-                            <div class="yearly-total hidden">$287.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Advanced audio processing</li>
                                 <li><i class="fas fa-check"></i> 100GB cloud storage</li>
@@ -320,16 +339,35 @@
                                 <li><i class="fas fa-check"></i> Analytics dashboard</li>
                                 <li><i class="fas fa-check"></i> Revenue sharing benefits</li>
                             </ul>
-                            <button class="btn btn-primary subscribe-btn" data-plan="pro">Start Free Trial</button>
+                            <button class="btn btn-primary subscribe-btn" data-plan="pro-monthly">Start Free Trial</button>
+                        </div>
+
+                        <div class="plan-card pro">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Pro</h3>
+                            <div class="price">
+                                <span class="amount">$23.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$287.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Advanced audio processing</li>
+                                <li><i class="fas fa-check"></i> 100GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Priority support</li>
+                                <li><i class="fas fa-check"></i> Advanced collaboration tools</li>
+                                <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                <li><i class="fas fa-check"></i> Revenue sharing benefits</li>
+                            </ul>
+                            <button class="btn btn-primary subscribe-btn" data-plan="pro-yearly">Start Free Trial</button>
                         </div>
 
                         <div class="plan-card enterprise">
+                            <div class="billing-period-badge">Monthly</div>
                             <h3>Enterprise</h3>
                             <div class="price">
-                                <span class="amount" data-monthly="99.99" data-yearly="959.90">$99.99</span>
+                                <span class="amount">$99.99</span>
                                 <span class="period">/month</span>
                             </div>
-                            <div class="yearly-total hidden">$959.90 billed annually</div>
                             <ul class="plan-features">
                                 <li><i class="fas fa-check"></i> Professional audio suite</li>
                                 <li><i class="fas fa-check"></i> Unlimited storage</li>
@@ -338,7 +376,26 @@
                                 <li><i class="fas fa-check"></i> Custom integrations</li>
                                 <li><i class="fas fa-check"></i> Advanced revenue tools</li>
                             </ul>
-                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise">Contact Sales</button>
+                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise-monthly">Contact Sales</button>
+                        </div>
+
+                        <div class="plan-card enterprise">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="amount">$79.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$959.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Professional audio suite</li>
+                                <li><i class="fas fa-check"></i> Unlimited storage</li>
+                                <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                                <li><i class="fas fa-check"></i> White-label solutions</li>
+                                <li><i class="fas fa-check"></i> Custom integrations</li>
+                                <li><i class="fas fa-check"></i> Advanced revenue tools</li>
+                            </ul>
+                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise-yearly">Contact Sales</button>
                         </div>
                     </div>
                 </div>
@@ -399,7 +456,7 @@
                         <a href="https://music.amazon.com/creatorsync" target="_blank" rel="noopener" title="Find us on Amazon Music" aria-label="Find us on Amazon Music"><i class="fab fa-amazon"></i></a>
                         <a href="https://open.spotify.com/creatorsync" target="_blank" rel="noopener" title="Find us on Spotify" aria-label="Find us on Spotify"><i class="fab fa-spotify"></i></a>
                     </div>
-                    
+
                     <!-- Social Networks -->
                     <h4 class="social-category">Follow Us</h4>
                     <div class="social-links">
