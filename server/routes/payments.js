@@ -48,10 +48,22 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
         // Calculate commission
         const commissionBreakdown = calculateCommission(beatAmount);
 
-        // Create payment intent with Stripe
+        // Create payment intent with Stripe supporting multiple payment methods
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(beatAmount * 100), // Convert to cents
             currency: 'usd',
+            payment_method_types: [
+                'card',              // Credit/Debit cards
+                'cashapp',           // Cash App
+                'link',              // Stripe Link (instant checkout)
+                'affirm',            // Buy now, pay later
+                'afterpay_clearpay'  // Afterpay/Clearpay
+            ],
+            // Enable automatic payment methods based on customer location
+            automatic_payment_methods: {
+                enabled: true,
+                allow_redirects: 'always'
+            },
             metadata: {
                 beatId,
                 licenseType,
@@ -63,7 +75,13 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
                 sellerEarnings: commissionBreakdown.sellerEarnings.toFixed(2)
             },
             description: `CreatorSync Beat Purchase - ${beatId}`,
-            receipt_email: req.user.email
+            receipt_email: req.user.email,
+            // Enable mobile wallet payments
+            payment_method_options: {
+                card: {
+                    request_three_d_secure: 'automatic'
+                }
+            }
         });
 
         // Store transaction record
@@ -482,6 +500,91 @@ async function processBeatPurchase (transaction) {
         throw error;
     }
 }
+
+// Create PayPal order (alternative payment method)
+router.post('/create-paypal-order', authenticateUser, async (req, res) => {
+    try {
+        const { beatId, amount } = req.body;
+
+        if (!beatId || !amount) {
+            return res.status(400).json({ error: 'Beat ID and amount are required' });
+        }
+
+        const beatAmount = parseFloat(amount);
+        const commissionBreakdown = calculateCommission(beatAmount);
+
+        // Store transaction record for PayPal
+        const transactionId = uuidv4();
+        const transaction = {
+            id: transactionId,
+            beatId,
+            amount: beatAmount,
+            currency: 'usd',
+            status: 'pending',
+            userId: req.user.id,
+            paymentMethod: 'paypal',
+            commission: commissionBreakdown,
+            createdAt: new Date()
+        };
+
+        transactions.set(transactionId, transaction);
+
+        // Return transaction details for PayPal SDK integration on frontend
+        res.json({
+            success: true,
+            transactionId,
+            amount: beatAmount,
+            commission: commissionBreakdown,
+            // PayPal order will be created on frontend using PayPal SDK
+            paypalOrderData: {
+                intent: 'CAPTURE',
+                purchase_units: [{
+                    amount: {
+                        currency_code: 'USD',
+                        value: beatAmount.toFixed(2)
+                    },
+                    description: `CreatorSync Beat Purchase - ${beatId}`
+                }]
+            }
+        });
+    } catch (error) {
+        console.error('Create PayPal order error:', error);
+        res.status(500).json({ error: 'Failed to create PayPal order' });
+    }
+});
+
+// Confirm PayPal payment
+router.post('/confirm-paypal-payment', authenticateUser, async (req, res) => {
+    try {
+        const { transactionId, paypalOrderId } = req.body;
+
+        if (!transactionId || !paypalOrderId) {
+            return res.status(400).json({ error: 'Transaction ID and PayPal order ID required' });
+        }
+
+        const transaction = transactions.get(transactionId);
+        if (!transaction) {
+            return res.status(404).json({ error: 'Transaction not found' });
+        }
+
+        // Update transaction with PayPal details
+        transaction.status = 'completed';
+        transaction.paypalOrderId = paypalOrderId;
+        transaction.completedAt = new Date();
+        transactions.set(transactionId, transaction);
+
+        await this.processBeatPurchase(transaction);
+
+        res.json({
+            success: true,
+            message: 'PayPal payment confirmed successfully',
+            transaction
+        });
+    } catch (error) {
+        console.error('Confirm PayPal payment error:', error);
+        res.status(500).json({ error: 'Failed to confirm PayPal payment' });
+    }
+});
 
 // Get payment statistics (admin/analytics)
 router.get('/stats', authenticateUser, (req, res) => {

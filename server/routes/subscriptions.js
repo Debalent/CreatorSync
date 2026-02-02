@@ -111,7 +111,13 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             customer_email: req.user.email,
-            payment_method_types: ['card'],
+            payment_method_types: [
+                'card',              // Credit/Debit cards
+                'cashapp',           // Cash App
+                'link',              // Stripe Link
+                'affirm',            // Buy now, pay later
+                'afterpay_clearpay'  // Afterpay/Clearpay
+            ],
             line_items: [{
                 price: plan.stripePriceId,
                 quantity: 1
@@ -119,19 +125,29 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
             mode: 'subscription',
             success_url: `${process.env.CLIENT_URL}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.CLIENT_URL}/subscription/cancelled`,
-            trial_period_days: 14, // 14-day free trial
+            subscription_data: {
+                trial_period_days: 15, // 15-day free trial
+                trial_settings: {
+                    end_behavior: {
+                        missing_payment_method: 'cancel'
+                    }
+                },
+                metadata: {
+                    userId,
+                    planId,
+                    source: 'creatorsync',
+                    discountFirstMonth: 'true' // 50% off first month after trial
+                }
+            },
             metadata: {
                 userId,
                 planId,
                 source: 'creatorsync'
             },
-            subscription_data: {
-                metadata: {
-                    userId,
-                    planId,
-                    source: 'creatorsync'
-                }
-            }
+            // Enable payment method collection during trial
+            payment_method_collection: 'always',
+            // Allow promotion codes
+            allow_promotion_codes: true
         });
 
         // Create pending subscription record
@@ -143,8 +159,9 @@ router.post('/create-subscription', authenticateUser, async (req, res) => {
             status: 'pending',
             stripeSessionId: session.id,
             createdAt: new Date(),
-            trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 days
-            amount: plan.price
+            trialEndsAt: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days
+            amount: plan.price,
+            firstMonthDiscount: 0.5 // 50% off first month
         };
 
         subscriptions.set(subscriptionId, subscription);
