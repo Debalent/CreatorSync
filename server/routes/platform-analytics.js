@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const analyticsTracker = require('../utils/analyticsTracker');
 const treasuryManager = require('../utils/treasuryManager');
-const logger = require('../utils/logger');
+const { logger } = require('../utils/logger');
 
 // Mock admin authentication middleware
 const authenticateAdmin = (req, res, next) => {

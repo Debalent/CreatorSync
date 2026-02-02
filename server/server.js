@@ -39,11 +39,18 @@ const emailService = require('./utils/emailService');
 const audioProcessor = require('./utils/audioProcessor');
 const searchEngine = require('./utils/searchEngine');
 const payoutScheduler = require('./utils/payoutScheduler');
+console.log('✅ payoutScheduler loaded');
 const analyticsTracker = require('./utils/analyticsTracker');
+console.log('✅ analyticsTracker loaded');
+
+console.log('✅ All utilities loaded');
 
 // Import middleware
 const { apiLimiter, authLimiter, uploadLimiter, paymentLimiter } = require('./middleware/rateLimiter');
 const { socketAuth } = require('./middleware/auth');
+
+console.log('✅ All middleware loaded');
+console.log('🏗️  Defining CreatorSyncServer class...');
 
 class CreatorSyncServer {
     constructor () {
@@ -855,7 +862,18 @@ class CreatorSyncServer {
 }
 
 // Initialize and start the server
-const server = new CreatorSyncServer();
-server.start();
+console.log('🔧 Starting CreatorSync Server initialization...');
+try {
+    console.log('📦 Creating server instance...');
+    const server = new CreatorSyncServer();
+    console.log('✅ Server instance created');
+    console.log('🚀 Calling server.start()...');
+    server.start();
+    console.log('✅ server.start() completed');
+} catch (error) {
+    console.error('❌ Fatal error starting server:', error);
+    console.error(error.stack);
+    process.exit(1);
+}
 
 module.exports = CreatorSyncServer;

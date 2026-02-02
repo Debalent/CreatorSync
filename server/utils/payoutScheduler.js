@@ -3,7 +3,7 @@
 
 const cron = require('node-cron');
 const treasuryManager = require('./treasuryManager');
-const logger = require('./logger');
+const { logger } = require('./logger');
 
 class PayoutScheduler {
     constructor() {

@@ -1,7 +1,7 @@
 // Analytics Tracker for User Traffic, Revenue, and Engagement
 // Tracks all platform metrics for analytics and bookkeeping
 
-const logger = require('./logger');
+const { logger } = require('./logger');
 
 class AnalyticsTracker {
     constructor() {

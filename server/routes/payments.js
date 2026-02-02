@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const treasuryManager = require('../utils/treasuryManager');
 const analyticsTracker = require('../utils/analyticsTracker');
-const logger = require('../utils/logger');
+const { logger } = require('../utils/logger');
 
 // Mock database for transactions
 const transactions = new Map();

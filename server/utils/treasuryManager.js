@@ -1,5 +1,5 @@
 // Treasury Manager - Internal Revenue Collection and Payout System
-const logger = require('./logger');
+const { logger } = require('./logger');
 
 class TreasuryManager {
     constructor() {
