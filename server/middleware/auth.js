@@ -228,6 +228,7 @@ module.exports = {
     generateRefreshToken,
     verifyToken,
     authenticate,
+    authenticateToken: authenticate, // Alias for consistency
     optionalAuth,
     authorize,
     requireSubscription,
