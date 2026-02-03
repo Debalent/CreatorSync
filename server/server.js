@@ -29,6 +29,7 @@ const treasuryRoutes = require('./routes/treasury');
 const platformAnalyticsRoutes = require('./routes/platform-analytics');
 const beatMakerRoutes = require('./routes/beat-maker');
 const samplesRoutes = require('./routes/samples');
+const exportRoutes = require('./routes/export');
 
 // Import utilities
 const translationManager = require('./utils/translationManager');
@@ -202,6 +203,7 @@ class CreatorSyncServer {
         this.app.use('/api/platform-analytics', platformAnalyticsRoutes);
         this.app.use('/api/beat-maker', beatMakerRoutes);
         this.app.use('/api/beat-maker', samplesRoutes);
+        this.app.use('/api/beat-maker', exportRoutes);
 
         // Beat upload endpoint with rate limiting
         this.app.post('/api/upload/beat', uploadLimiter, this.upload.fields([
