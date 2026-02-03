@@ -497,7 +497,7 @@ Proprietary - All rights reserved by Demond Balentine
 ## 👨‍💻 Author
 
 **Demond Balentine**
-- Email: demond.balentine@atlasschool.com
+- Email: balentinetechsolutions@gmail.com
 - GitHub: [@Debalent](https://github.com/Debalent)
 
 ---

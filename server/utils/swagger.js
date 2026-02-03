@@ -11,7 +11,7 @@ const options = {
             description: 'Revolutionary music monetization platform API - Beat marketplace, collaboration, and production tools',
             contact: {
                 name: 'Demond Balentine',
-                email: 'demond.balentine@atlasschool.com',
+                email: 'balentinetechsolutions@gmail.com',
                 url: 'https://creatorsync.com'
             },
             license: {

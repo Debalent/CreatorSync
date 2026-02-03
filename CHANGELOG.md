@@ -249,7 +249,7 @@ This release transforms CreatorSync into a production-ready, enterprise-grade pl
 
 For technical support, feature requests, or business inquiries:
 
-- **Email**: demond.balentine@atlasschool.com
+- **Email**: balentinetechsolutions@gmail.com
 - **GitHub**: https://github.com/Debalent/CreatorSync
 - **Documentation**: /docs/README.md
 - **Technical Guide**: /docs/Technical_Architecture_Guide.md

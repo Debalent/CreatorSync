@@ -282,7 +282,7 @@ CREATE TABLE translations (
 - **One Hour Translation:** support@onehourtranslation.com
 
 ### Technical Implementation
-- **Email:** demond.balentine@atlasschool.com
+- **Email:** balentinetechsolutions@gmail.com
 - **Phone:** 479-250-2573
 - **GitHub Issues:** https://github.com/Debalent/CreatorSync/issues
 

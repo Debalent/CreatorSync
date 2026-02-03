@@ -581,7 +581,7 @@ clinic doctor -- node server/server.js
 
 ### **Community & Support**
 - GitHub Issues: https://github.com/Debalent/CreatorSync/issues
-- Email Support: demond.balentine@atlasschool.com
+- Email Support: balentinetechsolutions@gmail.com
 - Technical Documentation: /docs/Technical_Architecture_Guide.md
 
 ### **Contributing**

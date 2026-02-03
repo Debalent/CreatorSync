@@ -174,7 +174,7 @@ node docs/convert_to_docx.js
 
 **Demond Balentine**  
 Founder & Lead Developer  
-📧 Email: demond.balentine@atlasschool.com  
+📧 Email: balentinetechsolutions@gmail.com  
 📱 Phone: 479-250-2573  
 💼 LinkedIn: https://linkedin.com/in/demond-balentine
 

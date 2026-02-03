@@ -317,7 +317,7 @@ The integration with **The Finisher** represents the next evolution in music pro
 **Demond Balentine** is a visionary software engineer and entrepreneur with a passion for revolutionizing the music production industry. With expertise in full-stack development and a deep understanding of creator economics, Demond has built CreatorSync as a comprehensive solution that bridges the gap between creativity and commerce.
 
 ### **Contact Information**
-- **Email**: demond.balentine@atlasschool.com
+- **Email**: balentinetechsolutions@gmail.com
 - **Phone**: 479-250-2573
 - **LinkedIn**: [Connect for business inquiries]
 - **GitHub**: [@Debalent](https://github.com/Debalent)

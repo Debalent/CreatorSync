@@ -118,7 +118,7 @@ Demond Balentine
 Founder & Lead Developer
 CreatorSync Technologies
 Phone: 479-250-2573
-Email: demond.balentine@atlasschool.com
+Email: balentinetechsolutions@gmail.com
 ```
 
 ---
@@ -260,7 +260,7 @@ Demond Balentine
 
 **Demond Balentine**  
 Founder & Lead Developer  
-📧 Email: demond.balentine@atlasschool.com  
+📧 Email: balentinetechsolutions@gmail.com  
 📱 Phone: 479-250-2573  
 💼 LinkedIn: https://linkedin.com/in/demond-balentine  
 🐙 GitHub: https://github.com/Debalent

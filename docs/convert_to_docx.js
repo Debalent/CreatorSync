@@ -77,4 +77,4 @@ exec('pandoc --version', (error, stdout, stderr) => {
     }
 });
 
-console.log('\n📞 Need help? Contact: demond.balentine@atlasschool.com');
+console.log('\n📞 Need help? Contact: balentinetechsolutions@gmail.com');

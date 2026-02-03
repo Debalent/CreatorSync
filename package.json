@@ -28,7 +28,7 @@
     "collaboration",
     "real-time"
   ],
-  "author": "Demond Balentine <demond.balentine@atlasschool.com>",
+  "author": "Demond Balentine <balentinetechsolutions@gmail.com>",
   "license": "PROPRIETARY",
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
