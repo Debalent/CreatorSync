@@ -16,7 +16,7 @@ router.get('/samples', optionalAuth, apiLimiter, async (req, res) => {
     const { category, tags, isPremium, search, limit = 50, skip = 0 } = req.query;
 
     const query = { isPublic: true };
-    
+
     if (category) query.category = category;
     if (tags) query.tags = { $in: tags.split(',') };
     if (isPremium !== undefined) query.isPremium = isPremium === 'true';

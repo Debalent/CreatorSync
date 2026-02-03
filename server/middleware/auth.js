@@ -71,7 +71,7 @@ const authenticate = (req, res, next) => {
     try {
         // Get token from header
         const authHeader = req.headers.authorization;
-        
+
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return res.status(401).json({
                 error: 'Unauthorized',
@@ -114,11 +114,11 @@ const authenticate = (req, res, next) => {
 const optionalAuth = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
-        
+
         if (authHeader && authHeader.startsWith('Bearer ')) {
             const token = authHeader.substring(7);
             const decoded = verifyToken(token);
-            
+
             req.user = {
                 userId: decoded.userId,
                 username: decoded.username,
@@ -130,7 +130,7 @@ const optionalAuth = (req, res, next) => {
     } catch (error) {
         // Silently fail for optional auth
     }
-    
+
     next();
 };
 
