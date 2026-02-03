@@ -314,6 +314,35 @@ class CreatorSyncServer {
                 this.handleFinisherSync(socket, syncData);
             });
 
+            // Beat Maker collaboration events
+            socket.on('beatmaker_join_session', (sessionData) => {
+                this.handleBeatMakerJoin(socket, sessionData);
+            });
+
+            socket.on('beatmaker_leave_session', (sessionId) => {
+                this.handleBeatMakerLeave(socket, sessionId);
+            });
+
+            socket.on('beatmaker_project_update', (updateData) => {
+                this.handleBeatMakerProjectUpdate(socket, updateData);
+            });
+
+            socket.on('beatmaker_track_update', (trackData) => {
+                this.handleBeatMakerTrackUpdate(socket, trackData);
+            });
+
+            socket.on('beatmaker_pattern_update', (patternData) => {
+                this.handleBeatMakerPatternUpdate(socket, patternData);
+            });
+
+            socket.on('beatmaker_effect_update', (effectData) => {
+                this.handleBeatMakerEffectUpdate(socket, effectData);
+            });
+
+            socket.on('beatmaker_playback_state', (playbackData) => {
+                this.handleBeatMakerPlaybackState(socket, playbackData);
+            });
+
             // Disconnect handling
             socket.on('disconnect', () => {
                 console.log(`User disconnected: ${socket.id}`);
@@ -772,6 +801,131 @@ class CreatorSyncServer {
             }
         }
         return null;
+    }
+
+    // Beat Maker collaboration handlers
+    handleBeatMakerJoin (socket, sessionData) {
+        const sessionId = sessionData.projectId;
+        socket.join(`beatmaker_${sessionId}`);
+
+        logger.info('User joined beat maker session', {
+            sessionId,
+            userId: socket.user?.userId,
+            socketId: socket.id
+        });
+
+        // Notify other participants
+        socket.to(`beatmaker_${sessionId}`).emit('beatmaker_user_joined', {
+            userId: socket.user?.userId,
+            username: socket.user?.username,
+            timestamp: new Date()
+        });
+
+        // Send current session state to new user
+        socket.emit('beatmaker_session_state', {
+            sessionId,
+            participants: this.getBeatMakerParticipants(sessionId)
+        });
+    }
+
+    handleBeatMakerLeave (socket, sessionId) {
+        socket.leave(`beatmaker_${sessionId}`);
+
+        logger.info('User left beat maker session', {
+            sessionId,
+            userId: socket.user?.userId
+        });
+
+        socket.to(`beatmaker_${sessionId}`).emit('beatmaker_user_left', {
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+    }
+
+    handleBeatMakerProjectUpdate (socket, updateData) {
+        const { projectId, updates } = updateData;
+
+        // Broadcast project updates to all session participants
+        socket.to(`beatmaker_${projectId}`).emit('beatmaker_project_updated', {
+            projectId,
+            updates,
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+
+        logger.info('Beat maker project updated', {
+            projectId,
+            updateType: Object.keys(updates).join(', ')
+        });
+    }
+
+    handleBeatMakerTrackUpdate (socket, trackData) {
+        const { projectId, trackId, updates } = trackData;
+
+        socket.to(`beatmaker_${projectId}`).emit('beatmaker_track_updated', {
+            projectId,
+            trackId,
+            updates,
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+    }
+
+    handleBeatMakerPatternUpdate (socket, patternData) {
+        const { projectId, patternId, steps } = patternData;
+
+        socket.to(`beatmaker_${projectId}`).emit('beatmaker_pattern_updated', {
+            projectId,
+            patternId,
+            steps,
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+    }
+
+    handleBeatMakerEffectUpdate (socket, effectData) {
+        const { projectId, trackId, effectId, params } = effectData;
+
+        socket.to(`beatmaker_${projectId}`).emit('beatmaker_effect_updated', {
+            projectId,
+            trackId,
+            effectId,
+            params,
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+    }
+
+    handleBeatMakerPlaybackState (socket, playbackData) {
+        const { projectId, isPlaying, currentTime } = playbackData;
+
+        socket.to(`beatmaker_${projectId}`).emit('beatmaker_playback_synced', {
+            projectId,
+            isPlaying,
+            currentTime,
+            userId: socket.user?.userId,
+            timestamp: new Date()
+        });
+    }
+
+    getBeatMakerParticipants (sessionId) {
+        const participants = [];
+        const room = this.io.sockets.adapter.rooms.get(`beatmaker_${sessionId}`);
+
+        if (room) {
+            room.forEach(socketId => {
+                const socket = this.io.sockets.sockets.get(socketId);
+                if (socket?.user) {
+                    participants.push({
+                        userId: socket.user.userId,
+                        username: socket.user.username,
+                        socketId
+                    });
+                }
+            });
+        }
+
+        return participants;
     }
 
     start () {
