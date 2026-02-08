@@ -1,47 +1,60 @@
 // User Routes for CreatorSync
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const User = require('../models/UserMongoose');
+const Beat = require('../models/BeatMongoose');
+const { authenticate: auth } = require('../middleware/auth');
+const { v4: uuidv4 } = require('uuid');
 
-// Mock user database (replace with real database)
+// In-memory social graph used for quick mock/testing. Replace with DB-backed implementation in production.
 const users = new Map();
-const followers = new Map(); // userId -> Set of follower userIds
-const following = new Map(); // userId -> Set of following userIds
-
-// Mock authentication middleware
-const authenticateUser = (req, res, next) => {
-    req.user = { id: 'mock-user-id', username: 'MockUser' };
-    next();
-};
+const followers = new Map();
+const following = new Map();
 
 // Get user profile by ID or username
-router.get('/:identifier', (req, res) => {
+router.get('/:identifier', async (req, res) => {
     try {
         const { identifier } = req.params;
 
         // Find user by ID or username
-        let user = users.get(identifier);
-        if (!user) {
-            user = Array.from(users.values()).find(u => u.username === identifier);
+        let user;
+        if (identifier.match(/^[0-9a-fA-F]{24}$/)) {
+            // If it's a valid MongoDB ObjectId
+            user = await User.findById(identifier).select('-password').lean();
+        } else {
+            // Otherwise treat as username
+            user = await User.findOne({ username: identifier }).select('-password').lean();
         }
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Remove sensitive information
-        const { password, ...publicProfile } = user;
+        // Get beat count for this user
+        const beatCount = await Beat.countDocuments({ producer: user._id });
 
-        // Add social stats
-        const userFollowers = followers.get(user.id) || new Set();
-        const userFollowing = following.get(user.id) || new Set();
+        // Get total likes and plays from user's beats
+        const beatStats = await Beat.aggregate([
+            { $match: { producer: user._id } },
+            {
+                $group: {
+                    _id: null,
+                    totalLikes: { $sum: { $size: '$likes' } },
+                    totalPlays: { $sum: '$plays' }
+                }
+            }
+        ]);
+
+        const stats = beatStats[0] || { totalLikes: 0, totalPlays: 0 };
 
         const profileWithStats = {
-            ...publicProfile,
+            ...user,
             stats: {
-                ...publicProfile.stats,
-                followers: userFollowers.size,
-                following: userFollowing.size
+                beats: beatCount,
+                followers: user.followers?.length || 0,
+                following: user.following?.length || 0,
+                likes: stats.totalLikes,
+                plays: stats.totalPlays
             }
         };
 
@@ -51,105 +64,133 @@ router.get('/:identifier', (req, res) => {
         });
     } catch (error) {
         console.error('Get user profile error:', error);
-        res.status(500).json({ error: 'Failed to get user profile' });
+        res.status(500).json({ error: 'Failed to get user profile', details: error.message });
+    }
+});
+
+// Get user by username specifically (for profile page)
+router.get('/username/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+
+        const user = await User.findOne({ username }).select('-password').lean();
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Get beat count
+        const beatCount = await Beat.countDocuments({ producer: user._id });
+
+        // Get total likes and plays
+        const beatStats = await Beat.aggregate([
+            { $match: { producer: user._id } },
+            {
+                $group: {
+                    _id: null,
+                    totalLikes: { $sum: { $size: '$likes' } },
+                    totalPlays: { $sum: '$plays' }
+                }
+            }
+        ]);
+
+        const stats = beatStats[0] || { totalLikes: 0, totalPlays: 0 };
+
+        res.json({
+            success: true,
+            user: {
+                ...user,
+                stats: {
+                    beats: beatCount,
+                    followers: user.followers?.length || 0,
+                    following: user.following?.length || 0,
+                    likes: stats.totalLikes,
+                    plays: stats.totalPlays
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Get user by username error:', error);
+        res.status(500).json({ error: 'Failed to get user', details: error.message });
     }
 });
 
 // Get user's beats
-router.get('/:identifier/beats', (req, res) => {
+router.get('/:identifier/beats', async (req, res) => {
     try {
         const { identifier } = req.params;
         const { page = 1, limit = 12, sortBy = 'newest' } = req.query;
 
-        // Find user
-        let user = users.get(identifier);
-        if (!user) {
-            user = Array.from(users.values()).find(u => u.username === identifier);
+        // Find user by ID or username
+        let user;
+        if (identifier.match(/^[0-9a-fA-F]{24}$/)) {
+            user = await User.findById(identifier);
+        } else {
+            user = await User.findOne({ username: identifier });
         }
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Mock beats data (replace with real database query)
-        const userBeats = [
-            {
-                id: uuidv4(),
-                title: 'Sample Beat 1',
-                artist: user.artistName || user.username,
-                category: 'hip-hop',
-                price: 25,
-                bpm: 140,
-                key: 'C Minor',
-                duration: '3:24',
-                artwork: '/assets/artwork/sample1.jpg',
-                uploadedAt: new Date(),
-                likes: 45,
-                plays: 324
-            },
-            {
-                id: uuidv4(),
-                title: 'Sample Beat 2',
-                artist: user.artistName || user.username,
-                category: 'trap',
-                price: 35,
-                bpm: 160,
-                key: 'G Minor',
-                duration: '2:58',
-                artwork: '/assets/artwork/sample2.jpg',
-                uploadedAt: new Date(),
-                likes: 67,
-                plays: 512
-            }
-        ];
-
-        // Apply sorting
+        // Build sort criteria
+        let sort = {};
         switch (sortBy) {
         case 'newest':
-            userBeats.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+            sort = { createdAt: -1 };
             break;
         case 'oldest':
-            userBeats.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
+            sort = { createdAt: 1 };
             break;
         case 'popular':
-            userBeats.sort((a, b) => (b.likes + b.plays) - (a.likes + a.plays));
-            break;
-        case 'price-high':
-            userBeats.sort((a, b) => b.price - a.price);
+            sort = { plays: -1 };
             break;
         case 'price-low':
-            userBeats.sort((a, b) => a.price - b.price);
+            sort = { price: 1 };
             break;
+        case 'price-high':
+            sort = { price: -1 };
+            break;
+        default:
+            sort = { createdAt: -1 };
         }
 
-        // Apply pagination
+        // Count total beats
+        const total = await Beat.countDocuments({ producer: user._id });
+
+        // Get paginated beats
         const pageNum = parseInt(page);
         const limitNum = parseInt(limit);
-        const startIndex = (pageNum - 1) * limitNum;
-        const endIndex = startIndex + limitNum;
-        const paginatedBeats = userBeats.slice(startIndex, endIndex);
+        const skip = (pageNum - 1) * limitNum;
+
+        const userBeats = await Beat.find({ producer: user._id })
+            .populate('producer', 'username displayName avatar')
+            .sort(sort)
+            .skip(skip)
+            .limit(limitNum)
+            .lean();
 
         res.json({
             success: true,
-            beats: paginatedBeats,
+            beats: userBeats,
             pagination: {
                 page: pageNum,
                 limit: limitNum,
-                total: userBeats.length,
-                pages: Math.ceil(userBeats.length / limitNum)
+                total,
+                pages: Math.ceil(total / limitNum)
             }
         });
     } catch (error) {
         console.error('Get user beats error:', error);
-        res.status(500).json({ error: 'Failed to get user beats' });
+        res.status(500).json({ error: 'Failed to get user beats', details: error.message });
     }
 });
 
 // Follow/Unfollow user
-router.post('/:userId/follow', authenticateUser, (req, res) => {
+router.post('/:userId/follow', auth, async (req, res) => {
     try {
         const { userId } = req.params;
-        const currentUserId = req.user.id;
+        const currentUserId = req.user.userId;
 
         if (userId === currentUserId) {
             return res.status(400).json({ error: 'Cannot follow yourself' });
@@ -345,13 +386,13 @@ router.get('/search/all', (req, res) => {
 });
 
 // Get user's favorite beats
-router.get('/:userId/favorites', authenticateUser, (req, res) => {
+router.get('/:userId/favorites', auth, (req, res) => {
     try {
         const { userId } = req.params;
         const { page = 1, limit = 12 } = req.query;
 
         // Check if user can access favorites (own favorites or public)
-        if (userId !== req.user.id) {
+        if (userId !== req.user.userId) {
             return res.status(403).json({ error: 'Not authorized to view favorites' });
         }
 
@@ -401,7 +442,7 @@ router.get('/:userId/favorites', authenticateUser, (req, res) => {
 });
 
 // Get user's analytics (for own profile)
-router.get('/:userId/analytics', authenticateUser, (req, res) => {
+router.get('/:userId/analytics', auth, (req, res) => {
     try {
         const { userId } = req.params;
 
