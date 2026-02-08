@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
-    "lint": "eslint server/ public/js/",
-    "lint:fix": "eslint server/ public/js/ --fix",
+    "lint": "node ./node_modules/eslint/bin/eslint.js server/ public/js/",
+    "lint:fix": "node ./node_modules/eslint/bin/eslint.js server/ public/js/ --fix",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest tests/unit",
@@ -42,6 +42,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
+    "mongoose": "^9.1.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts",
     "music-metadata": "^11.10.0",
