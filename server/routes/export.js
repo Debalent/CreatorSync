@@ -61,12 +61,12 @@ router.post('/export/:projectId', authenticateToken, apiLimiter, async (req, res
     // - Server-side audio rendering (using node-web-audio-api or similar)
     // - FFmpeg for format conversion
     // - Background job processing for large projects
-    
+
     try {
       // For now, create a placeholder file
       // In production, implement actual audio rendering here
       await fs.writeFile(exportPath, Buffer.from(''));
-      
+
       const exportUrl = `/uploads/exports/${filename}`;
 
       // Store export record

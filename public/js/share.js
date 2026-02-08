@@ -335,7 +335,7 @@ class ShareManager {
     /**
      * Show TikTok sharing instructions
      */
-    showTikTokInstructions(url) {
+    showTikTokInstructions() {
         this.copyLink();
         this.showToast('Link copied! Add it to your TikTok video caption or bio', 'info', 5000);
     }
@@ -343,7 +343,7 @@ class ShareManager {
     /**
      * Show streaming platform instructions
      */
-    showStreamingInstructions(platform, url) {
+    showStreamingInstructions(platform) {
         this.copyLink();
         this.showToast(`Link copied! Use it in your ${platform} profile or description`, 'info', 5000);
     }

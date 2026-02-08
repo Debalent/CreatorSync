@@ -250,8 +250,9 @@ class TranslationSystem {
 
 // Create global translation instance
 const translationSystem = new TranslationSystem();
+window.translationSystem = translationSystem;
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = TranslationSystem;
-}
+} 

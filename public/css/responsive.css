@@ -13,6 +13,58 @@
 .responsive-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
 
 /* ==================== ENHANCED NAVIGATION RESPONSIVENESS ==================== */
+@media (max-width: 1400px) {
+    .nav-menu-wrapper {
+        max-width: 400px;
+    }
+
+    .nav-auth .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .signup-text {
+        display: inline;
+    }
+
+    .signup-badge {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.3rem;
+    }
+
+    .finisher-header-cta {
+        gap: 0.25rem;
+    }
+
+    .btn-finisher-logo-large {
+        height: 28px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .nav-auth {
+        gap: 0.5rem;
+    }
+
+    .nav-auth .btn {
+        padding: 0.5rem 0.65rem;
+        font-size: 0.75rem;
+    }
+
+    .nav-menu-wrapper {
+        max-width: 350px;
+    }
+
+    .signup-badge {
+        font-size: 0.55rem;
+        padding: 0.1rem 0.25rem;
+    }
+
+    .btn-finisher-logo-large {
+        height: 24px;
+    }
+}
+
 @media (max-width: 1024px) {
     .nav-container {
         padding: 0 var(--spacing-md);
@@ -29,6 +81,15 @@
     .finisher-link {
         padding: 0.6rem 1rem !important;
         font-size: var(--font-size-sm) !important;
+    }
+
+    .nav-menu-wrapper {
+        max-width: 400px;
+    }
+
+    .nav-auth .btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
     }
 }
 

@@ -12,6 +12,7 @@ const compression = require('compression');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Import routes
@@ -98,9 +99,10 @@ class CreatorSyncServer {
                     defaultSrc: ['\'self\''],
                     styleSrc: ['\'self\'', '\'unsafe-inline\'', 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
                     fontSrc: ['\'self\'', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
-                    scriptSrc: ['\'self\'', '\'unsafe-inline\''],
+                    scriptSrc: ['\'self\'', '\'unsafe-inline\'', 'https://cdn.socket.io', 'https://unpkg.com'],
+                    workerSrc: ['\'self\'', 'blob:'],
                     imgSrc: ['\'self\'', 'data:', 'https:'],
-                    connectSrc: ['\'self\'', 'ws:', 'wss:']
+                    connectSrc: ['\'self\'', 'ws:', 'wss:', 'https://cdn.socket.io', 'https://unpkg.com']
                 }
             }
         }));
@@ -928,7 +930,20 @@ class CreatorSyncServer {
         return participants;
     }
 
-    start () {
+    async start () {
+        // Connect to MongoDB with Mongoose
+        try {
+            const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/creatorsync';
+            await mongoose.connect(mongoUri, {
+                serverSelectionTimeoutMS: 5000,
+                socketTimeoutMS: 45000
+            });
+            logger.info('✅ MongoDB connected via Mongoose', { database: mongoose.connection.name });
+        } catch (error) {
+            logger.error('❌ MongoDB connection failed', { error: error.message });
+            throw error;
+        }
+
         this.server.listen(this.port, () => {
             logger.info(`
 🎵 CreatorSync Server Running
@@ -1005,6 +1020,14 @@ class CreatorSyncServer {
             logger.error('Error stopping payout scheduler', { error: error.message });
         }
 
+        // Close MongoDB connection
+        try {
+            await mongoose.connection.close();
+            logger.info('MongoDB connection closed');
+        } catch (error) {
+            logger.error('Error closing MongoDB connection', { error: error.message });
+        }
+
         // Close cache connection
         await cacheManager.disconnect();
 
@@ -1023,17 +1046,19 @@ class CreatorSyncServer {
 
 // Initialize and start the server
 console.log('🔧 Starting CreatorSync Server initialization...');
-try {
-    console.log('📦 Creating server instance...');
-    const server = new CreatorSyncServer();
-    console.log('✅ Server instance created');
-    console.log('🚀 Calling server.start()...');
-    server.start();
-    console.log('✅ server.start() completed');
-} catch (error) {
-    console.error('❌ Fatal error starting server:', error);
-    console.error(error.stack);
-    process.exit(1);
-}
+(async () => {
+    try {
+        console.log('📦 Creating server instance...');
+        const server = new CreatorSyncServer();
+        console.log('✅ Server instance created');
+        console.log('🚀 Calling server.start()...');
+        await server.start();
+        console.log('✅ server.start() completed');
+    } catch (error) {
+        console.error('❌ Fatal error starting server:', error);
+        console.error(error.stack);
+        process.exit(1);
+    }
+})();
 
 module.exports = CreatorSyncServer;

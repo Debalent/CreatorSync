@@ -90,7 +90,8 @@ class User {
                 password.length < minLength && `Password must be at least ${minLength} characters`,
                 !hasUpperCase && 'Password must contain at least one uppercase letter',
                 !hasLowerCase && 'Password must contain at least one lowercase letter',
-                !hasNumbers && 'Password must contain at least one number'
+                !hasNumbers && 'Password must contain at least one number',
+                !hasSpecialChar && 'Consider adding a special character for stronger passwords'
             ].filter(Boolean)
         };
     }

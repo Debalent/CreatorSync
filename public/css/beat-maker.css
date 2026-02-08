@@ -67,12 +67,29 @@ body {
     border-bottom: 1px solid var(--border-color);
     height: 60px;
     z-index: 100;
+    gap: 1.5rem;
 }
 
 .nav-left, .nav-center, .nav-right {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
+}
+
+.nav-left {
+    min-width: 200px;
+}
+
+.nav-center {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+}
+
+.nav-right {
+    min-width: 200px;
+    justify-content: flex-end;
 }
 
 .logo {
@@ -191,6 +208,8 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-primary:hover {
@@ -206,6 +225,8 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-secondary:hover {
@@ -224,6 +245,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.375rem;
+    white-space: nowrap;
 }
 
 .btn-small:hover {
@@ -240,6 +262,8 @@ body {
     border-radius: 6px;
     color: var(--accent-danger);
     font-size: 0.875rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* Main Content Layout */
@@ -504,8 +528,31 @@ body {
 }
 
 .sequencer-step.playing {
-    box-shadow: 0 0 10px var(--accent-primary);
-    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent-primary), inset 0 0 5px rgba(0, 162, 255, 0.3);
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+    animation: pulse-step 0.2s ease-out;
+}
+
+@keyframes pulse-step {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.05); }
+}
+
+/* Play button states */
+.btn-play.playing {
+    background: var(--accent-danger);
+    color: white;
+}
+
+.btn-play.playing:hover {
+    background: #d32f2f;
+}
+
+#btnLoop.active {
+    background: var(--primary-color);
+    color: white;
 }
 
 /* Timeline */
@@ -634,8 +681,8 @@ body {
 }
 
 .vertical-fader {
-    writing-mode: bt-lr;
-    -webkit-appearance: slider-vertical;
+    writing-mode: vertical-lr;
+    direction: rtl;
     width: 40px;
     height: 120px;
     background: var(--bg-secondary);
@@ -1147,6 +1194,31 @@ body {
 
     .bottom-panel {
         height: 200px;
+    }
+
+    /* Compact navigation on smaller screens */
+    .btn-primary span,
+    .btn-secondary span {
+        display: none;
+    }
+
+    .project-title {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 1200px) {
+    .nav-right {
+        gap: 0.5rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
     }
 }
 
@@ -1854,4 +1926,101 @@ body {
     justify-content: center;
 }
 
+/* Utility Classes */
+.hidden {
+    display: none;
+}
 
+.modal-no-padding {
+    padding: 0;
+}
+
+/* Resize Handles */
+.resize-handle {
+    position: absolute;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.resize-handle-horizontal {
+    right: -4px;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: col-resize;
+}
+
+.resize-handle-horizontal.resize-handle-left {
+    right: auto;
+    left: -4px;
+}
+
+.resize-handle-vertical {
+    left: 0;
+    right: 0;
+    height: 8px;
+    cursor: row-resize;
+    position: relative;
+    margin: 2px 0;
+}
+
+.resize-handle:hover .resize-handle-line,
+.resize-handle.active .resize-handle-line {
+    background-color: var(--primary-color);
+}
+
+.resize-handle-line {
+    position: absolute;
+    background-color: var(--border-color);
+    transition: background-color 0.2s;
+}
+
+.resize-handle-horizontal .resize-handle-line {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+}
+
+.resize-handle-vertical .resize-handle-line {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: translateY(-50%);
+}
+
+.resize-handle:hover {
+    background-color: rgba(0, 162, 255, 0.1);
+}
+
+/* Panel resize adjustments */
+.samples-browser {
+    position: relative;
+    transition: none; /* Disable transition while resizing */
+}
+
+.mixer-panel {
+    position: relative;
+    transition: none;
+}
+
+.samples-list {
+    position: relative;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 200px;
+}
+
+.packs-section {
+    flex-shrink: 0;
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.step-sequencer {
+    position: relative;
+    overflow: auto;
+    min-height: 200px;
+}

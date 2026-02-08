@@ -1,3 +1,25 @@
 {
-  "users": []
+  "users": [
+    {
+      "id": "55708bd3-aa07-447f-851e-a5013f940b5f",
+      "username": "MB_Productions",
+      "email": "Balentinetechsolutions@gmail.com",
+      "password": "$2b$12$6ka2e7Ho3dnhcMUcNh22n.JkOrCpbRU8PiB.QjI3.wjJRQNZz9Dmi",
+      "artistName": "MB_Productions",
+      "joinedAt": "2026-02-03T21:14:35.880Z",
+      "isVerified": false,
+      "profile": {
+        "bio": "",
+        "location": "",
+        "website": "",
+        "socialLinks": {}
+      },
+      "stats": {
+        "beatsUploaded": 0,
+        "totalEarnings": 0,
+        "followers": 0,
+        "following": 0
+      }
+    }
+  ]
 }

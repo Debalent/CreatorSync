@@ -58,7 +58,7 @@ const verifyToken = (token) => {
             issuer: 'creatorsync',
             audience: 'creatorsync-users'
         });
-    } catch (error) {
+    } catch {
         throw new Error('Invalid or expired token');
     }
 };
@@ -127,7 +127,7 @@ const optionalAuth = (req, res, next) => {
                 subscription: decoded.subscription
             };
         }
-    } catch (error) {
+    } catch {
         // Silently fail for optional auth
     }
 

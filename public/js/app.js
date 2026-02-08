@@ -36,7 +36,7 @@ class CreatorSyncApp {
         this.updateLanguageSpecificContent();
     }
 
-    onLanguageChanged (newLanguage) {
+    onLanguageChanged (_newLanguage) {
         // Update any language-specific content
         this.updateAuthUI();
         this.updateLanguageSpecificContent();
@@ -220,61 +220,27 @@ class CreatorSyncApp {
     }
 
     // Beat Management
-    loadBeats () {
+    async loadBeats () {
         // Show loading animation
         if (window.animationsManager) {
             window.animationsManager.showLoadingScreen('Loading Beats');
         }
 
-        // Simulate loading beats data with delay to show animation
-        setTimeout(() => {
-            this.beats = [
-            {
-                id: 1,
-                title: 'Urban Nights',
-                artist: 'ProducerX',
-                category: 'hip-hop',
-                price: 25,
-                bpm: 140,
-                key: 'C Minor',
-                duration: '3:24',
-                audioUrl: '/assets/audio/urban-nights.mp3',
-                artwork: '/assets/artwork/urban-nights.jpg',
-                tags: ['dark', 'urban', 'trap'],
-                likes: 234,
-                plays: 1847
-            },
-            {
-                id: 2,
-                title: 'Melodic Dreams',
-                artist: 'BeatMaker',
-                category: 'r&b',
-                price: 30,
-                bpm: 85,
-                key: 'F Major',
-                duration: '4:12',
-                audioUrl: '/assets/audio/melodic-dreams.mp3',
-                artwork: '/assets/artwork/melodic-dreams.jpg',
-                tags: ['melodic', 'smooth', 'vocals'],
-                likes: 456,
-                plays: 2891
-            },
-            {
-                id: 3,
-                title: 'Trap Anthem',
-                artist: 'TrapKing',
-                category: 'trap',
-                price: 35,
-                bpm: 160,
-                key: 'G Minor',
-                duration: '2:58',
-                audioUrl: '/assets/audio/trap-anthem.mp3',
-                artwork: '/assets/artwork/trap-anthem.jpg',
-                tags: ['hard', '808s', 'energetic'],
-                likes: 789,
-                plays: 3247
+        try {
+            // Load trending/featured beats from API (limit to show top beats)
+            const response = await fetch('/api/beats/trending');
+
+            if (response.ok) {
+                const data = await response.json();
+                this.beats = data.beats || [];
+            } else {
+                console.error('Failed to load beats');
+                this.beats = [];
             }
-        ];
+        } catch (error) {
+            console.error('Error loading beats:', error);
+            this.beats = [];
+        }
 
         this.renderBeats();
 
@@ -282,7 +248,6 @@ class CreatorSyncApp {
         if (window.animationsManager) {
             window.animationsManager.hideLoadingScreen();
         }
-        }, 800); // Delay to show the loading animation
     }
 
     renderBeats () {
@@ -302,40 +267,46 @@ class CreatorSyncApp {
     createBeatCard (beat) {
         const card = document.createElement('div');
         card.className = 'beat-card';
+
+        // Format artist name - use displayName or username if available
+        const artistName = beat.producer?.displayName || beat.producer?.username || beat.artist || 'Unknown Artist';
+        const artworkUrl = beat.artwork || '/assets/default-artwork.jpg';
+        const audioUrl = beat.audioFile || beat.audioUrl;
+
         card.innerHTML = `
             <div class="beat-artwork">
-                <img src="${beat.artwork}" alt="${beat.title}" loading="lazy">
+                <img src="${artworkUrl}" alt="${beat.title}" loading="lazy" onerror="this.src='/assets/default-artwork.jpg'">
                 <div class="beat-overlay">
-                    <button class="play-beat-btn" data-beat-id="${beat.id}" title="Play ${beat.title}">
+                    <button class="play-beat-btn" data-beat-id="${beat._id || beat.id}" title="Play ${beat.title}">
                         <i class="fas fa-play"></i>
                     </button>
                 </div>
             </div>
             <div class="beat-info">
                 <h3 class="beat-title">${beat.title}</h3>
-                <p class="beat-artist">${beat.artist}</p>
+                <p class="beat-artist">${artistName}</p>
                 <div class="beat-details">
-                    <span class="beat-bpm">${beat.bpm} BPM</span>
-                    <span class="beat-key">${beat.key}</span>
-                    <span class="beat-duration">${beat.duration}</span>
+                    <span class="beat-bpm">${beat.bpm || 140} BPM</span>
+                    <span class="beat-key">${beat.key || 'Unknown'}</span>
+                    <span class="beat-duration">${beat.duration || '0:00'}</span>
                 </div>
                 <div class="beat-stats">
                     <span class="beat-likes">
-                        <i class="fas fa-heart"></i> ${beat.likes}
+                        <i class="fas fa-heart"></i> ${beat.likes?.length || beat.likes || 0}
                     </span>
                     <span class="beat-plays">
-                        <i class="fas fa-play"></i> ${beat.plays}
+                        <i class="fas fa-play"></i> ${beat.plays || 0}
                     </span>
                 </div>
                 <div class="beat-tags">
-                    ${beat.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    ${(beat.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>
                 <div class="beat-actions">
-                    <button class="btn btn-outline btn-sm favorite-btn" data-beat-id="${beat.id}" title="Add to favorites">
+                    <button class="btn btn-outline btn-sm favorite-btn" data-beat-id="${beat._id || beat.id}" title="Add to favorites">
                         <i class="far fa-heart"></i>
                     </button>
-                    <span class="beat-price">$${beat.price}</span>
-                    <button class="btn btn-primary btn-sm purchase-btn" data-beat-id="${beat.id}">
+                    <span class="beat-price">$${beat.price || 0}</span>
+                    <button class="btn btn-primary btn-sm purchase-btn" data-beat-id="${beat._id || beat.id}">
                         Purchase
                     </button>
                 </div>
@@ -344,15 +315,21 @@ class CreatorSyncApp {
 
         // Add event listeners to card buttons
         card.querySelector('.play-beat-btn').addEventListener('click', () => {
-            this.playBeat(beat);
+            this.playBeat({
+                ...beat,
+                id: beat._id || beat.id,
+                audioUrl: audioUrl,
+                artwork: artworkUrl,
+                artist: artistName
+            });
         });
 
         card.querySelector('.favorite-btn').addEventListener('click', () => {
-            this.toggleBeatFavorite(beat.id);
+            this.toggleBeatFavorite(beat._id || beat.id);
         });
 
         card.querySelector('.purchase-btn').addEventListener('click', () => {
-            this.purchaseBeat(beat.id);
+            this.purchaseBeat(beat._id || beat.id);
         });
 
         return card;
@@ -1006,18 +983,26 @@ class CreatorSyncApp {
     }
 
     showProfile () {
-        // Navigate to profile page or show profile modal
-        this.showToast('Profile feature coming soon!', 'info');
+        // Create or navigate to profile page
+        window.location.href = `/profile.html?user=${this.currentUser.username}`;
     }
 
     showAnalytics () {
         // Navigate to analytics page
-        this.showToast('Analytics feature coming soon!', 'info');
+        if (this.currentUser) {
+            window.location.href = '/analytics.html';
+        } else {
+            this.showToast('Please log in to view analytics', 'warning');
+        }
     }
 
     showSettings () {
         // Show settings modal
-        this.showToast('Settings feature coming soon!', 'info');
+        if (this.currentUser) {
+            window.location.href = '/settings.html';
+        } else {
+            this.showToast('Please log in to access settings', 'warning');
+        }
     }
 
     showToast (messageKey, type = 'info', interpolations = {}) {

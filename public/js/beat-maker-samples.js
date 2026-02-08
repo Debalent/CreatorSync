@@ -139,7 +139,7 @@ class BeatMakerSamples {
         this.ui.showError(data.error || 'Upload failed');
       }
     } catch (error) {
-      console.error('Upload error:', error); // eslint-disable-line no-console
+      console.error('Upload error:', error);
       this.ui.showError('Failed to upload sample');
     }
   }
@@ -174,7 +174,7 @@ class BeatMakerSamples {
         this.ui.showError(data.error || 'Failed to load samples');
       }
     } catch (error) {
-      console.error('Load user samples error:', error); // eslint-disable-line no-console
+      console.error('Load user samples error:', error);
       this.ui.showError('Failed to load samples');
     }
   }
@@ -279,7 +279,7 @@ class BeatMakerSamples {
         this.ui.showError(data.error || 'Update failed');
       }
     } catch (error) {
-      console.error('Update sample error:', error); // eslint-disable-line no-console
+      console.error('Update sample error:', error);
       this.ui.showError('Failed to update sample');
     }
   }
@@ -310,7 +310,7 @@ class BeatMakerSamples {
         this.ui.showError(data.error || 'Delete failed');
       }
     } catch (error) {
-      console.error('Delete sample error:', error); // eslint-disable-line no-console
+      console.error('Delete sample error:', error);
       this.ui.showError('Failed to delete sample');
     }
   }
@@ -320,7 +320,7 @@ class BeatMakerSamples {
     const audio = new Audio(fileUrl);
     audio.volume = 0.7;
     audio.play().catch(err => {
-      console.error('Preview playback failed:', err); // eslint-disable-line no-console
+      console.error('Preview playback failed:', err);
     });
   }
 
@@ -335,3 +335,4 @@ class BeatMakerSamples {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = BeatMakerSamples;
 }
+

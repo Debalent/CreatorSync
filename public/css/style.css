@@ -265,6 +265,22 @@ section > .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    gap: 1rem;
+}
+
+.nav-brand {
+    flex-shrink: 0;
+    min-width: 120px;
+}
+
+.nav-menu-wrapper {
+    flex: 1;
+    min-width: 0; /* Allow shrinking */
+}
+
+.nav-auth {
+    flex-shrink: 0;
+    min-width: 180px;
 }
 
 .nav-brand {
@@ -272,6 +288,8 @@ section > .container {
     align-items: center;
     gap: 2px;
     line-height: 1.1;
+    flex-shrink: 0;
+    min-width: 150px;
 }
 
 /* Section Headers with Creator Theme */
@@ -329,8 +347,9 @@ section > .container > h2::after {
 /* Carousel Navigation Wrapper */
 .nav-menu-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 900px;
+    flex: 1;
+    min-width: 0;
+    max-width: 450px;
     overflow: hidden;
 }
 
@@ -768,7 +787,25 @@ section > .container > h2::after {
 
 .nav-auth {
     display: flex;
-    gap: var(--spacing-md);
+    gap: 0.75rem;
+    flex-shrink: 0;
+    min-width: 180px;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Signup button badge styling */
+.signup-badge {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 0.25rem;
 }
 
 /* Buttons */
@@ -786,6 +823,8 @@ section > .container > h2::after {
     font-size: var(--font-size-sm);
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn::before {

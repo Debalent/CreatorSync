@@ -13,11 +13,27 @@ export default [
                 ...globals.node,
                 ...globals.es2021,
                 io: 'readonly',
-                translationSystem: 'readonly'
+                Tone: 'readonly',
+                translationSystem: 'readonly',
+                // Beat Maker classes loaded from separate files
+                BeatMakerEngine: 'readonly',
+                BeatMakerUI: 'readonly',
+                BeatMakerResize: 'readonly',
+                EffectsManager: 'readonly',
+                BeatMakerProjects: 'readonly',
+                BeatMakerPianoRoll: 'readonly',
+                BeatMakerArrangement: 'readonly',
+                BeatMakerAutomation: 'readonly',
+                BeatMakerMIDI: 'readonly',
+                BeatMakerRecording: 'readonly',
+                BeatMakerRouting: 'readonly',
+                BeatMakerSamples: 'readonly',
+                CollaborationManager: 'readonly',
+                collaborationManager: 'readonly'
             }
         },
         rules: {
-            'no-console': 'warn',
+            'no-console': 'off',
             'no-unused-vars': 'warn',
             semi: ['error', 'always'],
             quotes: ['error', 'single'],

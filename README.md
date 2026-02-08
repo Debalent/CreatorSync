@@ -1,5 +1,7 @@
 # CreatorSync
 
+![CreatorSync Logo](public/assets/logo.png)
+
 A complete music production and monetization platform that enables producers to create, collaborate, and sell beats in one integrated environment.
 
 ## Overview
@@ -19,6 +21,8 @@ Integration with streaming platforms like Twitch and YouTube allows producers to
 ## Key Features
 
 ### Beat Production
+
+![BeatForge](public/assets/beatforge-logo.png)
 
 The beat maker provides professional tools for music creation directly in your browser. The piano roll editor allows precise note placement and editing, supporting both mouse input and MIDI controllers. The sequencer handles multiple tracks with support for drums, bass, melodies, and samples.
 
@@ -44,11 +48,35 @@ Users can upload their own audio samples and organize them into custom libraries
 
 Samples can be tagged, categorized, and made private or public. The search and filter system helps find specific sounds quickly. Uploaded samples integrate seamlessly with the beat maker for use in productions.
 
+### Professional Audio Mixing
+
+![MixMaster1 Logo](public/assets/mixmaster1-logo.png)
+
+**MixMaster1 Pro** is a browser-based professional mixing suite that rivals industry-standard DAWs like Pro Tools, Ableton Live, and Logic Pro X. Built entirely on the Web Audio API, it provides studio-grade processing with zero installation required.
+
+#### Key Features:
+- **Professional Channel Strips**: 4-band parametric EQ, dynamics compression, noise gate, de-esser, 4 insert effect slots
+- **Master Chain Processing**: 5-band linear phase EQ, multiband compressor, stereo widener, true peak limiter
+- **Advanced Routing**: 4 mix buses (Drums/Instruments/Vocals/FX), 2 send effects (Reverb/Delay), sidechain support
+- **Professional Metering**: LUFS integrated loudness, True Peak detection, phase correlation, spectrum analyzer
+- **Automation System**: Real-time parameter recording, automation lanes, mix snapshots for instant recall
+- **Effects Suite**: Convolution reverb, tempo-synced delay, compression, EQ, and more
+
+MixMaster1 Pro handles up to 128 simultaneous tracks with 24-bit float processing at 48kHz. The professional interface features horizontal channel strips with full metering, an inspector panel for detailed control, and a transport bar with sample-accurate timing.
+
+See the [complete feature guide](docs/MixMaster1_Pro_Guide.md) for technical specifications and comparison with industry standards.
+
 ### Streaming Integration
 
 Direct connection to Twitch and YouTube APIs allows live streaming of production sessions. Producers can broadcast their workflow, interact with viewers, and build an audience while creating music.
 
 The integration handles authentication, stream management, and platform-specific requirements. This creates additional monetization opportunities through ad revenue, subscriptions, and viewer engagement.
+
+### Advanced Mastering
+
+![The Finisher Logo](public/assets/finisher-logo.png)
+
+Professional-grade mastering tools powered by AI help producers achieve polished, radio-ready sound. The Finisher provides intelligent processing for compression, EQ, limiting, and stereo enhancement.
 
 ## Technical Implementation
 
