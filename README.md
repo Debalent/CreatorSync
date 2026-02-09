@@ -66,6 +66,19 @@ MixMaster1 Pro handles up to 128 simultaneous tracks with 24-bit float processin
 
 See the [complete feature guide](docs/MixMaster1_Pro_Guide.md) for technical specifications and comparison with industry standards.
 
+### Screenshots
+
+![MixMaster1 Pro](/public/assets/screenshots/mixmaster1.png)
+*MixMaster1 Pro — professional mixing interface.*
+
+![BeatForge](/public/assets/screenshots/beatmaker.png)
+*BeatForge — step sequencer and piano roll.*
+
+![Marketplace](/public/assets/screenshots/marketplace.png)
+*Marketplace — beat listings and seller dashboard.*
+
+> To replace these placeholder images with your own screenshots: add images to `public/assets/screenshots/` using the same filenames (`mixmaster1.png`, `beatmaker.png`, `marketplace.png`) and commit them. Recommended size: 1200×700px (PNG or JPG).
+
 ### Streaming Integration
 
 Direct connection to Twitch and YouTube APIs allows live streaming of production sessions. Producers can broadcast their workflow, interact with viewers, and build an audience while creating music.

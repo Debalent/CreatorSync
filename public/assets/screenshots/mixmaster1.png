@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="100%" height="100%" fill="#0f172a" />
+  <rect x="40" y="40" width="1120" height="320" rx="8" fill="#111827" stroke="#1f2937" />
+  <rect x="40" y="380" width="1120" height="260" rx="8" fill="#0b1220" stroke="#1f2937" />
+  <text x="60" y="120" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#9ca3af">MixMaster1 Pro — Placeholder Screenshot</text>
+  <text x="60" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#6b7280">4-channel professional mixing interface with EQ, meters, and master chain.</text>
+  <g fill="#111827" stroke="#374151" stroke-width="2">
+    <rect x="80" y="220" width="160" height="120" rx="6" fill="#0b1220" />
+    <rect x="260" y="220" width="160" height="120" rx="6" fill="#0b1220" />
+    <rect x="440" y="220" width="160" height="120" rx="6" fill="#0b1220" />
+    <rect x="620" y="220" width="160" height="120" rx="6" fill="#0b1220" />
+  </g>
+</svg>

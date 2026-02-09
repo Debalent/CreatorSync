@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="100%" height="100%" fill="#021024" />
+  <rect x="60" y="60" width="1080" height="520" rx="8" fill="#041229" stroke="#122331" />
+  <text x="80" y="120" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#9ca3af">Marketplace — Placeholder Screenshot</text>
+  <text x="80" y="160" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#6b7280">Beat listings, previews, pricing and seller dashboard.</text>
+  <g fill="#071426" stroke="#173040" stroke-width="2">
+    <rect x="80" y="200" width="280" height="140" rx="6" />
+    <rect x="380" y="200" width="280" height="140" rx="6" />
+    <rect x="680" y="200" width="280" height="140" rx="6" />
+  </g>
+</svg>
