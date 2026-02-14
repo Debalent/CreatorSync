@@ -1025,9 +1025,19 @@ class CreatorSyncApp {
         if (!container) return;
 
         // If message is already a string, use it directly (for backward compatibility)
-        const message = typeof messageKey === 'string' && !messageKey.includes('.')
-            ? messageKey
-            : translationSystem.translate(messageKey, interpolations);
+        let message;
+        if (typeof messageKey === 'string' && !messageKey.includes('.')) {
+            message = messageKey;
+        } else if (typeof translationSystem !== 'undefined') {
+            message = translationSystem.translate(messageKey, interpolations);
+        } else {
+            message = messageKey; // Fallback to message key
+        }
+
+        // Fallback if translation returns undefined or empty
+        if (!message || message === 'undefined') {
+            message = typeof messageKey === 'string' ? messageKey : 'Notification';
+        }
 
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
