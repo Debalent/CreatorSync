@@ -1,6 +1,6 @@
 /**
- * Beat Maker - Main Application
- * Initializes and coordinates the beat maker engine and UI
+ * BeatForge - Main Application
+ * Initializes and coordinates the BeatForge engine and UI
  */
 
 let beatMaker = null;
@@ -17,11 +17,11 @@ let beatMakerRouting = null;
 let beatMakerSamples = null;
 
 /**
- * Initialize the beat maker application
+ * Initialize the BeatForge application
  */
 async function initializeBeatMaker () {
   try {
-    console.log('Initializing Beat Maker...');
+    console.log('Initializing BeatForge...');
 
     // Create engine instance
     beatMaker = new BeatMakerEngine(); // eslint-disable-line no-undef
@@ -106,10 +106,10 @@ async function initializeBeatMaker () {
     // Load default drum samples
     await loadDefaultSamples();
 
-    console.log('Beat Maker initialized successfully');
+    console.log('BeatForge initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize Beat Maker:', error);
-    alert('Failed to initialize Beat Maker. Please refresh the page.');
+    console.error('Failed to initialize BeatForge:', error);
+    alert('Failed to initialize BeatForge. Please refresh the page.');
   }
 }
 
