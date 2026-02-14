@@ -1,5 +1,11 @@
 # CreatorSync
 
+<div align="center">
+
+![CreatorSync Logo](public/assets/logo.png)
+
+</div>
+
 A complete music production and monetization platform that enables producers to create, collaborate, and sell beats in one integrated environment.
 
 ## Overview
@@ -19,6 +25,12 @@ Integration with streaming platforms like Twitch and YouTube allows producers to
 ## Key Features
 
 ### Beat Production
+
+<div align="center">
+
+![BeatForge](public/assets/beatforge-logo.png)
+
+</div>
 
 The beat maker provides professional tools for music creation directly in your browser. The piano roll editor allows precise note placement and editing, supporting both mouse input and MIDI controllers. The sequencer handles multiple tracks with support for drums, bass, melodies, and samples.
 
@@ -46,9 +58,25 @@ Samples can be tagged, categorized, and made private or public. The search and f
 
 ### Streaming Integration
 
+<div align="center">
+
+![MixMaster1 Logo](public/assets/mixmaster1-logo.png)
+
+</div>
+
 Direct connection to Twitch and YouTube APIs allows live streaming of production sessions. Producers can broadcast their workflow, interact with viewers, and build an audience while creating music.
 
 The integration handles authentication, stream management, and platform-specific requirements. This creates additional monetization opportunities through ad revenue, subscriptions, and viewer engagement.
+
+### Advanced Mastering
+
+<div align="center">
+
+![The Finisher Logo](public/assets/finisher-logo.png)
+
+</div>
+
+Professional-grade mastering tools powered by AI help producers achieve polished, radio-ready sound. The Finisher provides intelligent processing for compression, EQ, limiting, and stereo enhancement.
 
 ## Technical Implementation
 
