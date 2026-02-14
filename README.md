@@ -22,7 +22,11 @@ Integration with streaming platforms like Twitch and YouTube allows producers to
 
 ### Beat Production
 
+<div align="center">
+
 ![BeatForge](public/assets/beatforge-logo.png)
+
+</div>
 
 The beat maker provides professional tools for music creation directly in your browser. The piano roll editor allows precise note placement and editing, supporting both mouse input and MIDI controllers. The sequencer handles multiple tracks with support for drums, bass, melodies, and samples.
 
@@ -50,11 +54,15 @@ Samples can be tagged, categorized, and made private or public. The search and f
 
 ### Professional Audio Mixing
 
+<div align="center">
+
 ![MixMaster1 Logo](public/assets/mixmaster1-logo.png)
+
+</div>
 
 **MixMaster1 Pro** is a browser-based professional mixing suite that rivals industry-standard DAWs like Pro Tools, Ableton Live, and Logic Pro X. Built entirely on the Web Audio API, it provides studio-grade processing with zero installation required.
 
-#### Key Features:
+#### MixMaster1 Pro Features
 - **Professional Channel Strips**: 4-band parametric EQ, dynamics compression, noise gate, de-esser, 4 insert effect slots
 - **Master Chain Processing**: 5-band linear phase EQ, multiband compressor, stereo widener, true peak limiter
 - **Advanced Routing**: 4 mix buses (Drums/Instruments/Vocals/FX), 2 send effects (Reverb/Delay), sidechain support
@@ -87,7 +95,11 @@ The integration handles authentication, stream management, and platform-specific
 
 ### Advanced Mastering
 
+<div align="center">
+
 ![The Finisher Logo](public/assets/finisher-logo.png)
+
+</div>
 
 Professional-grade mastering tools powered by AI help producers achieve polished, radio-ready sound. The Finisher provides intelligent processing for compression, EQ, limiting, and stereo enhancement.
 
