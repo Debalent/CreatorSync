@@ -100,8 +100,13 @@ class FinisherIntegration {
     async checkSubscription () {
         try {
             const userData = this.getUserData();
+
+            // Testing mode: bypass login requirement
             if (!userData) {
-                this.showNoAccess('Please log in to access The Finisher');
+                console.log('⚠️ Testing mode: Bypassing authentication');
+                this.hideSubscriptionCheck();
+                document.getElementById('subscriptionRequired').style.display = 'none';
+                document.getElementById('finisherApp').style.display = 'block';
                 return;
             }
 
