@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CreatorSync — The elite music marketplace for producers and artists. Buy, sell, and collaborate on beats in real time." />
+  <title>CreatorSync — Music Marketplace</title>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>" />
+</head>
+<body>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION BAR
+  ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="CreatorSync home">
+        <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="nav-logo-img" />
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="nav-links" id="navLinks" role="list">
+        <a href="#discover" class="nav-link active" role="listitem">Discover</a>
+        <a href="#marketplace" class="nav-link" role="listitem">Marketplace</a>
+        <a href="#collab" class="nav-link" role="listitem">Collaborate</a>
+        <a href="#ai-tools" class="nav-link" role="listitem">
+          AI Tools
+          <span class="nav-badge">NEW</span>
+        </a>
+        <a href="#pricing" class="nav-link" role="listitem">Pricing</a>
+      </div>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <!-- Search toggle -->
+        <button class="nav-icon-btn" id="searchToggle" aria-label="Toggle search" aria-expanded="false">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </button>
+
+        <!-- Notifications -->
+        <button class="nav-icon-btn nav-notify" id="notifyBtn" aria-label="Notifications (3 unread)" aria-haspopup="true">
+          <i class="fa-solid fa-bell" aria-hidden="true"></i>
+          <span class="nav-badge-dot" aria-hidden="true">3</span>
+        </button>
+
+        <!-- User avatar (shown when logged in) -->
+        <button class="nav-avatar" id="userMenuBtn" style="display:none" aria-label="User menu" aria-expanded="false">
+          <img src="https://i.pravatar.cc/36?img=12" alt="User avatar" width="36" height="36" />
+        </button>
+
+        <!-- Auth buttons (shown when logged out) -->
+        <div class="nav-auth-btns" id="navAuthBtns">
+          <button class="btn btn-ghost btn-sm" id="loginBtn" aria-label="Log in to your account">Log In</button>
+          <button class="btn btn-primary btn-sm" id="signupBtn" aria-label="Create a free account">Get Started</button>
+        </div>
+
+        <!-- Sell beats -->
+        <button class="btn btn-gradient btn-sm nav-sell-btn" id="sellBeatsBtn" aria-label="Upload and sell your beats">
+          <i class="fa-solid fa-upload" aria-hidden="true"></i>
+          Sell Beats
+        </button>
+
+        <!-- Hamburger -->
+        <button class="hamburger" id="hamburger" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Search bar -->
+      <div class="nav-search-bar" id="navSearchBar" role="search" aria-hidden="true">
+        <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input type="search" id="globalSearch" class="search-input" placeholder="Search beats, producers, genres…" aria-label="Search beats, producers, genres" autocomplete="off" />
+        <kbd class="search-shortcut">⌘K</kbd>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close mobile menu">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <nav class="mobile-nav" aria-label="Mobile navigation links">
+      <a href="#discover"    class="mobile-link">Discover</a>
+      <a href="#marketplace" class="mobile-link">Marketplace</a>
+      <a href="#collab"      class="mobile-link">Collaborate</a>
+      <a href="#ai-tools"    class="mobile-link">AI Tools <span class="nav-badge">NEW</span></a>
+      <a href="#pricing"     class="mobile-link">Pricing</a>
+    </nav>
+    <div class="mobile-auth">
+      <button class="btn btn-ghost w-full" id="mobileLoginBtn">Log In</button>
+      <button class="btn btn-primary w-full" id="mobileSignupBtn">Get Started Free</button>
+    </div>
+  </div>
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="discover" aria-labelledby="heroTitle">
+    <!-- Animated background orbs -->
+    <div class="hero-orbs" aria-hidden="true">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+    </div>
+    <!-- Canvas waveform background -->
+    <canvas class="hero-waveform" id="heroWaveform" aria-hidden="true"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>200,000+ Creators Trust CreatorSync</span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">
+        Where Beats<br />
+        <span class="hero-title-gradient">Become Hits</span>
+      </h1>
+      <p class="hero-sub">
+        Buy, sell, and collaborate on premium beats in real time. The professional-grade marketplace built for the next generation of music creators.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" id="heroBrowseBtn" aria-label="Browse beats in the marketplace">
+          <i class="fa-solid fa-headphones" aria-hidden="true"></i>
+          Browse Beats
+        </button>
+        <button class="btn btn-ghost btn-lg" id="heroUploadBtn" aria-label="Upload and sell your beats">
+          <i class="fa-solid fa-upload" aria-hidden="true"></i>
+          Start Selling
+        </button>
+      </div>
+      <div class="hero-stats" role="list" aria-label="Platform statistics">
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-target="48000" data-suffix="+">0</span>
+          <span class="hero-stat-label">Premium Beats</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-target="12000" data-suffix="+">0</span>
+          <span class="hero-stat-label">Producers</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-prefix="$" data-target="2400000" data-suffix="+">$0</span>
+          <span class="hero-stat-label">Paid Out</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating preview card -->
+    <div class="hero-preview" aria-label="Featured beat preview">
+      <div class="preview-card">
+        <div class="preview-art">
+          <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop" alt="Featured beat artwork" width="200" height="200" loading="lazy" />
+          <button class="preview-play-btn" id="previewPlayBtn" aria-label="Play preview beat">
+            <i class="fa-solid fa-play" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="preview-info">
+          <p class="preview-track">Midnight Drip</p>
+          <p class="preview-producer">by TrappKing</p>
+          <canvas class="preview-waveform" id="waveCanvas" width="200" height="48" aria-hidden="true"></canvas>
+          <div class="preview-meta">
+            <span class="preview-bpm">140 BPM</span>
+            <span class="preview-key">Dm</span>
+            <span class="preview-price">$39.99</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       GENRE STRIP
+  ═══════════════════════════════════════════ -->
+  <section class="genres-strip" aria-label="Browse by genre">
+    <div class="genres-track" id="genresTrack" aria-hidden="true">
+      <button class="genre-tag" data-genre="trap">Trap</button>
+      <button class="genre-tag" data-genre="drill">Drill</button>
+      <button class="genre-tag" data-genre="rnb">R&amp;B</button>
+      <button class="genre-tag" data-genre="lofi">Lo-Fi</button>
+      <button class="genre-tag" data-genre="afrobeats">Afrobeats</button>
+      <button class="genre-tag" data-genre="hiphop">Hip-Hop</button>
+      <button class="genre-tag" data-genre="pop">Pop</button>
+      <button class="genre-tag" data-genre="house">House</button>
+      <button class="genre-tag" data-genre="latin">Latin</button>
+      <button class="genre-tag" data-genre="gospel">Gospel</button>
+      <button class="genre-tag" data-genre="boom-bap">Boom Bap</button>
+      <button class="genre-tag" data-genre="jersey">Jersey Club</button>
+      <!-- Duplicate for infinite scroll -->
+      <button class="genre-tag" data-genre="trap">Trap</button>
+      <button class="genre-tag" data-genre="drill">Drill</button>
+      <button class="genre-tag" data-genre="rnb">R&amp;B</button>
+      <button class="genre-tag" data-genre="lofi">Lo-Fi</button>
+      <button class="genre-tag" data-genre="afrobeats">Afrobeats</button>
+      <button class="genre-tag" data-genre="hiphop">Hip-Hop</button>
+      <button class="genre-tag" data-genre="pop">Pop</button>
+      <button class="genre-tag" data-genre="house">House</button>
+      <button class="genre-tag" data-genre="latin">Latin</button>
+      <button class="genre-tag" data-genre="gospel">Gospel</button>
+      <button class="genre-tag" data-genre="boom-bap">Boom Bap</button>
+      <button class="genre-tag" data-genre="jersey">Jersey Club</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARKETPLACE
+  ═══════════════════════════════════════════ -->
+  <section class="marketplace section" id="marketplace" aria-labelledby="marketplaceTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Fresh Drops Daily</p>
+        <h2 class="section-title" id="marketplaceTitle">Trending Beats</h2>
+        <p class="section-sub">Handpicked from the hottest producers on the platform</p>
+      </div>
+
+      <!-- Filter + Sort Bar -->
+      <div class="market-toolbar" role="toolbar" aria-label="Marketplace filters">
+        <div class="filter-chips" role="group" aria-label="Genre filter">
+          <button class="filter-chip active" data-filter="genre" data-value="all">All</button>
+          <button class="filter-chip" data-filter="genre" data-value="trap">Trap</button>
+          <button class="filter-chip" data-filter="genre" data-value="drill">Drill</button>
+          <button class="filter-chip" data-filter="genre" data-value="rnb">R&amp;B</button>
+          <button class="filter-chip" data-filter="genre" data-value="lofi">Lo-Fi</button>
+          <button class="filter-chip" data-filter="genre" data-value="afrobeats">Afrobeats</button>
+          <button class="filter-chip" data-filter="genre" data-value="hiphop">Hip-Hop</button>
+        </div>
+        <div class="market-controls">
+          <button class="filter-toggle-btn" id="filterPanelToggle" aria-expanded="false" aria-controls="filterPanel">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            Filters
+          </button>
+          <select class="sort-select" id="sortSelect" aria-label="Sort beats">
+            <option value="trending">Trending</option>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low–High</option>
+            <option value="price-desc">Price: High–Low</option>
+            <option value="bpm-asc">BPM: Low–High</option>
+          </select>
+          <div class="view-toggle" role="group" aria-label="View layout">
+            <button class="view-btn active" data-view="grid" aria-label="Grid view" aria-pressed="true"><i class="fa-solid fa-grid-2" aria-hidden="true"></i></button>
+            <button class="view-btn" data-view="list" aria-label="List view" aria-pressed="false"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Filter Panel -->
+      <div class="filter-panel" id="filterPanel" aria-hidden="true">
+        <div class="filter-panel-grid">
+          <div class="filter-group">
+            <label class="filter-label">BPM Range</label>
+            <div class="bpm-range">
+              <input type="range" min="60" max="200" value="60"  class="range-slider" id="bpmMin" aria-label="Minimum BPM" />
+              <input type="range" min="60" max="200" value="200" class="range-slider" id="bpmMax" aria-label="Maximum BPM" />
+              <div class="bpm-display"><span id="bpmMinVal">60</span> – <span id="bpmMaxVal">200</span> BPM</div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Price Range</label>
+            <div class="filter-chips small">
+              <button class="filter-chip active" data-filter="price" data-value="all">Any</button>
+              <button class="filter-chip" data-filter="price" data-value="free">Free</button>
+              <button class="filter-chip" data-filter="price" data-value="under25">Under $25</button>
+              <button class="filter-chip" data-filter="price" data-value="under50">Under $50</button>
+              <button class="filter-chip" data-filter="price" data-value="premium">$50+</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">License Type</label>
+            <div class="filter-chips small">
+              <button class="filter-chip active" data-filter="license" data-value="all">Any</button>
+              <button class="filter-chip" data-filter="license" data-value="lease">Lease</button>
+              <button class="filter-chip" data-filter="license" data-value="exclusive">Exclusive</button>
+              <button class="filter-chip" data-filter="license" data-value="trackout">Trackout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat Grid -->
+      <div class="beats-grid" id="beatsGrid" role="list" aria-label="Beat listings">
+
+        <!-- Beat Card 1 -->
+        <article class="beat-card" role="listitem" data-id="1" data-genre="trap" data-bpm="140" data-price="39.99" tabindex="0" aria-label="Midnight Drip by TrappKing">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop" alt="Midnight Drip artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Midnight Drip">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Midnight Drip" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Midnight Drip</h3>
+                <p class="beat-card-producer">TrappKing</p>
+              </div>
+              <span class="beat-tag beat-tag-trap">Trap</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 140 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Dm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$39.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Midnight Drip to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 2 -->
+        <article class="beat-card" role="listitem" data-id="2" data-genre="drill" data-bpm="150" data-price="49.99" tabindex="0" aria-label="London Nights by DrillMaster">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop" alt="London Nights artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play London Nights">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like London Nights" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">London Nights</h3>
+                <p class="beat-card-producer">DrillMaster</p>
+              </div>
+              <span class="beat-tag beat-tag-drill">Drill</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 150 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Gm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$49.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add London Nights to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 3 -->
+        <article class="beat-card" role="listitem" data-id="3" data-genre="rnb" data-bpm="90" data-price="29.99" tabindex="0" aria-label="Velvet Soul by SmoothBeats">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop" alt="Velvet Soul artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Velvet Soul">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Velvet Soul" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Velvet Soul</h3>
+                <p class="beat-card-producer">SmoothBeats</p>
+              </div>
+              <span class="beat-tag beat-tag-rnb">R&amp;B</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 90 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> F#m</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$29.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Velvet Soul to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 4 -->
+        <article class="beat-card" role="listitem" data-id="4" data-genre="lofi" data-bpm="75" data-price="14.99" tabindex="0" aria-label="Rainy Day by CalmWaves">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Rainy Day artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Rainy Day">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Rainy Day" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Rainy Day</h3>
+                <p class="beat-card-producer">CalmWaves</p>
+              </div>
+              <span class="beat-tag beat-tag-lofi">Lo-Fi</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 75 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Cm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$14.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Rainy Day to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 5 -->
+        <article class="beat-card" role="listitem" data-id="5" data-genre="afrobeats" data-bpm="108" data-price="34.99" tabindex="0" aria-label="Lagos Summer by AfroKing">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1616514169735-8b38943d7d73?w=400&h=400&fit=crop" alt="Lagos Summer artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Lagos Summer">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Lagos Summer" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Lagos Summer</h3>
+                <p class="beat-card-producer">AfroKing</p>
+              </div>
+              <span class="beat-tag beat-tag-afro">Afrobeats</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 108 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Am</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$34.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Lagos Summer to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 6 -->
+        <article class="beat-card" role="listitem" data-id="6" data-genre="hiphop" data-bpm="95" data-price="44.99" tabindex="0" aria-label="Crown Heights by EastCoast88">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop" alt="Crown Heights artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Crown Heights">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Crown Heights" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Crown Heights</h3>
+                <p class="beat-card-producer">EastCoast88</p>
+              </div>
+              <span class="beat-tag beat-tag-hiphop">Hip-Hop</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 95 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Em</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$44.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Crown Heights to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Skeleton cards (removed after load) -->
+        <article class="beat-card is-skeleton" aria-hidden="true">
+          <div class="beat-card-img-wrap sk-block"></div>
+          <div class="beat-card-body">
+            <div class="sk-line" style="width:70%;height:16px;margin-bottom:8px;"></div>
+            <div class="sk-line" style="width:45%;height:12px;"></div>
+          </div>
+        </article>
+        <article class="beat-card is-skeleton" aria-hidden="true">
+          <div class="beat-card-img-wrap sk-block"></div>
+          <div class="beat-card-body">
+            <div class="sk-line" style="width:65%;height:16px;margin-bottom:8px;"></div>
+            <div class="sk-line" style="width:40%;height:12px;"></div>
+          </div>
+        </article>
+      </div><!-- /beats-grid -->
+
+      <div class="load-more-wrap">
+        <button class="btn btn-ghost" id="loadMoreBtn" aria-label="Load more beats">
+          Load More <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PRODUCERS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="producers-section section" id="collab" aria-labelledby="producersTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Top Talent</p>
+        <h2 class="section-title" id="producersTitle">Featured Producers</h2>
+        <p class="section-sub">Connect with the creators shaping tomorrow's sound</p>
+      </div>
+      <div class="producers-grid" role="list" aria-label="Featured producers">
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 1">#1</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=3" alt="TrappKing avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">TrappKing</h3>
+          <p class="producer-genre">Trap · Drill</p>
+          <div class="producer-stats">
+            <span>2.4k <small>beats</small></span>
+            <span>48k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow TrappKing" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 2">#2</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=5" alt="SmoothBeats avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">SmoothBeats</h3>
+          <p class="producer-genre">R&amp;B · Soul</p>
+          <div class="producer-stats">
+            <span>1.8k <small>beats</small></span>
+            <span>36k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow SmoothBeats" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 3">#3</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=8" alt="AfroKing avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+          </div>
+          <h3 class="producer-name">AfroKing</h3>
+          <p class="producer-genre">Afrobeats · Amapiano</p>
+          <div class="producer-stats">
+            <span>1.2k <small>beats</small></span>
+            <span>24k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow AfroKing" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 4">#4</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=11" alt="CalmWaves avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">CalmWaves</h3>
+          <p class="producer-genre">Lo-Fi · Chill</p>
+          <div class="producer-stats">
+            <span>890 <small>beats</small></span>
+            <span>18k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow CalmWaves" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 5">#5</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=15" alt="DrillMaster avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+          </div>
+          <h3 class="producer-name">DrillMaster</h3>
+          <p class="producer-genre">UK Drill · Grime</p>
+          <div class="producer-stats">
+            <span>760 <small>beats</small></span>
+            <span>14k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow DrillMaster" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 6">#6</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=20" alt="EastCoast88 avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">EastCoast88</h3>
+          <p class="producer-genre">Boom Bap · Hip-Hop</p>
+          <div class="producer-stats">
+            <span>620 <small>beats</small></span>
+            <span>11k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow EastCoast88" aria-pressed="false">Follow</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       AI TOOLS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="ai-section section" id="ai-tools" aria-labelledby="aiTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Powered by AI</p>
+        <h2 class="section-title" id="aiTitle">Create Smarter, Faster</h2>
+        <p class="section-sub">Next-generation tools built for the modern music creator</p>
+      </div>
+      <div class="ai-cards-grid">
+
+        <!-- MixMaster1 -->
+        <div class="ai-card ai-card-purple" tabindex="0">
+          <div class="ai-card-icon ai-card-icon--logo" aria-hidden="true">
+            <img src="assets/mixmaster1-logo.png" alt="MixMaster1" class="ai-tool-logo" />
+          </div>
+          <div class="ai-card-text">
+            <h3>MixMaster1</h3>
+            <p>Generate verses, hooks, and melodies tailored to your beat's key and BPM.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try MixMaster1">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Beat Analyzer -->
+        <div class="ai-card ai-card-cyan" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Beat Analyzer</h3>
+            <p>Get instant insights: BPM, key, energy, mood, and genre classification.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Beat Analyzer">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Collab Matcher -->
+        <div class="ai-card ai-card-pink" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-users-rays"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Collab Matcher</h3>
+            <p>Find your perfect creative partner via AI-powered producer + artist matching.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Collab Matcher">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Trend Predictor -->
+        <div class="ai-card ai-card-green" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Trend Predictor</h3>
+            <p>Stay ahead of the curve with AI trend forecasting for genres and sounds.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Trend Predictor">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PRICING SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="pricing-section section" id="pricing" aria-labelledby="pricingTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Simple Pricing</p>
+        <h2 class="section-title" id="pricingTitle">Choose Your Plan</h2>
+        <p class="section-sub">Start free, scale as you grow</p>
+      </div>
+
+      <!-- Billing toggle -->
+      <div class="billing-toggle" role="group" aria-label="Billing period">
+        <span>Monthly</span>
+        <button class="toggle-pill" id="billingToggle" role="switch" aria-checked="false" aria-label="Toggle to yearly billing">
+          <span class="toggle-thumb"></span>
+        </button>
+        <span>Yearly <span class="save-badge">Save 25%</span></span>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- Starter -->
+        <div class="pricing-card" tabindex="0">
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Starter</span>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount" data-monthly="0" data-yearly="0">0</span>
+              <span class="period">/mo</span>
+            </div>
+          </div>
+          <ul class="pricing-features" aria-label="Starter plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 beat uploads/month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Basic analytics</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Standard licenses</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Community access</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> AI Tools</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Collaboration rooms</li>
+          </ul>
+          <button class="btn btn-ghost w-full" aria-label="Get started free with Starter plan">Get Started Free</button>
+        </div>
+
+        <!-- Pro (featured) -->
+        <div class="pricing-card pricing-card-featured" tabindex="0" aria-label="Most popular plan">
+          <div class="pricing-popular-badge" aria-hidden="true">Most Popular</div>
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Pro</span>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount" data-monthly="19" data-yearly="15">19</span>
+              <span class="period">/mo</span>
+            </div>
+          </div>
+          <ul class="pricing-features" aria-label="Pro plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited beats</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Advanced analytics</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> All license types</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration rooms</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> AI Songwriter + Analyzer</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Priority support</li>
+          </ul>
+          <button class="btn btn-primary w-full" aria-label="Start Pro plan trial">Start 14-Day Trial</button>
+        </div>
+
+        <!-- The Finisher -->
+        <div class="pricing-card" tabindex="0">
+          <div class="pricing-card-header">
+            <img src="assets/the-finisher-logo.png" alt="The Finisher" class="pricing-tier-logo" />
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount" data-monthly="49" data-yearly="37">49</span>
+              <span class="period">/mo</span>
+            </div>
+          </div>
+          <ul class="pricing-features" aria-label="Finisher plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Everything in Pro</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> White-label storefronts</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Custom contract builder</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Royalty splits &amp; treasury</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Twitch/YouTube integration</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Dedicated account manager</li>
+          </ul>
+          <button class="btn btn-ghost w-full" aria-label="Get The Finisher plan">The Finisher</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" aria-label="CreatorSync home">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="footer-logo-img" />
+        </a>
+        <p class="footer-tagline">The elite marketplace for the next generation of music creators.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <nav class="footer-nav-col" aria-label="Marketplace links">
+        <h5 class="footer-col-title">Marketplace</h5>
+        <a href="#" class="footer-link">Browse Beats</a>
+        <a href="#" class="footer-link">Sample Packs</a>
+        <a href="#" class="footer-link">Charts</a>
+        <a href="#" class="footer-link">New Arrivals</a>
+      </nav>
+      <nav class="footer-nav-col" aria-label="Creator links">
+        <h5 class="footer-col-title">Creators</h5>
+        <a href="#" class="footer-link">Upload Beats</a>
+        <a href="#" class="footer-link">Pricing</a>
+        <a href="#" class="footer-link">AI Tools</a>
+        <a href="#" class="footer-link">Affiliate Program</a>
+      </nav>
+      <nav class="footer-nav-col" aria-label="Company links">
+        <h5 class="footer-col-title">Company</h5>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">Careers</a>
+        <a href="#" class="footer-link">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom container">
+      <p class="footer-copy">&copy; 2026 CreatorSync. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       PERSISTENT AUDIO PLAYER
+  ═══════════════════════════════════════════ -->
+  <div class="audio-player" id="audioPlayer" role="region" aria-label="Audio player" aria-hidden="true">
+    <div class="player-track">
+      <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=60&h=60&fit=crop" alt="" class="player-art" id="playerArt" width="60" height="60" aria-hidden="true" />
+      <div class="player-info">
+        <p class="player-title" id="playerTitle">Select a beat</p>
+        <p class="player-producer" id="playerProducer">—</p>
+      </div>
+      <button class="player-license-btn" id="playerLicenseBtn" aria-label="View license options">
+        <i class="fa-solid fa-file-contract" aria-hidden="true"></i> License
+      </button>
+    </div>
+
+    <div class="player-controls">
+      <button class="player-ctrl-btn" id="playerShuffle" aria-label="Shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle" aria-hidden="true"></i></button>
+      <button class="player-ctrl-btn" id="playerPrev"    aria-label="Previous track"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></button>
+      <button class="player-play-btn" id="playerPlay"    aria-label="Play/Pause">
+        <i class="fa-solid fa-play" aria-hidden="true"></i>
+      </button>
+      <button class="player-ctrl-btn" id="playerNext"    aria-label="Next track"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></button>
+      <button class="player-ctrl-btn" id="playerRepeat"  aria-label="Repeat" aria-pressed="false"><i class="fa-solid fa-repeat" aria-hidden="true"></i></button>
+    </div>
+
+    <div class="player-progress-wrap">
+      <span class="player-time" id="playerCurrent">0:00</span>
+      <div class="player-progress-bar" id="playerProgressBar" role="slider" aria-label="Playback progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="player-progress-fill" id="playerProgressFill"></div>
+        <div class="player-progress-thumb" id="playerProgressThumb"></div>
+      </div>
+      <span class="player-time" id="playerDuration">3:24</span>
+    </div>
+
+    <div class="player-right">
+      <button class="player-ctrl-btn" id="playerMute" aria-label="Toggle mute" aria-pressed="false">
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      </button>
+      <input type="range" class="player-volume" id="playerVolume" min="0" max="100" value="80" aria-label="Volume" />
+      <button class="player-close-btn" id="playerClose" aria-label="Close player">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       UPLOAD MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="uploadModalBackdrop" role="dialog" aria-modal="true" aria-label="Upload beat" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Upload Your Beat</h2>
+        <button class="modal-close" aria-label="Close upload modal" data-modal="uploadModalBackdrop">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Drop zone -->
+        <div class="upload-dropzone" id="uploadDropzone" role="button" tabindex="0" aria-label="Drag and drop audio file or click to browse">
+          <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <p class="dropzone-title">Drag &amp; drop your beat</p>
+          <p class="dropzone-sub">MP3, WAV, FLAC up to 50MB</p>
+          <input type="file" id="fileInput" class="file-input-hidden" accept=".mp3,.wav,.flac,.aiff" aria-label="Choose audio file" />
+        </div>
+        <!-- Upload progress -->
+        <div class="upload-progress-wrapper" id="uploadProgressWrapper">
+          <div class="upload-progress-bar">
+            <div class="upload-progress-fill" id="uploadProgressFill"></div>
+          </div>
+          <span class="upload-progress-pct" id="uploadProgressPct">0%</span>
+        </div>
+        <!-- Beat form -->
+        <form id="uploadForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="beatTitle">Beat Title *</label>
+              <input class="form-input" id="beatTitle" type="text" placeholder="e.g. Midnight Drip" required aria-required="true" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatGenre">Genre *</label>
+              <div class="select-wrapper">
+                <select class="form-input" id="beatGenre" required aria-required="true">
+                  <option value="">Select genre…</option>
+                  <option value="trap">Trap</option>
+                  <option value="drill">Drill</option>
+                  <option value="rnb">R&amp;B</option>
+                  <option value="lofi">Lo-Fi</option>
+                  <option value="afrobeats">Afrobeats</option>
+                  <option value="hiphop">Hip-Hop</option>
+                  <option value="pop">Pop</option>
+                  <option value="house">House</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatBpm">BPM</label>
+              <input class="form-input" id="beatBpm" type="number" placeholder="e.g. 140" min="40" max="300" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatKey">Key</label>
+              <div class="select-wrapper">
+                <select class="form-input" id="beatKey">
+                  <option value="">Select key…</option>
+                  <option>Am</option><option>Bm</option><option>Cm</option><option>Dm</option>
+                  <option>Em</option><option>Fm</option><option>Gm</option>
+                  <option>A</option><option>B</option><option>C</option><option>D</option>
+                  <option>E</option><option>F</option><option>G</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label" for="beatDesc">Description</label>
+              <textarea class="form-input" id="beatDesc" rows="3" placeholder="Describe the vibe, inspiration, or ideal use for this beat…"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">License Type</label>
+              <div class="filter-chips small">
+                <button type="button" class="filter-chip active" data-filter="uploadLicense" data-value="lease">Lease</button>
+                <button type="button" class="filter-chip" data-filter="uploadLicense" data-value="exclusive">Exclusive</button>
+                <button type="button" class="filter-chip" data-filter="uploadLicense" data-value="trackout">Trackout Stems</button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-full" id="uploadSubmitBtn">
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i> Publish Beat
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       AUTH MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="authModalBackdrop" role="dialog" aria-modal="true" aria-label="Sign in or create account" aria-hidden="true">
+    <div class="modal modal-auth">
+      <button class="modal-close" aria-label="Close auth modal" data-modal="authModalBackdrop">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <!-- Auth tabs -->
+      <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+        <button class="auth-tab active" id="loginTab" role="tab" aria-selected="true" aria-controls="loginPanel" data-tab="loginPanel">Log In</button>
+        <button class="auth-tab" id="signupTab" role="tab" aria-selected="false" aria-controls="signupPanel" data-tab="signupPanel">Sign Up</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-panel" id="loginPanel" role="tabpanel" aria-labelledby="loginTab">
+        <div class="auth-logo-wrap" aria-hidden="true">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="auth-logo" />
+        </div>
+        <div class="social-auth">
+          <button class="btn btn-social" aria-label="Continue with Google">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Continue with Google
+          </button>
+          <button class="btn btn-social" aria-label="Continue with Apple">
+            <i class="fa-brands fa-apple" aria-hidden="true"></i> Continue with Apple
+          </button>
+        </div>
+        <div class="auth-divider"><span>or</span></div>
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="loginEmail" type="email" placeholder="you@example.com" required aria-required="true" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="loginPassword" type="password" placeholder="••••••••" required aria-required="true" autocomplete="current-password" />
+              <button type="button" class="pw-toggle" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-error" id="loginError" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary w-full" id="loginSubmitBtn">Log In</button>
+        </form>
+      </div>
+
+      <!-- Signup Panel -->
+      <div class="auth-panel hidden" id="signupPanel" role="tabpanel" aria-labelledby="signupTab">
+        <div class="auth-logo-wrap" aria-hidden="true">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="auth-logo" />
+        </div>
+        <div class="social-auth">
+          <button class="btn btn-social" aria-label="Sign up with Google">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Sign up with Google
+          </button>
+          <button class="btn btn-social" aria-label="Sign up with Apple">
+            <i class="fa-brands fa-apple" aria-hidden="true"></i> Sign up with Apple
+          </button>
+        </div>
+        <div class="auth-divider"><span>or</span></div>
+        <form id="signupForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="signupUsername">Username</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-at input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupUsername" type="text" placeholder="yourproducername" required aria-required="true" autocomplete="username" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signupEmail">Email</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupEmail" type="email" placeholder="you@example.com" required aria-required="true" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signupPassword">Password</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupPassword" type="password" placeholder="Create a strong password" required aria-required="true" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="pw-strength-wrap">
+              <div class="pw-strength-bar" id="pwStrength" role="meter" aria-label="Password strength" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="pw-strength-fill" id="pwStrengthFill"></div>
+              </div>
+              <span class="pw-strength-label" id="pwStrengthLabel"></span>
+            </div>
+          </div>
+          <div class="form-error" id="signupError" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary w-full" id="signupSubmitBtn">Create Account</button>
+          <p class="auth-terms">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
