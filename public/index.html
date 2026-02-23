@@ -883,92 +883,154 @@
   <section class="pricing-section section" id="pricing" aria-labelledby="pricingTitle">
     <div class="container">
       <div class="section-header">
-        <p class="section-eyebrow">Simple Pricing</p>
+        <p class="section-eyebrow">Transparent Pricing</p>
         <h2 class="section-title" id="pricingTitle">Choose Your Plan</h2>
-        <p class="section-sub">Start free, scale as you grow</p>
+        <p class="section-sub">Start free. Scale as you grow. Platform earns 12.5% commission on all transactions — always automated, always transparent.</p>
       </div>
 
-      <!-- Billing toggle -->
-      <div class="billing-toggle" role="group" aria-label="Billing period">
-        <span>Monthly</span>
-        <button class="toggle-pill" id="billingToggle" role="switch" aria-checked="false" aria-label="Toggle to yearly billing">
-          <span class="toggle-thumb"></span>
+      <!-- Billing cycle selector -->
+      <div class="billing-cycle-selector" role="group" aria-label="Billing period">
+        <button class="billing-cycle-btn active" data-cycle="monthly" aria-pressed="true">Monthly</button>
+        <button class="billing-cycle-btn" data-cycle="annual" aria-pressed="false">
+          Annual <span class="save-badge">Save 20%</span>
         </button>
-        <span>Yearly <span class="save-badge">Save 25%</span></span>
+        <button class="billing-cycle-btn" data-cycle="biennial" aria-pressed="false">
+          2-Year <span class="save-badge best-value">Save 35%</span>
+        </button>
       </div>
 
-      <div class="pricing-grid">
+      <div class="pricing-grid pricing-grid-4">
 
-        <!-- Starter -->
+        <!-- FREE -->
         <div class="pricing-card" tabindex="0">
           <div class="pricing-card-header">
-            <span class="pricing-tier">Starter</span>
+            <span class="pricing-tier">Free</span>
+            <p class="pricing-tier-desc">Try the platform with no commitment</p>
             <div class="pricing-price">
               <span class="currency">$</span>
-              <span class="amount" data-monthly="0" data-yearly="0">0</span>
+              <span class="amount" data-monthly="0" data-annual="0" data-biennial="0">0</span>
               <span class="period">/mo</span>
             </div>
+            <p class="pricing-billed-note">&nbsp;</p>
           </div>
-          <ul class="pricing-features" aria-label="Starter plan features">
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 beat uploads/month</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Basic analytics</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Standard licenses</li>
+          <ul class="pricing-features" aria-label="Free plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 beat uploads / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 5 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Marketplace buy &amp; sell</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 AI credits / month</li>
             <li><i class="fa-solid fa-check" aria-hidden="true"></i> Community access</li>
-            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> AI Tools</li>
             <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Collaboration rooms</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Distribution</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Livestreaming</li>
           </ul>
-          <button class="btn btn-ghost w-full" aria-label="Get started free with Starter plan">Get Started Free</button>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-ghost w-full" aria-label="Get started free">Get Started Free</button>
         </div>
 
-        <!-- Pro (featured) -->
+        <!-- CREATOR -->
+        <div class="pricing-card pricing-card-creator" tabindex="0">
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Creator</span>
+            <p class="pricing-tier-desc">For growing producers building their audience</p>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount"
+                data-monthly="14.99"
+                data-annual="11.99"
+                data-biennial="9.74">14.99</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $143.88/yr" data-biennial="Billed $233.76 every 2 yrs"></p>
+          </div>
+          <ul class="pricing-features" aria-label="Creator plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 50 beat uploads / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 50 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 100 AI credits / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration (3 users)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 3 distribution releases / yr</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Standard MixMaster</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Advanced analytics (90 days)</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Livestreaming</li>
+          </ul>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-outline w-full" aria-label="Start Creator plan">Start Creator Plan</button>
+        </div>
+
+        <!-- PRO — Featured -->
         <div class="pricing-card pricing-card-featured" tabindex="0" aria-label="Most popular plan">
           <div class="pricing-popular-badge" aria-hidden="true">Most Popular</div>
           <div class="pricing-card-header">
             <span class="pricing-tier">Pro</span>
+            <p class="pricing-tier-desc">Unlimited creation. Full distribution. All AI.</p>
             <div class="pricing-price">
               <span class="currency">$</span>
-              <span class="amount" data-monthly="19" data-yearly="15">19</span>
+              <span class="amount"
+                data-monthly="29.99"
+                data-annual="23.99"
+                data-biennial="19.49">29.99</span>
               <span class="period">/mo</span>
             </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $287.88/yr" data-biennial="Billed $467.76 every 2 yrs"></p>
           </div>
           <ul class="pricing-features" aria-label="Pro plan features">
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited beats</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Advanced analytics</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> All license types</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration rooms</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> AI Songwriter + Analyzer</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Priority support</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited beat uploads</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 250 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited AI (The Finisher)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration (10 users)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited distribution (14 DSPs)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> ISRC &amp; UPC generation</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> MixMaster Pro + stem separation</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> YouTube + Twitch livestream</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Royalty dashboard + publishing</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Priority support (24hr SLA)</li>
           </ul>
-          <button class="btn btn-primary w-full" aria-label="Start Pro plan trial">Start 14-Day Trial</button>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-primary w-full" aria-label="Start Pro plan 14-day trial">Start 14-Day Trial</button>
         </div>
 
-        <!-- The Finisher -->
-        <div class="pricing-card pricing-card-finisher" tabindex="0" aria-label="The Finisher premium plan">
-          <div class="pricing-finisher-badge" aria-hidden="true"><i class="fa-solid fa-crown"></i> Premium</div>
+        <!-- ELITE / LABEL -->
+        <div class="pricing-card pricing-card-finisher" tabindex="0" aria-label="Elite Label plan">
+          <div class="pricing-finisher-badge" aria-hidden="true"><i class="fa-solid fa-crown"></i> Elite / Label</div>
           <div class="pricing-card-header">
-            <img src="assets/the-finisher-logo.png" alt="The Finisher" class="pricing-tier-logo" />
+            <img src="assets/the-finisher-logo.png" alt="The Finisher Elite" class="pricing-tier-logo" />
+            <p class="pricing-tier-desc">For labels, managers, and power creators</p>
             <div class="pricing-price">
               <span class="currency">$</span>
-              <span class="amount" data-monthly="49" data-yearly="37">49</span>
+              <span class="amount"
+                data-monthly="99.99"
+                data-annual="79.99"
+                data-biennial="64.99">99.99</span>
               <span class="period">/mo</span>
             </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $959.88/yr" data-biennial="Billed $1,559.76 every 2 yrs"></p>
           </div>
-          <ul class="pricing-features" aria-label="Finisher plan features">
+          <ul class="pricing-features" aria-label="Elite plan features">
             <li><i class="fa-solid fa-check" aria-hidden="true"></i> Everything in Pro</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Advanced audio processing</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> White-label storefronts</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 2 TB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 25-user collaboration rooms</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> All 5 platforms simultaneously</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 25-artist roster management</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> White-label storefront</li>
             <li><i class="fa-solid fa-check" aria-hidden="true"></i> Custom contract builder</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Royalty splits &amp; treasury</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Twitch/YouTube live streaming</li>
-            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Revenue analytics dashboard</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Split treasury auto-payout</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Full REST API + webhooks</li>
             <li><i class="fa-solid fa-check" aria-hidden="true"></i> Dedicated account manager</li>
           </ul>
-          <button class="btn btn-primary w-full finisher-plan-btn" id="finisherPricingBtn" aria-label="Get The Finisher plan">
-            <i class="fa-solid fa-crown" aria-hidden="true"></i> Get The Finisher
+          <p class="pricing-commission-note pricing-commission-reduced"><i class="fa-solid fa-tag"></i> Reduced 8.5% commission</p>
+          <button class="btn btn-primary w-full finisher-plan-btn" id="finisherPricingBtn" aria-label="Get Elite Label plan">
+            <i class="fa-solid fa-crown" aria-hidden="true"></i> Get Elite / Label
           </button>
         </div>
 
       </div>
+
+      <!-- Commission note -->
+      <p class="pricing-global-note">
+        <i class="fa-solid fa-shield-halved"></i>
+        All plans include escrow protection, automated payouts, fraud detection, and dispute resolution.
+        Platform deducts its commission automatically before every payout — no manual accounting needed.
+      </p>
+
     </div>
   </section>
 

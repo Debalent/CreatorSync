@@ -613,39 +613,51 @@ function inViewport(el, threshold = 0.15) {
    10. PRICING — BILLING TOGGLE
 ═══════════════════════════════════════════ */
 
-(function initPricing() {
-  const toggleBtns = $$('.pricing-toggle-btn');
-  const amounts    = $$('.pricing-price .amount[data-monthly]');
+/* ═══════════════════════════════════════════
+   10. PRICING — BILLING CYCLE SELECTOR
+═══════════════════════════════════════════ */
 
-  function setBilling(period) {
-    toggleBtns.forEach(btn => {
-      const isActive = btn.dataset.billing === period;
+(function initPricing() {
+  const cycleBtns   = $$('.billing-cycle-btn');
+  const amounts     = $$('.pricing-price .amount[data-monthly]');
+  const billedNotes = $$('.pricing-billed-note[data-monthly]');
+
+  function setBilling(cycle) {
+    // Update button states
+    cycleBtns.forEach(btn => {
+      const isActive = btn.dataset.cycle === cycle;
       btn.classList.toggle('active', isActive);
       btn.setAttribute('aria-pressed', String(isActive));
     });
 
+    // Animate price amounts
     amounts.forEach(el => {
-      const from = parseInt(el.textContent, 10);
-      const to   = parseInt(el.dataset[period], 10);
+      const from = parseFloat(el.textContent) || 0;
+      const to   = parseFloat(el.dataset[cycle]) || 0;
       if (isNaN(to)) return;
 
-      // Animate price change
       const startTime = performance.now();
       function animatePrice(now) {
         const elapsed  = now - startTime;
-        const progress = Math.min(elapsed / 300, 1);
+        const progress = Math.min(elapsed / 350, 1);
         const eased    = 1 - Math.pow(1 - progress, 3);
-        const current  = Math.round(from + (to - from) * eased);
-        el.textContent = current;
+        const current  = from + (to - from) * eased;
+        // Show 2 decimal places only if not a whole number
+        el.textContent = current % 1 === 0 ? Math.round(current) : current.toFixed(2);
         if (progress < 1) requestAnimationFrame(animatePrice);
-        else el.textContent = to;
+        else el.textContent = to === 0 ? '0' : to.toFixed(2).replace(/\.00$/, '');
       }
       requestAnimationFrame(animatePrice);
     });
+
+    // Update billing period notes
+    billedNotes.forEach(el => {
+      el.textContent = el.dataset[cycle] || '';
+    });
   }
 
-  toggleBtns.forEach(btn => {
-    on(btn, 'click', () => setBilling(btn.dataset.billing));
+  cycleBtns.forEach(btn => {
+    on(btn, 'click', () => setBilling(btn.dataset.cycle));
   });
 })();
 
