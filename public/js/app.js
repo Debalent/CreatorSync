@@ -722,7 +722,7 @@ function togglePlay() {
 }
 
 function updatePlayPauseIcon() {
-  const btn  = $('#playPauseBtn');
+  const btn  = $('#playerPlay');
   if (!btn) return;
   const icon = btn.querySelector('i');
   if (!icon) return;
@@ -758,9 +758,9 @@ function updateProgressUI() {
   const { currentTime, duration } = playerState;
   const pct = (currentTime / duration) * 100;
 
-  const bar   = $('#progressBar');
-  const thumb = $('#progressThumb');
-  const cur   = $('#currentTime');
+  const bar   = $('#playerProgressFill');
+  const thumb = $('#playerProgressThumb');
+  const cur   = $('#playerCurrent');
 
   if (bar)   bar.style.width  = pct + '%';
   if (thumb) thumb.style.left = pct + '%';
@@ -774,17 +774,17 @@ function formatTime(secs) {
 }
 
 (function initPlayer() {
-  const playPauseBtn = $('#playPauseBtn');
-  const playerProgress = $('#playerProgress');
-  const nextBtn    = $('#nextBtn');
-  const prevBtn    = $('#prevBtn');
-  const muteBtn    = $('#muteBtn');
-  const volumeSlider = $('#volumeSlider');
-  const shuffleBtn = $('#shuffleBtn');
-  const repeatBtn  = $('#repeatBtn');
+  const playPauseBtn = $('#playerPlay');
+  const playerProgress = $('#playerProgressBar');
+  const nextBtn    = $('#playerNext');
+  const prevBtn    = $('#playerPrev');
+  const muteBtn    = $('#playerMute');
+  const volumeSlider = $('#playerVolume');
+  const shuffleBtn = $('#playerShuffle');
+  const repeatBtn  = $('#playerRepeat');
   const playerClose = $('#playerClose');
-  const playerLike = $('.player-like');
-  const totalTimeEl = $('#totalTime');
+  const playerLike = null; // reserved for future UI
+  const totalTimeEl = $('#playerDuration');
 
   if (totalTimeEl) totalTimeEl.textContent = formatTime(playerState.duration);
 
@@ -915,19 +915,61 @@ function closeModal(backdropId) {
 }
 
 (function initModals() {
-  // Upload modal
-  on($('#heroBrowseBtn'), 'click', () => openModal('uploadModalBackdrop'));
-  on($('#mobileSignupBtn'), 'click', () => openModal('authModalBackdrop'));
+  // Hero CTAs — Browse Beats scrolls to marketplace, Upload opens modal
+  on($('#heroBrowseBtn'), 'click', () => {
+    const market = $('#marketplace');
+    if (market) window.scrollTo({ top: market.offsetTop - 70, behavior: 'smooth' });
+  });
+  on($('#heroUploadBtn'),  'click', () => openModal('uploadModalBackdrop'));
+  on($('#sellBeatsBtn'),   'click', () => openModal('uploadModalBackdrop'));
+  on($('#mobileSignupBtn'),'click', () => openModal('authModalBackdrop'));
 
   // Auth modal
-  on($('#loginBtn'),    'click', () => { openModal('authModalBackdrop'); switchAuthTab('login'); });
-  on($('#signupBtn'),   'click', () => { openModal('authModalBackdrop'); switchAuthTab('signup'); });
-  on($('#heroUploadBtn'),'click', () => openModal('uploadModalBackdrop'));
+  on($('#loginBtn'),  'click', () => { openModal('authModalBackdrop'); switchAuthTab('login'); });
+  on($('#signupBtn'), 'click', () => { openModal('authModalBackdrop'); switchAuthTab('signup'); });
 
-  // Close buttons
-  on($('#uploadModalClose'), 'click', () => closeModal('uploadModalBackdrop'));
-  on($('#uploadCancelBtn'),  'click', () => closeModal('uploadModalBackdrop'));
-  on($('#authModalClose'),   'click', () => closeModal('authModalBackdrop'));
+  // Generic modal close — handles all .modal-close[data-modal] buttons
+  on(document, 'click', (e) => {
+    const closeBtn = e.target.closest('.modal-close[data-modal]');
+    if (closeBtn) closeModal(closeBtn.dataset.modal);
+  });
+
+  // Pricing plan CTA buttons → open signup with plan context
+  on(document, 'click', (e) => {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const card = btn.closest('.pricing-card');
+    if (!card) return;
+    const plan = card.querySelector('.pricing-tier')?.textContent?.trim() || 'selected plan';
+    openModal('authModalBackdrop');
+    switchAuthTab('signup');
+    showToast(`${plan} plan selected — create your account to get started`, 'info', 4000);
+  });
+
+  // AI Tool "Try Now" buttons → open signup
+  on(document, 'click', (e) => {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const card = btn.closest('.ai-card');
+    if (!card) return;
+    const tool = card.querySelector('h3')?.textContent?.trim() || 'AI Tool';
+    openModal('authModalBackdrop');
+    switchAuthTab('signup');
+    showToast(`${tool} requires an account — join free and get 10 AI credits instantly`, 'info', 4000);
+  });
+
+  // Collab "Start a Session" → open signup
+  on($('#startCollabBtn'), 'click', () => {
+    openModal('authModalBackdrop');
+    switchAuthTab('signup');
+    showToast('Collaboration sessions are free — create your account to start jamming', 'info', 4000);
+  });
+
+  // The Finisher CTA → scroll to pricing section
+  on($('#finisherCtaBtn'), 'click', () => {
+    const pricing = $('#pricing');
+    if (pricing) window.scrollTo({ top: pricing.offsetTop - 70, behavior: 'smooth' });
+  });
 
   // Backdrop click to close
   $$('.modal-backdrop').forEach(backdrop => {
@@ -1047,22 +1089,15 @@ function switchAuthTab(panel) {
     setButtonLoading(submitBtn, 'Logging in…');
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || 'Login failed');
-
-      // Store token
-      localStorage.setItem('cs_token', data.token);
-      localStorage.setItem('cs_user', JSON.stringify(data.user));
+      // Demo mode — simulated auth (no backend required on GitHub Pages)
+      await new Promise(r => setTimeout(r, 1000));
+      const demoUser = { username: email.split('@')[0], email, role: 'producer', subscription: 'pro' };
+      localStorage.setItem('cs_token', 'demo-' + Date.now());
+      localStorage.setItem('cs_user', JSON.stringify(demoUser));
 
       closeModal('authModalBackdrop');
-      showToast(`Welcome back, ${data.user.username || 'Creator'}! 🎵`, 'success');
-      updateNavForLoggedIn(data.user);
+      showToast(`Welcome back, ${demoUser.username}! 🎵`, 'success');
+      updateNavForLoggedIn(demoUser);
 
     } catch (err) {
       showFormError(loginError, err.message);
@@ -1096,21 +1131,15 @@ function switchAuthTab(panel) {
     setButtonLoading(submitBtn, 'Creating account…');
 
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password, role }),
-      });
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || 'Registration failed');
-
-      localStorage.setItem('cs_token', data.token);
-      localStorage.setItem('cs_user', JSON.stringify(data.user));
+      // Demo mode — simulated registration (no backend required on GitHub Pages)
+      await new Promise(r => setTimeout(r, 1200));
+      const demoUser = { username, email, role: 'producer', subscription: 'free' };
+      localStorage.setItem('cs_token', 'demo-' + Date.now());
+      localStorage.setItem('cs_user', JSON.stringify(demoUser));
 
       closeModal('authModalBackdrop');
       showToast(`Welcome to CreatorSync, ${username}! 🚀`, 'success');
-      updateNavForLoggedIn(data.user);
+      updateNavForLoggedIn(demoUser);
 
     } catch (err) {
       showFormError(signupError, err.message);
