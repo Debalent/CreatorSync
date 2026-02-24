@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "id": "337c9124-274c-472a-b6e1-2850aeec1087",
+      "username": "testuser",
+      "email": "test@creatorsync.com",
+      "password": "$2b$10$apsEVpi/RHL95Wa2yi7CReyoOY12PsBD.fiRaaBBdEW4TyCJloQoC",
+      "role": "user",
+      "subscription": {
+        "tier": "Pro",
+        "status": "active",
+        "startDate": "2026-02-14T08:53:18.003Z",
+        "endDate": "2027-02-14T08:53:18.004Z"
+      },
+      "profile": {
+        "bio": "Test user for development",
+        "avatar": "https://via.placeholder.com/150",
+        "genres": [
+          "Hip-Hop",
+          "Electronic",
+          "Trap"
+        ],
+        "socialLinks": {}
+      },
+      "stats": {
+        "beatsSold": 0,
+        "totalEarnings": 0,
+        "followers": 0,
+        "following": 0
+      },
+      "createdAt": "2026-02-14T08:53:18.004Z",
+      "updatedAt": "2026-02-14T08:53:18.004Z"
+    }
+  ]
+}
