@@ -90,6 +90,13 @@ router.post('/create-payment-intent', authenticateUser, async (req, res) => {
         // Store transaction record
         const transactionId = uuidv4();
         const transaction = {
+                    if (demoMode.isDemoMode()) {
+                        return res.status(200).json({
+                            message: '[DEMO] Payment intent created.',
+                            clientSecret: 'demo-client-secret',
+                            amount: 0
+                        });
+                    }
             id: transactionId,
             paymentIntentId: paymentIntent.id,
             beatId,
