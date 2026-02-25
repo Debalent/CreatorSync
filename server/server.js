@@ -178,6 +178,8 @@ class CreatorSyncServer {
     initializeRoutes () {
         // API Documentation
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+        // Demo mode status endpoint
+        this.app.use('/api', require('./routes/demo'));
             customCss: '.swagger-ui .topbar { display: none }',
             customSiteTitle: 'CreatorSync API Documentation'
         }));
