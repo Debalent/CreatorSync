@@ -19,17 +19,9 @@
         document.body.appendChild(notif);
         setTimeout(() => notif.remove(), 3200);
     }
-    // Demo: show random notifications every 12s
-    const DEMO_NOTIFS = [
-        'Your track was just played on Radio!',
-        'You have a new collab invite.',
-        'Ella joined your session.',
-        '808 Dreams is trending now!',
-        'Ava purchased a license for Neon Nights.'
-    ];
-    setInterval(() => {
-        const msg = DEMO_NOTIFS[Math.floor(Math.random() * DEMO_NOTIFS.length)];
-        showNotification(msg);
-    }, 12000);
+    // Listen for DemoEventBus 'notification' events
+    if (window.DemoEventBus) {
+        window.DemoEventBus.on('notification', showNotification);
+    }
     window.showNotification = showNotification;
 })();

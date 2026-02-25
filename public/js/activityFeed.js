@@ -1,6 +1,6 @@
 // CreatorSync Live Activity Feed (static/demo version)
 (function() {
-    const FEED_EVENTS = [
+    let FEED_EVENTS = [
         { type: 'upload', user: 'Ava', detail: 'uploaded a new beat: "Midnight Drive"', time: 'just now' },
         { type: 'collab', user: 'Jay', detail: 'joined a collab session with Mia', time: '1 min ago' },
         { type: 'radio', user: 'Liam', detail: 'track "Sunset Groove" is now playing on Radio', time: '2 min ago' },
@@ -42,7 +42,16 @@
         });
     }
 
-    // Cycle feed every 5 seconds
+
+    // Listen for DemoEventBus 'activity' events
+    if (window.DemoEventBus) {
+        window.DemoEventBus.on('activity', function(ev) {
+            FEED_EVENTS.unshift({ ...ev, time: 'just now' });
+            if (FEED_EVENTS.length > 8) FEED_EVENTS.pop();
+            renderFeed();
+        });
+    }
+    // Cycle feed every 5 seconds (for demo)
     let offset = 0;
     setInterval(() => {
         offset = (offset + 1) % FEED_EVENTS.length;
