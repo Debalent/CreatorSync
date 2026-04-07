@@ -1,0 +1,45 @@
+<!-- CreatorSync Radio Full Page UI -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CreatorSync Radio</title>
+    <link rel="stylesheet" href="/assets/css/radio.css">
+    <script src="/js/radioPlayer.js" defer></script>
+</head>
+<body>
+    <script src="/js/demoBanner.js"></script>
+    <div class="radio-page">
+        <section class="now-playing">
+            <div class="artwork">
+                <img id="radio-artwork" src="/assets/default-artwork.jpg" alt="Artwork">
+                <canvas id="radio-waveform"></canvas>
+            </div>
+            <div class="track-details">
+                <h2 id="radio-track-title">--</h2>
+                <h3 id="radio-artist-name">--</h3>
+            </div>
+        </section>
+        <section class="up-next">
+            <h4>Up Next Queue</h4>
+            <ul id="radio-up-next-list"></ul>
+        </section>
+        <section class="trending-genre">
+            <h4>Trending in Genre</h4>
+            <ul id="radio-trending-list"></ul>
+        </section>
+        <section class="rising-creators">
+            <h4>Rising Creators</h4>
+            <ul id="radio-rising-list"></ul>
+        </section>
+        <section class="recently-added">
+            <h4>Recently Added</h4>
+            <ul id="radio-recent-list"></ul>
+        </section>
+        <section class="top-converters">
+            <h4>Top Converters</h4>
+            <ul id="radio-converters-list"></ul>
+        </section>
+    </div>
+</body>
+</html>

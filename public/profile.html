@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - CreatorSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            background: var(--card-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .profile-details h1 {
+            margin: 0 0 10px 0;
+            color: var(--text-primary);
+        }
+        
+        .profile-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-secondary);
+            margin: 10px 0;
+        }
+        
+        .profile-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .profile-bio {
+            margin-top: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .profile-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .profile-tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .profile-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .profile-content {
+            background: var(--card-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .beats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: var(--surface-color);
+            color: var(--primary-color);
+        }
+        
+        .edit-profile-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .edit-profile-btn:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/" style="text-decoration: none;">
+                    <img src="assets/logo.png" alt="CreatorSync" class="brand-logo">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <a href="/" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Home</span>
+        </a>
+
+        <div class="profile-header">
+            <div class="profile-info">
+                <div class="profile-avatar" id="profileAvatar">M</div>
+                <div class="profile-details">
+                    <h1 id="profileName">Loading...</h1>
+                    <div class="profile-meta">
+                        <span><i class="fas fa-music"></i> <span id="beatCount">0</span> Beats</span>
+                        <span><i class="fas fa-heart"></i> <span id="likeCount">0</span> Likes</span>
+                        <span><i class="fas fa-play"></i> <span id="playCount">0</span> Plays</span>
+                    </div>
+                    <p class="profile-bio" id="profileBio"></p>
+                    <button class="edit-profile-btn" id="editProfileBtn" style="display: none;">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="profile-tab active" data-tab="beats">
+                <i class="fas fa-music"></i> My Beats
+            </button>
+            <button class="profile-tab" data-tab="favorites">
+                <i class="fas fa-heart"></i> Favorites
+            </button>
+        </div>
+
+        <div class="profile-content">
+            <div id="beatsContent" class="beats-grid"></div>
+            <div id="favoritesContent" class="beats-grid" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Get username from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('user');
+        const authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+        let profileUser = null;
+        let userBeats = [];
+
+        // Check if viewing own profile
+        async function checkAuth() {
+            if (authToken) {
+                try {
+                    const response = await fetch('/api/auth/profile', {
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        currentUser = data.user;
+                        
+                        // Show edit button if viewing own profile
+                        if (currentUser && currentUser.username === username) {
+                            document.getElementById('editProfileBtn').style.display = 'inline-block';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                }
+            }
+        }
+
+        // Load profile data
+        async function loadProfile() {
+            try {
+                // Load user info
+                const userResponse = await fetch(`/api/users/username/${username}`);
+                if (!userResponse.ok) {
+                    throw new Error('User not found');
+                }
+                
+                const userData = await userResponse.json();
+                profileUser = userData.user;
+                
+                // Update profile UI
+                document.getElementById('profileName').textContent = profileUser.displayName || profileUser.username;
+                document.getElementById('profileBio').textContent = profileUser.bio || 'No bio yet';
+                document.getElementById('profileAvatar').textContent = (profileUser.displayName || profileUser.username).charAt(0).toUpperCase();
+                
+                // Load user's beats
+                loadBeats();
+            } catch (error) {
+                console.error('Failed to load profile:', error);
+                document.getElementById('profileName').textContent = 'User not found';
+            }
+        }
+
+        // Load beats
+        async function loadBeats() {
+            try {
+                const response = await fetch(`/api/beats?producer=${username}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    userBeats = data.beats || [];
+                    
+                    // Update counts
+                    document.getElementById('beatCount').textContent = userBeats.length;
+                    
+                    const totalLikes = userBeats.reduce((sum, beat) => sum + (beat.likes?.length || 0), 0);
+                    const totalPlays = userBeats.reduce((sum, beat) => sum + (beat.plays || 0), 0);
+                    
+                    document.getElementById('likeCount').textContent = totalLikes;
+                    document.getElementById('playCount').textContent = totalPlays;
+                    
+                    // Render beats
+                    renderBeats(userBeats);
+                } else {
+                    renderEmptyState('No beats yet');
+                }
+            } catch (error) {
+                console.error('Failed to load beats:', error);
+                renderEmptyState('Failed to load beats');
+            }
+        }
+
+        // Render beats grid
+        function renderBeats(beats) {
+            const container = document.getElementById('beatsContent');
+            
+            if (beats.length === 0) {
+                renderEmptyState('No beats yet');
+                return;
+            }
+            
+            container.innerHTML = beats.map(beat => {
+                const artistName = beat.producer?.displayName || beat.producer?.username || username;
+                const artworkUrl = beat.artwork || '/assets/default-artwork.jpg';
+                
+                return `
+                    <div class="beat-card">
+                        <div class="beat-artwork">
+                            <img src="${artworkUrl}" alt="${beat.title}" onerror="this.src='/assets/default-artwork.jpg'">
+                            <div class="beat-overlay">
+                                <button class="play-beat-btn" onclick="playBeat('${beat.audioFile}')">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="beat-info">
+                            <h3 class="beat-title">${beat.title}</h3>
+                            <p class="beat-artist">${artistName}</p>
+                            <div class="beat-details">
+                                <span class="beat-bpm">${beat.bpm || 140} BPM</span>
+                                <span class="beat-key">${beat.key || 'Unknown'}</span>
+                            </div>
+                            <div class="beat-stats">
+                                <span><i class="fas fa-heart"></i> ${beat.likes?.length || 0}</span>
+                                <span><i class="fas fa-play"></i> ${beat.plays || 0}</span>
+                            </div>
+                            <div class="beat-actions">
+                                <span class="beat-price">$${beat.price || 0}</span>
+                                <button class="btn btn-primary btn-sm">Purchase</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render empty state
+        function renderEmptyState(message) {
+            const container = document.getElementById('beatsContent');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-music"></i>
+                    <h3>${message}</h3>
+                    <p>Check back later for new beats!</p>
+                </div>
+            `;
+        }
+
+        // Tab switching
+        document.querySelectorAll('.profile-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabName = tab.dataset.tab;
+                document.getElementById('beatsContent').style.display = tabName === 'beats' ? 'grid' : 'none';
+                document.getElementById('favoritesContent').style.display = tabName === 'favorites' ? 'grid' : 'none';
+                
+                if (tabName === 'favorites') {
+                    renderEmptyState('Favorites feature coming soon!');
+                }
+            });
+        });
+
+        // Play beat function
+        function playBeat(audioUrl) {
+            // Simple audio player
+            const audio = new Audio(audioUrl);
+            audio.play();
+        }
+
+        // Initialize
+        checkAuth().then(loadProfile);
+    </script>
+</body>
+</html>

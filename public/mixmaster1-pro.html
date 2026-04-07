@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MixMaster1 Pro - Professional Mixing Suite</title>
+    <link rel="stylesheet" href="css/mixmaster1-pro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="mixmaster-container">
+        <!-- Header -->
+        <header class="mixmaster-header">
+            <div class="project-info">
+                <h1 id="projectName">Untitled Mix</h1>
+                <div class="stats">
+                    <span id="trackCount">0 tracks</span> • 
+                    <span id="sampleRate">48kHz</span> • 
+                    <span id="bitDepth">24-bit</span>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <button class="btn" id="newProject">
+                    <i class="fas fa-file"></i> New
+                </button>
+                <button class="btn" id="openProject">
+                    <i class="fas fa-folder-open"></i> Open
+                </button>
+                <button class="btn" id="saveProject">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn" id="saveSnapshot">
+                    <i class="fas fa-camera"></i> Snapshot
+                </button>
+                <button class="btn primary" id="exportMix">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn" id="settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Transport Bar -->
+        <div class="transport-bar">
+            <div class="transport-buttons">
+                <button class="transport-btn" id="rewindBtn" title="Rewind">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button class="transport-btn" id="playBtn" title="Play">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="transport-btn" id="stopBtn" title="Stop">
+                    <i class="fas fa-stop"></i>
+                </button>
+                <button class="transport-btn" id="recordBtn" title="Record">
+                    <i class="fas fa-circle"></i>
+                </button>
+                <button class="transport-btn" id="loopBtn" title="Loop">
+                    <i class="fas fa-repeat"></i>
+                </button>
+            </div>
+            
+            <div class="time-display">
+                <span id="timeDisplay">00:00:00.000</span>
+            </div>
+            
+            <div class="tempo-control">
+                <label>BPM</label>
+                <input type="number" id="tempoInput" value="120" min="20" max="300">
+            </div>
+            
+            <div class="tempo-control">
+                <label>Key</label>
+                <select id="keySelect" style="background: var(--control-bg); border: 1px solid var(--border); color: var(--text-primary); padding: 6px 12px; border-radius: 4px;">
+                    <option>C Major</option>
+                    <option>D Major</option>
+                    <option>E Major</option>
+                    <option>F Major</option>
+                    <option>G Major</option>
+                    <option>A Major</option>
+                    <option>B Major</option>
+                </select>
+            </div>
+            
+            <div class="tempo-control">
+                <label>CPU</label>
+                <div style="font-size: 14px; color: var(--accent); font-weight: bold;">
+                    <span id="cpuUsage">12</span>%
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="mixmaster-workspace">
+            <!-- Mixer Section -->
+            <div class="mixer-section">
+                <div class="mixer-scroll">
+                    <div class="mixer-channels" id="mixerChannels">
+                        <!-- Channels will be added dynamically -->
+                        
+                        <!-- Demo Channel 1 - Kick -->
+                        <div class="channel-strip" data-channel="kick">
+                            <div class="channel-header">
+                                <div class="channel-name">Kick</div>
+                                <div class="channel-type">MONO</div>
+                            </div>
+                            
+                            <div class="channel-meter">
+                                <div class="meter-bar" style="height: 0%"></div>
+                                <div class="meter-peak" style="top: 100%"></div>
+                                <div class="meter-scale">
+                                    <span>0</span>
+                                    <span>-6</span>
+                                    <span>-12</span>
+                                    <span>-18</span>
+                                    <span>-24</span>
+                                    <span>-∞</span>
+                                </div>
+                            </div>
+                            
+                            <div class="pan-control">
+                                <div class="pan-label">PAN</div>
+                                <div class="pan-knob">
+                                    <svg width="40" height="40" viewBox="0 0 40 40">
+                                        <circle cx="20" cy="20" r="16" />
+                                        <circle class="pan-value" cx="20" cy="20" r="16" 
+                                                stroke-dasharray="75.4" 
+                                                stroke-dashoffset="37.7" />
+                                    </svg>
+                                    <div class="pan-value-text">C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="fader-control">
+                                <div class="fader-track">
+                                    <div class="fader-fill" style="height: 75%"></div>
+                                    <div class="fader-thumb" style="top: 25%"></div>
+                                </div>
+                                <div class="fader-value">-3.2</div>
+                            </div>
+                            
+                            <div class="channel-buttons">
+                                <button class="channel-btn solo-btn">S</button>
+                                <button class="channel-btn mute-btn">M</button>
+                                <button class="channel-btn rec-btn">R</button>
+                            </div>
+                        </div>
+
+                        <!-- Demo Channel 2 - Snare -->
+                        <div class="channel-strip" data-channel="snare">
+                            <div class="channel-header">
+                                <div class="channel-name">Snare</div>
+                                <div class="channel-type">MONO</div>
+                            </div>
+                            
+                            <div class="channel-meter">
+                                <div class="meter-bar" style="height: 0%"></div>
+                                <div class="meter-peak" style="top: 100%"></div>
+                                <div class="meter-scale">
+                                    <span>0</span>
+                                    <span>-6</span>
+                                    <span>-12</span>
+                                    <span>-18</span>
+                                    <span>-24</span>
+                                    <span>-∞</span>
+                                </div>
+                            </div>
+                            
+                            <div class="pan-control">
+                                <div class="pan-label">PAN</div>
+                                <div class="pan-knob">
+                                    <svg width="40" height="40" viewBox="0 0 40 40">
+                                        <circle cx="20" cy="20" r="16" />
+                                        <circle class="pan-value" cx="20" cy="20" r="16" 
+                                                stroke-dasharray="75.4" 
+                                                stroke-dashoffset="37.7" />
+                                    </svg>
+                                    <div class="pan-value-text">C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="fader-control">
+                                <div class="fader-track">
+                                    <div class="fader-fill" style="height: 70%"></div>
+                                    <div class="fader-thumb" style="top: 30%"></div>
+                                </div>
+                                <div class="fader-value">-4.1</div>
+                            </div>
+                            
+                            <div class="channel-buttons">
+                                <button class="channel-btn solo-btn">S</button>
+                                <button class="channel-btn mute-btn">M</button>
+                                <button class="channel-btn rec-btn">R</button>
+                            </div>
+                        </div>
+
+                        <!-- Demo Channel 3 - Bass -->
+                        <div class="channel-strip" data-channel="bass">
+                            <div class="channel-header">
+                                <div class="channel-name">Bass</div>
+                                <div class="channel-type">STEREO</div>
+                            </div>
+                            
+                            <div class="channel-meter">
+                                <div class="meter-bar" style="height: 0%"></div>
+                                <div class="meter-peak" style="top: 100%"></div>
+                                <div class="meter-scale">
+                                    <span>0</span>
+                                    <span>-6</span>
+                                    <span>-12</span>
+                                    <span>-18</span>
+                                    <span>-24</span>
+                                    <span>-∞</span>
+                                </div>
+                            </div>
+                            
+                            <div class="pan-control">
+                                <div class="pan-label">PAN</div>
+                                <div class="pan-knob">
+                                    <svg width="40" height="40" viewBox="0 0 40 40">
+                                        <circle cx="20" cy="20" r="16" />
+                                        <circle class="pan-value" cx="20" cy="20" r="16" 
+                                                stroke-dasharray="75.4" 
+                                                stroke-dashoffset="37.7" />
+                                    </svg>
+                                    <div class="pan-value-text">C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="fader-control">
+                                <div class="fader-track">
+                                    <div class="fader-fill" style="height: 80%"></div>
+                                    <div class="fader-thumb" style="top: 20%"></div>
+                                </div>
+                                <div class="fader-value">-1.5</div>
+                            </div>
+                            
+                            <div class="channel-buttons">
+                                <button class="channel-btn solo-btn">S</button>
+                                <button class="channel-btn mute-btn">M</button>
+                                <button class="channel-btn rec-btn">R</button>
+                            </div>
+                        </div>
+
+                        <!-- Demo Channel 4 - Lead Vocal -->
+                        <div class="channel-strip" data-channel="vocal">
+                            <div class="channel-header">
+                                <div class="channel-name">Lead Vocal</div>
+                                <div class="channel-type">MONO</div>
+                            </div>
+                            
+                            <div class="channel-meter">
+                                <div class="meter-bar" style="height: 0%"></div>
+                                <div class="meter-peak" style="top: 100%"></div>
+                                <div class="meter-scale">
+                                    <span>0</span>
+                                    <span>-6</span>
+                                    <span>-12</span>
+                                    <span>-18</span>
+                                    <span>-24</span>
+                                    <span>-∞</span>
+                                </div>
+                            </div>
+                            
+                            <div class="pan-control">
+                                <div class="pan-label">PAN</div>
+                                <div class="pan-knob">
+                                    <svg width="40" height="40" viewBox="0 0 40 40">
+                                        <circle cx="20" cy="20" r="16" />
+                                        <circle class="pan-value" cx="20" cy="20" r="16" 
+                                                stroke-dasharray="75.4" 
+                                                stroke-dashoffset="37.7" />
+                                    </svg>
+                                    <div class="pan-value-text">C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="fader-control">
+                                <div class="fader-track">
+                                    <div class="fader-fill" style="height: 85%"></div>
+                                    <div class="fader-thumb" style="top: 15%"></div>
+                                </div>
+                                <div class="fader-value">0.0</div>
+                            </div>
+                            
+                            <div class="channel-buttons">
+                                <button class="channel-btn solo-btn">S</button>
+                                <button class="channel-btn mute-btn">M</button>
+                                <button class="channel-btn rec-btn">R</button>
+                            </div>
+                        </div>
+
+                        <!-- Master Channel -->
+                        <div class="channel-strip master" data-channel="master">
+                            <div class="channel-header">
+                                <div class="channel-name">MASTER</div>
+                                <div class="channel-type">STEREO</div>
+                            </div>
+                            
+                            <div class="channel-meter" style="height: 300px;">
+                                <div class="meter-bar" style="height: 0%"></div>
+                                <div class="meter-peak" style="top: 100%"></div>
+                                <div class="meter-scale">
+                                    <span>+3</span>
+                                    <span>0</span>
+                                    <span>-6</span>
+                                    <span>-12</span>
+                                    <span>-18</span>
+                                    <span>-24</span>
+                                    <span>-∞</span>
+                                </div>
+                            </div>
+                            
+                            <div class="fader-control">
+                                <div class="fader-track">
+                                    <div class="fader-fill" style="height: 75%"></div>
+                                    <div class="fader-thumb" style="top: 25%"></div>
+                                </div>
+                                <div class="fader-value">0.0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inspector Panel -->
+            <aside class="inspector-panel">
+                <div class="inspector-tabs">
+                    <button class="inspector-tab active" data-tab="channel">Channel</button>
+                    <button class="inspector-tab" data-tab="master">Master</button>
+                    <button class="inspector-tab" data-tab="snapshots">Snapshots</button>
+                </div>
+                
+                <div class="inspector-content">
+                    <!-- Channel Inspector -->
+                    <div class="inspector-section" data-section="channel">
+                        <!-- EQ Section -->
+                        <div class="eq-section">
+                            <div class="eq-title">
+                                <span>Parametric EQ</span>
+                                <button class="btn" style="padding: 4px 8px; font-size: 10px;">Reset</button>
+                            </div>
+                            
+                            <div class="eq-graph">
+                                <canvas class="eq-canvas" id="eqCanvas"></canvas>
+                            </div>
+                            
+                            <div class="eq-bands">
+                                <!-- Low Band -->
+                                <div class="eq-band">
+                                    <div class="eq-band-header">
+                                        <span class="eq-band-name">Low Shelf</span>
+                                        <button class="eq-band-toggle active"></button>
+                                    </div>
+                                    <div class="eq-band-controls">
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Freq</div>
+                                            <div class="eq-control-value">80 Hz</div>
+                                            <input type="range" class="eq-slider" min="20" max="500" value="80">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Gain</div>
+                                            <div class="eq-control-value">0.0 dB</div>
+                                            <input type="range" class="eq-slider" min="-12" max="12" value="0" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Low-Mid Band -->
+                                <div class="eq-band">
+                                    <div class="eq-band-header">
+                                        <span class="eq-band-name">Low-Mid</span>
+                                        <button class="eq-band-toggle active"></button>
+                                    </div>
+                                    <div class="eq-band-controls">
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Freq</div>
+                                            <div class="eq-control-value">400 Hz</div>
+                                            <input type="range" class="eq-slider" min="100" max="1000" value="400">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Gain</div>
+                                            <div class="eq-control-value">0.0 dB</div>
+                                            <input type="range" class="eq-slider" min="-12" max="12" value="0" step="0.1">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Q</div>
+                                            <div class="eq-control-value">1.4</div>
+                                            <input type="range" class="eq-slider" min="0.1" max="10" value="1.4" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- High-Mid Band -->
+                                <div class="eq-band">
+                                    <div class="eq-band-header">
+                                        <span class="eq-band-name">High-Mid</span>
+                                        <button class="eq-band-toggle active"></button>
+                                    </div>
+                                    <div class="eq-band-controls">
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Freq</div>
+                                            <div class="eq-control-value">2.5 kHz</div>
+                                            <input type="range" class="eq-slider" min="1000" max="8000" value="2500">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Gain</div>
+                                            <div class="eq-control-value">0.0 dB</div>
+                                            <input type="range" class="eq-slider" min="-12" max="12" value="0" step="0.1">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Q</div>
+                                            <div class="eq-control-value">1.4</div>
+                                            <input type="range" class="eq-slider" min="0.1" max="10" value="1.4" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- High Band -->
+                                <div class="eq-band">
+                                    <div class="eq-band-header">
+                                        <span class="eq-band-name">High Shelf</span>
+                                        <button class="eq-band-toggle active"></button>
+                                    </div>
+                                    <div class="eq-band-controls">
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Freq</div>
+                                            <div class="eq-control-value">8 kHz</div>
+                                            <input type="range" class="eq-slider" min="2000" max="20000" value="8000">
+                                        </div>
+                                        <div class="eq-control">
+                                            <div class="eq-control-label">Gain</div>
+                                            <div class="eq-control-value">0.0 dB</div>
+                                            <input type="range" class="eq-slider" min="-12" max="12" value="0" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compressor Section -->
+                        <div class="compressor-section">
+                            <div class="comp-title">Compressor</div>
+                            
+                            <div class="comp-visual">
+                                <canvas class="comp-canvas" id="compCanvas"></canvas>
+                            </div>
+                            
+                            <div class="comp-controls">
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Threshold</div>
+                                    <div class="comp-control-value">-18 dB</div>
+                                    <input type="range" class="eq-slider" min="-60" max="0" value="-18">
+                                </div>
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Ratio</div>
+                                    <div class="comp-control-value">4:1</div>
+                                    <input type="range" class="eq-slider" min="1" max="20" value="4" step="0.1">
+                                </div>
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Attack</div>
+                                    <div class="comp-control-value">5 ms</div>
+                                    <input type="range" class="eq-slider" min="0.1" max="100" value="5" step="0.1">
+                                </div>
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Release</div>
+                                    <div class="comp-control-value">50 ms</div>
+                                    <input type="range" class="eq-slider" min="10" max="1000" value="50" step="1">
+                                </div>
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Knee</div>
+                                    <div class="comp-control-value">4 dB</div>
+                                    <input type="range" class="eq-slider" min="0" max="40" value="4" step="0.1">
+                                </div>
+                                <div class="comp-control">
+                                    <div class="comp-control-label">Makeup</div>
+                                    <div class="comp-control-value">0 dB</div>
+                                    <input type="range" class="eq-slider" min="0" max="24" value="0" step="0.1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insert Effects -->
+                        <div class="inserts-section">
+                            <div class="inserts-title">Insert Effects</div>
+                            
+                            <div class="insert-slot" data-slot="1">
+                                <div class="insert-info">
+                                    <div class="insert-icon">+</div>
+                                    <div class="insert-empty">Add Effect</div>
+                                </div>
+                            </div>
+                            
+                            <div class="insert-slot" data-slot="2">
+                                <div class="insert-info">
+                                    <div class="insert-icon">+</div>
+                                    <div class="insert-empty">Add Effect</div>
+                                </div>
+                            </div>
+                            
+                            <div class="insert-slot" data-slot="3">
+                                <div class="insert-info">
+                                    <div class="insert-icon">+</div>
+                                    <div class="insert-empty">Add Effect</div>
+                                </div>
+                            </div>
+                            
+                            <div class="insert-slot" data-slot="4">
+                                <div class="insert-info">
+                                    <div class="insert-icon">+</div>
+                                    <div class="insert-empty">Add Effect</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sends -->
+                        <div class="sends-section">
+                            <div class="sends-title">Sends</div>
+                            
+                            <div class="send-control">
+                                <div class="send-header">
+                                    <span class="send-name">Reverb</span>
+                                    <span class="send-value">-∞ dB</span>
+                                </div>
+                                <input type="range" class="eq-slider" min="-60" max="12" value="-60" step="0.1">
+                            </div>
+                            
+                            <div class="send-control">
+                                <div class="send-header">
+                                    <span class="send-name">Delay</span>
+                                    <span class="send-value">-∞ dB</span>
+                                </div>
+                                <input type="range" class="eq-slider" min="-60" max="12" value="-60" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Master Inspector -->
+                    <div class="inspector-section" data-section="master" style="display: none;">
+                        <div class="master-section">
+                            <div class="master-title">Master Processing</div>
+                            
+                            <div class="master-meters">
+                                <div class="master-meter">
+                                    <div class="meter-label">LUFS Integrated</div>
+                                    <div class="lufs-meter">
+                                        <div class="lufs-value">-14.0</div>
+                                        <div class="lufs-label">LUFS</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="master-meter">
+                                    <div class="meter-label">True Peak</div>
+                                    <div class="lufs-meter">
+                                        <div class="lufs-value">-0.3</div>
+                                        <div class="lufs-label">dBTP</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Master EQ -->
+                            <div class="eq-section" style="margin-top: 20px;">
+                                <div class="eq-title">Master EQ</div>
+                                <div class="eq-graph">
+                                    <canvas class="eq-canvas" id="masterEqCanvas"></canvas>
+                                </div>
+                            </div>
+                            
+                            <!-- Master Compressor -->
+                            <div class="compressor-section">
+                                <div class="comp-title">Mastering Compressor</div>
+                                <div class="comp-controls">
+                                    <div class="comp-control">
+                                        <div class="comp-control-label">Threshold</div>
+                                        <div class="comp-control-value">-6 dB</div>
+                                        <input type="range" class="eq-slider" min="-30" max="0" value="-6">
+                                    </div>
+                                    <div class="comp-control">
+                                        <div class="comp-control-label">Ratio</div>
+                                        <div class="comp-control-value">2:1</div>
+                                        <input type="range" class="eq-slider" min="1" max="10" value="2" step="0.1">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Stereo Widener -->
+                            <div class="compressor-section">
+                                <div class="comp-title">Stereo Widener</div>
+                                <div class="comp-controls">
+                                    <div class="comp-control" style="grid-column: span 2;">
+                                        <div class="comp-control-label">Width</div>
+                                        <div class="comp-control-value">100%</div>
+                                        <input type="range" class="eq-slider" min="0" max="200" value="100">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Limiter -->
+                            <div class="compressor-section">
+                                <div class="comp-title">True Peak Limiter</div>
+                                <div class="comp-controls">
+                                    <div class="comp-control">
+                                        <div class="comp-control-label">Ceiling</div>
+                                        <div class="comp-control-value">-0.3 dB</div>
+                                        <input type="range" class="eq-slider" min="-3" max="0" value="-0.3" step="0.1">
+                                    </div>
+                                    <div class="comp-control">
+                                        <div class="comp-control-label">Release</div>
+                                        <div class="comp-control-value">50 ms</div>
+                                        <input type="range" class="eq-slider" min="10" max="500" value="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Snapshots Inspector -->
+                    <div class="inspector-section" data-section="snapshots" style="display: none;">
+                        <div class="snapshots-section">
+                            <div class="snapshots-title">Mix Snapshots</div>
+                            
+                            <button class="btn primary" style="width: 100%; margin-bottom: 16px;">
+                                <i class="fas fa-camera"></i> Create Snapshot
+                            </button>
+                            
+                            <div class="snapshot-item active">
+                                <div class="snapshot-info">
+                                    <div class="snapshot-name">Initial Mix</div>
+                                    <div class="snapshot-time">Today at 2:45 PM</div>
+                                </div>
+                                <button class="btn" style="padding: 4px 8px; font-size: 10px;">Load</button>
+                            </div>
+                            
+                            <div class="snapshot-item">
+                                <div class="snapshot-info">
+                                    <div class="snapshot-name">Verse Balance</div>
+                                    <div class="snapshot-time">Today at 3:12 PM</div>
+                                </div>
+                                <button class="btn" style="padding: 4px 8px; font-size: 10px;">Load</button>
+                            </div>
+                            
+                            <div class="snapshot-item">
+                                <div class="snapshot-info">
+                                    <div class="snapshot-name">Chorus Energy</div>
+                                    <div class="snapshot-time">Today at 3:45 PM</div>
+                                </div>
+                                <button class="btn" style="padding: 4px 8px; font-size: 10px;">Load</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="js/mixmaster1-pro.js"></script>
+</body>
+</html>

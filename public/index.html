@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<<<<<<< HEAD
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorSync - Monetize Your Beats</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <img src="assets/logo.png" alt="CreatorSync" class="brand-logo logo-glow interactive-logo" id="brandLogo">
+                </div>
+            </div>
+
+            <div class="nav-menu-wrapper">
+                <button class="nav-scroll-btn nav-scroll-left" aria-label="Scroll left">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="nav-menu-carousel">
+                    <a href="#featured" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-drum"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Beats</h3>
+                            <p>Exclusive instrumentals</p>
+                        </div>
+                    </a>
+                    <a href="#featured" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Sound Packs</h3>
+                            <p>Professional samples & loops</p>
+                        </div>
+                    </a>
+                    <a href="#collaboration" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-headphones-alt"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Create Studio</h3>
+                            <p>Mix, master & collaborate live</p>
+                        </div>
+                    </a>
+                    <a href="beat-maker.html" class="nav-card nav-card-featured">
+                        <div class="nav-card-icon">
+                            <img src="assets/beatforge-logo.png?v=2" alt="BeatForge" class="beatforge-logo logo-glow interactive-logo" style="height: 32px;">
+                        </div>
+                        <div class="nav-card-content">
+                            <h3><span class="new-badge">NEW</span> BeatForge</h3>
+                            <p>Create beats in your browser</p>
+                        </div>
+                    </a>
+                    <a href="#subscription" class="nav-card">
+                        <div class="nav-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="nav-card-content">
+                            <h3>Marketplace</h3>
+                            <p>Buy & sell exclusive beats</p>
+                        </div>
+                    </a>
+                    <a href="mixmaster1-app.html" class="nav-card nav-card-premium" id="mixmasterNavLink">
+                        <div class="nav-card-icon">
+                            <img src="assets/mixmaster1-logo.png" alt="MixMaster1" class="mixmaster-logo logo-glow interactive-logo">
+                        </div>
+                        <div class="nav-card-content">
+                            <h3><span class="pro-badge">PRO+</span> MixMaster1</h3>
+                            <p>Professional mixing suite</p>
+                        </div>
+                    </a>
+                    <a href="finisher-app.html" class="nav-card nav-card-premium" id="finisherNavLink">
+                        <div class="nav-card-icon finisher-logo-container">
+                            <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo logo-glow interactive-logo">
+                        </div>
+                        <div class="nav-card-content">
+                            <h3><span class="pro-badge">PRO</span></h3>
+                            <p>AI-powered music production</p>
+                        </div>
+                    </a>
+                </div>
+                <button class="nav-scroll-btn nav-scroll-right" aria-label="Scroll right">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="nav-auth">
+                <button class="btn btn-outline auth-btn-login" id="loginBtn" data-translate="nav.login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+                <button class="btn btn-gradient-enhanced auth-btn-signup" id="signupBtn" data-translate="nav.signup">
+                    <span class="signup-text">Sign Up</span>
+                    <i class="fas fa-sparkles"></i>
+                    <span class="signup-badge">Free</span>
+                </button>
+                <div class="finisher-header-cta">
+                    <span class="get-text">Get</span>
+                    <a href="finisher-app.html" class="finisher-logo-nav-link" title="Open The Finisher">
+                        <img src="assets/finisher-logo.png" alt="The Finisher" class="btn-finisher-logo-large logo-glow interactive-logo">
+                    </a>
+                </div>
+                <div class="language-selector">
+                    <select id="languageSelect" title="Select Language">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="pt">🇵🇹 Português</option>
+                        <option value="it">🇮🇹 Italiano</option>
+                        <option value="ko">🇰🇷 한국어</option>
+                        <option value="ar">🇸🇦 العربية</option>
+                        <option value="hi">🇮🇳 हिन्दी</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title hero-title-dynamic" data-translate="hero.title">
+                <span class="gradient-text">Transform</span> Your Sound Into
+                <span class="gradient-text typing-effect">Revenue</span>
+            </h1>
+            <p class="hero-subtitle hero-subtitle-enhanced" data-translate="hero.subtitle">
+                Where <strong>producers thrive</strong>, <strong>artists connect</strong>, and <strong>beats sell</strong>.
+                <span class="highlight-text">License tracks, collaborate live, and build your empire</span> — all in one powerful platform.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" data-translate="hero.startCreating">
+                    <i class="fas fa-play"></i>
+                    Start Creating
+                </button>
+                <button class="btn btn-outline btn-lg" data-translate="hero.exploreBeats">
+                    <i class="fas fa-headphones"></i>
+                    Explore Beats
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="waveform-container">
+                <div class="waveform"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- All-In-One Platform Value Statement -->
+    <section class="value-statement-section">
+        <div class="container">
+            <div class="value-statement-card">
+                <div class="value-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h2>Everything You Need. One Platform.</h2>
+                <p class="value-description">
+                    <strong>Never leave the platform.</strong> Record, mix, collaborate, publish, share, and distribute your work — all in one place. From creation to monetization, CreatorSync is your complete music production ecosystem.
+                </p>
+                <div class="value-features">
+                    <div class="value-feature-item">
+                        <i class="fas fa-music"></i>
+                        <span>Create & Record</span>
+                    </div>
+                    <div class="value-feature-item">
+                        <i class="fas fa-users"></i>
+                        <span>Collaborate Live</span>
+                    </div>
+                    <div class="value-feature-item">
+                        <i class="fas fa-store"></i>
+                        <span>Sell & License</span>
+                    </div>
+                    <div class="value-feature-item">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Share & Publish</span>
+                    </div>
+                    <div class="value-feature-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Distribute Worldwide</span>
+                    </div>
+                    <div class="value-feature-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Track Analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Beats -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="sections.trendingBeats">Trending Beats</h2>
+                <div class="filter-tabs">
+                    <button class="tab-btn active" data-category="all" data-translate="filters.all">All</button>
+                    <button class="tab-btn" data-category="hip-hop" data-translate="filters.hipHop">Hip Hop</button>
+                    <button class="tab-btn" data-category="trap" data-translate="filters.trap">Trap</button>
+                    <button class="tab-btn" data-category="r&b" data-translate="filters.rnb">R&B</button>
+                    <button class="tab-btn" data-category="pop" data-translate="filters.pop">Pop</button>
+                </div>
+            </div>
+
+            <div class="beats-grid" id="beatsGrid">
+                <!-- Beat cards will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Player -->
+    <div class="audio-player" id="audioPlayer">
+        <div class="player-content">
+            <div class="track-info">
+                <img src="assets/default-artwork.jpg" alt="Track artwork" class="track-artwork">
+                <div class="track-details">
+                    <h4 class="track-title">Select a beat to play</h4>
+                    <p class="track-artist">CreatorSync</p>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <button class="control-btn" id="prevBtn" title="Previous Track" aria-label="Previous Track">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn play-btn" id="playBtn" title="Play/Pause" aria-label="Play/Pause">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn" title="Next Track" aria-label="Next Track">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+
+            <div class="progress-container">
+                <span class="time current-time">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <span class="time total-time">0:00</span>
+            </div>
+
+            <div class="player-options">
+                <button class="option-btn" id="volumeBtn" title="Volume Control" aria-label="Volume Control">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="option-btn" id="favoriteBtn" title="Add to Favorites" aria-label="Add to Favorites">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="option-btn" id="downloadBtn" title="Download Beat" aria-label="Download Beat">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="option-btn" id="shareBtn" title="Share Beat" aria-label="Share Beat">
+                    <i class="fas fa-share"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marketplace Section -->
+    <section class="marketplace-section">
+        <div class="container">
+            <h2 data-translate="sections.marketplace">Marketplace</h2>
+            <div class="marketplace-stats">
+                <div class="stat-card">
+                    <i class="fas fa-music"></i>
+                    <h3>50K+</h3>
+                    <p data-translate="stats.beatsAvailable">Beats Available</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>10K+</h3>
+                    <p data-translate="stats.activeCreators">Active Creators</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>$2M+</h3>
+                    <p data-translate="stats.creatorEarnings">Creator Earnings</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>150+</h3>
+                    <p data-translate="stats.countries">Countries</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Finisher Integration Section -->
+    <section class="finisher-section">
+        <div class="container">
+            <div class="finisher-content">
+                <div class="finisher-text">
+                    <div class="finisher-header-logo">
+                        <h2>Upgrade to</h2>
+                        <a href="finisher-app.html" class="finisher-logo-link" title="Open The Finisher">
+                            <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo-xlarge logo-glow interactive-logo logo-echo">
+                        </a>
+                    </div>
+                    <p class="finisher-subtitle">
+                        Take your music production to the next level with our professional-grade suite of tools and services.
+                    </p>
+                    <div class="finisher-features">
+                        <div class="feature-item">
+                            <i class="fas fa-magic"></i>
+                            <div>
+                                <h4>Advanced Audio Processing</h4>
+                                <p>Professional mastering and mixing tools</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-cloud"></i>
+                            <div>
+                                <h4>Cloud Collaboration</h4>
+                                <p>Real-time project sharing and editing</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Advanced Analytics</h4>
+                                <p>Detailed insights and performance metrics</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-infinity"></i>
+                            <div>
+                                <h4>Unlimited Storage</h4>
+                                <p>Store all your projects in the cloud</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-methods-info">
+                        <p>We accept:</p>
+                        <div class="payment-icons">
+                            <i class="fab fa-cc-visa" title="Visa"></i>
+                            <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                            <i class="fab fa-cc-amex" title="American Express"></i>
+                            <i class="fab fa-cc-discover" title="Discover"></i>
+                            <i class="fab fa-cc-paypal" title="PayPal"></i>
+                            <i class="fab fa-cc-apple-pay" title="Apple Pay"></i>
+                            <i class="fab fa-google-pay" title="Google Pay"></i>
+                            <i class="fas fa-dollar-sign" title="Cash App"></i>
+                            <i class="fas fa-credit-card" title="Chime"></i>
+                            <i class="fas fa-wallet" title="One Card"></i>
+                        </div>
+                        <p class="payment-security"><i class="fas fa-lock"></i> Secure payments powered by Stripe</p>
+                    </div>
+
+                    <div class="subscription-plans">
+                        <!-- Monthly Plans -->
+                        <div class="plan-card starter">\n                            <div class="billing-period-badge">Monthly</div>
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="amount">$9.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Basic audio processing</li>
+                                <li><i class="fas fa-check"></i> 5GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Standard support</li>
+                                <li><i class="fas fa-check"></i> CreatorSync integration</li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-outline subscribe-btn" data-plan="starter-monthly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+
+                        <div class="plan-card starter">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="amount">$7.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$95.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Basic audio processing</li>
+                                <li><i class="fas fa-check"></i> 5GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Standard support</li>
+                                <li><i class="fas fa-check"></i> CreatorSync integration</li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-outline subscribe-btn" data-plan="starter-yearly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+
+                        <div class="plan-card pro featured">
+                            <div class="popular-badge">Most Popular</div>
+                            <div class="billing-period-badge">Monthly</div>
+                            <h3>Pro</h3>
+                            <div class="price">
+                                <span class="amount">$29.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Advanced audio processing</li>
+                                <li><i class="fas fa-check"></i> 100GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Priority support</li>
+                                <li><i class="fas fa-check"></i> Advanced collaboration tools</li>
+                                <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                <li><i class="fas fa-check"></i> Revenue sharing benefits</li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-primary subscribe-btn" data-plan="pro-monthly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+
+                        <div class="plan-card pro">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Pro</h3>
+                            <div class="price">
+                                <span class="amount">$23.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$287.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Advanced audio processing</li>
+                                <li><i class="fas fa-check"></i> 100GB cloud storage</li>
+                                <li><i class="fas fa-check"></i> Priority support</li>
+                                <li><i class="fas fa-check"></i> Advanced collaboration tools</li>
+                                <li><i class="fas fa-check"></i> Analytics dashboard</li>
+                                <li><i class="fas fa-check"></i> Revenue sharing benefits</li>
+                                <li><i class="fas fa-check plan-check-icon"></i> <strong>MixMaster1 access</strong></li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-primary subscribe-btn" data-plan="pro-yearly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+
+                        <div class="plan-card enterprise">
+                            <div class="billing-period-badge">Monthly</div>
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="amount">$99.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Professional audio suite</li>
+                                <li><i class="fas fa-check"></i> Unlimited storage</li>
+                                <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                                <li><i class="fas fa-check"></i> White-label solutions</li>
+                                <li><i class="fas fa-check"></i> Custom integrations</li>
+                                <li><i class="fas fa-check"></i> Advanced revenue tools</li>
+                                <li><i class="fas fa-check plan-check-icon"></i> <strong>MixMaster1 access</strong></li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise-monthly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+
+                        <div class="plan-card enterprise">
+                            <div class="billing-period-badge yearly">Yearly <span class="save-badge">Save 20%</span></div>
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="amount">$79.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <div class="yearly-total">$959.90 billed annually</div>
+                            <ul class="plan-features">
+                                <li><i class="fas fa-check"></i> Professional audio suite</li>
+                                <li><i class="fas fa-check"></i> Unlimited storage</li>
+                                <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                                <li><i class="fas fa-check"></i> White-label solutions</li>
+                                <li><i class="fas fa-check"></i> Custom integrations</li>
+                                <li><i class="fas fa-check"></i> Advanced revenue tools</li>
+                                <li><i class="fas fa-check plan-check-icon"></i> <strong>MixMaster1 access</strong></li>
+                            </ul>
+                            <div class="trial-badge">15-Day Free Trial</div>
+                            <button class="btn btn-secondary subscribe-btn" data-plan="enterprise-yearly">Start Trial • 50% Off 1st Month</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Guide Section -->
+    <section class="user-guide-section">
+        <div class="container">
+            <h2>Getting Started Guide</h2>
+            <p class="section-subtitle">Learn how to make the most of CreatorSync and start monetizing your music today</p>
+
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <div class="guide-number">1</div>
+                    <div class="guide-icon"><i class="fas fa-user-plus"></i></div>
+                    <h3>Create Your Account</h3>
+                    <p>Sign up for free and set up your producer profile. Upload your avatar, add your bio, and connect your social media accounts to build your brand.</p>
+                    <a href="#signup" class="guide-link">Sign Up Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-number">2</div>
+                    <div class="guide-icon"><i class="fas fa-upload"></i></div>
+                    <h3>Upload Your Beats</h3>
+                    <p>Upload high-quality audio files (WAV, MP3, FLAC). Add metadata, tags, BPM, and key. Set your pricing - choose standard pricing or enable bidding for trending beats.</p>
+                    <a href="#beats" class="guide-link">Upload Beats <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-number">3</div>
+                    <div class="guide-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <h3>Set Your Prices</h3>
+                    <p>Choose between standard fixed pricing or auction-style bidding. Enable trending status to boost visibility. Platform takes a 12.5% commission on all sales.</p>
+                    <a href="#finisher" class="guide-link">View Pricing <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-number">4</div>
+                    <div class="guide-icon"><i class="fas fa-users"></i></div>
+                    <h3>Collaborate & Share</h3>
+                    <p>Use real-time collaboration tools to work with other artists. Share your beats across all social media platforms with one click to maximize your reach.</p>
+                    <a href="#studio" class="guide-link">Start Collaborating <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-number">5</div>
+                    <div class="guide-icon"><i class="fas fa-crown"></i></div>
+                    <h3>Upgrade to The Finisher</h3>
+                    <p>Unlock Pro features including MixMaster1 mixing suite, advanced audio processing, 100GB+ storage, priority support, and enhanced revenue tools.</p>
+                    <a href="#finisher" class="guide-link">View Plans <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-number">6</div>
+                    <div class="guide-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Track Your Growth</h3>
+                    <p>Monitor your earnings, track beat performance, analyze listener demographics, and optimize your catalog with our advanced analytics dashboard.</p>
+                    <a href="#analytics" class="guide-link">View Analytics <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about CreatorSync</p>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is CreatorSync?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>CreatorSync is a comprehensive platform for music producers to monetize their beats, collaborate with artists in real-time, and grow their music business. We provide marketplace features, professional audio tools like The Finisher and MixMaster1, and powerful collaboration capabilities.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How much does CreatorSync cost?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>CreatorSync offers multiple tiers: <strong>Starter</strong> ($9.99/month or $7.99/month yearly), <strong>Pro</strong> ($29.99/month or $23.99/month yearly) with MixMaster1 access, and <strong>Enterprise</strong> ($99.99/month or $79.99/month yearly) with all premium features. All plans include a 15-day free trial, then 50% off the first month, followed by full pricing.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is the platform commission rate?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>CreatorSync takes a <strong>12.5% commission</strong> on all beat sales. This covers payment processing, platform maintenance, and ongoing feature development. You keep 87.5% of every sale.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What's the difference between standard pricing and bidding?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Standard pricing</strong> lets you set a fixed price for your beat. <strong>Bidding</strong> allows buyers to place bids, with a minimum bid price you set. Bidding beats can be marked as "trending" to increase visibility. Bidding typically results in higher final sale prices for in-demand beats.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is MixMaster1 and who can access it?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>MixMaster1 is our professional audio mixing suite featuring multi-track editing, advanced EQ, effects, and high-quality audio export. It's exclusively available to <strong>Pro and Enterprise</strong> subscribers. The tool integrates seamlessly with The Finisher for complete music production workflow.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I collaborate with other producers in real-time?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! CreatorSync offers real-time collaboration features including live project sharing, synchronized editing, real-time chat, version control, and secure file encryption. Multiple users can work on the same project simultaneously from anywhere in the world.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What file formats are supported?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We support all major audio formats including <strong>WAV, MP3, FLAC, AIFF, OGG, and AAC</strong>. For best quality, we recommend uploading WAV or FLAC files. Our system automatically generates multiple format versions for streaming and download.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How do I share my beats on social media?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Every beat has a share button that opens our ShareManager. You can instantly share to 13+ platforms including TikTok, Instagram, Facebook, Twitter, Spotify, Apple Music, SoundCloud, YouTube Music, Amazon Music, WhatsApp, Telegram, and more. Track share analytics in your dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is there a free trial?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! All subscription tiers include a <strong>15-day free trial</strong>. A credit/debit card is required to start your trial. After the trial, you'll be charged <strong>50% off</strong> for the first month, then full price thereafter. Cancel anytime during the trial period with no charges.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What languages does CreatorSync support?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>CreatorSync is available in <strong>7 languages</strong>: English, Spanish (Español), French (Français), German (Deutsch), Japanese (日本語), Chinese (中文), and Russian (Русский). Switch languages anytime using the selector in the navigation bar.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We accept multiple payment methods for your convenience: <strong>Credit/Debit Cards</strong> (Visa, Mastercard, American Express, Discover), <strong>PayPal</strong>, <strong>Apple Pay</strong>, <strong>Google Pay</strong>, <strong>Cash App</strong>, <strong>Chime</strong>, and <strong>One Card</strong>. All payments are processed securely through Stripe with enterprise-grade encryption.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Collaboration -->
+    <section class="collaboration-section">
+        <div class="container">
+            <div class="collab-content">
+                <div class="collab-text">
+                    <h2>Real-Time Collaboration</h2>
+                    <p>Work together seamlessly with producers and artists worldwide.
+                    Share projects, get feedback, and create amazing music together.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Live project sharing</li>
+                        <li><i class="fas fa-check"></i> Real-time chat and feedback</li>
+                        <li><i class="fas fa-check"></i> Version control and history</li>
+                        <li><i class="fas fa-check"></i> Secure file encryption</li>
+                    </ul>
+                    <button class="btn btn-primary">Start Collaborating</button>
+                </div>
+                <div class="collab-visual">
+                    <div class="collaboration-demo">
+                        <div class="user-avatar active">
+                            <img src="assets/user1.jpg" alt="User 1">
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="assets/user2.jpg" alt="User 2">
+                            <span class="status-indicator"></span>
+                        </div>
+                        <div class="user-avatar">
+                            <img src="assets/user3.jpg" alt="User 3">
+                            <span class="status-indicator"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CreatorSync</h3>
+                    <p>Proprietary platform for music monetization and collaboration.</p>
+
+                    <!-- Music Streaming Platforms -->
+                    <h4 class="social-category">Stream Our Artists</h4>
+                    <div class="social-links">
+                        <a href="https://soundcloud.com/creatorsync" target="_blank" rel="noopener" title="Find us on SoundCloud" aria-label="Find us on SoundCloud"><i class="fab fa-soundcloud"></i></a>
+                        <a href="https://music.apple.com/creatorsync" target="_blank" rel="noopener" title="Find us on Apple Music" aria-label="Find us on Apple Music"><i class="fab fa-apple"></i></a>
+                        <a href="https://music.youtube.com/creatorsync" target="_blank" rel="noopener" title="Find us on YouTube Music" aria-label="Find us on YouTube Music"><i class="fab fa-youtube"></i></a>
+                        <a href="https://music.amazon.com/creatorsync" target="_blank" rel="noopener" title="Find us on Amazon Music" aria-label="Find us on Amazon Music"><i class="fab fa-amazon"></i></a>
+                        <a href="https://open.spotify.com/creatorsync" target="_blank" rel="noopener" title="Find us on Spotify" aria-label="Find us on Spotify"><i class="fab fa-spotify"></i></a>
+                    </div>
+
+                    <!-- Social Networks -->
+                    <h4 class="social-category">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://tiktok.com/@creatorsync" target="_blank" rel="noopener" title="Follow on TikTok" aria-label="Follow on TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://instagram.com/creatorsync" target="_blank" rel="noopener" title="Follow on Instagram" aria-label="Follow on Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com/creatorsync" target="_blank" rel="noopener" title="Follow on Facebook" aria-label="Follow on Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com/creatorsync" target="_blank" rel="noopener" title="Follow on Twitter/X" aria-label="Follow on Twitter/X"><i class="fab fa-twitter"></i></a>
+                        <a href="https://wa.me/creatorsync" target="_blank" rel="noopener" title="Chat on WhatsApp" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+
+                    <!-- Share Your Work -->
+                    <h4 class="social-category">Share Your Beats</h4>
+                    <p class="share-description">Increase your reach by sharing your beats across all platforms with one click.</p>
+                    <button class="btn btn-gradient-enhanced btn-share-global" onclick="window.shareManager?.openShareModal()">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Share Your Work</span>
+                    </button>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                        <li><a href="#status">System Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#licensing">Licensing</a></li>
+                        <li><a href="#copyright">Copyright</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-translate="partners.industryPartners">Industry Partners</h4>
+                    <ul>
+                        <li><a href="https://www.ascap.com" target="_blank" rel="noopener" data-translate="partners.ascap">ASCAP</a></li>
+                        <li><a href="https://www.bmi.com" target="_blank" rel="noopener" data-translate="partners.bmi">BMI</a></li>
+                        <li><a href="https://www.sesac.com" target="_blank" rel="noopener" data-translate="partners.sesac">SESAC</a></li>
+                        <li><a href="https://www.songtrust.com" target="_blank" rel="noopener" data-translate="partners.songtrust">Songtrust</a></li>
+                        <li><a href="https://www.tunecore.com" target="_blank" rel="noopener" data-translate="partners.tunecore">TuneCore</a></li>
+                        <li><a href="https://www.distrokid.com" target="_blank" rel="noopener" data-translate="partners.distrokid">DistroKid</a></li>
+                        <li><a href="https://www.cdbaby.com" target="_blank" rel="noopener" data-translate="partners.cdbaby">CD Baby</a></li>
+                        <li><a href="https://www.landr.com" target="_blank" rel="noopener" data-translate="partners.landr">LANDR</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 CreatorSync. All rights reserved. Developed by Demond Balentine.</p>
+                <p>Contact: <a href="mailto:demond.balentine@atlasschool.com">demond.balentine@atlasschool.com</a> | Phone: 479-250-2573</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Authentication Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="auth.welcomeBack">Welcome Back</h2>
+                <button class="modal-close" id="loginModalClose">&times;</button>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail" data-translate="auth.email">Email</label>
+                    <input type="email" id="loginEmail" name="email" required data-translate-title="auth.email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword" data-translate="auth.password">Password</label>
+                    <input type="password" id="loginPassword" name="password" required autocomplete="current-password" data-translate-title="auth.password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" data-translate="auth.login">Login</button>
+                <div class="form-footer">
+                    <a href="#" id="forgotPasswordLink" data-translate="auth.forgotPassword">Forgot Password?</a>
+                    <p data-translate="auth.dontHaveAccount">Don't have an account? <a href="#" id="switchToSignup" data-translate="auth.signup">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="auth.joinCreatorSync">Join CreatorSync</h2>
+                <button class="modal-close" id="signupModalClose">&times;</button>
+            </div>
+            <form class="auth-form" id="signupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signupUsername" data-translate="auth.username">Username</label>
+                        <input type="text" id="signupUsername" name="username" required data-translate-title="auth.username">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupArtistName" data-translate="auth.artistName">Artist Name</label>
+                        <input type="text" id="signupArtistName" name="artistName" data-translate-title="auth.artistName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail" data-translate="auth.email">Email</label>
+                    <input type="email" id="signupEmail" name="email" required data-translate-title="auth.email">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword" data-translate="auth.password">Password</label>
+                    <input type="password" id="signupPassword" name="password" required autocomplete="new-password" data-translate-title="auth.password">
+                    <div class="password-strength" id="passwordStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" data-translate="auth.confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password" data-translate-title="auth.confirmPassword">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                    <label for="agreeTerms">I agree to the <a href="#terms" data-translate="footer.termsOfService">Terms of Service</a> and <a href="#privacy" data-translate="footer.privacyPolicy">Privacy Policy</a></label>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="subscribeNewsletter" name="subscribeNewsletter">
+                    <label for="subscribeNewsletter" data-translate="subscription.subscribeUpdates">Subscribe to updates about The Finisher and new features</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" data-translate="auth.createAccount">Create Account</button>
+                <div class="form-footer">
+                    <p data-translate="auth.alreadyHaveAccount">Already have an account? <a href="#" id="switchToLogin" data-translate="auth.login">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- The Finisher Subscription Modal -->
+    <div class="modal large" id="subscriptionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-finisher">
+                    <h2>Upgrade to</h2>
+                    <img src="assets/finisher-logo.png" alt="The Finisher" class="finisher-logo-large logo-glow interactive-logo">
+                </div>
+                <button class="modal-close" id="subscriptionModalClose">&times;</button>
+            </div>
+            <div class="subscription-content">
+                <div class="subscription-benefits">
+                    <h3>Why upgrade?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="fas fa-rocket"></i>
+                            <h4>Accelerate Your Workflow</h4>
+                            <p>Advanced tools that cut your production time in half</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-users"></i>
+                            <h4>Professional Collaboration</h4>
+                            <p>Work with top producers and artists worldwide</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-chart-trending-up"></i>
+                            <h4>Maximize Revenue</h4>
+                            <p>Enhanced monetization tools and priority placement</p>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-shield-check"></i>
+                            <h4>Professional Support</h4>
+                            <p>Priority support and dedicated account management</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="subscription-form">
+                    <form id="subscriptionForm">
+                        <div class="plan-selection">
+                            <div class="plan-option" data-plan="starter">
+                                <input type="radio" name="plan" value="starter" id="planStarter">
+                                <label for="planStarter">
+                                    <div class="plan-info">
+                                        <h4>Starter Plan</h4>
+                                        <div class="plan-price">$9.99/month</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="plan-option featured" data-plan="pro">
+                                <input type="radio" name="plan" value="pro" id="planPro" checked>
+                                <label for="planPro">
+                                    <div class="plan-info">
+                                        <h4>Pro Plan</h4>
+                                        <div class="plan-price">$29.99/month</div>
+                                        <div class="plan-badge">Recommended</div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="plan-option" data-plan="enterprise">
+                                <input type="radio" name="plan" value="enterprise" id="planEnterprise">
+                                <label for="planEnterprise">
+                                    <div class="plan-info">
+                                        <h4>Enterprise Plan</h4>
+                                        <div class="plan-price">$99.99/month</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="trial-info">
+                            <i class="fas fa-gift"></i>
+                            <p><strong>15-day free trial</strong> • Then 50% off first month • Credit card required</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full btn-lg">Start Free Trial</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Reset language to English by default
+        if (!localStorage.getItem('creatorSync_language') || localStorage.getItem('creatorSync_language') === 'de') {
+            localStorage.setItem('creatorSync_language', 'en');
+        }
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/translation.js"></script>
+    <script src="js/share.js"></script>
+    <script src="js/app.js?v=3"></script>
+=======
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CreatorSync — The elite music marketplace for producers and artists. Buy, sell, and collaborate on beats in real time." />
+  <title>CreatorSync — Music Marketplace</title>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>" />
+</head>
+<body>
+
+  <script src="js/demoBanner.js"></script>
+  <script src="js/demoEventBus.js"></script>
+  <script src="js/onboarding.js"></script>
+  <script src="js/activityFeed.js"></script>
+  <script src="js/presenceIndicators.js"></script>
+  <script src="js/trendingRecent.js"></script>
+  <script src="js/animatedFeedback.js"></script>
+  <script src="js/contextNotifications.js"></script>
+  <script src="js/collabAvatars.js"></script>
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION BAR
+  ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="CreatorSync home">
+        <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="nav-logo-img" />
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="nav-links" id="navLinks" role="list">
+        <a href="#discover" class="nav-link active" role="listitem">Discover</a>
+        <a href="#marketplace" class="nav-link" role="listitem">Marketplace</a>
+        <a href="#collab" class="nav-link" role="listitem">Collaborate</a>
+        <a href="#ai-tools" class="nav-link" role="listitem">
+          AI Tools
+          <span class="nav-badge">NEW</span>
+        </a>
+        <a href="#the-finisher" class="nav-link finisher-nav-link" role="listitem">
+          <img src="assets/the-finisher-logo.png" alt="" class="finisher-nav-logo" aria-hidden="true" />
+          The Finisher
+        </a>
+        <a href="#pricing" class="nav-link" role="listitem">Pricing</a>
+      </div>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <!-- Search toggle -->
+        <button class="nav-icon-btn" id="searchToggle" aria-label="Toggle search" aria-expanded="false">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </button>
+
+        <!-- Notifications -->
+        <button class="nav-icon-btn nav-notify" id="notifyBtn" aria-label="Notifications (3 unread)" aria-haspopup="true">
+          <i class="fa-solid fa-bell" aria-hidden="true"></i>
+          <span class="nav-badge-dot" aria-hidden="true">3</span>
+        </button>
+
+        <!-- User avatar (shown when logged in) -->
+        <button class="nav-avatar" id="userMenuBtn" style="display:none" aria-label="User menu" aria-expanded="false">
+          <img src="https://i.pravatar.cc/36?img=12" alt="User avatar" width="36" height="36" />
+        </button>
+
+        <!-- Auth buttons (shown when logged out) -->
+        <div class="nav-auth-btns" id="navAuthBtns">
+          <button class="btn btn-ghost btn-sm" id="loginBtn" aria-label="Log in to your account">Log In</button>
+          <button class="btn btn-primary btn-sm" id="signupBtn" aria-label="Create a free account">Get Started</button>
+        </div>
+
+        <!-- Sell beats -->
+        <button class="btn btn-gradient btn-sm nav-sell-btn" id="sellBeatsBtn" aria-label="Upload and sell your beats">
+          <i class="fa-solid fa-upload" aria-hidden="true"></i>
+          Sell Beats
+        </button>
+
+        <!-- Hamburger -->
+        <button class="hamburger" id="hamburger" aria-label="Open mobile menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Search bar -->
+      <div class="nav-search-bar" id="navSearchBar" role="search" aria-hidden="true">
+        <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input type="search" id="globalSearch" class="search-input" placeholder="Search beats, producers, genres…" aria-label="Search beats, producers, genres" autocomplete="off" />
+        <kbd class="search-shortcut">⌘K</kbd>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close mobile menu">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <nav class="mobile-nav" aria-label="Mobile navigation links">
+      <a href="#discover"    class="mobile-link">Discover</a>
+      <a href="#marketplace" class="mobile-link">Marketplace</a>
+      <a href="#collab"      class="mobile-link">Collaborate</a>
+      <a href="#ai-tools"    class="mobile-link">AI Tools <span class="nav-badge">NEW</span></a>
+      <a href="#the-finisher" class="mobile-link finisher-mobile-link">
+        <img src="assets/the-finisher-logo.png" alt="" class="finisher-nav-logo" aria-hidden="true" />
+        The Finisher
+      </a>
+      <a href="#pricing"     class="mobile-link">Pricing</a>
+    </nav>
+    <div class="mobile-auth">
+      <button class="btn btn-ghost w-full" id="mobileLoginBtn">Log In</button>
+      <button class="btn btn-primary w-full" id="mobileSignupBtn">Get Started Free</button>
+    </div>
+  </div>
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="discover" aria-labelledby="heroTitle">
+    <!-- Animated background orbs -->
+    <div class="hero-orbs" aria-hidden="true">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+    </div>
+    <!-- Canvas waveform background -->
+    <canvas class="hero-waveform" id="heroWaveform" aria-hidden="true"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        <span>200,000+ Creators Trust CreatorSync</span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">
+        Where Beats<br />
+        <span class="hero-title-gradient">Become Hits</span>
+      </h1>
+      <p class="hero-sub">
+        Buy, sell, and collaborate on premium beats in real time. The professional-grade marketplace built for the next generation of music creators.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" id="heroBrowseBtn" aria-label="Browse beats in the marketplace">
+          <i class="fa-solid fa-headphones" aria-hidden="true"></i>
+          Browse Beats
+        </button>
+        <button class="btn btn-ghost btn-lg" id="heroUploadBtn" aria-label="Upload and sell your beats">
+          <i class="fa-solid fa-upload" aria-hidden="true"></i>
+          Start Selling
+        </button>
+      </div>
+      <div class="hero-stats" role="list" aria-label="Platform statistics">
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-target="48000" data-suffix="+">0</span>
+          <span class="hero-stat-label">Premium Beats</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-target="12000" data-suffix="+">0</span>
+          <span class="hero-stat-label">Producers</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true"></div>
+        <div class="hero-stat" role="listitem">
+          <span class="hero-stat-num" data-prefix="$" data-target="2400000" data-suffix="+">$0</span>
+          <span class="hero-stat-label">Paid Out</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating preview card -->
+    <div class="hero-preview" aria-label="Featured beat preview">
+      <div class="preview-card">
+        <div class="preview-art">
+          <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop" alt="Featured beat artwork" width="200" height="200" loading="lazy" />
+          <button class="preview-play-btn" id="previewPlayBtn" aria-label="Play preview beat">
+            <i class="fa-solid fa-play" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="preview-info">
+          <p class="preview-track">Midnight Drip</p>
+          <p class="preview-producer">by TrappKing</p>
+          <canvas class="preview-waveform" id="waveCanvas" width="200" height="48" aria-hidden="true"></canvas>
+          <div class="preview-meta">
+            <span class="preview-bpm">140 BPM</span>
+            <span class="preview-key">Dm</span>
+            <span class="preview-price">$39.99</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       GENRE STRIP
+  ═══════════════════════════════════════════ -->
+  <section class="genres-strip" aria-label="Browse by genre">
+    <div class="genres-track" id="genresTrack" aria-hidden="true">
+      <button class="genre-tag" data-genre="trap">Trap</button>
+      <button class="genre-tag" data-genre="drill">Drill</button>
+      <button class="genre-tag" data-genre="rnb">R&amp;B</button>
+      <button class="genre-tag" data-genre="lofi">Lo-Fi</button>
+      <button class="genre-tag" data-genre="afrobeats">Afrobeats</button>
+      <button class="genre-tag" data-genre="hiphop">Hip-Hop</button>
+      <button class="genre-tag" data-genre="pop">Pop</button>
+      <button class="genre-tag" data-genre="house">House</button>
+      <button class="genre-tag" data-genre="latin">Latin</button>
+      <button class="genre-tag" data-genre="gospel">Gospel</button>
+      <button class="genre-tag" data-genre="boom-bap">Boom Bap</button>
+      <button class="genre-tag" data-genre="jersey">Jersey Club</button>
+      <!-- Duplicate for infinite scroll -->
+      <button class="genre-tag" data-genre="trap">Trap</button>
+      <button class="genre-tag" data-genre="drill">Drill</button>
+      <button class="genre-tag" data-genre="rnb">R&amp;B</button>
+      <button class="genre-tag" data-genre="lofi">Lo-Fi</button>
+      <button class="genre-tag" data-genre="afrobeats">Afrobeats</button>
+      <button class="genre-tag" data-genre="hiphop">Hip-Hop</button>
+      <button class="genre-tag" data-genre="pop">Pop</button>
+      <button class="genre-tag" data-genre="house">House</button>
+      <button class="genre-tag" data-genre="latin">Latin</button>
+      <button class="genre-tag" data-genre="gospel">Gospel</button>
+      <button class="genre-tag" data-genre="boom-bap">Boom Bap</button>
+      <button class="genre-tag" data-genre="jersey">Jersey Club</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MARKETPLACE
+  ═══════════════════════════════════════════ -->
+  <section class="marketplace section" id="marketplace" aria-labelledby="marketplaceTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Fresh Drops Daily</p>
+        <h2 class="section-title" id="marketplaceTitle">Trending Beats</h2>
+        <p class="section-sub">Handpicked from the hottest producers on the platform</p>
+      </div>
+
+      <!-- Filter + Sort Bar -->
+      <div class="market-toolbar" role="toolbar" aria-label="Marketplace filters">
+        <div class="filter-chips" role="group" aria-label="Genre filter">
+          <button class="filter-chip active" data-filter="genre" data-value="all">All</button>
+          <button class="filter-chip" data-filter="genre" data-value="trap">Trap</button>
+          <button class="filter-chip" data-filter="genre" data-value="drill">Drill</button>
+          <button class="filter-chip" data-filter="genre" data-value="rnb">R&amp;B</button>
+          <button class="filter-chip" data-filter="genre" data-value="lofi">Lo-Fi</button>
+          <button class="filter-chip" data-filter="genre" data-value="afrobeats">Afrobeats</button>
+          <button class="filter-chip" data-filter="genre" data-value="hiphop">Hip-Hop</button>
+        </div>
+        <div class="market-controls">
+          <button class="filter-toggle-btn" id="filterPanelToggle" aria-expanded="false" aria-controls="filterPanel">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            Filters
+          </button>
+          <select class="sort-select" id="sortSelect" aria-label="Sort beats">
+            <option value="trending">Trending</option>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low–High</option>
+            <option value="price-desc">Price: High–Low</option>
+            <option value="bpm-asc">BPM: Low–High</option>
+          </select>
+          <div class="view-toggle" role="group" aria-label="View layout">
+            <button class="view-btn active" data-view="grid" aria-label="Grid view" aria-pressed="true"><i class="fa-solid fa-grid-2" aria-hidden="true"></i></button>
+            <button class="view-btn" data-view="list" aria-label="List view" aria-pressed="false"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Filter Panel -->
+      <div class="filter-panel" id="filterPanel" aria-hidden="true">
+        <div class="filter-panel-grid">
+          <div class="filter-group">
+            <label class="filter-label">BPM Range</label>
+            <div class="bpm-range">
+              <input type="range" min="60" max="200" value="60"  class="range-slider" id="bpmMin" aria-label="Minimum BPM" />
+              <input type="range" min="60" max="200" value="200" class="range-slider" id="bpmMax" aria-label="Maximum BPM" />
+              <div class="bpm-display"><span id="bpmMinVal">60</span> – <span id="bpmMaxVal">200</span> BPM</div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Price Range</label>
+            <div class="filter-chips small">
+              <button class="filter-chip active" data-filter="price" data-value="all">Any</button>
+              <button class="filter-chip" data-filter="price" data-value="free">Free</button>
+              <button class="filter-chip" data-filter="price" data-value="under25">Under $25</button>
+              <button class="filter-chip" data-filter="price" data-value="under50">Under $50</button>
+              <button class="filter-chip" data-filter="price" data-value="premium">$50+</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">License Type</label>
+            <div class="filter-chips small">
+              <button class="filter-chip active" data-filter="license" data-value="all">Any</button>
+              <button class="filter-chip" data-filter="license" data-value="lease">Lease</button>
+              <button class="filter-chip" data-filter="license" data-value="exclusive">Exclusive</button>
+              <button class="filter-chip" data-filter="license" data-value="trackout">Trackout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat Grid -->
+      <div class="beats-grid" id="beatsGrid" role="list" aria-label="Beat listings">
+
+        <!-- Beat Card 1 -->
+        <article class="beat-card" role="listitem" data-id="1" data-genre="trap" data-bpm="140" data-price="39.99" tabindex="0" aria-label="Midnight Drip by TrappKing">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=400&fit=crop" alt="Midnight Drip artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Midnight Drip">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Midnight Drip" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Midnight Drip</h3>
+                <p class="beat-card-producer">TrappKing</p>
+              </div>
+              <span class="beat-tag beat-tag-trap">Trap</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 140 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Dm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$39.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Midnight Drip to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 2 -->
+        <article class="beat-card" role="listitem" data-id="2" data-genre="drill" data-bpm="150" data-price="49.99" tabindex="0" aria-label="London Nights by DrillMaster">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop" alt="London Nights artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play London Nights">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like London Nights" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">London Nights</h3>
+                <p class="beat-card-producer">DrillMaster</p>
+              </div>
+              <span class="beat-tag beat-tag-drill">Drill</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 150 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Gm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$49.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add London Nights to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 3 -->
+        <article class="beat-card" role="listitem" data-id="3" data-genre="rnb" data-bpm="90" data-price="29.99" tabindex="0" aria-label="Velvet Soul by SmoothBeats">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop" alt="Velvet Soul artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Velvet Soul">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Velvet Soul" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Velvet Soul</h3>
+                <p class="beat-card-producer">SmoothBeats</p>
+              </div>
+              <span class="beat-tag beat-tag-rnb">R&amp;B</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 90 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> F#m</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$29.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Velvet Soul to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 4 -->
+        <article class="beat-card" role="listitem" data-id="4" data-genre="lofi" data-bpm="75" data-price="14.99" tabindex="0" aria-label="Rainy Day by CalmWaves">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop" alt="Rainy Day artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Rainy Day">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Rainy Day" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Rainy Day</h3>
+                <p class="beat-card-producer">CalmWaves</p>
+              </div>
+              <span class="beat-tag beat-tag-lofi">Lo-Fi</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 75 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Cm</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$14.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Rainy Day to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 5 -->
+        <article class="beat-card" role="listitem" data-id="5" data-genre="afrobeats" data-bpm="108" data-price="34.99" tabindex="0" aria-label="Lagos Summer by AfroKing">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1616514169735-8b38943d7d73?w=400&h=400&fit=crop" alt="Lagos Summer artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Lagos Summer">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Lagos Summer" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Lagos Summer</h3>
+                <p class="beat-card-producer">AfroKing</p>
+              </div>
+              <span class="beat-tag beat-tag-afro">Afrobeats</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 108 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Am</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$34.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Lagos Summer to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Beat Card 6 -->
+        <article class="beat-card" role="listitem" data-id="6" data-genre="hiphop" data-bpm="95" data-price="44.99" tabindex="0" aria-label="Crown Heights by EastCoast88">
+          <div class="beat-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop" alt="Crown Heights artwork" class="beat-card-img" width="400" height="400" loading="lazy" />
+            <div class="beat-card-overlay" aria-hidden="true">
+              <button class="beat-play-btn" aria-label="Play Crown Heights">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+            <button class="beat-like-btn" aria-label="Like Crown Heights" aria-pressed="false">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="beat-card-body">
+            <div class="beat-card-top">
+              <div>
+                <h3 class="beat-card-title">Crown Heights</h3>
+                <p class="beat-card-producer">EastCoast88</p>
+              </div>
+              <span class="beat-tag beat-tag-hiphop">Hip-Hop</span>
+            </div>
+            <div class="beat-mini-wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="beat-card-footer">
+              <div class="beat-meta">
+                <span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> 95 BPM</span>
+                <span><i class="fa-solid fa-music" aria-hidden="true"></i> Em</span>
+              </div>
+              <div class="beat-actions">
+                <span class="beat-price">$44.99</span>
+                <button class="btn btn-primary btn-sm beat-cart-btn" aria-label="Add Crown Heights to cart">
+                  <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Skeleton cards (removed after load) -->
+        <article class="beat-card is-skeleton" aria-hidden="true">
+          <div class="beat-card-img-wrap sk-block"></div>
+          <div class="beat-card-body">
+            <div class="sk-line" style="width:70%;height:16px;margin-bottom:8px;"></div>
+            <div class="sk-line" style="width:45%;height:12px;"></div>
+          </div>
+        </article>
+        <article class="beat-card is-skeleton" aria-hidden="true">
+          <div class="beat-card-img-wrap sk-block"></div>
+          <div class="beat-card-body">
+            <div class="sk-line" style="width:65%;height:16px;margin-bottom:8px;"></div>
+            <div class="sk-line" style="width:40%;height:12px;"></div>
+          </div>
+        </article>
+      </div><!-- /beats-grid -->
+
+      <div class="load-more-wrap">
+        <button class="btn btn-ghost" id="loadMoreBtn" aria-label="Load more beats">
+          Load More <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PRODUCERS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="producers-section section" id="collab" aria-labelledby="producersTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Top Talent</p>
+        <h2 class="section-title" id="producersTitle">Featured Producers</h2>
+        <p class="section-sub">Connect with the creators shaping tomorrow's sound</p>
+      </div>
+      <div class="producers-grid" role="list" aria-label="Featured producers">
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 1">#1</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=3" alt="TrappKing avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">TrappKing</h3>
+          <p class="producer-genre">Trap · Drill</p>
+          <div class="producer-stats">
+            <span>2.4k <small>beats</small></span>
+            <span>48k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow TrappKing" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 2">#2</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=5" alt="SmoothBeats avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">SmoothBeats</h3>
+          <p class="producer-genre">R&amp;B · Soul</p>
+          <div class="producer-stats">
+            <span>1.8k <small>beats</small></span>
+            <span>36k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow SmoothBeats" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 3">#3</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=8" alt="AfroKing avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+          </div>
+          <h3 class="producer-name">AfroKing</h3>
+          <p class="producer-genre">Afrobeats · Amapiano</p>
+          <div class="producer-stats">
+            <span>1.2k <small>beats</small></span>
+            <span>24k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow AfroKing" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 4">#4</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=11" alt="CalmWaves avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">CalmWaves</h3>
+          <p class="producer-genre">Lo-Fi · Chill</p>
+          <div class="producer-stats">
+            <span>890 <small>beats</small></span>
+            <span>18k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow CalmWaves" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 5">#5</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=15" alt="DrillMaster avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+          </div>
+          <h3 class="producer-name">DrillMaster</h3>
+          <p class="producer-genre">UK Drill · Grime</p>
+          <div class="producer-stats">
+            <span>760 <small>beats</small></span>
+            <span>14k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow DrillMaster" aria-pressed="false">Follow</button>
+        </div>
+
+        <div class="producer-card" role="listitem" tabindex="0">
+          <div class="producer-rank" aria-label="Rank 6">#6</div>
+          <div class="producer-avatar-wrap">
+            <img src="https://i.pravatar.cc/80?img=20" alt="EastCoast88 avatar" class="producer-avatar" width="80" height="80" loading="lazy" />
+            <span class="producer-online" aria-label="Online"></span>
+          </div>
+          <h3 class="producer-name">EastCoast88</h3>
+          <p class="producer-genre">Boom Bap · Hip-Hop</p>
+          <div class="producer-stats">
+            <span>620 <small>beats</small></span>
+            <span>11k <small>sales</small></span>
+          </div>
+          <button class="btn btn-primary btn-sm producer-follow-btn" aria-label="Follow EastCoast88" aria-pressed="false">Follow</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       REAL-TIME COLLABORATION SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="collab-section section" id="collab" aria-labelledby="collabTitle">
+    <div class="container">
+      <div class="collab-inner">
+
+        <div class="collab-content">
+          <p class="section-eyebrow">Real-Time Collaboration</p>
+          <h2 class="section-title" id="collabTitle">Create Together,<br /><span class="hero-title-gradient">From Anywhere</span></h2>
+          <p class="collab-sub">Why work alone? Jam with producers and vocalists across the globe in live sessions. See every edit in real time, share ideas instantly, and build something amazing together.</p>
+          <ul class="collab-features" aria-label="Collaboration features">
+            <li>
+              <span class="collab-icon"><i class="fa-solid fa-circle-nodes" aria-hidden="true"></i></span>
+              <div><strong>Multi-User Sessions</strong><p>Up to 8 creators in one live room with role-based access</p></div>
+            </li>
+            <li>
+              <span class="collab-icon"><i class="fa-solid fa-waveform-lines" aria-hidden="true"></i></span>
+              <div><strong>Live Audio Editing</strong><p>Real-time track edits synced to every collaborator instantly</p></div>
+            </li>
+            <li>
+              <span class="collab-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span>
+              <div><strong>In-Session Chat</strong><p>Talk through ideas without ever leaving the room</p></div>
+            </li>
+            <li>
+              <span class="collab-icon collab-icon-cyan"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i></span>
+              <div><strong>Stream Your Process</strong><p>Go live on Twitch or YouTube directly from your session</p></div>
+            </li>
+          </ul>
+          <button class="btn btn-primary btn-lg" id="startCollabBtn" aria-label="Start a collaboration session">
+            <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
+            Start a Session
+          </button>
+        </div>
+
+        <div class="collab-visual" aria-hidden="true">
+          <div class="collab-room-card">
+            <div class="collab-room-header">
+              <span class="collab-live-dot"></span>
+              <span class="collab-room-name">Session: Dark Vibes Vol.3</span>
+              <span class="collab-viewers"><i class="fa-solid fa-eye"></i> 342</span>
+            </div>
+            <div class="collab-avatars">
+              <img src="https://i.pravatar.cc/40?img=1" class="collab-avatar" alt="" width="36" height="36" />
+              <img src="https://i.pravatar.cc/40?img=5" class="collab-avatar" alt="" width="36" height="36" />
+              <img src="https://i.pravatar.cc/40?img=9" class="collab-avatar" alt="" width="36" height="36" />
+              <span class="collab-avatar collab-avatar-count">+5</span>
+            </div>
+            <div class="collab-tracks">
+              <div class="collab-track">
+                <span class="track-dot" style="background:var(--accent-purple)"></span>
+                <span class="track-name">808 Bass</span>
+                <span class="track-bar"><span style="width:70%"></span></span>
+              </div>
+              <div class="collab-track">
+                <span class="track-dot" style="background:var(--accent-cyan)"></span>
+                <span class="track-name">Melody</span>
+                <span class="track-bar"><span style="width:45%"></span></span>
+              </div>
+              <div class="collab-track">
+                <span class="track-dot" style="background:var(--accent-pink)"></span>
+                <span class="track-name">Hi-Hats</span>
+                <span class="track-bar"><span style="width:88%"></span></span>
+              </div>
+              <div class="collab-track">
+                <span class="track-dot" style="background:var(--accent-green)"></span>
+                <span class="track-name">Vocal Chop</span>
+                <span class="track-bar"><span style="width:32%"></span></span>
+              </div>
+            </div>
+            <div class="collab-stream-row">
+              <i class="fa-brands fa-twitch" style="color:#9147ff"></i>
+              <i class="fa-brands fa-youtube" style="color:#ff0000"></i>
+              <span>Live on Twitch &amp; YouTube</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       AI TOOLS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="ai-section section" id="ai-tools" aria-labelledby="aiTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Powered by AI</p>
+        <h2 class="section-title" id="aiTitle">Create Smarter, Faster</h2>
+        <p class="section-sub">Next-generation tools built for the modern music creator</p>
+      </div>
+      <div class="ai-cards-grid">
+
+        <!-- MixMaster1 -->
+        <div class="ai-card ai-card-purple" tabindex="0">
+          <div class="ai-card-icon ai-card-icon--logo" aria-hidden="true">
+            <img src="assets/mixmaster1-logo.png" alt="MixMaster1" class="ai-tool-logo" />
+          </div>
+          <div class="ai-card-text">
+            <h3>MixMaster1</h3>
+            <p>Generate verses, hooks, and melodies tailored to your beat's key and BPM.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try MixMaster1">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Beat Analyzer -->
+        <div class="ai-card ai-card-cyan" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Beat Analyzer</h3>
+            <p>Get instant insights: BPM, key, energy, mood, and genre classification.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Beat Analyzer">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Collab Matcher -->
+        <div class="ai-card ai-card-pink" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-users-rays"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Collab Matcher</h3>
+            <p>Find your perfect creative partner via AI-powered producer + artist matching.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Collab Matcher">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+        <!-- Trend Predictor -->
+        <div class="ai-card ai-card-green" tabindex="0">
+          <div class="ai-card-icon" aria-hidden="true">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="ai-card-text">
+            <h3>Trend Predictor</h3>
+            <p>Stay ahead of the curve with AI trend forecasting for genres and sounds.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" aria-label="Try Trend Predictor">Try Now <i class="fa-solid fa-arrow-right"></i></button>
+          <div class="ai-card-glow" aria-hidden="true"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       THE FINISHER SHOWCASE SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="finisher-section section" id="the-finisher" aria-labelledby="finisherTitle">
+    <div class="container">
+      <div class="finisher-header">
+        <img src="assets/the-finisher-logo.png" alt="The Finisher" class="finisher-hero-logo" />
+        <h2 class="section-title" id="finisherTitle">The Professional's<br /><span class="hero-title-gradient">Complete Suite</span></h2>
+        <p class="section-sub">Everything a serious creator needs to turn their music into a sustainable business — professional audio tools, white-label branding, royalty management, and live streaming, all in one place.</p>
+      </div>
+
+      <div class="finisher-features-grid">
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-purple"><i class="fa-solid fa-sliders" aria-hidden="true"></i></div>
+          <h4>Advanced Audio Processing</h4>
+          <p>Studio-grade EQ, compression, limiting, and multi-band effects. DAW-quality mastering from your browser — no expensive software needed.</p>
+        </div>
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-cyan"><i class="fa-solid fa-store" aria-hidden="true"></i></div>
+          <h4>White-Label Storefront</h4>
+          <p>Your own branded beat store with custom domain, colors, and checkout flow. Sell directly to your audience, on your terms.</p>
+        </div>
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-pink"><i class="fa-solid fa-file-contract" aria-hidden="true"></i></div>
+          <h4>Custom Contract Builder</h4>
+          <p>Generate legally-sound licensing agreements tailored per sale — lease, exclusive, trackout, or fully custom. No lawyers required.</p>
+        </div>
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-green"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
+          <h4>Royalty Splits &amp; Treasury</h4>
+          <p>Automatically split earnings between collaborators on every sale. Real-time treasury dashboard tracks every dollar with full transparency.</p>
+        </div>
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-twitch"><i class="fa-brands fa-twitch" aria-hidden="true"></i></div>
+          <h4>Twitch &amp; YouTube Integration</h4>
+          <p>Stream your production sessions live, grow your audience, and monetize your craft. Connect your Twitch and YouTube channels in seconds.</p>
+        </div>
+
+        <div class="finisher-feat">
+          <div class="finisher-feat-icon finisher-icon-orange"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i></div>
+          <h4>Revenue Analytics Dashboard</h4>
+          <p>Full business intelligence: earnings across all revenue streams, audience behavior insights, market trend data, and KPI reporting.</p>
+        </div>
+
+      </div>
+
+      <div class="finisher-cta">
+        <button class="btn btn-primary btn-lg" id="finisherCtaBtn" aria-label="Get The Finisher plan">
+          <img src="assets/the-finisher-logo.png" alt="" class="finisher-btn-logo" aria-hidden="true" />
+          Get The Finisher &mdash; $99.99/mo
+        </button>
+        <p class="finisher-cta-note">or $79.99/mo billed annually &nbsp;&middot;&nbsp; 14-day free trial &nbsp;&middot;&nbsp; Cancel anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PRICING SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="pricing-section section" id="pricing" aria-labelledby="pricingTitle">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Transparent Pricing</p>
+        <h2 class="section-title" id="pricingTitle">Choose Your Plan</h2>
+        <p class="section-sub">Start free. Scale as you grow. Platform earns 12.5% commission on all transactions — always automated, always transparent.</p>
+      </div>
+
+      <!-- Billing cycle selector -->
+      <div class="billing-cycle-selector" role="group" aria-label="Billing period">
+        <button class="billing-cycle-btn active" data-cycle="monthly" aria-pressed="true">Monthly</button>
+        <button class="billing-cycle-btn" data-cycle="annual" aria-pressed="false">
+          Annual <span class="save-badge">Save 20%</span>
+        </button>
+        <button class="billing-cycle-btn" data-cycle="biennial" aria-pressed="false">
+          2-Year <span class="save-badge best-value">Save 35%</span>
+        </button>
+      </div>
+
+      <div class="pricing-grid pricing-grid-4">
+
+        <!-- FREE -->
+        <div class="pricing-card" tabindex="0">
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Free</span>
+            <p class="pricing-tier-desc">Try the platform with no commitment</p>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount" data-monthly="0" data-annual="0" data-biennial="0">0</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="pricing-billed-note">&nbsp;</p>
+          </div>
+          <ul class="pricing-features" aria-label="Free plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 beat uploads / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 5 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Marketplace buy &amp; sell</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 10 AI credits / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Community access</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Collaboration rooms</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Distribution</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Livestreaming</li>
+          </ul>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-ghost w-full" aria-label="Get started free">Get Started Free</button>
+        </div>
+
+        <!-- CREATOR -->
+        <div class="pricing-card pricing-card-creator" tabindex="0">
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Creator</span>
+            <p class="pricing-tier-desc">For growing producers building their audience</p>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount"
+                data-monthly="14.99"
+                data-annual="11.99"
+                data-biennial="9.74">14.99</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $143.88/yr" data-biennial="Billed $233.76 every 2 yrs"></p>
+          </div>
+          <ul class="pricing-features" aria-label="Creator plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 50 beat uploads / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 50 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 100 AI credits / month</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration (3 users)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 3 distribution releases / yr</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Standard MixMaster</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Advanced analytics (90 days)</li>
+            <li class="disabled"><i class="fa-solid fa-xmark" aria-hidden="true"></i> Livestreaming</li>
+          </ul>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-outline w-full" aria-label="Start Creator plan">Start Creator Plan</button>
+        </div>
+
+        <!-- PRO — Featured -->
+        <div class="pricing-card pricing-card-featured" tabindex="0" aria-label="Most popular plan">
+          <div class="pricing-popular-badge" aria-hidden="true">Most Popular</div>
+          <div class="pricing-card-header">
+            <span class="pricing-tier">Pro</span>
+            <p class="pricing-tier-desc">Unlimited creation. Full distribution. All AI.</p>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount"
+                data-monthly="29.99"
+                data-annual="23.99"
+                data-biennial="19.49">29.99</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $287.88/yr" data-biennial="Billed $467.76 every 2 yrs"></p>
+          </div>
+          <ul class="pricing-features" aria-label="Pro plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited beat uploads</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 250 GB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited AI (The Finisher)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaboration (10 users)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Unlimited distribution (14 DSPs)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> ISRC &amp; UPC generation</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> MixMaster Pro + stem separation</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> YouTube + Twitch livestream</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Royalty dashboard + publishing</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Priority support (24hr SLA)</li>
+          </ul>
+          <p class="pricing-commission-note"><i class="fa-solid fa-info-circle"></i> 12.5% commission applies</p>
+          <button class="btn btn-primary w-full" aria-label="Start Pro plan 14-day trial">Start 14-Day Trial</button>
+        </div>
+
+        <!-- ELITE / LABEL -->
+        <div class="pricing-card pricing-card-finisher" tabindex="0" aria-label="Elite Label plan">
+          <div class="pricing-finisher-badge" aria-hidden="true"><i class="fa-solid fa-crown"></i> Elite / Label</div>
+          <div class="pricing-card-header">
+            <img src="assets/the-finisher-logo.png" alt="The Finisher Elite" class="pricing-tier-logo" />
+            <p class="pricing-tier-desc">For labels, managers, and power creators</p>
+            <div class="pricing-price">
+              <span class="currency">$</span>
+              <span class="amount"
+                data-monthly="99.99"
+                data-annual="79.99"
+                data-biennial="64.99">99.99</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="pricing-billed-note" data-monthly="" data-annual="Billed $959.88/yr" data-biennial="Billed $1,559.76 every 2 yrs"></p>
+          </div>
+          <ul class="pricing-features" aria-label="Elite plan features">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Everything in Pro</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 2 TB cloud storage</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 25-user collaboration rooms</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> All 5 platforms simultaneously</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> 25-artist roster management</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> White-label storefront</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Custom contract builder</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Split treasury auto-payout</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Full REST API + webhooks</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Dedicated account manager</li>
+          </ul>
+          <p class="pricing-commission-note pricing-commission-reduced"><i class="fa-solid fa-tag"></i> Reduced 8.5% commission</p>
+          <button class="btn btn-primary w-full finisher-plan-btn" id="finisherPricingBtn" aria-label="Get Elite Label plan">
+            <img src="assets/the-finisher-logo.png" alt="" class="finisher-btn-logo" aria-hidden="true" /> Get Elite / Label
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Commission note -->
+      <p class="pricing-global-note">
+        <i class="fa-solid fa-shield-halved"></i>
+        All plans include escrow protection, automated payouts, fraud detection, and dispute resolution.
+        Platform deducts its commission automatically before every payout — no manual accounting needed.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" aria-label="CreatorSync home">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="footer-logo-img" />
+        </a>
+        <p class="footer-tagline">The elite marketplace for the next generation of music creators.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <nav class="footer-nav-col" aria-label="Marketplace links">
+        <h5 class="footer-col-title">Marketplace</h5>
+        <a href="#" class="footer-link">Browse Beats</a>
+        <a href="#" class="footer-link">Sample Packs</a>
+        <a href="#" class="footer-link">Charts</a>
+        <a href="#" class="footer-link">New Arrivals</a>
+      </nav>
+      <nav class="footer-nav-col" aria-label="Creator links">
+        <h5 class="footer-col-title">Creators</h5>
+        <a href="#" class="footer-link">Upload Beats</a>
+        <a href="#" class="footer-link">Pricing</a>
+        <a href="#" class="footer-link">AI Tools</a>
+        <a href="#" class="footer-link">Affiliate Program</a>
+      </nav>
+      <nav class="footer-nav-col" aria-label="Company links">
+        <h5 class="footer-col-title">Company</h5>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Blog</a>
+        <a href="#" class="footer-link">Careers</a>
+        <a href="#" class="footer-link">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom container">
+      <p class="footer-copy">&copy; 2026 CreatorSync. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+        <a href="#" class="footer-link">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       PERSISTENT AUDIO PLAYER
+  ═══════════════════════════════════════════ -->
+  <div class="audio-player" id="audioPlayer" role="region" aria-label="Audio player" aria-hidden="true">
+    <div class="player-track">
+      <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=60&h=60&fit=crop" alt="" class="player-art" id="playerArt" width="60" height="60" aria-hidden="true" />
+      <div class="player-info">
+        <p class="player-title" id="playerTitle">Select a beat</p>
+        <p class="player-producer" id="playerProducer">—</p>
+      </div>
+      <button class="player-license-btn" id="playerLicenseBtn" aria-label="View license options">
+        <i class="fa-solid fa-file-contract" aria-hidden="true"></i> License
+      </button>
+    </div>
+
+    <div class="player-controls">
+      <button class="player-ctrl-btn" id="playerShuffle" aria-label="Shuffle" aria-pressed="false"><i class="fa-solid fa-shuffle" aria-hidden="true"></i></button>
+      <button class="player-ctrl-btn" id="playerPrev"    aria-label="Previous track"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></button>
+      <button class="player-play-btn" id="playerPlay"    aria-label="Play/Pause">
+        <i class="fa-solid fa-play" aria-hidden="true"></i>
+      </button>
+      <button class="player-ctrl-btn" id="playerNext"    aria-label="Next track"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></button>
+      <button class="player-ctrl-btn" id="playerRepeat"  aria-label="Repeat" aria-pressed="false"><i class="fa-solid fa-repeat" aria-hidden="true"></i></button>
+    </div>
+
+    <div class="player-progress-wrap">
+      <span class="player-time" id="playerCurrent">0:00</span>
+      <div class="player-progress-bar" id="playerProgressBar" role="slider" aria-label="Playback progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="player-progress-fill" id="playerProgressFill"></div>
+        <div class="player-progress-thumb" id="playerProgressThumb"></div>
+      </div>
+      <span class="player-time" id="playerDuration">3:24</span>
+    </div>
+
+    <div class="player-right">
+      <button class="player-ctrl-btn" id="playerMute" aria-label="Toggle mute" aria-pressed="false">
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      </button>
+      <input type="range" class="player-volume" id="playerVolume" min="0" max="100" value="80" aria-label="Volume" />
+      <button class="player-close-btn" id="playerClose" aria-label="Close player">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       UPLOAD MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="uploadModalBackdrop" role="dialog" aria-modal="true" aria-label="Upload beat" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Upload Your Beat</h2>
+        <button class="modal-close" aria-label="Close upload modal" data-modal="uploadModalBackdrop">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Drop zone -->
+        <div class="upload-dropzone" id="uploadDropzone" role="button" tabindex="0" aria-label="Drag and drop audio file or click to browse">
+          <div class="dropzone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <p class="dropzone-title">Drag &amp; drop your beat</p>
+          <p class="dropzone-sub">MP3, WAV, FLAC up to 50MB</p>
+          <input type="file" id="fileInput" class="file-input-hidden" accept=".mp3,.wav,.flac,.aiff" aria-label="Choose audio file" />
+        </div>
+        <!-- Upload progress -->
+        <div class="upload-progress-wrapper" id="uploadProgressWrapper">
+          <div class="upload-progress-bar">
+            <div class="upload-progress-fill" id="uploadProgressFill"></div>
+          </div>
+          <span class="upload-progress-pct" id="uploadProgressPct">0%</span>
+        </div>
+        <!-- Beat form -->
+        <form id="uploadForm" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="beatTitle">Beat Title *</label>
+              <input class="form-input" id="beatTitle" type="text" placeholder="e.g. Midnight Drip" required aria-required="true" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatGenre">Genre *</label>
+              <div class="select-wrapper">
+                <select class="form-input" id="beatGenre" required aria-required="true">
+                  <option value="">Select genre…</option>
+                  <option value="trap">Trap</option>
+                  <option value="drill">Drill</option>
+                  <option value="rnb">R&amp;B</option>
+                  <option value="lofi">Lo-Fi</option>
+                  <option value="afrobeats">Afrobeats</option>
+                  <option value="hiphop">Hip-Hop</option>
+                  <option value="pop">Pop</option>
+                  <option value="house">House</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatBpm">BPM</label>
+              <input class="form-input" id="beatBpm" type="number" placeholder="e.g. 140" min="40" max="300" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="beatKey">Key</label>
+              <div class="select-wrapper">
+                <select class="form-input" id="beatKey">
+                  <option value="">Select key…</option>
+                  <option>Am</option><option>Bm</option><option>Cm</option><option>Dm</option>
+                  <option>Em</option><option>Fm</option><option>Gm</option>
+                  <option>A</option><option>B</option><option>C</option><option>D</option>
+                  <option>E</option><option>F</option><option>G</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label" for="beatDesc">Description</label>
+              <textarea class="form-input" id="beatDesc" rows="3" placeholder="Describe the vibe, inspiration, or ideal use for this beat…"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">License Type</label>
+              <div class="filter-chips small">
+                <button type="button" class="filter-chip active" data-filter="uploadLicense" data-value="lease">Lease</button>
+                <button type="button" class="filter-chip" data-filter="uploadLicense" data-value="exclusive">Exclusive</button>
+                <button type="button" class="filter-chip" data-filter="uploadLicense" data-value="trackout">Trackout Stems</button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-full" id="uploadSubmitBtn">
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i> Publish Beat
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       AUTH MODAL
+  ═══════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="authModalBackdrop" role="dialog" aria-modal="true" aria-label="Sign in or create account" aria-hidden="true">
+    <div class="modal modal-auth">
+      <button class="modal-close" aria-label="Close auth modal" data-modal="authModalBackdrop">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+
+      <!-- Auth tabs -->
+      <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+        <button class="auth-tab active" id="loginTab" role="tab" aria-selected="true" aria-controls="loginPanel" data-panel="login">Log In</button>
+        <button class="auth-tab" id="signupTab" role="tab" aria-selected="false" aria-controls="signupPanel" data-panel="signup">Sign Up</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-panel" id="loginPanel" role="tabpanel" aria-labelledby="loginTab">
+        <div class="auth-logo-wrap" aria-hidden="true">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="auth-logo" />
+        </div>
+        <div class="social-auth">
+          <button class="btn btn-social" aria-label="Continue with Google">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Continue with Google
+          </button>
+          <button class="btn btn-social" aria-label="Continue with Apple">
+            <i class="fa-brands fa-apple" aria-hidden="true"></i> Continue with Apple
+          </button>
+        </div>
+        <div class="auth-divider"><span>or</span></div>
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="loginEmail" type="email" placeholder="you@example.com" required aria-required="true" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="loginPassword" type="password" placeholder="••••••••" required aria-required="true" autocomplete="current-password" />
+              <button type="button" class="pw-toggle" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-error" id="loginError" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary w-full" id="loginSubmitBtn">Log In</button>
+        </form>
+      </div>
+
+      <!-- Signup Panel -->
+      <div class="auth-panel hidden" id="signupPanel" role="tabpanel" aria-labelledby="signupTab">
+        <div class="auth-logo-wrap" aria-hidden="true">
+          <img src="assets/creatorsync-logo.png" alt="CreatorSync" class="auth-logo" />
+        </div>
+        <div class="social-auth">
+          <button class="btn btn-social" aria-label="Sign up with Google">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Sign up with Google
+          </button>
+          <button class="btn btn-social" aria-label="Sign up with Apple">
+            <i class="fa-brands fa-apple" aria-hidden="true"></i> Sign up with Apple
+          </button>
+        </div>
+        <div class="auth-divider"><span>or</span></div>
+        <form id="signupForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="signupUsername">Username</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-at input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupUsername" type="text" placeholder="yourproducername" required aria-required="true" autocomplete="username" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signupEmail">Email</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupEmail" type="email" placeholder="you@example.com" required aria-required="true" autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signupPassword">Password</label>
+            <div class="input-icon-wrap">
+              <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+              <input class="form-input" id="signupPassword" type="password" placeholder="Create a strong password" required aria-required="true" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="pw-strength-wrap">
+              <div class="pw-strength-bar" id="pwStrength" role="meter" aria-label="Password strength" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="pw-strength-fill" id="pwStrengthFill"></div>
+              </div>
+              <span class="pw-strength-label" id="pwStrengthLabel"></span>
+            </div>
+          </div>
+          <div class="form-error" id="signupError" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary w-full" id="signupSubmitBtn">Create Account</button>
+          <p class="auth-terms">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="js/app.js" defer></script>
+</script>
+  <!-- Radio Score & Analytics Demo Widgets -->
+  <script src="js/radioScoreDemo.js"></script>
+  <script src="js/radioAnalyticsDemo.js"></script>
+>>>>>>> gh-pages-deploy
+</body>
+</html>

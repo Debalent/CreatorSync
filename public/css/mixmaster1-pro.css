@@ -1,0 +1,840 @@
+/* MixMaster1 Pro - Professional Mixing Interface */
+
+:root {
+    --mixer-bg: #1a1a1a;
+    --channel-bg: #252525;
+    --control-bg: #2d2d2d;
+    --accent: #00d4ff;
+    --accent-hover: #00a8cc;
+    --meter-green: #00ff00;
+    --meter-yellow: #ffff00;
+    --meter-red: #ff0000;
+    --text-primary: #e0e0e0;
+    --text-secondary: #999;
+    --border: #404040;
+    --fader-track: #333;
+    --fader-thumb: #00d4ff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--mixer-bg);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+/* Main Layout */
+.mixmaster-container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Header */
+.mixmaster-header {
+    background: var(--control-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.project-info h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.project-info .stats {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+/* Transport Controls */
+.transport-bar {
+    background: var(--channel-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.transport-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.transport-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--control-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.transport-btn:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.transport-btn.playing {
+    background: var(--accent);
+    color: #000;
+}
+
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent);
+    min-width: 200px;
+}
+
+.tempo-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tempo-control label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.tempo-control input {
+    width: 80px;
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Main Workspace */
+.mixmaster-workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Mixer Section */
+.mixer-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mixer-scroll {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.mixer-channels {
+    display: flex;
+    gap: 2px;
+    padding: 20px;
+    min-height: 100%;
+}
+
+/* Channel Strip */
+.channel-strip {
+    background: var(--channel-bg);
+    width: 80px;
+    border-radius: 8px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.channel-strip.master {
+    width: 100px;
+    background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+    border: 2px solid var(--accent);
+}
+
+/* Channel Header */
+.channel-header {
+    text-align: center;
+}
+
+.channel-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.channel-type {
+    font-size: 9px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* Meters */
+.channel-meter {
+    height: 200px;
+    position: relative;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.meter-bar {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    background: linear-gradient(to top, var(--meter-green) 0%, var(--meter-green) 60%, var(--meter-yellow) 80%, var(--meter-red) 100%);
+    transition: height 0.05s;
+    border-radius: 2px;
+}
+
+.meter-peak {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transition: top 0.1s;
+}
+
+.meter-scale {
+    position: absolute;
+    right: 2px;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 8px;
+    color: var(--text-secondary);
+}
+
+/* Pan Knob */
+.pan-control {
+    text-align: center;
+}
+
+.pan-label {
+    font-size: 9px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.pan-knob {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.pan-knob svg {
+    transform: rotate(-135deg);
+}
+
+.pan-knob circle {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 4;
+}
+
+.pan-knob .pan-value {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.1s;
+}
+
+.pan-value-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Fader */
+.fader-control {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.fader-track {
+    width: 8px;
+    flex: 1;
+    background: var(--fader-track);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+.fader-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, var(--accent), transparent);
+    border-radius: 4px;
+    transition: height 0.05s;
+}
+
+.fader-thumb {
+    position: absolute;
+    width: 24px;
+    height: 12px;
+    background: var(--fader-thumb);
+    border: 2px solid #fff;
+    border-radius: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.05s;
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(0, 212, 255, 0.5);
+}
+
+.fader-thumb:active {
+    cursor: grabbing;
+}
+
+.fader-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+}
+
+/* Channel Buttons */
+.channel-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.channel-btn {
+    height: 24px;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.solo-btn {
+    background: var(--control-bg);
+    color: var(--text-secondary);
+}
+
+.solo-btn.active {
+    background: #ffaa00;
+    color: #000;
+}
+
+.mute-btn {
+    background: var(--control-bg);
+    color: var(--text-secondary);
+}
+
+.mute-btn.active {
+    background: #ff4444;
+    color: #fff;
+}
+
+.rec-btn {
+    background: var(--control-bg);
+    color: var(--text-secondary);
+}
+
+.rec-btn.active {
+    background: #ff0000;
+    color: #fff;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Inspector Panel */
+.inspector-panel {
+    width: 320px;
+    background: var(--channel-bg);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.inspector-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+}
+
+.inspector-tab {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.inspector-tab.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+}
+
+.inspector-content {
+    padding: 20px;
+}
+
+/* EQ Section */
+.eq-section {
+    margin-bottom: 24px;
+}
+
+.eq-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eq-graph {
+    height: 180px;
+    background: #000;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.eq-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.eq-bands {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.eq-band {
+    background: var(--control-bg);
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.eq-band-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.eq-band-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.eq-band-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.eq-band-toggle.active {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.eq-band-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.eq-control {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.eq-control-label {
+    font-size: 9px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.eq-control-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.eq-slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--fader-track);
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+
+.eq-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+}
+
+/* Compressor Section */
+.compressor-section {
+    margin-bottom: 24px;
+}
+
+.comp-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.comp-visual {
+    height: 120px;
+    background: #000;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.comp-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.comp-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.comp-control {
+    background: var(--control-bg);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.comp-control-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.comp-control-value {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+/* Insert Effects */
+.inserts-section {
+    margin-bottom: 24px;
+}
+
+.inserts-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.insert-slot {
+    background: var(--control-bg);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.insert-slot:hover {
+    background: #353535;
+}
+
+.insert-slot.active {
+    border: 1px solid var(--accent);
+}
+
+.insert-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.insert-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.insert-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.insert-empty {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* Sends Section */
+.sends-section {
+    margin-bottom: 24px;
+}
+
+.sends-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.send-control {
+    background: var(--control-bg);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.send-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.send-name {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.send-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+/* Master Section */
+.master-section {
+    padding: 20px;
+    background: var(--channel-bg);
+    border-top: 2px solid var(--accent);
+}
+
+.master-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--accent);
+}
+
+.master-meters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.master-meter {
+    flex: 1;
+}
+
+.meter-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.lufs-meter {
+    background: var(--control-bg);
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.lufs-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--accent);
+    font-family: 'Courier New', monospace;
+}
+
+.lufs-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* Snapshots */
+.snapshots-section {
+    padding: 20px;
+}
+
+.snapshots-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.snapshot-item {
+    background: var(--control-bg);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.snapshot-item:hover {
+    background: #353535;
+}
+
+.snapshot-item.active {
+    border: 1px solid var(--accent);
+}
+
+.snapshot-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.snapshot-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.snapshot-time {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mixer-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .inspector-panel {
+        width: 280px;
+    }
+    
+    .channel-strip {
+        width: 70px;
+    }
+}

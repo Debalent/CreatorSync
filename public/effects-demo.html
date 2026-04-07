@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorSync - Visual Effects Demo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .demo-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: var(--surface-color);
+            margin: 2rem 0;
+            border-radius: 1rem;
+        }
+        .demo-section h2 {
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+        .demo-section p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .logo-demo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .logo-demo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo-demo-item img {
+            width: 150px;
+            height: auto;
+        }
+        .logo-demo-item span {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <img src="assets/logo.png" alt="CreatorSync" class="brand-logo logo-glow interactive-logo">
+                    <div class="brand-text">
+                        <span class="brand-tagline">Visual Effects Demo</span>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-auth">
+                <a href="index.html" class="btn btn-outline">Back to Main</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px; padding-bottom: 4rem;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 style="font-size: 3rem; margin-bottom: 1rem;">CreatorSync Visual Effects</h1>
+                <p style="font-size: 1.25rem; color: var(--text-secondary);">
+                    Test all the new visual enhancements and animations
+                </p>
+            </div>
+
+            <!-- Logo Effects Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-image"></i> Logo Effects</h2>
+                <p>Different visual effects applied to the CreatorSync logo</p>
+
+                <div class="logo-demo-container">
+                    <div class="logo-demo-item">
+                        <img src="assets/logo.png" alt="Normal Logo">
+                        <span>Normal Logo</span>
+                    </div>
+
+                    <div class="logo-demo-item">
+                        <img src="assets/logo.png" alt="Logo with Glow" class="logo-glow">
+                        <span>Glow Effect (Hover)</span>
+                    </div>
+
+                    <div class="logo-demo-item">
+                        <img src="assets/logo.png" alt="Interactive Logo" class="interactive-logo">
+                        <span>Interactive (Hover)</span>
+                    </div>
+
+                    <div class="logo-demo-item">
+                        <img src="assets/logo.png" alt="Logo with Echo" class="logo-echo logo-pulse">
+                        <span>Echo & Pulse</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Animations Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-spinner"></i> Loading Animations</h2>
+                <p>Wave sync loading screen with animated bars</p>
+
+                <div class="demo-controls">
+                    <button class="btn btn-primary" onclick="showLoading()">
+                        <i class="fas fa-play"></i>
+                        Show Loading Screen
+                    </button>
+                    <button class="btn btn-secondary" onclick="updateLoadingMsg()">
+                        <i class="fas fa-edit"></i>
+                        Update Message
+                    </button>
+                    <button class="btn btn-outline" onclick="hideLoading()">
+                        <i class="fas fa-times"></i>
+                        Hide Loading Screen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Splash Screen Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-magic"></i> Splash Screen</h2>
+                <p>Swirl reveal animation with particles and background effects</p>
+
+                <div class="demo-controls">
+                    <button class="btn btn-primary" onclick="showSplash()">
+                        <i class="fas fa-star"></i>
+                        Show Splash Screen
+                    </button>
+                    <button class="btn btn-outline" onclick="hideSplash()">
+                        <i class="fas fa-times"></i>
+                        Hide Splash Screen
+                    </button>
+                    <button class="btn btn-secondary" onclick="reloadPage()">
+                        <i class="fas fa-redo"></i>
+                        Reload to See on Load
+                    </button>
+                </div>
+            </div>
+
+            <!-- Button Effects Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-hand-pointer"></i> Interactive Buttons</h2>
+                <p>Enhanced button interactions with ripple and shadow effects</p>
+
+                <div class="demo-controls">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-check"></i>
+                        Primary Button
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-heart"></i>
+                        Secondary Button
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-info"></i>
+                        Outline Button
+                    </button>
+                    <button class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i>
+                        Large Button
+                    </button>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="fas fa-star"></i>
+                        Small Button
+                    </button>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+                    Click and hold buttons to see ripple effect
+                </p>
+            </div>
+
+            <!-- Card Effects Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-th"></i> Card Hover Effects</h2>
+                <p>3D lift animations with gradient overlays</p>
+
+                <div class="beats-grid" style="max-width: 900px; margin: 0 auto;">
+                    <div class="beat-card">
+                        <div class="beat-artwork" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-music" style="font-size: 4rem; color: white; opacity: 0.3;"></i>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Demo Card 1</h3>
+                            <p style="color: var(--text-secondary); margin: 0;">Hover to see effect</p>
+                        </div>
+                    </div>
+
+                    <div class="beat-card">
+                        <div class="beat-artwork" style="height: 200px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-headphones" style="font-size: 4rem; color: white; opacity: 0.3;"></i>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Demo Card 2</h3>
+                            <p style="color: var(--text-secondary); margin: 0;">Hover to see effect</p>
+                        </div>
+                    </div>
+
+                    <div class="beat-card">
+                        <div class="beat-artwork" style="height: 200px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-compact-disc" style="font-size: 4rem; color: white; opacity: 0.3;"></i>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <h3 style="margin-bottom: 0.5rem;">Demo Card 3</h3>
+                            <p style="color: var(--text-secondary); margin: 0;">Hover to see effect</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responsive Design Demo -->
+            <div class="demo-section">
+                <h2><i class="fas fa-mobile-alt"></i> Responsive Design</h2>
+                <p>Resize your browser window to see responsive breakpoints in action</p>
+
+                <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left;">
+                    <div style="padding: 1rem; background: var(--card-color); border-radius: 0.5rem;">
+                        <i class="fas fa-desktop" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                        <h4 style="margin-bottom: 0.5rem;">Desktop</h4>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0;">> 1024px</p>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--card-color); border-radius: 0.5rem;">
+                        <i class="fas fa-tablet-alt" style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 0.5rem;"></i>
+                        <h4 style="margin-bottom: 0.5rem;">Tablet</h4>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0;">768px - 1024px</p>
+                    </div>
+
+                    <div style="padding: 1rem; background: var(--card-color); border-radius: 0.5rem;">
+                        <i class="fas fa-mobile-alt" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 0.5rem;"></i>
+                        <h4 style="margin-bottom: 0.5rem;">Mobile</h4>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0;">< 768px</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Info -->
+            <div class="demo-section">
+                <h2><i class="fas fa-tachometer-alt"></i> Performance Features</h2>
+                <p>Optimizations for smooth animations and responsive interactions</p>
+
+                <div style="margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: var(--card-color); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                            <span>GPU-accelerated CSS animations</span>
+                        </li>
+                        <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: var(--card-color); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                            <span>Lazy loading for images</span>
+                        </li>
+                        <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: var(--card-color); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                            <span>Reduced motion support</span>
+                        </li>
+                        <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: var(--card-color); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                            <span>Intersection Observer for scroll animations</span>
+                        </li>
+                        <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: var(--card-color); border-radius: 0.5rem; display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.5rem;"></i>
+                            <span>Touch-optimized for mobile devices</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/animations.js"></script>
+    <script>
+        // Demo control functions
+        function showLoading() {
+            animationsManager.showLoadingScreen('Loading amazing content');
+        }
+
+        function updateLoadingMsg() {
+            animationsManager.updateLoadingMessage('Almost there...');
+        }
+
+        function hideLoading() {
+            animationsManager.hideLoadingScreen();
+        }
+
+        function showSplash() {
+            animationsManager.initSplashScreen();
+        }
+
+        function hideSplash() {
+            animationsManager.hideSplashScreen();
+        }
+
+        function reloadPage() {
+            location.reload();
+        }
+
+        // Initialize page transitions for demo cards
+        document.addEventListener('DOMContentLoaded', () => {
+            animationsManager.initPageTransitions();
+        });
+    </script>
+</body>
+</html>

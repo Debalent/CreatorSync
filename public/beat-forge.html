@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeatForge - CreatorSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/beat-maker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="beat-maker-container">
+        <!-- Top Navigation -->
+        <nav class="beat-maker-nav">
+            <div class="nav-left">
+                <a href="index.html" class="logo">
+                    <img src="assets/beatforge-logo.png" alt="BeatForge" class="logo-img" style="height: 32px; width: auto; vertical-align: middle; margin-right: 8px;">
+                    <span>BeatForge</span>
+                </a>
+                <h1 class="project-title" contenteditable="true" id="projectTitle">Untitled Beat</h1>
+            </div>
+            <div class="nav-center">
+                <div class="transport-controls">
+                    <button class="btn-icon" id="btnStop" title="Stop">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button class="btn-icon btn-play" id="btnPlay" title="Play">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="btn-icon" id="btnRecord" title="Record">
+                        <i class="fas fa-circle"></i>
+                    </button>
+                    <button class="btn-icon" id="btnLoop" title="Loop">
+                        <i class="fas fa-repeat"></i>
+                    </button>
+                </div>
+                <div class="tempo-control">
+                    <label for="bpmInput">BPM</label>
+                    <input type="number" id="bpmInput" value="120" min="40" max="240" aria-label="Beats per minute">
+                    <button class="btn-icon" id="btnTap" title="Tap Tempo">
+                        <i class="fas fa-hand-pointer"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="subscription-gate hidden" id="subscriptionGate">
+                    <i class="fas fa-lock"></i>
+                    <span>Subscribe to Save/Export</span>
+                </div>
+                <button class="btn-secondary" id="btnLoad" title="Load Project">
+                    <i class="fas fa-folder-open"></i> Load
+                </button>
+                <button class="btn-primary" id="btnSave" title="Save Project">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn-primary" id="btnExport" title="Export">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn-icon" id="btnSettings" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="beat-maker-content">
+            <!-- Left Sidebar - Samples Browser -->
+            <aside class="samples-browser">
+                <div class="sidebar-header">
+                    <h2>Samples</h2>
+                    <div>
+                        <button class="btn-icon" id="btnUploadSample" title="Upload Sample">
+                            <i class="fas fa-upload"></i>
+                        </button>
+                        <button class="btn-icon" id="btnRefreshSamples" title="Refresh">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                        <button class="btn-icon" id="btnTestLoad" title="Test Load" aria-label="Test Load">
+                            <i class="fas fa-vial"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="samples-tabs">
+                    <button class="samples-tab active" data-tab="library">
+                        <i class="fas fa-folder"></i> Library
+                    </button>
+                    <button class="samples-tab" data-tab="my-samples">
+                        <i class="fas fa-user"></i> My Samples
+                    </button>
+                </div>
+
+                <div class="samples-search">
+                    <input type="text" id="samplesSearch" placeholder="Search samples...">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="samples-filters">
+                    <select id="categoryFilter" aria-label="Filter samples by category">
+                        <option value="">All Categories</option>
+                        <option value="drum">Drums</option>
+                        <option value="bass">Bass</option>
+                        <option value="synth">Synth</option>
+                        <option value="vocal">Vocals</option>
+                        <option value="fx">FX</option>
+                        <option value="loop">Loops</option>
+                        <option value="user">User Uploads</option>
+                    </select>
+                </div>
+
+                <!-- Participants Panel (visible in collaboration mode) -->
+                <div class="participants-panel hidden" id="participantsPanel">
+                    <div class="participants-header">
+                        <i class="fas fa-users"></i>
+                        <span>Active Users</span>
+                        <span class="participant-count" id="participantCount">0</span>
+                    </div>
+                    <div class="participants-list" id="participantsList">
+                        <!-- Participants will be added here -->
+                    </div>
+                </div>
+
+                <div class="samples-list" id="samplesList">
+                    <!-- Samples will be loaded here -->
+                    <div class="sample-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading samples...</p>
+                    </div>
+                </div>
+
+                <div class="packs-section">
+                    <h3>Sample Packs</h3>
+                    <div class="packs-list" id="packsList">
+                        <!-- Packs will be loaded here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center - Workspace -->
+            <main class="workspace">
+                <!-- Step Sequencer -->
+                <section class="step-sequencer">
+                    <div class="sequencer-header">
+                        <h3>Step Sequencer</h3>
+                        <div class="sequencer-controls">
+                            <button class="btn-small" id="btnAddPattern">
+                                <i class="fas fa-plus"></i> Pattern
+                            </button>
+                            <select id="patternSelect" aria-label="Select pattern">
+                                <option value="pattern1">Pattern 1</option>
+                            </select>
+                            <input type="number" id="patternLength" value="16" min="8" max="64" step="8" aria-label="Pattern length in steps">
+                            <span>steps</span>
+                        </div>
+                    </div>
+                    <div class="sequencer-grid" id="sequencerGrid">
+                        <!-- Grid will be generated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Timeline / Arrangement View -->
+                <section class="timeline">
+                    <div class="timeline-header">
+                        <h3>Timeline</h3>
+                        <div class="timeline-controls">
+                            <button class="btn-small" id="btnAddTrack">
+                                <i class="fas fa-plus"></i> Track
+                            </button>
+                            <button class="btn-small" id="btnZoomIn" title="Zoom In" aria-label="Zoom In">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="btn-small" id="btnZoomOut" title="Zoom Out" aria-label="Zoom Out">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="timeline-ruler" id="timelineRuler">
+                        <!-- Ruler will be generated by JavaScript -->
+                    </div>
+                    <div class="timeline-tracks" id="timelineTracks">
+                        <!-- Tracks will be generated by JavaScript -->
+                    </div>
+                </section>
+            </main>
+
+            <!-- Right Sidebar - Mixer -->
+            <aside class="mixer-panel">
+                <div class="sidebar-header">
+                    <h2>Mixer</h2>
+                    <button class="btn-icon" id="btnMixerSettings" title="Mixer Settings" aria-label="Mixer Settings">
+                        <i class="fas fa-sliders-h"></i>
+                    </button>
+                </div>
+
+                <div class="mixer-tracks" id="mixerTracks">
+                    <!-- Mixer channels will be generated here -->
+                </div>
+
+                <div class="master-channel">
+                    <h3>Master</h3>
+                    <div class="channel-controls">
+                        <div class="fader-container">
+                            <input type="range" class="vertical-fader" id="masterVolume" min="0" max="100" value="80" orient="vertical" aria-label="Master volume level">
+                            <span class="fader-label">Volume</span>
+                        </div>
+                        <div class="level-meter" id="masterMeter">
+                            <div class="meter-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Bottom Panel - Effects & Properties -->
+        <section class="bottom-panel">
+            <div class="panel-tabs">
+                <button class="tab-btn active" data-tab="effects">Effects</button>
+                <button class="tab-btn" data-tab="properties">Properties</button>
+                <button class="tab-btn" data-tab="automation">Automation</button>
+                <button class="tab-btn" data-tab="piano-roll">Piano Roll</button>
+                <button class="tab-btn" data-tab="synth"><i class="fas fa-wave-square"></i> Synth</button>
+                <button class="tab-btn" data-tab="analyzer"><i class="fas fa-chart-bar"></i> Analyzer</button>
+            </div>
+
+            <div class="tab-content active" id="effectsTab">
+                <div class="effects-rack" id="effectsRack">
+                    <button class="btn-add-effect">
+                        <i class="fas fa-plus"></i> Add Effect
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="propertiesTab">
+                <div class="properties-panel">
+                    <p class="placeholder">Select a track or sample to view properties</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="automationTab">
+                <div class="automation-panel">
+                    <p class="placeholder">Automation coming in Phase 3</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="pianoRollTab">
+                <div class="piano-roll-panel">
+                    <p class="placeholder">Piano roll coming in Phase 2</p>
+                </div>
+            </div>
+
+            <!-- Synth Tab -->
+            <div class="tab-content" id="synthTab">
+                <div class="synth-panel">
+                    <div class="synth-presets">
+                        <button class="synth-preset-btn active" data-preset="Lead" title="Lead synth" style="--preset-color:#ff006e">🎸 Lead</button>
+                        <button class="synth-preset-btn" data-preset="Pad" title="Pad synth" style="--preset-color:#6c5ce7">🌊 Pad</button>
+                        <button class="synth-preset-btn" data-preset="Bass" title="Bass synth" style="--preset-color:#00b894">🔉 Bass</button>
+                        <button class="synth-preset-btn" data-preset="808" title="808 bass" style="--preset-color:#d63031">💣 808</button>
+                        <button class="synth-preset-btn" data-preset="Pluck" title="Pluck" style="--preset-color:#fdcb6e">🎻 Pluck</button>
+                        <button class="synth-preset-btn" data-preset="Keys" title="Keys" style="--preset-color:#a29bfe">🎹 Keys</button>
+                        <button class="synth-preset-btn" data-preset="Brass" title="Brass" style="--preset-color:#e17055">🎺 Brass</button>
+                        <button class="synth-preset-btn" data-preset="Bell" title="Bell" style="--preset-color:#74b9ff">🔔 Bell</button>
+                    </div>
+                    <div class="synth-sections">
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">OSC 1</h5>
+                            <div class="synth-row">
+                                <label>Type</label>
+                                <select id="synthOsc1Type" aria-label="Oscillator 1 waveform">
+                                    <option value="sawtooth" selected>Saw</option>
+                                    <option value="square">Sqr</option>
+                                    <option value="triangle">Tri</option>
+                                    <option value="sine">Sin</option>
+                                </select>
+                            </div>
+                            <div class="synth-row">
+                                <label>Detune</label>
+                                <input type="range" id="synthOsc1Detune" min="-24" max="24" step="1" value="0" aria-label="OSC1 detune semitones">
+                                <span class="synth-val" id="synthOsc1DetuneVal">0</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Vol</label>
+                                <input type="range" id="synthOsc1Volume" min="0" max="1" step="0.01" value="0.8" aria-label="OSC1 volume">
+                                <span class="synth-val" id="synthOsc1VolumeVal">0.80</span>
+                            </div>
+                        </div>
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">OSC 2 <input type="checkbox" id="synthOsc2Enabled" checked aria-label="Enable oscillator 2"></h5>
+                            <div class="synth-row">
+                                <label>Type</label>
+                                <select id="synthOsc2Type" aria-label="Oscillator 2 waveform">
+                                    <option value="sawtooth">Saw</option>
+                                    <option value="square" selected>Sqr</option>
+                                    <option value="triangle">Tri</option>
+                                    <option value="sine">Sin</option>
+                                </select>
+                            </div>
+                            <div class="synth-row">
+                                <label>Detune</label>
+                                <input type="range" id="synthOsc2Detune" min="-24" max="24" step="1" value="7" aria-label="OSC2 detune semitones">
+                                <span class="synth-val" id="synthOsc2DetuneVal">7</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Vol</label>
+                                <input type="range" id="synthOsc2Volume" min="0" max="1" step="0.01" value="0.3" aria-label="OSC2 volume">
+                                <span class="synth-val" id="synthOsc2VolumeVal">0.30</span>
+                            </div>
+                        </div>
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">Filter</h5>
+                            <div class="synth-row">
+                                <label>Type</label>
+                                <select id="synthFilterType" aria-label="Filter type">
+                                    <option value="lowpass" selected>LP</option>
+                                    <option value="highpass">HP</option>
+                                    <option value="bandpass">BP</option>
+                                    <option value="notch">Notch</option>
+                                </select>
+                            </div>
+                            <div class="synth-row">
+                                <label>Freq</label>
+                                <input type="range" id="synthFilterFreq" min="20" max="20000" step="10" value="3000" aria-label="Filter cutoff frequency">
+                                <span class="synth-val" id="synthFilterFreqVal">3000</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Res</label>
+                                <input type="range" id="synthFilterQ" min="0.1" max="20" step="0.1" value="1.5" aria-label="Filter resonance">
+                                <span class="synth-val" id="synthFilterQVal">1.50</span>
+                            </div>
+                        </div>
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">Envelope</h5>
+                            <div class="synth-row">
+                                <label>Atk</label>
+                                <input type="range" id="synthEnvAttack" min="0.001" max="2" step="0.001" value="0.01" aria-label="Envelope attack time">
+                                <span class="synth-val" id="synthEnvAttackVal">0.01</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Dec</label>
+                                <input type="range" id="synthEnvDecay" min="0.001" max="2" step="0.001" value="0.15" aria-label="Envelope decay time">
+                                <span class="synth-val" id="synthEnvDecayVal">0.15</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Sus</label>
+                                <input type="range" id="synthEnvSustain" min="0" max="1" step="0.01" value="0.6" aria-label="Envelope sustain level">
+                                <span class="synth-val" id="synthEnvSustainVal">0.60</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Rel</label>
+                                <input type="range" id="synthEnvRelease" min="0.001" max="4" step="0.001" value="0.4" aria-label="Envelope release time">
+                                <span class="synth-val" id="synthEnvReleaseVal">0.40</span>
+                            </div>
+                        </div>
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">LFO</h5>
+                            <div class="synth-row">
+                                <label>Type</label>
+                                <select id="synthLfoType" aria-label="LFO waveform">
+                                    <option value="sine" selected>Sin</option>
+                                    <option value="triangle">Tri</option>
+                                    <option value="square">Sqr</option>
+                                    <option value="sawtooth">Saw</option>
+                                </select>
+                            </div>
+                            <div class="synth-row">
+                                <label>Rate</label>
+                                <input type="range" id="synthLfoRate" min="0.01" max="20" step="0.01" value="2" aria-label="LFO rate Hz">
+                                <span class="synth-val" id="synthLfoRateVal">2.00</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Depth</label>
+                                <input type="range" id="synthLfoDepth" min="0" max="1" step="0.01" value="0" aria-label="LFO modulation depth">
+                                <span class="synth-val" id="synthLfoDepthVal">0.00</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Target</label>
+                                <select id="synthLfoTarget" aria-label="LFO modulation target">
+                                    <option value="filter" selected>Filter</option>
+                                    <option value="volume">Volume</option>
+                                    <option value="pitch">Pitch</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="synth-section">
+                            <h5 class="synth-section-title">FX Send</h5>
+                            <div class="synth-row">
+                                <label>Reverb</label>
+                                <input type="range" id="synthReverb" min="0" max="1" step="0.01" value="0.2" aria-label="Reverb send amount">
+                                <span class="synth-val" id="synthReverbVal">0.20</span>
+                            </div>
+                            <div class="synth-row">
+                                <label>Delay</label>
+                                <input type="range" id="synthDelay" min="0" max="1" step="0.01" value="0" aria-label="Delay send amount">
+                                <span class="synth-val" id="synthDelayVal">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="synth-keyboard-wrap">
+                        <div class="synth-mini-keyboard" id="synthMiniKeyboard"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analyzer Tab -->
+            <div class="tab-content" id="analyzerTab">
+                <div class="analyzer-panel">
+                    <div class="analyzer-toolbar">
+                        <button class="analyzer-mode-btn active" data-mode="spectrum">Spectrum</button>
+                        <button class="analyzer-mode-btn" data-mode="waveform">Waveform</button>
+                        <button class="analyzer-mode-btn" data-mode="scope">Scope</button>
+                        <div class="analyzer-meter-wrap">
+                            <span class="analyzer-meter-label">RMS</span>
+                            <div class="analyzer-meter">
+                                <div class="analyzer-meter-fill" id="analyzerMeterFill"></div>
+                            </div>
+                            <div class="analyzer-peak-led" id="analyzerPeakLed" title="Peak clipping indicator"></div>
+                        </div>
+                    </div>
+                    <div class="analyzer-canvas-wrap">
+                        <canvas id="analyzerCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Save Project Modal -->
+    <div class="modal" id="saveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Save Project</h2>
+                <button class="btn-close" data-modal="saveModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" id="saveProjectName" placeholder="Enter project name">
+                </div>
+                <div class="form-group">
+                    <label for="saveProjectGenre">Genre</label>
+                    <select id="saveProjectGenre" aria-label="Project genre">
+                        <option value="">Select genre</option>
+                        <option value="hip-hop">Hip Hop</option>
+                        <option value="trap">Trap</option>
+                        <option value="edm">EDM</option>
+                        <option value="house">House</option>
+                        <option value="techno">Techno</option>
+                        <option value="dubstep">Dubstep</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" id="saveProjectTags" placeholder="beats, hip-hop, rap">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="saveProjectPublic">
+                        Make this project public
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="saveModal">Cancel</button>
+                <button class="btn-primary" id="btnConfirmSave">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Project</h2>
+                <button class="btn-close" data-modal="exportModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exportFormat">Format</label>
+                    <select id="exportFormat" aria-label="Export format">
+                        <option value="wav">WAV (Uncompressed)</option>
+                        <option value="mp3">MP3 (320kbps)</option>
+                        <option value="flac">FLAC (Lossless)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exportSampleRate">Sample Rate</label>
+                    <select id="exportSampleRate" aria-label="Sample rate">
+                        <option value="44100">44.1 kHz</option>
+                        <option value="48000">48 kHz</option>
+                        <option value="96000">96 kHz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exportBitDepth">Bit Depth</label>
+                    <select id="exportBitDepth" aria-label="Bit depth">
+                        <option value="16">16-bit</option>
+                        <option value="24">24-bit</option>
+                        <option value="32">32-bit</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="exportModal">Cancel</button>
+                <button class="btn-primary" id="btnConfirmExport">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Required Modal -->
+    <div class="modal" id="subscriptionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-lock"></i> Subscription Required</h2>
+                <button class="btn-close" data-modal="subscriptionModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You need an active subscription to save and export projects.</p>
+                <div class="subscription-benefits">
+                    <h3>Premium Benefits:</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Unlimited project saves</li>
+                        <li><i class="fas fa-check"></i> Export in all formats (WAV, MP3, FLAC)</li>
+                        <li><i class="fas fa-check"></i> Access to premium samples</li>
+                        <li><i class="fas fa-check"></i> Real-time collaboration</li>
+                        <li><i class="fas fa-check"></i> Advanced effects and automation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="subscriptionModal">Maybe Later</button>
+                <a href="index.html#pricing" class="btn-primary">View Plans</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Sample Modal -->
+    <div class="modal" id="uploadSampleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-upload"></i> Upload Sample</h2>
+                <button class="btn-close" data-modal="uploadSampleModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadSampleForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="sampleFile">Audio File *</label>
+                        <input type="file" id="sampleFile" name="sample" accept="audio/*" required>
+                        <small>Supported formats: MP3, WAV, FLAC, AAC, OGG, WebM (Max 50MB)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sampleName">Sample Name *</label>
+                        <input type="text" id="sampleName" name="name" placeholder="e.g., Kick Drum 808" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sampleCategory">Category</label>
+                        <select id="sampleCategory" name="category">
+                            <option value="user">User Upload</option>
+                            <option value="drum">Drums</option>
+                            <option value="bass">Bass</option>
+                            <option value="synth">Synth</option>
+                            <option value="vocal">Vocals</option>
+                            <option value="fx">FX</option>
+                            <option value="loop">Loops</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sampleBPM">BPM (optional)</label>
+                            <input type="number" id="sampleBPM" name="bpm" min="40" max="240" placeholder="120">
+                        </div>
+                        <div class="form-group">
+                            <label for="sampleKey">Key (optional)</label>
+                            <input type="text" id="sampleKey" name="key" placeholder="C, Am, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sampleTags">Tags (comma separated)</label>
+                        <input type="text" id="sampleTags" name="tags" placeholder="808, kick, punchy">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sampleIsPublic" name="isPublic">
+                            <span>Make public (share with other users)</span>
+                        </label>
+                    </div>
+
+                    <div class="upload-progress hidden" id="uploadProgress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="uploadProgressFill"></div>
+                        </div>
+                        <p id="uploadProgressText">Uploading...</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="uploadSampleModal">Cancel</button>
+                <button class="btn-primary" id="btnSubmitSample">
+                    <i class="fas fa-upload"></i> Upload Sample
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sample Modal -->
+    <div class="modal" id="editSampleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Edit Sample</h2>
+                <button class="btn-close" data-modal="editSampleModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editSampleForm">
+                    <input type="hidden" id="editSampleId">
+
+                    <div class="form-group">
+                        <label for="editSampleName">Sample Name *</label>
+                        <input type="text" id="editSampleName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editSampleCategory">Category</label>
+                        <select id="editSampleCategory" name="category">
+                            <option value="user">User Upload</option>
+                            <option value="drum">Drums</option>
+                            <option value="bass">Bass</option>
+                            <option value="synth">Synth</option>
+                            <option value="vocal">Vocals</option>
+                            <option value="fx">FX</option>
+                            <option value="loop">Loops</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSampleBPM">BPM</label>
+                            <input type="number" id="editSampleBPM" name="bpm" min="40" max="240">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSampleKey">Key</label>
+                            <input type="text" id="editSampleKey" name="key">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editSampleTags">Tags</label>
+                        <input type="text" id="editSampleTags" name="tags">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editSampleIsPublic" name="isPublic">
+                            <span>Make public</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="editSampleModal">Cancel</button>
+                <button class="btn-danger" id="btnDeleteSample">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <button class="btn-primary" id="btnUpdateSample">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Project Modal -->
+    <div class="modal" id="loadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-folder-open"></i> Load Project</h2>
+                <button class="btn-close" data-modal="loadModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="projects-filter">
+                    <input type="text" id="projectsSearch" placeholder="Search projects...">
+                    <select id="projectsSortBy" aria-label="Sort projects by">
+                        <option value="modified">Last Modified</option>
+                        <option value="created">Date Created</option>
+                        <option value="name">Name</option>
+                    </select>
+                </div>
+                <div class="projects-list" id="projectsList">
+                    <div class="project-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="loadModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Piano Roll Modal -->
+    <div class="modal modal-large" id="pianoRollModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-music"></i> Piano Roll</h2>
+                <button class="btn-close" data-modal="pianoRollModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" class="modal-no-padding">
+                <div class="piano-roll-container">
+                    <div class="piano-roll-toolbar">
+                        <button class="btn-small" id="pianoRollDraw" title="Draw">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button class="btn-small" id="pianoRollErase" title="Erase">
+                            <i class="fas fa-eraser"></i>
+                        </button>
+                        <button class="btn-small" id="pianoRollSelect" title="Select">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </button>
+                        <div class="divider"></div>
+                        <label for="pianoRollSnap">Snap:</label>
+                        <select id="pianoRollSnap" aria-label="Note snap grid">
+                            <option value="1/4">1/4</option>
+                            <option value="1/8">1/8</option>
+                            <option value="1/16" selected>1/16</option>
+                            <option value="1/32">1/32</option>
+                        </select>
+                        <div class="divider"></div>
+                        <label for="pianoRollScale">Scale:</label>
+                        <select id="pianoRollScale" aria-label="Musical scale">
+                            <option value="chromatic">Chromatic</option>
+                            <option value="major">Major</option>
+                            <option value="minor">Natural Minor</option>
+                            <option value="pentatonic">Pentatonic</option>
+                            <option value="harmonicMinor">Harmonic Minor</option>
+                            <option value="dorian">Dorian</option>
+                            <option value="mixolydian">Mixolydian</option>
+                            <option value="blues">Blues</option>
+                        </select>
+                        <label for="pianoRollRoot">Root:</label>
+                        <select id="pianoRollRoot" aria-label="Scale root note">
+                            <option value="0">C</option>
+                            <option value="1">C#</option>
+                            <option value="2">D</option>
+                            <option value="3">D#</option>
+                            <option value="4">E</option>
+                            <option value="5">F</option>
+                            <option value="6">F#</option>
+                            <option value="7">G</option>
+                            <option value="8">G#</option>
+                            <option value="9">A</option>
+                            <option value="10">A#</option>
+                            <option value="11">B</option>
+                        </select>
+                    </div>
+                    <div class="piano-roll-grid-container">
+                        <div class="piano-keys" id="pianoKeys"></div>
+                        <div class="piano-roll-grid" id="pianoRollGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arrangement View Modal -->
+    <div class="modal modal-fullscreen" id="arrangementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-layer-group"></i> Arrangement View</h2>
+                <button class="btn-close" data-modal="arrangementModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body modal-no-padding">
+                <div class="arrangement-container">
+                    <div class="arrangement-toolbar">
+                        <button class="btn-small" id="arrangementAddTrack">
+                            <i class="fas fa-plus"></i> Add Track
+                        </button>
+                        <button class="btn-small" id="arrangementDuplicate">
+                            <i class="fas fa-copy"></i> Duplicate
+                        </button>
+                        <button class="btn-small" id="arrangementDelete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <div class="divider"></div>
+                        <label for="arrangementGrid">Grid:</label>
+                        <select id="arrangementGrid" aria-label="Arrangement grid size">
+                            <option value="bar">Bar</option>
+                            <option value="beat">Beat</option>
+                            <option value="1/8">1/8 Note</option>
+                        </select>
+                    </div>
+                    <div class="arrangement-view">
+                        <div class="arrangement-tracks" id="arrangementTracks"></div>
+                        <div class="arrangement-timeline" id="arrangementTimeline"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Automation Modal -->
+    <div class="modal modal-large" id="automationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chart-line"></i> Automation</h2>
+                <button class="btn-close" data-modal="automationModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="automation-container">
+                    <div class="automation-toolbar">
+                        <select id="automationParameter" aria-label="Automation parameter">
+                            <option value="">Select Parameter</option>
+                            <option value="volume">Volume</option>
+                            <option value="pan">Pan</option>
+                            <option value="filter.frequency">Filter Cutoff</option>
+                            <option value="reverb.wet">Reverb Mix</option>
+                        </select>
+                        <button class="btn-small" id="automationRecord" title="Record">
+                            <i class="fas fa-circle"></i> Record
+                        </button>
+                        <button class="btn-small" id="automationClear" title="Clear">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                        <div class="divider"></div>
+                        <button class="btn-small" id="automationDraw" title="Draw">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button class="btn-small" id="automationLine" title="Line">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="btn-small" id="automationCurve" title="Curve">
+                            <i class="fas fa-bezier-curve"></i>
+                        </button>
+                    </div>
+                    <div class="automation-lane" id="automationLane"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MIDI Settings Modal -->
+    <div class="modal" id="midiModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-keyboard"></i> MIDI Settings</h2>
+                <button class="btn-close" data-modal="midiModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="midi-devices">
+                    <h3>Input Devices</h3>
+                    <div id="midiInputs" class="device-list">
+                        <p class="text-muted">No MIDI devices detected</p>
+                    </div>
+                    <h3>Output Devices</h3>
+                    <div id="midiOutputs" class="device-list">
+                        <p class="text-muted">No MIDI devices detected</p>
+                    </div>
+                </div>
+                <div class="midi-mapping">
+                    <h3>Controller Mapping</h3>
+                    <button class="btn-primary" id="midiLearnBtn">
+                        <i class="fas fa-magic"></i> MIDI Learn Mode
+                    </button>
+                    <div id="midiMappings" class="mappings-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-modal="midiModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Recording Modal -->
+    <div class="modal" id="recordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-microphone"></i> Audio Recording</h2>
+                <button class="btn-close" data-modal="recordModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="recording-controls">
+                    <select id="audioInputDevice" aria-label="Audio input device">
+                        <option value="">Select Input Device</option>
+                    </select>
+                    <div class="recording-meter" id="recordingMeter"></div>
+                    <button class="btn-primary btn-large" id="startRecording">
+                        <i class="fas fa-circle"></i> Start Recording
+                    </button>
+                    <button class="btn-secondary btn-large" id="stopRecording" disabled>
+                        <i class="fas fa-stop"></i> Stop Recording
+                    </button>
+                </div>
+                <div class="recording-preview hidden" id="recordingPreview">
+                    <audio id="recordingPlayback" controls></audio>
+                    <button class="btn-primary" id="saveRecording">
+                        <i class="fas fa-save"></i> Add to Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Routing Modal -->
+    <div class="modal modal-large" id="routingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-route"></i> Advanced Routing</h2>
+                <button class="btn-close" data-modal="routingModal" title="Close" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="routing-container">
+                    <div class="buses-section">
+                        <h3>Buses & Sends</h3>
+                        <button class="btn-small" id="addBus">
+                            <i class="fas fa-plus"></i> Add Bus
+                        </button>
+                        <div id="busesList" class="buses-list"></div>
+                    </div>
+                    <div class="routing-matrix">
+                        <h3>Routing Matrix</h3>
+                        <div id="routingGrid" class="routing-grid"></div>
+                    </div>
+                    <div class="sidechain-section">
+                        <h3>Sidechain Configuration</h3>
+                        <div id="sidechainConfig" class="sidechain-config"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://unpkg.com/tone@14.8.49/build/Tone.js"></script>
+    <script src="js/beat-maker-engine.js"></script>
+    <script src="js/beat-maker-effects.js"></script>
+    <script src="js/beat-maker-ui.js"></script>
+    <script src="js/beat-maker-collaboration.js"></script>
+    <script src="js/beat-maker-projects.js"></script>
+    <script src="js/beat-maker-piano-roll.js"></script>
+    <script src="js/beat-maker-arrangement.js"></script>
+    <script src="js/beat-maker-automation.js"></script>
+    <script src="js/beat-maker-midi.js"></script>
+    <script src="js/beat-maker-recording.js"></script>
+    <script src="js/beat-maker-routing.js"></script>
+    <script src="js/beat-maker-samples.js"></script>
+    <script src="js/beat-maker-resize.js"></script>
+    <script src="js/beat-maker-synth.js"></script>
+    <script src="js/beat-maker-analyzer.js"></script>
+    <script src="js/beat-maker.js"></script>
+</body>
+</html>
+
+
