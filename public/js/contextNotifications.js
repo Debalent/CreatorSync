@@ -4,8 +4,8 @@
         const notif = document.createElement('div');
         notif.className = 'context-notification';
         notif.style.position = 'fixed';
-        notif.style.top = '5.5em';
-        notif.style.right = '2em';
+        notif.style.top = '86px';
+        notif.style.right = '24px';
         notif.style.background = '#ff9800';
         notif.style.color = '#222';
         notif.style.fontWeight = 'bold';

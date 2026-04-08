@@ -1,9 +1,9 @@
 // CreatorSync Trending & Recently Active Surfaces (static/demo)
 (function() {
     const TRENDING_BEATS = [
-        { title: 'Midnight Drive', artist: 'Ava', cover: 'assets/default-artwork.jpg' },
-        { title: '808 Dreams', artist: 'Jay', cover: 'assets/default-artwork.jpg' },
-        { title: 'Neon Nights', artist: 'Mia', cover: 'assets/default-artwork.jpg' }
+        { title: 'Midnight Drive', artist: 'Ava', cover: 'https://picsum.photos/seed/midnight/32/32' },
+        { title: '808 Dreams', artist: 'Jay', cover: 'https://picsum.photos/seed/808/32/32' },
+        { title: 'Neon Nights', artist: 'Mia', cover: 'https://picsum.photos/seed/neon/32/32' }
     ];
     const RECENT_CREATORS = [
         { name: 'Liam', avatar: 'https://i.pravatar.cc/36?img=4' },
@@ -11,13 +11,15 @@
         { name: 'Kai', avatar: 'https://i.pravatar.cc/36?img=6' }
     ];
     function renderTrendingRecent() {
+        // Only render on screens wide enough to avoid overlapping content
+        if (window.innerWidth < 1600) return;
         let sidebar = document.getElementById('trending-recent-sidebar');
         if (!sidebar) {
             sidebar = document.createElement('div');
             sidebar.id = 'trending-recent-sidebar';
             sidebar.style.position = 'fixed';
-            sidebar.style.top = '7em';
-            sidebar.style.right = '1.5em';
+            sidebar.style.top = '86px';
+            sidebar.style.right = '24px';
             sidebar.style.width = '270px';
             sidebar.style.maxWidth = '90vw';
             sidebar.style.background = 'rgba(28,28,28,0.97)';

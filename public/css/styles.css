@@ -2222,9 +2222,14 @@ textarea.form-input { resize: vertical; min-height: 80px; line-height: 1.5; }
   .beats-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
   .hero { flex-direction: row; padding: var(--nav-height) 0 0; }
   .hero-content { padding: var(--space-2xl) var(--space-lg) var(--space-2xl) calc((100vw - var(--container-max)) / 2 + var(--space-lg)); }
-  .hero-preview { padding-right: calc((100vw - var(--container-max)) / 2 + var(--space-lg)); }
+  .hero-preview { padding-right: calc((100vw - var(--container-max)) / 2 + var(--space-lg)); flex-shrink: 0; }
   .nav-sell-btn { display: inline-flex; }
   .hamburger    { display: none; }
+  /* Pricing: 4-column only on true desktop */
+  .pricing-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  /* Nav: clamp link spacing so it fits without overflow */
+  .nav-links { gap: 0; }
+  .nav-link  { padding: 6px 10px; }
 }
 
 /* Tablet pricing: 2 cols */

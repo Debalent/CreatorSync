@@ -13,8 +13,8 @@
             bar = document.createElement('div');
             bar.id = 'presence-bar';
             bar.style.position = 'fixed';
-            bar.style.top = '3.5em';
-            bar.style.left = '1.5em';
+            bar.style.top = '78px';
+            bar.style.left = '24px';
             bar.style.background = 'rgba(34,34,34,0.97)';
             bar.style.borderRadius = '12px';
             bar.style.boxShadow = '0 2px 12px rgba(0,0,0,0.18)';

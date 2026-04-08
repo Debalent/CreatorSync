@@ -11,14 +11,38 @@
         { type: 'save', user: 'Kai', detail: 'saved "Golden Hour" to favorites', time: '10 min ago' }
     ];
 
+    // Only visible on very wide screens to avoid overlapping content
+    let panelVisible = window.innerWidth > 1600;
+
+    function getOrCreateToggle() {
+        let btn = document.getElementById('activity-feed-toggle');
+        if (!btn) {
+            btn = document.createElement('button');
+            btn.id = 'activity-feed-toggle';
+            btn.setAttribute('aria-label', 'Toggle Live Activity panel');
+            btn.setAttribute('aria-expanded', String(panelVisible));
+            btn.innerHTML = '&#x26A1; Activity';
+            btn.addEventListener('click', function() {
+                panelVisible = !panelVisible;
+                const panel = document.getElementById('activity-feed');
+                if (panel) panel.style.display = panelVisible ? '' : 'none';
+                btn.setAttribute('aria-expanded', String(panelVisible));
+            });
+            document.body.appendChild(btn);
+        }
+        return btn;
+    }
+
     function renderFeed() {
+        getOrCreateToggle();
+
         let feed = document.getElementById('activity-feed');
         if (!feed) {
             feed = document.createElement('div');
             feed.id = 'activity-feed';
             feed.style.position = 'fixed';
-            feed.style.bottom = '1.5em';
-            feed.style.right = '1.5em';
+            feed.style.bottom = '100px';
+            feed.style.right = '24px';
             feed.style.width = '320px';
             feed.style.maxWidth = '90vw';
             feed.style.background = 'rgba(24,24,24,0.97)';
@@ -32,9 +56,12 @@
             feed.innerHTML = '<div style="font-weight:bold;margin-bottom:0.5em;letter-spacing:0.03em;">Live Activity</div><ul id="activity-feed-list" style="list-style:none;padding:0;margin:0;"></ul>';
             document.body.appendChild(feed);
         }
+        feed.style.display = panelVisible ? '' : 'none';
+
         const list = feed.querySelector('#activity-feed-list');
         list.innerHTML = '';
-        FEED_EVENTS.slice(0, 5).forEach(ev => {
+        const maxItems = window.innerWidth <= 640 ? 3 : 5;
+        FEED_EVENTS.slice(0, maxItems).forEach(ev => {
             const li = document.createElement('li');
             li.style.marginBottom = '0.5em';
             li.innerHTML = `<span style="font-weight:600;color:#ff9800;">${ev.user}</span> ${ev.detail} <span style="opacity:0.6;font-size:0.92em;">${ev.time}</span>`;
@@ -42,8 +69,6 @@
         });
     }
 
-
-    // Listen for DemoEventBus 'activity' events
     if (window.DemoEventBus) {
         window.DemoEventBus.on('activity', function(ev) {
             FEED_EVENTS.unshift({ ...ev, time: 'just now' });
@@ -51,7 +76,7 @@
             renderFeed();
         });
     }
-    // Cycle feed every 5 seconds (for demo)
+
     let offset = 0;
     setInterval(() => {
         offset = (offset + 1) % FEED_EVENTS.length;
@@ -60,7 +85,6 @@
         renderFeed();
     }, 5000);
 
-    // Initial render
     window.FEED_EVENTS = FEED_EVENTS;
     renderFeed();
 })();
